@@ -434,7 +434,7 @@ public class Tela_Ajuste_Estoque extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_BT_SairActionPerformed
 
     private void BT_SalvarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BT_SalvarActionPerformed
-        
+        //teste
     }//GEN-LAST:event_BT_SalvarActionPerformed
 
     private void formInternalFrameClosed(javax.swing.event.InternalFrameEvent evt) {//GEN-FIRST:event_formInternalFrameClosed

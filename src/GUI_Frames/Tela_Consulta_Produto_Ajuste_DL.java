@@ -47,7 +47,7 @@ public class Tela_Consulta_Produto_Ajuste_DL extends javax.swing.JDialog {
         setLocationRelativeTo(ObjAjuste);
         JTF_Pesquisa.setDocument(ObjFormat.new Format_Geral(50));
         Contar_Prod_Estoque();
-        
+        JTF_Pesquisa.setText(ObjAjuste.Consulta_Produto);
       
          Preencher_Tabela("select distinct produto.id_produto, produto.descricao, categoria,  unidade, quantidade_minima "
         + "from produto inner join categoria_produto on produto.Categoria_Produto_id_categoria = categoria_produto.id_categoria "

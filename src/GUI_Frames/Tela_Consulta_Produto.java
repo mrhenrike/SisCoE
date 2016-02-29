@@ -250,9 +250,8 @@ public class Tela_Consulta_Produto extends javax.swing.JInternalFrame {
                         .addComponent(BT_Sair, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 50, Short.MAX_VALUE)
                         .addComponent(BT_Cadastrar, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(BT_Consulta, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(jLabel1)
-                        .addComponent(JL_ItensCad, javax.swing.GroupLayout.PREFERRED_SIZE, 17, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addComponent(JL_ItensCad, javax.swing.GroupLayout.PREFERRED_SIZE, 17, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel1))
                 .addContainerGap())
         );
 
@@ -344,7 +343,7 @@ public class Tela_Consulta_Produto extends javax.swing.JInternalFrame {
 
                         Tela_Consulta_Entrada objRelat = new Tela_Consulta_Entrada();
                         objRelat.Objteste=null;
-                        dispose();  
+                        dispose(); 
                     }
                 }
        }catch(Exception ex){}

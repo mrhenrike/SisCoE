@@ -86,10 +86,8 @@
                       <Component id="BT_Cadastrar" alignment="1" max="32767" attributes="0"/>
                       <Component id="BT_Consulta" alignment="0" max="32767" attributes="0"/>
                   </Group>
-                  <Group type="103" groupAlignment="3" attributes="0">
-                      <Component id="jLabel1" alignment="3" min="-2" max="-2" attributes="0"/>
-                      <Component id="JL_ItensCad" alignment="0" min="-2" pref="17" max="-2" attributes="0"/>
-                  </Group>
+                  <Component id="JL_ItensCad" alignment="0" min="-2" pref="17" max="-2" attributes="0"/>
+                  <Component id="jLabel1" min="-2" max="-2" attributes="0"/>
               </Group>
               <EmptySpace max="-2" attributes="0"/>
           </Group>

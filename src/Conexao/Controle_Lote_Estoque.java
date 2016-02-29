@@ -8,6 +8,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import javax.swing.JOptionPane;
 
 
 public class Controle_Lote_Estoque {
@@ -18,6 +19,8 @@ public class Controle_Lote_Estoque {
     public boolean Menos_De_30_Dias = false;
     public boolean Produto_Vencido = false;
     public boolean Controla_Lote = false;
+    public boolean Confirma_Atualiza_Estoque;
+    public boolean Confirma_Atualiza_Estoque_Lote;
     
     public Modelo_Lote_Estoque Consulta_Estoque_Produto(Modelo_Lote_Estoque ObjModeloLote, Object id)throws SQLException{
         ObjConecta.Conectar();
@@ -109,5 +112,90 @@ public Modelo_Lote_Estoque Quantidade_Estoque(Modelo_Lote_Estoque ObjModLote,int
         }
         return ObjModLote;
 }
+
+public void Atualiza_Estoque(Modelo_Lote_Estoque ObjModLote, int id_prod, double quant){
+        ObjConecta.Conectar();        
+        String sql = "update lote_estoque set quantidade_estoque =? where produto_id_produto="+id_prod+"";
+            try {
+                try (PreparedStatement stmt = ObjConecta.conn.prepareStatement(sql)) {
+                    {
+                        stmt.setDouble(1, ObjModLote.getQuantidade_estoque()+quant);
+                    }
+                    stmt.execute();
+                    stmt.close();
+                }           
+                    Confirma_Atualiza_Estoque = true;      
+                } catch (SQLException ex) {
+                    Confirma_Atualiza_Estoque = false;
+                    JOptionPane.showMessageDialog(null,"Erro ao atualizar o estoque no banco! \n"
+                        +ex,"Informação Do Banco De Dados",JOptionPane.INFORMATION_MESSAGE);
+                        }        
+        ObjConecta.Desconecta();
+    }
+   public void Atualiza_Estoque_Lote(Modelo_Lote_Estoque ObjModLote, int id_prod, double quant, String lote){
+        ObjConecta.Conectar();        
+        String sql = "update lote_estoque set quantidade_estoque =? where produto_id_produto="+id_prod+" and numero_lote="+"'"+lote+"'"+"";
+            try {
+                try (PreparedStatement stmt = ObjConecta.conn.prepareStatement(sql)) {
+                    
+                    {
+                        stmt.setDouble(1, ObjModLote.getQuantidade_estoque()+quant);
+                    }
+                    stmt.execute();
+                    stmt.close();
+                }           
+                    Confirma_Atualiza_Estoque_Lote = true;      
+                } catch (SQLException ex) {
+                    Confirma_Atualiza_Estoque_Lote = false;
+                    JOptionPane.showMessageDialog(null,"Erro ao atualizar o estoque e o lote no banco! \n"
+                        +ex,"Informação Do Banco De Dados",JOptionPane.INFORMATION_MESSAGE);
+                        }        
+        ObjConecta.Desconecta();
+    }
+   
+    public Modelo_Lote_Estoque Consulta_Id_Estoque(Modelo_Lote_Estoque ObjModeloLote, int id){
+        try { 
+            ObjConecta.Conectar();
+        
+            String sql = "select * from lote_estoque where produto_id_produto="+id+"";
+       
+            try(PreparedStatement stm = ObjConecta.conn.prepareStatement(sql);
+                ResultSet rs = stm.executeQuery()){
+
+                rs.first();
+
+                     ObjModeloLote.setId_lote(rs.getInt("id_lote"));
+
+                 ObjConecta.Desconecta(); 
+             }
+        } catch (SQLException ex) {
+               JOptionPane.showMessageDialog(null,"Erro ao consultar o id do lote no banco! \n"
+                        +ex,"Informação Do Banco De Dados",JOptionPane.INFORMATION_MESSAGE);
+            }
+        return ObjModeloLote;
+    }
+    
+    public Modelo_Lote_Estoque Consulta_Id_Lote_Estoque(Modelo_Lote_Estoque ObjModeloLote, int id, String lote){
+        try { 
+            ObjConecta.Conectar();
+        
+            String sql = "select * from lote_estoque where produto_id_produto="+id+" and numero_lote='"+lote+"'";
+       
+            try(PreparedStatement stm = ObjConecta.conn.prepareStatement(sql);
+                ResultSet rs = stm.executeQuery()){
+
+                rs.first();
+
+                     ObjModeloLote.setId_lote(rs.getInt("id_lote"));
+
+                 ObjConecta.Desconecta(); 
+             }
+        } catch (SQLException ex) {
+               JOptionPane.showMessageDialog(null,"Erro ao consultar o id do lote no banco! \n"
+                        +ex,"Informação Do Banco De Dados",JOptionPane.INFORMATION_MESSAGE);
+            }
+        return ObjModeloLote;
+    }
+    
 }
 

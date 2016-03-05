@@ -237,7 +237,7 @@ on produto.id_produto=entrada_itens.produto_id_produto where entrada.id_entrada 
 				<text><![CDATA[Tipo de Relatório: Por Entrada - Nº]]></text>
 			</staticText>
 			<textField pattern="">
-				<reportElement style="Detail" x="158" y="72" width="82" height="15" uuid="60955830-7e02-431f-a58a-8c22ec5e42e2"/>
+				<reportElement style="Detail" x="158" y="72" width="91" height="15" uuid="60955830-7e02-431f-a58a-8c22ec5e42e2"/>
 				<textElement verticalAlignment="Middle">
 					<font fontName="Tahoma" size="10"/>
 				</textElement>

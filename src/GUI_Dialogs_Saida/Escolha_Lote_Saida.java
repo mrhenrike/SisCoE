@@ -27,6 +27,7 @@ public class Escolha_Lote_Saida extends javax.swing.JDialog {
     public static Conf_Alterar_Quant_Lote_Saida ObjAlterarQuant;
     
     Conecta_Banco ObjConecta = new Conecta_Banco();
+    Conecta_Banco ObjConecta2 = new Conecta_Banco();
     Modelo_Lote_Estoque ObjModeloLote = new Modelo_Lote_Estoque();
     Modelo_Produto ObjModeloProd = new Modelo_Produto();
     Controle_Saida_Produto ObjControlSaida = new Controle_Saida_Produto();
@@ -46,7 +47,7 @@ public class Escolha_Lote_Saida extends javax.swing.JDialog {
         setLocationRelativeTo(ObjSaida);
         JTF_Quantidade.setDocument(ObjFormat.new Format_Apenas_Numero(10));
         
-        data = new SimpleDateFormat("yyyy/MM/dd").format(new Date(System.currentTimeMillis()));
+        data = new SimpleDateFormat("yyyy/MM/dd").format(new Date(System.currentTimeMillis()));//data atual
         Preencher_Tabela_Lote_Estoque("select * from lote_estoque where quantidade_estoque > 0 "
                 + " and data_validade_lote>='"+data+"' and produto_id_produto="+id+"");
        
@@ -264,31 +265,34 @@ public class Escolha_Lote_Saida extends javax.swing.JDialog {
     }
     public final void Preencher_Tabela_Lote_Estoque(String SQL) {
         ArrayList dados = new ArrayList();
-
-        String[] Colunas = new String[]{"Lote", "Validade","Quantidade"};//Seta os indices da tabela
-        ObjConecta.Conectar();
-        ObjConecta.ExecutaSQL(SQL);
-        
-        try {
+        String[] Colunas = new String[]{"Lote", "Validade","Quantidade", "Un"};//Seta os indices da tabela
+        try {           
+            ObjConecta.Conectar();
+            ObjConecta.ExecutaSQL(SQL);
             ObjConecta.rs.first();           
             do {
-                double Quantidade;
-                String Lote = ObjConecta.rs.getString("numero_lote");  
-                double Quant= ObjConecta.rs.getDouble("quantidade_estoque");
-                ObjSaida.Verifica_Se_Existe_Lote(IdProd,Lote);
-                
+                double quantidade_final;
+                String lote = ObjConecta.rs.getString("numero_lote");  
+                double quantidade= ObjConecta.rs.getDouble("quantidade_estoque");                
+                ObjSaida.Verifica_Se_Existe_Lote(IdProd,lote);                
                 Date validade = ObjConecta.rs.getDate("data_validade_lote");
                 String data_val= "";
                 if(validade != null){data_val = String.valueOf(new SimpleDateFormat("dd-MM-yyyy").format(ObjConecta.rs.getDate("data_validade_lote")));}
                 
-                if(Lote.equalsIgnoreCase(ObjSaida.NumLote)){
-                    Quantidade = Quant - ObjSaida.Quantidade;                    
+                if(lote.equalsIgnoreCase(ObjSaida.NumLote)){
+                    quantidade_final = quantidade - ObjSaida.Quantidade;                    
                 }else{
-                    Quantidade = Quant;
+                    quantidade_final = quantidade;
                 }
+                ObjConecta2.Conectar();
+                ObjConecta2.ExecutaSQL("select * from produto where id_produto = "+ObjConecta.rs.getInt("produto_id_produto")+"");
+                ObjConecta2.rs.first();
+                String unidade = ObjConecta2.rs.getString("Unidade");
+                ObjConecta2.Desconecta();                
+                
                 //adicionando na tabela
-                dados.add(new Object[]{Lote,data_val,Quantidade});
-                Quantidade = 0;
+                dados.add(new Object[]{lote,data_val,quantidade_final, unidade});
+                quantidade_final = 0;
             } while (ObjConecta.rs.next());
                 ObjConecta.Desconecta();
         } catch (SQLException ex) {
@@ -296,14 +300,16 @@ public class Escolha_Lote_Saida extends javax.swing.JDialog {
         
         Modelo_Tabela tabela = new Modelo_Tabela(dados, Colunas);
         JTB_Lote.setModel(tabela);  
-        JTB_Lote.setDefaultRenderer(Object.class, new Pintar_Tabela_Padrao());
-        JTB_Lote.getColumnModel().getColumn(0).setPreferredWidth(120);//Tamanho da coluna
-        JTB_Lote.getColumnModel().getColumn(0).setResizable(false);//Redimensionavel
-        JTB_Lote.getColumnModel().getColumn(1).setPreferredWidth(300);
+        JTB_Lote.setDefaultRenderer(Object.class, new Pintar_Tabela_Padrao());//pita as cores das linhas da tabela
+        JTB_Lote.getColumnModel().getColumn(0).setPreferredWidth(150);//Tamanho da coluna
+        JTB_Lote.getColumnModel().getColumn(0).setResizable(false);//Redimensionavel?
+        JTB_Lote.getColumnModel().getColumn(1).setPreferredWidth(230);
         JTB_Lote.getColumnModel().getColumn(1).setResizable(false);
         JTB_Lote.getColumnModel().getColumn(2).setPreferredWidth(120);
         JTB_Lote.getColumnModel().getColumn(2).setResizable(false);
-        JTB_Lote.getTableHeader().setReorderingAllowed(false);//Reordenar alocação
+        JTB_Lote.getColumnModel().getColumn(3).setPreferredWidth(40);
+        JTB_Lote.getColumnModel().getColumn(3).setResizable(false);
+        JTB_Lote.getTableHeader().setReorderingAllowed(false);//Reordenar alocação?
         JTB_Lote.setAutoResizeMode(JTB_Lote.AUTO_RESIZE_ALL_COLUMNS);//Tabela Redimensionavel(Todas colunas)
         JTB_Lote.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);//Seleciona uma unica linha da tabela
         
@@ -341,6 +347,7 @@ public class Escolha_Lote_Saida extends javax.swing.JDialog {
 
         /* Create and display the dialog */
         java.awt.EventQueue.invokeLater(new Runnable() {
+            @Override
             public void run() {
                 Escolha_Lote_Saida dialog = new Escolha_Lote_Saida(ObjSaida, true);
                 dialog.addWindowListener(new java.awt.event.WindowAdapter() {

@@ -2,17 +2,23 @@ package GUI_Frames;
 
 import Classes.Modelo_Tabela;
 import Conexao.Conecta_Banco;
+import static GUI_Frames.Tela_Principal.PermissaoLogado;
 import Metodos.Formatacao;
 import Metodos.Pintar_Tabela_Padrao;
 import java.awt.Dimension;
 import java.awt.HeadlessException;
+import java.awt.event.ActionEvent;
 import java.awt.event.KeyEvent;
 import java.beans.PropertyVetoException;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.AbstractAction;
+import javax.swing.InputMap;
+import javax.swing.JComponent;
 import javax.swing.JLabel;
+import javax.swing.KeyStroke;
 import javax.swing.ListSelectionModel;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
@@ -53,17 +59,14 @@ public class Tela_Consulta_Usuario extends javax.swing.JInternalFrame {
     
     public Tela_Consulta_Usuario() throws SQLException {
         initComponents();
-        
-        if(!ObjTP.JL_Permissao.getText().equalsIgnoreCase("ADMINISTRADOR")){
-        BT_Cadastrar.setEnabled(false);
-        }
-        
+        Controle_Acesso();
+               
         JTF_Nome.setDocument(ObjFormat.new Format_Geral(50));
-        //Customizar_Colunas();
         Preencher_Tabela_User("select * from usuario where situacao = 'ATIVO' and permissao != 'SISTEMA' order by nome");
-        JRB_Nome.setSelected(true);
-        
+        JRB_Nome.setSelected(true);        
         //getRootPane().setDefaultButton(BT_Consultar);
+        Setar_Atalho_BT();
+        
     }
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
@@ -80,6 +83,7 @@ public class Tela_Consulta_Usuario extends javax.swing.JInternalFrame {
         BT_Sair = new javax.swing.JButton();
         BT_Consultar = new javax.swing.JButton();
         BT_Cadastrar = new javax.swing.JButton();
+        JL_Quant_Itens1 = new javax.swing.JLabel();
 
         setBorder(javax.swing.BorderFactory.createCompoundBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.LOWERED), javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED)));
         setIconifiable(true);
@@ -226,25 +230,32 @@ public class Tela_Consulta_Usuario extends javax.swing.JInternalFrame {
             }
         });
 
+        JL_Quant_Itens1.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        JL_Quant_Itens1.setText("Esc - Sair | F3 - Consultar | F6 - Cadastrar");
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(10, 10, 10)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addComponent(BT_Cadastrar, javax.swing.GroupLayout.PREFERRED_SIZE, 160, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
-                        .addComponent(BT_Consultar, javax.swing.GroupLayout.PREFERRED_SIZE, 160, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
-                        .addComponent(BT_Sair, javax.swing.GroupLayout.PREFERRED_SIZE, 160, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 777, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGroup(layout.createSequentialGroup()
-                            .addComponent(JP_Dados_Pesquisa, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addGap(18, 18, 18)
-                            .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(10, 10, 10)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                                .addComponent(BT_Cadastrar, javax.swing.GroupLayout.PREFERRED_SIZE, 160, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(18, 18, 18)
+                                .addComponent(BT_Consultar, javax.swing.GroupLayout.PREFERRED_SIZE, 160, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(18, 18, 18)
+                                .addComponent(BT_Sair, javax.swing.GroupLayout.PREFERRED_SIZE, 160, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 777, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                                .addComponent(JP_Dados_Pesquisa, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addGap(18, 18, 18)
+                                .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                    .addGroup(layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(JL_Quant_Itens1)))
                 .addGap(10, 10, 10))
         );
         layout.setVerticalGroup(
@@ -256,15 +267,17 @@ public class Tela_Consulta_Usuario extends javax.swing.JInternalFrame {
                     .addComponent(JP_Dados_Pesquisa, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 203, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(JL_Quant_Itens1)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(BT_Sair, javax.swing.GroupLayout.DEFAULT_SIZE, 53, Short.MAX_VALUE)
+                    .addComponent(BT_Sair, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(BT_Consultar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(BT_Cadastrar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
         );
 
-        setBounds(20, 20, 805, 413);
+        setBounds(20, 20, 805, 420);
     }// </editor-fold>//GEN-END:initComponents
 
     private void JTF_NomeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_JTF_NomeActionPerformed
@@ -307,18 +320,21 @@ public class Tela_Consulta_Usuario extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_BT_ConsultarActionPerformed
 
     private void JTB_ConsultaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_JTB_ConsultaMouseClicked
-         try {
-            if (evt.getClickCount() == 2) {
-                Object resultado = JTB_Consulta.getValueAt(JTB_Consulta.getSelectedRow(), 0);
-                Tela_Cadastro_Usuario_Edit obj = new Tela_Cadastro_Usuario_Edit();
-                Tela_Principal.getPainel().add(obj);
-                obj.setVisible(true);
-                obj.Carregar_Dados_Usuarios(resultado);
-                obj.setPosicao();
-                dispose();
+        if(PermissaoLogado.equalsIgnoreCase("USUÁRIO")){             
+        }else{
+            try {
+                if (evt.getClickCount() == 2) {
+                    Object resultado = JTB_Consulta.getValueAt(JTB_Consulta.getSelectedRow(), 0);
+                    Tela_Cadastro_Usuario_Edit obj = new Tela_Cadastro_Usuario_Edit();
+                    Tela_Principal.getPainel().add(obj);
+                    obj.setVisible(true);
+                    obj.Carregar_Dados_Usuarios(resultado);
+                    obj.setPosicao();
+                    dispose();
+                }
+            } catch (HeadlessException | SQLException ex) {
             }
-        } catch (HeadlessException | SQLException ex) {
-    }
+        }
     }//GEN-LAST:event_JTB_ConsultaMouseClicked
 
     private void BT_CadastrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BT_CadastrarActionPerformed
@@ -336,8 +352,10 @@ public class Tela_Consulta_Usuario extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_JTF_NomeFocusGained
 
     private void JTB_ConsultaKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_JTB_ConsultaKeyPressed
-      try {
-            int linha_selecionada = JTB_Consulta.getSelectedRow();
+        if(PermissaoLogado.equalsIgnoreCase("USUÁRIO")){             
+        }else{
+            try {
+                int linha_selecionada = JTB_Consulta.getSelectedRow();
                 if (linha_selecionada >= 0)
                 {
                     if(evt.getKeyChar()==KeyEvent.VK_ENTER){
@@ -350,9 +368,19 @@ public class Tela_Consulta_Usuario extends javax.swing.JInternalFrame {
                         dispose();
                     }
                 }
-       }catch(Exception ex){}
+                }catch(Exception ex){}
+            }
     }//GEN-LAST:event_JTB_ConsultaKeyPressed
 
+    final void Controle_Acesso(){
+    if(PermissaoLogado.equalsIgnoreCase("USUÁRIO")){
+            BT_Cadastrar.setEnabled(false);
+            BT_Consultar.setEnabled(false);
+        }else{
+            BT_Cadastrar.setEnabled(!false);
+            BT_Consultar.setEnabled(!false);
+        }
+    }
     public void PesquisarNome() {
 
         JTF_Nome.getDocument().addDocumentListener(new DocumentListener() {
@@ -428,6 +456,44 @@ public class Tela_Consulta_Usuario extends javax.swing.JInternalFrame {
         
     }
     
+    public final void Setar_Atalho_BT(){
+        //metodo para pegar a tecla pressionada
+        InputMap inputMap = this.getRootPane().getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW);
+        inputMap.put(KeyStroke.getKeyStroke(KeyEvent.VK_ESCAPE, 0),"Esc");
+        this.getRootPane().setInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW, inputMap);
+        
+        InputMap inputMap3 = this.getRootPane().getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW);
+        inputMap3.put(KeyStroke.getKeyStroke(KeyEvent.VK_F3, 0),"Consultar");
+        this.getRootPane().setInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW, inputMap3);
+        
+        InputMap inputMap4 = this.getRootPane().getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW);
+        inputMap4.put(KeyStroke.getKeyStroke(KeyEvent.VK_F6, 0),"Cadastrar");
+        this.getRootPane().setInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW, inputMap4);
+                
+        //método para executar
+         this.getRootPane().getActionMap().put("Cadastrar", new AbstractAction(){
+        private static final long serialVersionUID = 1L;
+        @Override
+        public void actionPerformed(ActionEvent arg0) {
+        BT_Cadastrar.doClick();
+        }
+        });        
+        this.getRootPane().getActionMap().put("Esc", new AbstractAction(){
+        private static final long serialVersionUID = 1L;
+        @Override
+        public void actionPerformed(ActionEvent arg0) {
+        BT_Sair.doClick();
+        }
+        }); 
+        this.getRootPane().getActionMap().put("Consultar", new AbstractAction(){
+        private static final long serialVersionUID = 1L;
+        @Override
+        public void actionPerformed(ActionEvent arg0) {
+        BT_Consultar.doClick();
+        }
+        });
+    }
+    
     DefaultTableCellRenderer numeros = new DefaultTableCellRenderer() {
 
     @Override
@@ -443,6 +509,7 @@ public class Tela_Consulta_Usuario extends javax.swing.JInternalFrame {
     private javax.swing.JButton BT_Cadastrar;
     private javax.swing.JButton BT_Consultar;
     private javax.swing.JButton BT_Sair;
+    private javax.swing.JLabel JL_Quant_Itens1;
     private javax.swing.JPanel JP_Dados_Pesquisa;
     private javax.swing.JRadioButton JRB_Cod;
     private javax.swing.JRadioButton JRB_Nome;

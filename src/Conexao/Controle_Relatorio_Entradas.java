@@ -26,21 +26,19 @@ public class Controle_Relatorio_Entradas {
     @SuppressWarnings("unchecked")
     public void Relatorio_Entrada_Prod_Todos(){
         try {
-                ObjConecta.Conectar();
+                ObjConecta.Conectar();//abre a conexão
                 ObjConecta.ExecutaSQL("select * from entrada inner join entrada_itens on entrada.id_entrada=entrada_itens.entrada_id_entrada inner join produto"
                     + " on produto.id_produto=entrada_itens.produto_id_produto");
-                JRResultSetDataSource Relatorio = new JRResultSetDataSource(ObjConecta.rs);
-                
-                HashMap parametros = new HashMap();
-                parametros.put("Usuario",ObjTP.UserLogado);
+                JRResultSetDataSource Relatorio = new JRResultSetDataSource(ObjConecta.rs);//instacia um objeto para receber o resultset da  sql                
+                HashMap parametros = new HashMap();//instancia um hashMap para passar os parametros;
+                parametros.put("Usuario",ObjTP.UserLogado);//Se precisar passar algum parametro, tipo usuario logado
+                //Aqui fica o diretorio do arquivo
                 JasperPrint JPrint = JasperFillManager.fillReport("C:\\Program Files (x86)\\SisCoE/Relat_Entradas_Todos.jasper",parametros, Relatorio);
                 JasperViewer JView = new JasperViewer(JPrint, false);
-                JView.setVisible(true);
-                //Colocar titulo na janela
-                JView.setTitle("Relatório De Entrada");
-                //Colocar icone na janela
-                JView.setIconImage(new ImageIcon(getClass().getResource("/Icones_Gerais/Serviço 24x24.png")).getImage());
-                ObjConecta.Desconecta();
+                JView.setVisible(true);//Seta visivel                
+                JView.setTitle("Relatório De Entrada");//Colocar titulo na janela
+                JView.setIconImage(new ImageIcon(getClass().getResource("/Icones_Gerais/Serviço 24x24.png")).getImage()); //Colocar icone na janela
+                ObjConecta.Desconecta();//fecjha a conexão
             } catch (JRException ex) {
                 ObjConecta.Desconecta();
                 JOptionPane.showMessageDialog(null,"Erro ao gerar o relatório: "+ex);

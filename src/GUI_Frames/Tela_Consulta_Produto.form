@@ -45,10 +45,11 @@
   <Layout>
     <DimensionLayout dim="0">
       <Group type="103" groupAlignment="0" attributes="0">
-          <Group type="102" alignment="1" attributes="0">
+          <Group type="102" alignment="0" attributes="0">
               <EmptySpace max="-2" attributes="0"/>
-              <Group type="103" groupAlignment="1" attributes="0">
-                  <Group type="102" attributes="0">
+              <Group type="103" groupAlignment="0" attributes="0">
+                  <Component id="jLabel3" max="32767" attributes="0"/>
+                  <Group type="102" alignment="1" attributes="0">
                       <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
                       <Component id="JL_Prod" min="-2" pref="777" max="-2" attributes="0"/>
                   </Group>
@@ -58,7 +59,7 @@
                       <Component id="jLabel1" min="-2" max="-2" attributes="0"/>
                       <EmptySpace max="-2" attributes="0"/>
                       <Component id="JL_ItensCad" max="32767" attributes="0"/>
-                      <EmptySpace type="separate" max="-2" attributes="0"/>
+                      <EmptySpace min="-2" pref="18" max="-2" attributes="0"/>
                       <Component id="BT_Cadastrar" min="-2" pref="160" max="-2" attributes="0"/>
                       <EmptySpace min="-2" pref="18" max="-2" attributes="0"/>
                       <Component id="BT_Consulta" min="-2" pref="161" max="-2" attributes="0"/>
@@ -78,16 +79,18 @@
               <EmptySpace min="-2" pref="1" max="-2" attributes="0"/>
               <Component id="JL_Prod" min="-2" pref="35" max="-2" attributes="0"/>
               <EmptySpace max="-2" attributes="0"/>
-              <Component id="jScrollPane1" pref="327" max="32767" attributes="0"/>
-              <EmptySpace type="separate" max="-2" attributes="0"/>
-              <Group type="103" groupAlignment="0" attributes="0">
+              <Component id="jScrollPane1" pref="316" max="32767" attributes="0"/>
+              <EmptySpace max="-2" attributes="0"/>
+              <Component id="jLabel3" min="-2" max="-2" attributes="0"/>
+              <EmptySpace max="-2" attributes="0"/>
+              <Group type="103" groupAlignment="1" attributes="0">
+                  <Component id="jLabel1" min="-2" max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="0" max="-2" attributes="0">
                       <Component id="BT_Sair" alignment="1" pref="50" max="32767" attributes="0"/>
                       <Component id="BT_Cadastrar" alignment="1" max="32767" attributes="0"/>
                       <Component id="BT_Consulta" alignment="0" max="32767" attributes="0"/>
                   </Group>
-                  <Component id="JL_ItensCad" alignment="0" min="-2" pref="17" max="-2" attributes="0"/>
-                  <Component id="jLabel1" min="-2" max="-2" attributes="0"/>
+                  <Component id="JL_ItensCad" min="-2" pref="17" max="-2" attributes="0"/>
               </Group>
               <EmptySpace max="-2" attributes="0"/>
           </Group>
@@ -178,7 +181,7 @@
             <Property name="model" type="javax.swing.table.TableModel" editor="org.netbeans.modules.form.editors2.TableModelEditor">
               <Table columnCount="0" rowCount="0"/>
             </Property>
-            <Property name="toolTipText" type="java.lang.String" value="Clique Duas Vezes Em Uma Linha Para Editar  Ou Selecione Uma Linha E Clique No Bot&#xe3;o Consultar (Alt+N)"/>
+            <Property name="toolTipText" type="java.lang.String" value="Clique Duas Vezes Em Uma Linha Para Consultar Ou Selecione Uma Linha E Clique No Bot&#xe3;o Consultar (Alt+N)"/>
             <Property name="tableHeader" type="javax.swing.table.JTableHeader" editor="org.netbeans.modules.form.editors2.JTableHeaderEditor">
               <TableHeader reorderingAllowed="false" resizingAllowed="true"/>
             </Property>
@@ -227,7 +230,7 @@
           <Image iconType="3" name="/Icones/Bt Consultar.png"/>
         </Property>
         <Property name="mnemonic" type="int" value="110"/>
-        <Property name="toolTipText" type="java.lang.String" value="Clique Para Consultar Ou Pressione Alt + N"/>
+        <Property name="toolTipText" type="java.lang.String" value="Selecione Uma Linha E Clique Para Consultar Ou Pressione Alt + N"/>
         <Property name="pressedIcon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
           <Image iconType="3" name="/Icones/Bt Consultar Press.png"/>
         </Property>
@@ -239,7 +242,7 @@
     <Component class="javax.swing.JLabel" name="jLabel1">
       <Properties>
         <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
-          <Font name="Tahoma" size="14" style="0"/>
+          <Font name="Tahoma" size="14" style="1"/>
         </Property>
         <Property name="text" type="java.lang.String" value="Itens Cadastrados:"/>
       </Properties>
@@ -257,8 +260,16 @@
     <Component class="javax.swing.JLabel" name="JL_ItensCad">
       <Properties>
         <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
-          <Font name="Tahoma" size="14" style="0"/>
+          <Font name="Tahoma" size="14" style="1"/>
         </Property>
+      </Properties>
+    </Component>
+    <Component class="javax.swing.JLabel" name="jLabel3">
+      <Properties>
+        <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+          <Font name="Tahoma" size="14" style="1"/>
+        </Property>
+        <Property name="text" type="java.lang.String" value="ESC - Sair | F3 - Consultar | F5 - Atualizar | F6 - Cadastrar"/>
       </Properties>
     </Component>
   </SubComponents>

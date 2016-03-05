@@ -21,7 +21,8 @@ public class Controle_Produto {
     public boolean Confirma_Busca = false;//Variavel para testar se o cadastro foi encontrado com sucesso
     public boolean Confirma_Inativo = false;//Variavel para testar se o cadastro foi inativado com sucesso
     public boolean Confirma_Ativo = false;//Variavel para testar se o cadastro foi ativado com sucesso
-    public boolean Confirma_Existente = false;//Variavel para testar se o produto existe
+    public boolean Confirma_Existente = false;//Variavel para confirmar se o produto existe
+    public boolean Controle_Existente = false;//Variavel para testar se o produto existe
     
     public void Inserir_Produto(Modelo_Produto ObjModeloProd){
         ObjConecta.Conectar();
@@ -254,7 +255,7 @@ public class Controle_Produto {
         
     }
      
-    public void Verifica_Produto_Existe(String id){
+    public void Confirma_Produto_Existe(String id){
         try{
             ObjConecta.Conectar();
             ObjConecta.ExecutaSQL("Select * from produto where id_produto = "+id+"");
@@ -266,6 +267,26 @@ public class Controle_Produto {
         Confirma_Existente = false;
         ObjConecta.Desconecta();
     }
+        ObjConecta.Desconecta();
+    }
+    
+    public void Testar_Existente(JTextField jt){
+        try {
+        ObjConecta.Conectar();        
+        ObjConecta.ExecutaSQL("Select * from Produto");        
+            ObjConecta.rs.first();            
+            do
+            {
+                String descricao = ObjConecta.rs.getString("descricao");
+                if(jt.getText().equalsIgnoreCase(descricao)){
+                   Controle_Existente=true;
+                }
+            }
+            while(ObjConecta.rs.next());
+            } catch (SQLException ex) {
+            Controle_Existente=false;
+            ObjConecta.Desconecta();            
+        }
         ObjConecta.Desconecta();
     }
 }

@@ -15,11 +15,17 @@ import GUI_Dialogs_Consulta_Ent_Saida.Inf_Selecione_Linha_Saida_Dev;
 
 import Metodos.Pintar_Tabela_Padrao;
 import java.awt.HeadlessException;
+import java.awt.event.ActionEvent;
+import java.awt.event.KeyEvent;
 import java.sql.SQLException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import javax.swing.AbstractAction;
+import javax.swing.InputMap;
+import javax.swing.JComponent;
 import javax.swing.JOptionPane;
+import javax.swing.KeyStroke;
 import javax.swing.ListSelectionModel;
 
 
@@ -46,10 +52,11 @@ public class Tela_Consulta_Saida_Devolucao_DL extends javax.swing.JDialog {
         this.setModal(modal);
         initComponents();
         setResizable(false);
-        setSize(805,530);
+        setSize(740,530);
         setLocationRelativeTo(ObjDevolucao);
         Preencher_CB_Pesquisa();   
         BT_Adicionar.setEnabled(false);
+        Setar_Atalho_BT();
     }
 
     @SuppressWarnings("unchecked")
@@ -63,14 +70,14 @@ public class Tela_Consulta_Saida_Devolucao_DL extends javax.swing.JDialog {
         jLabel2 = new javax.swing.JLabel();
         JCB_Tipo_Pesquisa = new javax.swing.JComboBox();
         BT_Consultar = new javax.swing.JButton();
-        jLabel3 = new javax.swing.JLabel();
-        JTF_Num_Saida = new javax.swing.JTextField();
         jScrollPane2 = new javax.swing.JScrollPane();
         JTB_Saidas = new javax.swing.JTable();
         BT_Sair = new javax.swing.JButton();
         BT_Adicionar = new javax.swing.JButton();
+        JL_Quant_Itens1 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        setTitle("Consulta Saída");
 
         jPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createCompoundBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.LOWERED), javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED)), "Tipo De Pesquisa", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 0, 12))); // NOI18N
 
@@ -91,21 +98,13 @@ public class Tela_Consulta_Saida_Devolucao_DL extends javax.swing.JDialog {
             }
         });
 
+        BT_Consultar.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         BT_Consultar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icones_Gerais/Search_24x24.png"))); // NOI18N
-        BT_Consultar.setToolTipText("Clique Para Pesquisar Um Produto");
+        BT_Consultar.setText("Consultar (F3)");
+        BT_Consultar.setToolTipText("Clique Para Consultar A Saída");
         BT_Consultar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 BT_ConsultarActionPerformed(evt);
-            }
-        });
-
-        jLabel3.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        jLabel3.setText("Nº Saída:");
-
-        JTF_Num_Saida.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        JTF_Num_Saida.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                JTF_Num_SaidaActionPerformed(evt);
             }
         });
 
@@ -122,13 +121,9 @@ public class Tela_Consulta_Saida_Devolucao_DL extends javax.swing.JDialog {
                     .addComponent(jLabel2))
                 .addGap(18, 18, 18)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(JD_Final, javax.swing.GroupLayout.DEFAULT_SIZE, 200, Short.MAX_VALUE)
-                    .addComponent(JD_Inicial, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addGap(18, 18, 18)
-                .addComponent(jLabel3)
-                .addGap(18, 18, 18)
-                .addComponent(JTF_Num_Saida, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
+                    .addComponent(JD_Final, javax.swing.GroupLayout.PREFERRED_SIZE, 207, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(JD_Inicial, javax.swing.GroupLayout.PREFERRED_SIZE, 207, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(BT_Consultar)
                 .addContainerGap())
         );
@@ -147,10 +142,7 @@ public class Tela_Consulta_Saida_Devolucao_DL extends javax.swing.JDialog {
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addComponent(JD_Inicial, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(JD_Final, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(jLabel3)
-                        .addComponent(JTF_Num_Saida, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(JD_Final, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
@@ -191,6 +183,9 @@ public class Tela_Consulta_Saida_Devolucao_DL extends javax.swing.JDialog {
             }
         });
 
+        JL_Quant_Itens1.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        JL_Quant_Itens1.setText("Esc - Sair | F3 - Consultar | F4 - Adicionar");
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -201,7 +196,8 @@ public class Tela_Consulta_Saida_Devolucao_DL extends javax.swing.JDialog {
                     .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jScrollPane2, javax.swing.GroupLayout.Alignment.TRAILING)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addGap(0, 0, Short.MAX_VALUE)
+                        .addComponent(JL_Quant_Itens1)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(BT_Adicionar, javax.swing.GroupLayout.PREFERRED_SIZE, 160, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
                         .addComponent(BT_Sair, javax.swing.GroupLayout.PREFERRED_SIZE, 160, javax.swing.GroupLayout.PREFERRED_SIZE)))
@@ -215,13 +211,15 @@ public class Tela_Consulta_Saida_Devolucao_DL extends javax.swing.JDialog {
                 .addGap(18, 18, 18)
                 .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 294, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 19, Short.MAX_VALUE)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(BT_Sair, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(BT_Adicionar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                        .addComponent(BT_Sair, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(BT_Adicionar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(JL_Quant_Itens1))
                 .addContainerGap())
         );
 
-        setBounds(0, 0, 821, 539);
+        setBounds(0, 0, 747, 539);
     }// </editor-fold>//GEN-END:initComponents
 
     private void JCB_Tipo_PesquisaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_JCB_Tipo_PesquisaActionPerformed
@@ -232,8 +230,6 @@ public class Tela_Consulta_Saida_Devolucao_DL extends javax.swing.JDialog {
             JD_Final.setDate(null);
             JD_Inicial.setDate(null);
             Limpar_Tabela_Saida();
-            JTF_Num_Saida.setEnabled(false);
-            JTF_Num_Saida.setText("");
             BT_Adicionar.setEnabled(false);
         }
         if(JCB_Tipo_Pesquisa.getSelectedIndex()==1){
@@ -243,8 +239,6 @@ public class Tela_Consulta_Saida_Devolucao_DL extends javax.swing.JDialog {
             JD_Final.setDate(null);
             JD_Inicial.setDate(null);
             Limpar_Tabela_Saida();
-            JTF_Num_Saida.setEnabled(false);
-            JTF_Num_Saida.setText("");
             BT_Adicionar.setEnabled(false);
         }
         if(JCB_Tipo_Pesquisa.getSelectedIndex()==2){
@@ -254,8 +248,6 @@ public class Tela_Consulta_Saida_Devolucao_DL extends javax.swing.JDialog {
             JD_Final.setDate(null);
             JD_Inicial.setDate(null);
             Limpar_Tabela_Saida();
-            JTF_Num_Saida.setEnabled(false);
-            JTF_Num_Saida.setText("");
             BT_Adicionar.setEnabled(false);
         }
         if(JCB_Tipo_Pesquisa.getSelectedIndex()==3){
@@ -265,10 +257,9 @@ public class Tela_Consulta_Saida_Devolucao_DL extends javax.swing.JDialog {
             JD_Final.setDate(null);
             JD_Inicial.setDate(null);
             Limpar_Tabela_Saida();
-            JTF_Num_Saida.setEnabled(false);
-            JTF_Num_Saida.setText("");
             BT_Adicionar.setEnabled(false);
         }
+        
         if(JCB_Tipo_Pesquisa.getSelectedIndex()==4){
             BT_Consultar.setEnabled(!false);
             JD_Final.setEnabled(false);
@@ -276,19 +267,6 @@ public class Tela_Consulta_Saida_Devolucao_DL extends javax.swing.JDialog {
             JD_Final.setDate(null);
             JD_Inicial.setDate(null);
             Limpar_Tabela_Saida();
-            JTF_Num_Saida.setEnabled(!false);
-            JTF_Num_Saida.setText("");
-            BT_Adicionar.setEnabled(false);
-        }
-        if(JCB_Tipo_Pesquisa.getSelectedIndex()==5){
-            BT_Consultar.setEnabled(!false);
-            JD_Final.setEnabled(false);
-            JD_Inicial.setEnabled(false);
-            JD_Final.setDate(null);
-            JD_Inicial.setDate(null);
-            Limpar_Tabela_Saida();
-            JTF_Num_Saida.setEnabled(false);
-            JTF_Num_Saida.setText("");
             BT_Adicionar.setEnabled(false);
         }
     }//GEN-LAST:event_JCB_Tipo_PesquisaActionPerformed
@@ -296,10 +274,6 @@ public class Tela_Consulta_Saida_Devolucao_DL extends javax.swing.JDialog {
     private void BT_ConsultarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BT_ConsultarActionPerformed
         Testar_Campos();
     }//GEN-LAST:event_BT_ConsultarActionPerformed
-
-    private void JTF_Num_SaidaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_JTF_Num_SaidaActionPerformed
-        Testar_Campos();
-    }//GEN-LAST:event_JTF_Num_SaidaActionPerformed
 
     private void JTB_SaidasMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_JTB_SaidasMouseClicked
         if (evt.getClickCount() == 2) {
@@ -343,7 +317,7 @@ public class Tela_Consulta_Saida_Devolucao_DL extends javax.swing.JDialog {
         {
             Object resultado = (JTB_Saidas.getValueAt(JTB_Saidas.getSelectedRow(), 0));
             ObjDevolucao.Setar_Campo_Id_Saida(resultado);
-            ObjDevolucao.Testar_Campos();
+            ObjDevolucao.Testar_Campos_Pesquisa();
             dispose();
             
         }else{
@@ -414,6 +388,7 @@ public class Tela_Consulta_Saida_Devolucao_DL extends javax.swing.JDialog {
                                 String df = new SimpleDateFormat("yyyy-MM-dd").format(JD_Final.getDate());
                                 Preencher_Tabela_Saida("select * from saida where data_saida between '"+di+"' and '"+df+"'");
                                 BT_Adicionar.setEnabled(!false);
+                                ObjControlSaida.Controle_Saida=false;
                             }else{
                                 Mostrar_Saida_Nao_Encontrada();
                             }
@@ -427,27 +402,8 @@ public class Tela_Consulta_Saida_Devolucao_DL extends javax.swing.JDialog {
                 }
             }
         }
-        
+                        
         if(JCB_Tipo_Pesquisa.getSelectedIndex()==4){
-            if(JTF_Num_Saida.getText().equalsIgnoreCase("")){
-                    Mostrar_Preencher_N_Entrada();
-                    BT_Adicionar.setEnabled(false);
-            }else{
-                ObjControlSaida.Consulta_Saida_Id(Integer.parseInt(JTF_Num_Saida.getText()));
-                if(ObjControlSaida.Controle_Saida == true){
-                    Preencher_Tabela_Saida("select * from saida where id_saida="+JTF_Num_Saida.getText().trim()+"");
-                    ObjControlSaida.Controle_Saida=false;
-                    BT_Adicionar.setEnabled(!false);
-                }else{
-                    Mostrar_Saida_Nao_Encontrada();
-                    Limpar_Tabela_Saida();
-                    BT_Adicionar.setEnabled(false);
-                }
-                
-            }
-        }
-        
-        if(JCB_Tipo_Pesquisa.getSelectedIndex()==5){
             ObjControlSaida.Consulta_Saida_Aberto();
                 if(ObjControlSaida.Controle_Saida == true){
                     Preencher_Tabela_Saida("select * from saida where situacao = 'ABERTO'");
@@ -485,7 +441,6 @@ public class Tela_Consulta_Saida_Devolucao_DL extends javax.swing.JDialog {
         JCB_Tipo_Pesquisa.addItem("TODOS");
         JCB_Tipo_Pesquisa.addItem("ÚLTIMOS 30 DIAS");
         JCB_Tipo_Pesquisa.addItem("POR PERÍODO");
-        JCB_Tipo_Pesquisa.addItem("NÚMERO DA SAÍDA");
         JCB_Tipo_Pesquisa.addItem("EM ABERTO");
     }
     
@@ -572,6 +527,44 @@ public class Tela_Consulta_Saida_Devolucao_DL extends javax.swing.JDialog {
         ObjSelecione.setVisible(true);
     }
     
+    public final void Setar_Atalho_BT(){
+        //metodo para pegar a tecla pressionada
+        InputMap inputMap = this.getRootPane().getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW);
+        inputMap.put(KeyStroke.getKeyStroke(KeyEvent.VK_ESCAPE, 0),"Esc");
+        this.getRootPane().setInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW, inputMap);
+        
+        InputMap inputMap4 = this.getRootPane().getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW);
+        inputMap4.put(KeyStroke.getKeyStroke(KeyEvent.VK_F3, 0),"Consultar");
+        this.getRootPane().setInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW, inputMap4);
+        
+        InputMap inputMap3 = this.getRootPane().getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW);
+        inputMap3.put(KeyStroke.getKeyStroke(KeyEvent.VK_F4, 0),"Adicionar");
+        this.getRootPane().setInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW, inputMap3);
+                
+        //método para executar
+         this.getRootPane().getActionMap().put("Consultar", new AbstractAction(){
+        private static final long serialVersionUID = 1L;
+        @Override
+        public void actionPerformed(ActionEvent arg0) {
+        BT_Consultar.doClick();
+        }
+        });        
+        this.getRootPane().getActionMap().put("Esc", new AbstractAction(){
+        private static final long serialVersionUID = 1L;
+        @Override
+        public void actionPerformed(ActionEvent arg0) {
+        BT_Sair.doClick();
+        }
+        });
+         this.getRootPane().getActionMap().put("Adicionar", new AbstractAction(){
+        private static final long serialVersionUID = 1L;
+        @Override
+        public void actionPerformed(ActionEvent arg0) {
+        BT_Adicionar.doClick();
+        }
+        });
+    }
+    
     /**
      * @param args the command line arguments
      */
@@ -622,11 +615,10 @@ public class Tela_Consulta_Saida_Devolucao_DL extends javax.swing.JDialog {
     private javax.swing.JComboBox JCB_Tipo_Pesquisa;
     private com.toedter.calendar.JDateChooser JD_Final;
     private com.toedter.calendar.JDateChooser JD_Inicial;
+    private javax.swing.JLabel JL_Quant_Itens1;
     private javax.swing.JTable JTB_Saidas;
-    private javax.swing.JTextField JTF_Num_Saida;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
-    private javax.swing.JLabel jLabel3;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane2;
     // End of variables declaration//GEN-END:variables

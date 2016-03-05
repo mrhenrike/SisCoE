@@ -112,7 +112,7 @@ public class Conf_Salvar_Dev extends javax.swing.JDialog {
 
     private void JB_SimActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_JB_SimActionPerformed
        dispose();
-       ObjDev.Inserir_Devolucao();
+       ObjDev.Conf_Inserir_Devolucao();
        
        
     }//GEN-LAST:event_JB_SimActionPerformed

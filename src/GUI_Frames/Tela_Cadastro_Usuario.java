@@ -18,6 +18,8 @@ import Metodos.Formatacao;
 import Metodos.Metodos;
 import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.event.ActionEvent;
+import java.awt.event.KeyEvent;
 import java.beans.PropertyVetoException;
 import java.sql.SQLException;
 import java.text.ParseException;
@@ -25,7 +27,11 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.AbstractAction;
+import javax.swing.InputMap;
+import javax.swing.JComponent;
 import javax.swing.JFormattedTextField;
+import javax.swing.KeyStroke;
 
 
 public class Tela_Cadastro_Usuario extends javax.swing.JInternalFrame {
@@ -84,7 +90,7 @@ public class Tela_Cadastro_Usuario extends javax.swing.JInternalFrame {
         JTF_Senha_Conf.setDocument(ObjFormat.new Format_Campo_Senha(50));
         JTF_Nome.setDocument(ObjFormat.new Format_Geral(100));
         JTF_Nome_Us.setDocument(ObjFormat.new Format_Geral(50));
-        
+        Setar_Atalho_BT();
     }
 
     @SuppressWarnings("unchecked")
@@ -115,6 +121,7 @@ public class Tela_Cadastro_Usuario extends javax.swing.JInternalFrame {
         BT_Limpar = new javax.swing.JButton();
         JL_Caracteres = new javax.swing.JLabel();
         JL_Campos = new javax.swing.JLabel();
+        JL_Quant_Itens1 = new javax.swing.JLabel();
 
         setBorder(javax.swing.BorderFactory.createCompoundBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.LOWERED), javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED)));
         setIconifiable(true);
@@ -323,6 +330,7 @@ public class Tela_Cadastro_Usuario extends javax.swing.JInternalFrame {
         });
 
         BT_Limpar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icones/Bt Limpar.png"))); // NOI18N
+        BT_Limpar.setMnemonic('l');
         BT_Limpar.setToolTipText("Clique Para Limpar Os Campos Ou Pressione Alt + L");
         BT_Limpar.setPressedIcon(new javax.swing.ImageIcon(getClass().getResource("/Icones/Bt Limpar Pess.png"))); // NOI18N
         BT_Limpar.addActionListener(new java.awt.event.ActionListener() {
@@ -336,6 +344,9 @@ public class Tela_Cadastro_Usuario extends javax.swing.JInternalFrame {
 
         JL_Campos.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
         JL_Campos.setText("* Campos Obrigatórios");
+
+        JL_Quant_Itens1.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        JL_Quant_Itens1.setText("Esc - Sair | F3 - Consultar | F8 - Limpar | F10 - Salvar");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -355,14 +366,17 @@ public class Tela_Cadastro_Usuario extends javax.swing.JInternalFrame {
                         .addGap(18, 18, 18)
                         .addComponent(BT_Sair, javax.swing.GroupLayout.PREFERRED_SIZE, 160, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(JP_Dados_Us, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(layout.createSequentialGroup()
-                                .addGap(5, 5, 5)
-                                .addComponent(JL_Caracteres))
-                            .addGroup(layout.createSequentialGroup()
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(JL_Campos)))
+                                .addComponent(JP_Dados_Us, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addGap(5, 5, 5)
+                                        .addComponent(JL_Caracteres))
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                        .addComponent(JL_Campos))))
+                            .addComponent(JL_Quant_Itens1))
                         .addGap(0, 0, Short.MAX_VALUE)))
                 .addContainerGap())
         );
@@ -380,7 +394,9 @@ public class Tela_Cadastro_Usuario extends javax.swing.JInternalFrame {
                     .addGroup(layout.createSequentialGroup()
                         .addGap(18, 18, 18)
                         .addComponent(JP_Dados_Us, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 36, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(JL_Quant_Itens1)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 13, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(BT_Salvar, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(BT_Consulta, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -465,17 +481,17 @@ public class Tela_Cadastro_Usuario extends javax.swing.JInternalFrame {
              ||(JCB_Sexo.getSelectedItem().equals(""))
              ||(JTF_Nome_Us.getText().equalsIgnoreCase(""))
              ||(new String (JTF_Senha.getPassword()).equalsIgnoreCase(""))
-             ||(new String (JTF_Senha_Conf.getPassword()).equalsIgnoreCase("")))
+             ||(new String (JTF_Senha_Conf.getPassword()).equalsIgnoreCase("")))//Campos obrigatórios em brancos
         {
             Mostrar_Preencher_Campos();
         }
-        else if (!(new String (JTF_Senha.getPassword())).equals(new String(JTF_Senha_Conf.getPassword()))) 
+        else if (!(new String (JTF_Senha.getPassword())).equals(new String(JTF_Senha_Conf.getPassword()))) //Senhas diferentes
         {
             JL_Senha.setForeground(Color.red);
             JL_Senha_Conf.setForeground(Color.red);
             Mostrar_Senhas_Diferentes();
         }
-        else if ((new String (JTF_Senha.getPassword()).length()<4)&&(new String(JTF_Senha_Conf.getPassword())).length()<4) 
+        else if ((new String (JTF_Senha.getPassword()).length()<4)&&(new String(JTF_Senha_Conf.getPassword())).length()<4) //senha menor que 4 digitos
         {
             Mostrar_Senha_Minima();
         }
@@ -577,6 +593,54 @@ public class Tela_Cadastro_Usuario extends javax.swing.JInternalFrame {
                 ObjControlUser.Confirma_Inserir = false;
                 }
         }
+    
+    public final void Setar_Atalho_BT(){
+        //metodo para pegar a tecla pressionada
+        InputMap inputMap = this.getRootPane().getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW);
+        inputMap.put(KeyStroke.getKeyStroke(KeyEvent.VK_ESCAPE, 0),"Esc");
+        this.getRootPane().setInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW, inputMap);
+        
+        InputMap inputMap2 = this.getRootPane().getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW);
+        inputMap2.put(KeyStroke.getKeyStroke(KeyEvent.VK_F3, 0),"Consultar");
+        this.getRootPane().setInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW, inputMap2);
+        
+        InputMap inputMap4 = this.getRootPane().getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW);
+        inputMap4.put(KeyStroke.getKeyStroke(KeyEvent.VK_F10, 0),"Salvar");
+        this.getRootPane().setInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW, inputMap4);
+                
+        InputMap inputMap5 = this.getRootPane().getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW);
+        inputMap5.put(KeyStroke.getKeyStroke(KeyEvent.VK_F8, 0),"Limpar");
+        this.getRootPane().setInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW, inputMap5);
+        //método para executar
+         this.getRootPane().getActionMap().put("Salvar", new AbstractAction(){
+        private static final long serialVersionUID = 1L;
+        @Override
+        public void actionPerformed(ActionEvent arg0) {
+        BT_Salvar.doClick();
+        }
+        });
+        this.getRootPane().getActionMap().put("Consultar", new AbstractAction(){
+        private static final long serialVersionUID = 1L;
+        @Override
+        public void actionPerformed(ActionEvent arg0) {
+        BT_Consulta.doClick();
+        }
+        });
+        this.getRootPane().getActionMap().put("Esc", new AbstractAction(){
+        private static final long serialVersionUID = 1L;
+        @Override
+        public void actionPerformed(ActionEvent arg0) {
+        BT_Sair.doClick();
+        }
+        });
+        this.getRootPane().getActionMap().put("Limpar", new AbstractAction(){
+        private static final long serialVersionUID = 1L;
+        @Override
+        public void actionPerformed(ActionEvent arg0) {
+        BT_Limpar.doClick();
+        }
+        });
+    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton BT_Consulta;
@@ -587,6 +651,7 @@ public class Tela_Cadastro_Usuario extends javax.swing.JInternalFrame {
     private javax.swing.JComboBox JCB_Sexo;
     private javax.swing.JLabel JL_Campos;
     private javax.swing.JLabel JL_Caracteres;
+    private javax.swing.JLabel JL_Quant_Itens1;
     private javax.swing.JLabel JL_Senha;
     private javax.swing.JLabel JL_Senha_Conf;
     private javax.swing.JPanel JP_Dados_Pess;

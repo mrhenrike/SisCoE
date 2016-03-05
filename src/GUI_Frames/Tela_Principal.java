@@ -26,6 +26,7 @@ import com.jtattoo.plaf.acryl.AcrylLookAndFeel;
 import com.jtattoo.plaf.aluminium.AluminiumLookAndFeel;
 import com.jtattoo.plaf.bernstein.BernsteinLookAndFeel;
 import com.jtattoo.plaf.graphite.GraphiteLookAndFeel;
+import com.jtattoo.plaf.hifi.HiFiLookAndFeel;
 import com.jtattoo.plaf.luna.LunaLookAndFeel;
 import com.jtattoo.plaf.mcwin.McWinLookAndFeel;
 import com.jtattoo.plaf.mint.MintLookAndFeel;
@@ -37,7 +38,6 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.ImageIcon;
 import javax.swing.JDesktopPane;
-import javax.swing.JOptionPane;
 import javax.swing.SwingUtilities;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
@@ -174,6 +174,7 @@ public static Tela_Principal TP;
         jMenu4 = new javax.swing.JMenu();
         jMenuItem7 = new javax.swing.JMenuItem();
         jMenuItem13 = new javax.swing.JMenuItem();
+        jMenuItem27 = new javax.swing.JMenuItem();
         jSeparator3 = new javax.swing.JPopupMenu.Separator();
         jMenu2 = new javax.swing.JMenu();
         jMenuItem2 = new javax.swing.JMenuItem();
@@ -205,6 +206,7 @@ public static Tela_Principal TP;
         jCheckBoxMenuItem3 = new javax.swing.JCheckBoxMenuItem();
         jCheckBoxMenuItem4 = new javax.swing.JCheckBoxMenuItem();
         jCheckBoxMenuItem5 = new javax.swing.JCheckBoxMenuItem();
+        JCH_Dark = new javax.swing.JCheckBoxMenuItem();
         JCH_Padrao = new javax.swing.JCheckBoxMenuItem();
         jCheckBoxMenuItem6 = new javax.swing.JCheckBoxMenuItem();
         jCheckBoxMenuItem7 = new javax.swing.JCheckBoxMenuItem();
@@ -390,8 +392,7 @@ public static Tela_Principal TP;
         JP_Acesso_Rapido.setBorder(javax.swing.BorderFactory.createCompoundBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.LOWERED), javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED)));
 
         BT_CD_Produto.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icones/Add Produto.png"))); // NOI18N
-        BT_CD_Produto.setMnemonic('p');
-        BT_CD_Produto.setToolTipText("Clique Para Cadastrar Novo Produto Ou Pressione Alt + P");
+        BT_CD_Produto.setToolTipText("Clique Para Cadastrar Novo Produto Ou Pressione Crt + F2");
         BT_CD_Produto.setPressedIcon(new javax.swing.ImageIcon(getClass().getResource("/Icones/Add Produto Press.png"))); // NOI18N
         BT_CD_Produto.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -400,7 +401,7 @@ public static Tela_Principal TP;
         });
 
         BT_CD_Usuario.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icones/Add Usuario.png"))); // NOI18N
-        BT_CD_Usuario.setToolTipText("Clique Para Cadastrar Novo Usuario Ou Pressione F3");
+        BT_CD_Usuario.setToolTipText("Clique Para Cadastrar Novo Usuario Ou Pressione Crt + F3");
         BT_CD_Usuario.setPressedIcon(new javax.swing.ImageIcon(getClass().getResource("/Icones/Add Usuario Press.png"))); // NOI18N
         BT_CD_Usuario.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -409,7 +410,7 @@ public static Tela_Principal TP;
         });
 
         BT_Ent_Produto.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icones/Add Entrada.png"))); // NOI18N
-        BT_Ent_Produto.setToolTipText("Clique Para Efetuar Nova Entrada Ou Pressione F6");
+        BT_Ent_Produto.setToolTipText("Clique Para Efetuar Nova Entrada Ou Pressione Crt + F6");
         BT_Ent_Produto.setPressedIcon(new javax.swing.ImageIcon(getClass().getResource("/Icones/Add Entrada Press.png"))); // NOI18N
         BT_Ent_Produto.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -418,7 +419,7 @@ public static Tela_Principal TP;
         });
 
         jButton7.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icones/Add Saida 2.png"))); // NOI18N
-        jButton7.setToolTipText("Clique Para Efetuar Nova Saída Ou Pressione F7");
+        jButton7.setToolTipText("Clique Para Efetuar Nova Saída Ou Pressione Crt + F7");
         jButton7.setPressedIcon(new javax.swing.ImageIcon(getClass().getResource("/Icones/Add Saida Press 2.png"))); // NOI18N
         jButton7.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -427,7 +428,7 @@ public static Tela_Principal TP;
         });
 
         jButton5.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icones/CS Produto.png"))); // NOI18N
-        jButton5.setToolTipText("Clique Para Consultar Os Produtos Ou Pressione F4");
+        jButton5.setToolTipText("Clique Para Consultar Os Produtos Ou Pressione Crt + F4");
         jButton5.setPressedIcon(new javax.swing.ImageIcon(getClass().getResource("/Icones/CS Produto Press.png"))); // NOI18N
         jButton5.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -436,6 +437,7 @@ public static Tela_Principal TP;
         });
 
         BT_Encerrar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icones/Sair Encerrar.png"))); // NOI18N
+        BT_Encerrar.setToolTipText("Clique Para Encerrar O Sistema Ou Pressione Alt + F4");
         BT_Encerrar.setPressedIcon(new javax.swing.ImageIcon(getClass().getResource("/Icones/Sair Encerrar Press.png"))); // NOI18N
         BT_Encerrar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -444,7 +446,7 @@ public static Tela_Principal TP;
         });
 
         jButton8.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icones/Bt Devolucao.png"))); // NOI18N
-        jButton8.setToolTipText("Clique Para Efetuar Devolução De Produto Ou Pressione F12");
+        jButton8.setToolTipText("Clique Para Efetuar Devolução De Produto Ou Pressione Crt + F8");
         jButton8.setPressedIcon(new javax.swing.ImageIcon(getClass().getResource("/Icones/Bt Devolucao Press.png"))); // NOI18N
         jButton8.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -497,7 +499,7 @@ public static Tela_Principal TP;
         MP_Cadastrar.setToolTipText("Módulo De Cadastros (Alt + D)");
         MP_Cadastrar.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
 
-        CD_Produto.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_F2, 0));
+        CD_Produto.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_F2, java.awt.event.InputEvent.CTRL_MASK));
         CD_Produto.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         CD_Produto.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icones_Gerais/Prod 24x24.png"))); // NOI18N
         CD_Produto.setText("Produto");
@@ -508,7 +510,7 @@ public static Tela_Principal TP;
         });
         MP_Cadastrar.add(CD_Produto);
 
-        CD_Usuário.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_F3, 0));
+        CD_Usuário.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_F3, java.awt.event.InputEvent.CTRL_MASK));
         CD_Usuário.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         CD_Usuário.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icones_Gerais/User 24x24.png"))); // NOI18N
         CD_Usuário.setText("Usuário");
@@ -538,7 +540,7 @@ public static Tela_Principal TP;
         MP_Consultar.setToolTipText("Módulo De Consultas (Alt + T)");
         MP_Consultar.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
 
-        CS_Produto.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_F4, 0));
+        CS_Produto.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_F4, java.awt.event.InputEvent.CTRL_MASK));
         CS_Produto.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         CS_Produto.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icones_Gerais/Prod 24x24.png"))); // NOI18N
         CS_Produto.setText("Produto");
@@ -549,7 +551,7 @@ public static Tela_Principal TP;
         });
         MP_Consultar.add(CS_Produto);
 
-        CS_Usuario.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_F5, 0));
+        CS_Usuario.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_F5, java.awt.event.InputEvent.CTRL_MASK));
         CS_Usuario.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         CS_Usuario.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icones_Gerais/User 24x24.png"))); // NOI18N
         CS_Usuario.setText("Usuário");
@@ -625,7 +627,6 @@ public static Tela_Principal TP;
         });
         jMenu3.add(jMenuItem4);
 
-        jMenuItem8.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_F8, 0));
         jMenuItem8.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         jMenuItem8.setText("Período");
         jMenuItem8.addActionListener(new java.awt.event.ActionListener() {
@@ -635,7 +636,6 @@ public static Tela_Principal TP;
         });
         jMenu3.add(jMenuItem8);
 
-        jMenuItem9.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_F9, 0));
         jMenuItem9.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         jMenuItem9.setText("Número da Entrada");
         jMenuItem9.addActionListener(new java.awt.event.ActionListener() {
@@ -659,12 +659,10 @@ public static Tela_Principal TP;
         jMenuItem14.setText("Últimos 30 Dias");
         jMenu5.add(jMenuItem14);
 
-        jMenuItem18.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_F10, 0));
         jMenuItem18.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         jMenuItem18.setText("Período");
         jMenu5.add(jMenuItem18);
 
-        jMenuItem19.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_F11, 0));
         jMenuItem19.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         jMenuItem19.setText("Número da Saída");
         jMenuItem19.addActionListener(new java.awt.event.ActionListener() {
@@ -710,6 +708,10 @@ public static Tela_Principal TP;
             }
         });
         jMenu4.add(jMenuItem13);
+
+        jMenuItem27.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        jMenuItem27.setText("Abaixo Do Mínimo");
+        jMenu4.add(jMenuItem27);
 
         MP_Relatorio.add(jMenu4);
         MP_Relatorio.add(jSeparator3);
@@ -801,7 +803,7 @@ public static Tela_Principal TP;
         jMenu1.setToolTipText("Módulo De Serviços (Alt + V)");
         jMenu1.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
 
-        Serv_Entrada.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_F6, 0));
+        Serv_Entrada.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_F6, java.awt.event.InputEvent.CTRL_MASK));
         Serv_Entrada.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         Serv_Entrada.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icones_Gerais/Entrada Mercadoria 24x24.png"))); // NOI18N
         Serv_Entrada.setText("Entrada de Produto");
@@ -812,7 +814,7 @@ public static Tela_Principal TP;
         });
         jMenu1.add(Serv_Entrada);
 
-        Serv_Saida.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_F7, 0));
+        Serv_Saida.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_F7, java.awt.event.InputEvent.CTRL_MASK));
         Serv_Saida.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         Serv_Saida.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icones_Gerais/Saida Mercadoria 24x24.png"))); // NOI18N
         Serv_Saida.setText("Saida de Produto");
@@ -823,7 +825,7 @@ public static Tela_Principal TP;
         });
         jMenu1.add(Serv_Saida);
 
-        jMenuItem24.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_F12, 0));
+        jMenuItem24.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_F8, java.awt.event.InputEvent.CTRL_MASK));
         jMenuItem24.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         jMenuItem24.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icones_Gerais/Devoluca 22x22.png"))); // NOI18N
         jMenuItem24.setText("Devolução de Produto");
@@ -835,7 +837,7 @@ public static Tela_Principal TP;
         jMenu1.add(jMenuItem24);
         jMenu1.add(jSeparator2);
 
-        Serv_AjustaEstoque.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_J, java.awt.event.InputEvent.ALT_MASK));
+        Serv_AjustaEstoque.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_F9, java.awt.event.InputEvent.CTRL_MASK));
         Serv_AjustaEstoque.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         Serv_AjustaEstoque.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icones_Gerais/Ajuste Estoque 24x24.png"))); // NOI18N
         Serv_AjustaEstoque.setText("Ajuste de Estoque");
@@ -881,6 +883,7 @@ public static Tela_Principal TP;
         });
         jMenu1.add(jMenuItem5);
 
+        jMenuItem26.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_F, java.awt.event.InputEvent.ALT_MASK));
         jMenuItem26.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         jMenuItem26.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icones_Gerais/Refresh_24x24.png"))); // NOI18N
         jMenuItem26.setText("Verificar Alertas");
@@ -915,8 +918,10 @@ public static Tela_Principal TP;
         jMenu7.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icones_Gerais/background.png"))); // NOI18N
         jMenu7.setMnemonic('p');
         jMenu7.setText("Aparência");
+        jMenu7.setToolTipText("Módulo De Aparências E Temas (Alt + P)");
         jMenu7.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
 
+        jCheckBoxMenuItem1.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_A, java.awt.event.InputEvent.ALT_MASK | java.awt.event.InputEvent.SHIFT_MASK));
         BG_Menu.add(jCheckBoxMenuItem1);
         jCheckBoxMenuItem1.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         jCheckBoxMenuItem1.setText("Acrílico");
@@ -927,6 +932,7 @@ public static Tela_Principal TP;
         });
         jMenu7.add(jCheckBoxMenuItem1);
 
+        jCheckBoxMenuItem2.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_L, java.awt.event.InputEvent.ALT_MASK | java.awt.event.InputEvent.SHIFT_MASK));
         BG_Menu.add(jCheckBoxMenuItem2);
         jCheckBoxMenuItem2.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         jCheckBoxMenuItem2.setText("Alumínio");
@@ -937,6 +943,7 @@ public static Tela_Principal TP;
         });
         jMenu7.add(jCheckBoxMenuItem2);
 
+        jCheckBoxMenuItem3.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_M, java.awt.event.InputEvent.ALT_MASK | java.awt.event.InputEvent.SHIFT_MASK));
         BG_Menu.add(jCheckBoxMenuItem3);
         jCheckBoxMenuItem3.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         jCheckBoxMenuItem3.setText("Amarelo");
@@ -947,6 +954,7 @@ public static Tela_Principal TP;
         });
         jMenu7.add(jCheckBoxMenuItem3);
 
+        jCheckBoxMenuItem4.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_B, java.awt.event.InputEvent.ALT_MASK | java.awt.event.InputEvent.SHIFT_MASK));
         BG_Menu.add(jCheckBoxMenuItem4);
         jCheckBoxMenuItem4.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         jCheckBoxMenuItem4.setText("Básico");
@@ -957,6 +965,7 @@ public static Tela_Principal TP;
         });
         jMenu7.add(jCheckBoxMenuItem4);
 
+        jCheckBoxMenuItem5.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_C, java.awt.event.InputEvent.ALT_MASK | java.awt.event.InputEvent.SHIFT_MASK));
         BG_Menu.add(jCheckBoxMenuItem5);
         jCheckBoxMenuItem5.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         jCheckBoxMenuItem5.setText("Ciano");
@@ -967,6 +976,18 @@ public static Tela_Principal TP;
         });
         jMenu7.add(jCheckBoxMenuItem5);
 
+        JCH_Dark.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_P, java.awt.event.InputEvent.ALT_MASK | java.awt.event.InputEvent.SHIFT_MASK));
+        BG_Menu.add(JCH_Dark);
+        JCH_Dark.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        JCH_Dark.setText("Dark");
+        JCH_Dark.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                JCH_DarkActionPerformed(evt);
+            }
+        });
+        jMenu7.add(JCH_Dark);
+
+        JCH_Padrao.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_P, java.awt.event.InputEvent.ALT_MASK | java.awt.event.InputEvent.SHIFT_MASK));
         BG_Menu.add(JCH_Padrao);
         JCH_Padrao.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         JCH_Padrao.setText("Padrão");
@@ -977,6 +998,7 @@ public static Tela_Principal TP;
         });
         jMenu7.add(JCH_Padrao);
 
+        jCheckBoxMenuItem6.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_Z, java.awt.event.InputEvent.ALT_MASK | java.awt.event.InputEvent.SHIFT_MASK));
         BG_Menu.add(jCheckBoxMenuItem6);
         jCheckBoxMenuItem6.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         jCheckBoxMenuItem6.setText("Preto / Cinza");
@@ -987,6 +1009,7 @@ public static Tela_Principal TP;
         });
         jMenu7.add(jCheckBoxMenuItem6);
 
+        jCheckBoxMenuItem7.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_T, java.awt.event.InputEvent.ALT_MASK | java.awt.event.InputEvent.SHIFT_MASK));
         BG_Menu.add(jCheckBoxMenuItem7);
         jCheckBoxMenuItem7.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         jCheckBoxMenuItem7.setText("Preto");
@@ -997,6 +1020,7 @@ public static Tela_Principal TP;
         });
         jMenu7.add(jCheckBoxMenuItem7);
 
+        jCheckBoxMenuItem8.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_R, java.awt.event.InputEvent.ALT_MASK | java.awt.event.InputEvent.SHIFT_MASK));
         BG_Menu.add(jCheckBoxMenuItem8);
         jCheckBoxMenuItem8.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         jCheckBoxMenuItem8.setText("Rosa");
@@ -1007,6 +1031,7 @@ public static Tela_Principal TP;
         });
         jMenu7.add(jCheckBoxMenuItem8);
 
+        jCheckBoxMenuItem9.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_X, java.awt.event.InputEvent.ALT_MASK | java.awt.event.InputEvent.SHIFT_MASK));
         BG_Menu.add(jCheckBoxMenuItem9);
         jCheckBoxMenuItem9.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         jCheckBoxMenuItem9.setText("Textura");
@@ -1017,6 +1042,7 @@ public static Tela_Principal TP;
         });
         jMenu7.add(jCheckBoxMenuItem9);
 
+        jCheckBoxMenuItem10.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_V, java.awt.event.InputEvent.ALT_MASK | java.awt.event.InputEvent.SHIFT_MASK));
         BG_Menu.add(jCheckBoxMenuItem10);
         jCheckBoxMenuItem10.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         jCheckBoxMenuItem10.setText("Verde Claro");
@@ -1027,6 +1053,7 @@ public static Tela_Principal TP;
         });
         jMenu7.add(jCheckBoxMenuItem10);
 
+        jCheckBoxMenuItem11.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_E, java.awt.event.InputEvent.ALT_MASK | java.awt.event.InputEvent.SHIFT_MASK));
         BG_Menu.add(jCheckBoxMenuItem11);
         jCheckBoxMenuItem11.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         jCheckBoxMenuItem11.setText("Verde Escuro");
@@ -1037,6 +1064,7 @@ public static Tela_Principal TP;
         });
         jMenu7.add(jCheckBoxMenuItem11);
 
+        jCheckBoxMenuItem12.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_H, java.awt.event.InputEvent.ALT_MASK | java.awt.event.InputEvent.SHIFT_MASK));
         BG_Menu.add(jCheckBoxMenuItem12);
         jCheckBoxMenuItem12.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         jCheckBoxMenuItem12.setText("Vermelho");
@@ -1050,9 +1078,9 @@ public static Tela_Principal TP;
         Menu_Principal.add(jMenu7);
 
         MP_Sair.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icones_Gerais/Log Out_24x24.png"))); // NOI18N
-        MP_Sair.setMnemonic('s');
+        MP_Sair.setMnemonic('r');
         MP_Sair.setText("Sair");
-        MP_Sair.setToolTipText("Módulo De Opções Para Sair (Alt + S)");
+        MP_Sair.setToolTipText("Módulo De Opções Para Sair (Alt + R)");
         MP_Sair.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
 
         Sair_Logout.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_F2, java.awt.event.InputEvent.ALT_MASK));
@@ -1154,15 +1182,11 @@ public static Tela_Principal TP;
     }//GEN-LAST:event_BT_CD_ProdutoActionPerformed
 
     private void CS_UsuarioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_CS_UsuarioActionPerformed
-        if(PermissaoLogado.equalsIgnoreCase("ADMINISTRADOR")){
-            try {
-                Tela_Consulta_Usuario obj = new Tela_Consulta_Usuario();
-                obj.Open_Tela();
-            } catch (SQLException ex) {
-                Logger.getLogger(Tela_Principal.class.getName()).log(Level.SEVERE, null, ex);
-            }
-        }else{
-            JOptionPane.showMessageDialog(rootPane, "Você nao tem permissão para acessar esse módulo");
+        try {
+            Tela_Consulta_Usuario obj = new Tela_Consulta_Usuario();
+            obj.Open_Tela();
+        } catch (SQLException ex) {
+            Logger.getLogger(Tela_Principal.class.getName()).log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_CS_UsuarioActionPerformed
 
@@ -1386,7 +1410,10 @@ public static Tela_Principal TP;
         try {
             Properties props = new Properties();
             props.put("logoString", "SisCoE");
+            UIManager cor = new UIManager();
+            cor.put(cor, cor);
             //SubstanceMistAquaLookAndFeel.setCurrentTheme(props);
+            
             UIManager.setLookAndFeel(new SubstanceAutumnLookAndFeel());
             SwingUtilities.updateComponentTreeUI(this);
         } catch (UnsupportedLookAndFeelException ex) {
@@ -1398,7 +1425,7 @@ public static Tela_Principal TP;
         try {
             Properties props = new Properties();
             props.put("logoString", "SisCoE");
-            AluminiumLookAndFeel.setCurrentTheme(props);
+            //AluminiumLookAndFeel.setCurrentTheme(props);
             UIManager.setLookAndFeel(new SubstanceRavenGraphiteGlassLookAndFeel());
             SwingUtilities.updateComponentTreeUI(this);
         } catch (UnsupportedLookAndFeelException ex) {
@@ -1496,6 +1523,18 @@ public static Tela_Principal TP;
         Devolucao_Pendente();
         Produto_Vencido();
     }//GEN-LAST:event_jMenuItem26ActionPerformed
+
+    private void JCH_DarkActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_JCH_DarkActionPerformed
+        try {
+            Properties props = new Properties();
+            props.put("logoString", "SisCoE");
+            HiFiLookAndFeel.setCurrentTheme(props);
+            UIManager.setLookAndFeel(new HiFiLookAndFeel());
+            SwingUtilities.updateComponentTreeUI(this);
+        } catch (UnsupportedLookAndFeelException ex) {
+            Logger.getLogger(Tela_Splash.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }//GEN-LAST:event_JCH_DarkActionPerformed
 
     //Metodos Para setar os dialogs
 
@@ -1615,8 +1654,9 @@ public static Tela_Principal TP;
     
     public void Controle_De_Acesso(){
         if(PermissaoLogado.equalsIgnoreCase("USUÁRIO")){
-            CS_Usuario.setEnabled(false);
+            CD_Usuário.setEnabled(false);
             Serv_AjustaEstoque.setEnabled(false);
+            BT_CD_Usuario.setEnabled(false);
         }
     
     }
@@ -1734,6 +1774,7 @@ public static Tela_Principal TP;
     private javax.swing.JMenuItem CS_Produto;
     private javax.swing.JMenuItem CS_Turma;
     private javax.swing.JMenuItem CS_Usuario;
+    private javax.swing.JCheckBoxMenuItem JCH_Dark;
     private javax.swing.JCheckBoxMenuItem JCH_Padrao;
     public javax.swing.JLabel JL_Cod;
     private javax.swing.JLabel JL_Data;
@@ -1806,6 +1847,7 @@ public static Tela_Principal TP;
     private javax.swing.JMenuItem jMenuItem24;
     private javax.swing.JMenuItem jMenuItem25;
     private javax.swing.JMenuItem jMenuItem26;
+    private javax.swing.JMenuItem jMenuItem27;
     private javax.swing.JMenuItem jMenuItem3;
     private javax.swing.JMenuItem jMenuItem4;
     private javax.swing.JMenuItem jMenuItem5;

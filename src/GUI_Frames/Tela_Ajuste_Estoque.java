@@ -9,6 +9,7 @@ import Conexao.Controle_Ajuste_Estoque;
 import Conexao.Controle_Lote_Estoque;
 import Conexao.Controle_Produto;
 import Conexao.Controle_Saida_Produto;
+import GUI_Dialogs_Ajuste.Conf_Sair_Sem_Salvar_Ajuste;
 import GUI_Dialogs_Ajuste.Conf_Salvar_Ajuste;
 import GUI_Dialogs_Ajuste.Escolha_Lote_Ajuste;
 import GUI_Dialogs_Ajuste.Inf_Dados_Nao_Salvos_Ajuste;
@@ -21,10 +22,18 @@ import GUI_Dialogs_Ajuste.Inf_Quant_Maior_Ajuste;
 import GUI_Dialogs_Ajuste.Inf_Selecione_Linha_Ajuste;
 import Metodos.Formatacao;
 import java.awt.Dimension;
+import java.awt.event.ActionEvent;
+import java.awt.event.KeyEvent;
 import java.beans.PropertyVetoException;
 import java.sql.SQLException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.AbstractAction;
+import javax.swing.InputMap;
+import javax.swing.JComponent;
+import javax.swing.KeyStroke;
 
 
 public class Tela_Ajuste_Estoque extends javax.swing.JInternalFrame {
@@ -71,13 +80,14 @@ public class Tela_Ajuste_Estoque extends javax.swing.JInternalFrame {
     private static Inf_Dados_Nao_Salvos_Ajuste ObjDadosNaoSalvo;
     private static Inf_Dados_Salvos_Ajuste ObjDadosSalvos;
     private static Inf_Formato_Quant_Invalida_Ajuste ObjFormatoInvalida;
+    private static Conf_Sair_Sem_Salvar_Ajuste ObjSairSemSalvar;
     
     //boolean para controle
     public boolean Confirma_inserir;
     
     
     String Un_Prod;//variavel para receber o tipo de unidade do produto
-    String Consulta_Produto;
+    String Consulta_Produto;//
     
     public Tela_Ajuste_Estoque() {
         initComponents();
@@ -85,6 +95,7 @@ public class Tela_Ajuste_Estoque extends javax.swing.JInternalFrame {
         
         JTF_Pesquisa.setDocument(ObjFormat.new Format_Geral(50));
         JTF_Quantidade.setDocument(ObjFormat.new Format_Valor_Negativo(10));
+        Setar_Atalho_BT();
     }
 
     @SuppressWarnings("unchecked")
@@ -107,6 +118,8 @@ public class Tela_Ajuste_Estoque extends javax.swing.JInternalFrame {
         JL_Lote = new javax.swing.JLabel();
         JL_Cod_Produto = new javax.swing.JLabel();
         jLabel10 = new javax.swing.JLabel();
+        jLabel12 = new javax.swing.JLabel();
+        JL_Un = new javax.swing.JLabel();
         jPanel3 = new javax.swing.JPanel();
         jLabel7 = new javax.swing.JLabel();
         JCB_Motivo = new javax.swing.JComboBox();
@@ -118,6 +131,8 @@ public class Tela_Ajuste_Estoque extends javax.swing.JInternalFrame {
         JTF_Obs = new javax.swing.JTextField();
         BT_Sair = new javax.swing.JButton();
         BT_Salvar = new javax.swing.JButton();
+        JL_Quant_Itens1 = new javax.swing.JLabel();
+        JL_Campos = new javax.swing.JLabel();
 
         setBorder(javax.swing.BorderFactory.createCompoundBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.LOWERED), javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED)));
         setIconifiable(true);
@@ -147,6 +162,7 @@ public class Tela_Ajuste_Estoque extends javax.swing.JInternalFrame {
         jLabel2.setText("Código Ou Descrição:");
 
         JTF_Pesquisa.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        JTF_Pesquisa.setToolTipText("Insira O Código Ou A Descrição Do Produto E Pressione A Tecla Enter.");
         JTF_Pesquisa.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 JTF_PesquisaActionPerformed(evt);
@@ -155,8 +171,8 @@ public class Tela_Ajuste_Estoque extends javax.swing.JInternalFrame {
 
         BT_Confirmar.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         BT_Confirmar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icones_Gerais/Ativar 24x24.png"))); // NOI18N
-        BT_Confirmar.setText("Confirmar");
-        BT_Confirmar.setToolTipText("Clique Para Pesquisar Um Produto");
+        BT_Confirmar.setText("(F2)");
+        BT_Confirmar.setToolTipText("Clique Para Confirmar Um Produto Através Do Código");
         BT_Confirmar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 BT_ConfirmarActionPerformed(evt);
@@ -165,7 +181,7 @@ public class Tela_Ajuste_Estoque extends javax.swing.JInternalFrame {
 
         BT_Procurar.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         BT_Procurar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icones_Gerais/Search_24x24.png"))); // NOI18N
-        BT_Procurar.setText("Procurar");
+        BT_Procurar.setText("(F3)");
         BT_Procurar.setToolTipText("Clique Para Pesquisar Um Produto");
         BT_Procurar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -181,7 +197,7 @@ public class Tela_Ajuste_Estoque extends javax.swing.JInternalFrame {
                 .addContainerGap()
                 .addComponent(jLabel2)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(JTF_Pesquisa, javax.swing.GroupLayout.DEFAULT_SIZE, 207, Short.MAX_VALUE)
+                .addComponent(JTF_Pesquisa, javax.swing.GroupLayout.DEFAULT_SIZE, 279, Short.MAX_VALUE)
                 .addGap(18, 18, 18)
                 .addComponent(BT_Confirmar)
                 .addGap(18, 18, 18)
@@ -230,6 +246,11 @@ public class Tela_Ajuste_Estoque extends javax.swing.JInternalFrame {
         jLabel10.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         jLabel10.setText("Código*:");
 
+        jLabel12.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        jLabel12.setText("Unidade:");
+
+        JL_Un.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
+
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
@@ -253,8 +274,13 @@ public class Tela_Ajuste_Estoque extends javax.swing.JInternalFrame {
                             .addComponent(jLabel6))
                         .addGap(18, 18, 18)
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(JL_Lote, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(JL_Estoque, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+                            .addComponent(JL_Lote, javax.swing.GroupLayout.DEFAULT_SIZE, 299, Short.MAX_VALUE)
+                            .addGroup(jPanel2Layout.createSequentialGroup()
+                                .addComponent(JL_Estoque, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addGap(18, 18, 18)
+                                .addComponent(jLabel12)
+                                .addGap(18, 18, 18)
+                                .addComponent(JL_Un, javax.swing.GroupLayout.PREFERRED_SIZE, 59, javax.swing.GroupLayout.PREFERRED_SIZE)))))
                 .addContainerGap())
         );
         jPanel2Layout.setVerticalGroup(
@@ -266,12 +292,17 @@ public class Tela_Ajuste_Estoque extends javax.swing.JInternalFrame {
                     .addComponent(JL_Descricao, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(jLabel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(JL_Estoque, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addComponent(JL_Cod_Produto, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(jLabel10, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(jLabel10, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jLabel12, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                    .addComponent(jLabel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(JL_Estoque, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addComponent(JL_Cod_Produto, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(JL_Un, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(0, 0, Short.MAX_VALUE)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
@@ -398,6 +429,12 @@ public class Tela_Ajuste_Estoque extends javax.swing.JInternalFrame {
             }
         });
 
+        JL_Quant_Itens1.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        JL_Quant_Itens1.setText("Esc - Sair | F10 - Salvar");
+
+        JL_Campos.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
+        JL_Campos.setText("* Campos Obrigatórios");
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -408,7 +445,10 @@ public class Tela_Ajuste_Estoque extends javax.swing.JInternalFrame {
                     .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addGap(0, 0, Short.MAX_VALUE)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(JL_Quant_Itens1)
+                            .addComponent(JL_Campos))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(BT_Salvar, javax.swing.GroupLayout.PREFERRED_SIZE, 160, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
                         .addComponent(BT_Sair, javax.swing.GroupLayout.PREFERRED_SIZE, 160, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -426,8 +466,15 @@ public class Tela_Ajuste_Estoque extends javax.swing.JInternalFrame {
                 .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(BT_Sair, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(BT_Salvar, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(JL_Quant_Itens1)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(JL_Campos))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(BT_Sair, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(BT_Salvar, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(0, 4, Short.MAX_VALUE)))
                 .addContainerGap())
         );
 
@@ -448,8 +495,7 @@ public class Tela_Ajuste_Estoque extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_BT_ProcurarActionPerformed
 
     private void BT_SairActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BT_SairActionPerformed
-        //Sair_Sem_Salvar();
-        dispose();
+        Sair_Sem_Salvar();        
     }//GEN-LAST:event_BT_SairActionPerformed
 
     private void BT_SalvarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BT_SalvarActionPerformed
@@ -523,17 +569,20 @@ public class Tela_Ajuste_Estoque extends javax.swing.JInternalFrame {
         JL_Nova_Quant.setText("");
         JCB_Motivo.setSelectedIndex(0);
     }
-    public void Setar_Campos_Produto(int id,String descricao){
+    public void Setar_Campos_Produto(int id,String descricao, String unidade){
         JL_Cod_Produto.setText(String.valueOf(id));
         JL_Descricao.setText(descricao);
+        JL_Un.setText(unidade);
     }
     public void Setar_Campos_Lote_Estoque(String validade, double quant, String lote){
         JL_Lote.setText(lote);
         JL_Validade.setText(validade);
         JL_Estoque.setText(String.valueOf(quant).replace(".", ","));
+        JCB_Motivo.requestFocus();
     }
     public void Setar_Campo_Quantidade(double quant){
         JL_Estoque.setText(String.valueOf(quant).replace(".", ","));
+        JCB_Motivo.requestFocus();
     }
     public void Setar_Un_Prod(String un){
         this.Un_Prod = un;
@@ -541,7 +590,7 @@ public class Tela_Ajuste_Estoque extends javax.swing.JInternalFrame {
 
     void Testar_Campos_Pesquisa(){
         if(!JTF_Pesquisa.getText().equalsIgnoreCase("")){
-            ObjControleProd.Verifica_Produto_Existe(JTF_Pesquisa.getText().trim());
+            ObjControleProd.Confirma_Produto_Existe(JTF_Pesquisa.getText().trim());
             if(ObjControleProd.Confirma_Existente==true){
                 Object resultado = JTF_Pesquisa.getText().trim();
                 Limpar_Campos_Produto();
@@ -549,7 +598,7 @@ public class Tela_Ajuste_Estoque extends javax.swing.JInternalFrame {
                 if(ObjControleSaida.Controla_Lote==true){
                     ObjModProd.setPesquisa(String.valueOf(resultado));
                     ObjControleProd.Consulta_Produto(ObjModProd);
-                    Setar_Campos_Produto(ObjModProd.getId_produto(),ObjModProd.getDescricao());                    
+                    Setar_Campos_Produto(ObjModProd.getId_produto(),ObjModProd.getDescricao(), ObjModProd.getUnidade());                    
                     Mostrar_Escolha_Lote(resultado);
                     ObjControleSaida.Controla_Lote=false;
                     JCB_Motivo.requestFocus();
@@ -557,7 +606,7 @@ public class Tela_Ajuste_Estoque extends javax.swing.JInternalFrame {
                     try {
                         ObjModProd.setPesquisa(String.valueOf(resultado));
                         ObjControleProd.Consulta_Produto(ObjModProd);
-                        Setar_Campos_Produto(ObjModProd.getId_produto(),ObjModProd.getDescricao());
+                        Setar_Campos_Produto(ObjModProd.getId_produto(),ObjModProd.getDescricao(), ObjModProd.getUnidade());                 
                         ObjControleLote.Consulta_Estoque_Produto(ObjModLote, resultado);
                         Setar_Campo_Quantidade(ObjModLote.getQuantidade_estoque());
                         JCB_Motivo.requestFocus();
@@ -575,6 +624,14 @@ public class Tela_Ajuste_Estoque extends javax.swing.JInternalFrame {
         }
     }
     
+    public void Sair_Sem_Salvar(){
+        if(!JL_Cod_Produto.getText().equalsIgnoreCase("") && !JTF_Quantidade.getText().equalsIgnoreCase("")){
+            Mostrar_Sair_Sem_Salvar();
+        }else{
+            dispose();
+        }
+    }
+    
     public void Testar_Campos_Salvar(){
         if(JL_Cod_Produto.getText().equalsIgnoreCase("") || JCB_Motivo.getSelectedItem().equals("")
                 || JTF_Quantidade.getText().equalsIgnoreCase("")){
@@ -588,7 +645,14 @@ public class Tela_Ajuste_Estoque extends javax.swing.JInternalFrame {
             }
             
             if(ehNumero == true){
-                Mostrar_Confirma_Salvar();
+                double estoque = Double.valueOf(JL_Estoque.getText().trim().replace(",", "."));
+                double nova_quantidade = Double.valueOf(JTF_Quantidade.getText().trim().replace(",", "."));
+                double resultado = estoque + nova_quantidade;
+                if(resultado<0){
+                    Mostrar_Quantidade_Maior();
+                }else{
+                    Mostrar_Confirma_Salvar();
+                }
             }
             if(ehNumero == false){
                 Mostrar_Formato_Quant_Invalida();
@@ -601,6 +665,7 @@ public class Tela_Ajuste_Estoque extends javax.swing.JInternalFrame {
         ObjModAjuste.setMotivo(JCB_Motivo.getSelectedItem().toString().trim());
         ObjModAjuste.setObservacao(JTF_Obs.getText().trim());
         ObjModAjuste.setQuantidade(Double.valueOf(JTF_Quantidade.getText().trim().replace(",", ".")));
+        ObjModAjuste.setData_ajuste(new SimpleDateFormat("yyyy/MM/dd").format(new Date(System.currentTimeMillis())));      
         
     }
     
@@ -624,7 +689,7 @@ public class Tela_Ajuste_Estoque extends javax.swing.JInternalFrame {
         double nova_quant = Double.valueOf(JTF_Quantidade.getText().trim().replace(",", "."));
         String lote = JL_Lote.getText().trim();
         
-            if(JL_Lote.getText().equalsIgnoreCase("")){
+            if(JL_Lote.getText().equalsIgnoreCase("")){//produto sem lote
                 Preencher_Objetos();
                 ObjControleLote.Consulta_Id_Estoque(ObjModLote, id_produto);//consulta o id do estoque
                 ObjModAjuste.setLote_id_lote(ObjModLote.getId_lote());//seta para o outro modelo
@@ -650,7 +715,7 @@ public class Tela_Ajuste_Estoque extends javax.swing.JInternalFrame {
                     Mostrar_Dados_Nao_Salvos();
                 }
                 
-            }else{
+            }else{//produto com lote
                 Preencher_Objetos();
                 ObjControleLote.Consulta_Id_Lote_Estoque(ObjModLote,id_produto, lote);//consulta o id do estoque
                 ObjModAjuste.setLote_id_lote( ObjModLote.getId_lote());//seta para o outro modelo
@@ -725,23 +790,81 @@ public class Tela_Ajuste_Estoque extends javax.swing.JInternalFrame {
         ObjFormatoInvalida.setVisible(true);
     }
     
+    void Mostrar_Sair_Sem_Salvar(){
+        ObjSairSemSalvar = new Conf_Sair_Sem_Salvar_Ajuste(this, true);
+        ObjSairSemSalvar.setVisible(true);
+    }
+    
+     public final void Setar_Atalho_BT(){
+        //metodo para pegar a tecla pressionada
+        InputMap inputMap = this.getRootPane().getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW);
+        inputMap.put(KeyStroke.getKeyStroke(KeyEvent.VK_ESCAPE, 0),"Esc");
+        this.getRootPane().setInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW, inputMap);
+        
+        InputMap inputMap2 = this.getRootPane().getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW);
+        inputMap2.put(KeyStroke.getKeyStroke(KeyEvent.VK_F3, 0),"Procurar");
+        this.getRootPane().setInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW, inputMap2);
+        
+        InputMap inputMap3 = this.getRootPane().getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW);
+        inputMap3.put(KeyStroke.getKeyStroke(KeyEvent.VK_F2, 0),"Confirmar");
+        this.getRootPane().setInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW, inputMap3);
+        
+        InputMap inputMap4 = this.getRootPane().getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW);
+        inputMap4.put(KeyStroke.getKeyStroke(KeyEvent.VK_F10, 0),"Salvar");
+        this.getRootPane().setInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW, inputMap4);
+                
+        //método para executar
+         this.getRootPane().getActionMap().put("Salvar", new AbstractAction(){
+        private static final long serialVersionUID = 1L;
+        @Override
+        public void actionPerformed(ActionEvent arg0) {
+        BT_Salvar.doClick();
+        }
+        });
+        this.getRootPane().getActionMap().put("Procurar", new AbstractAction(){
+        private static final long serialVersionUID = 1L;
+        @Override
+        public void actionPerformed(ActionEvent arg0) {
+        BT_Procurar.doClick();
+        }
+        });
+        this.getRootPane().getActionMap().put("Esc", new AbstractAction(){
+        private static final long serialVersionUID = 1L;
+        @Override
+        public void actionPerformed(ActionEvent arg0) {
+        BT_Sair.doClick();
+        }
+        });
+        this.getRootPane().getActionMap().put("Confirmar", new AbstractAction(){
+        private static final long serialVersionUID = 1L;
+        @Override
+        public void actionPerformed(ActionEvent arg0) {
+        BT_Confirmar.doClick();     
+        }
+        });   
+    }
+    
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton BT_Confirmar;
     private javax.swing.JButton BT_Procurar;
     private javax.swing.JButton BT_Sair;
     private javax.swing.JButton BT_Salvar;
     private javax.swing.JComboBox JCB_Motivo;
+    private javax.swing.JLabel JL_Campos;
     private javax.swing.JLabel JL_Cod_Produto;
     private javax.swing.JLabel JL_Descricao;
     private javax.swing.JLabel JL_Estoque;
     private javax.swing.JLabel JL_Lote;
     private javax.swing.JLabel JL_Nova_Quant;
+    private javax.swing.JLabel JL_Quant_Itens1;
+    private javax.swing.JLabel JL_Un;
     private javax.swing.JLabel JL_Validade;
     private javax.swing.JTextField JTF_Obs;
     private javax.swing.JTextField JTF_Pesquisa;
     private javax.swing.JTextField JTF_Quantidade;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
+    private javax.swing.JLabel jLabel12;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;

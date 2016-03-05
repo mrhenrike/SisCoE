@@ -78,7 +78,7 @@ public final void Metodo(){
         JTF_Mensagem.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
 
         jLabel5.setForeground(new java.awt.Color(153, 153, 153));
-        jLabel5.setText("Copyright © 2015 SisCoE - Todos os direitos reservados");
+        jLabel5.setText("Copyright © 2015 - 2016 SisCoE - Todos os direitos reservados");
 
         jLabel2.setFont(new java.awt.Font("Tahoma", 0, 20)); // NOI18N
         jLabel2.setText("SisCoE - Sistema de Controle de Estoque");
@@ -94,9 +94,9 @@ public final void Metodo(){
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                         .addComponent(JTF_Mensagem, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 314, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addComponent(jSeparator2)
-                        .addComponent(jLabel2, javax.swing.GroupLayout.DEFAULT_SIZE, 397, Short.MAX_VALUE))
+                        .addComponent(jLabel2, javax.swing.GroupLayout.DEFAULT_SIZE, 397, Short.MAX_VALUE)
+                        .addComponent(jLabel5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                     .addComponent(jProgressBar1, javax.swing.GroupLayout.DEFAULT_SIZE, 399, Short.MAX_VALUE))
                 .addGap(20, 20, 20)
                 .addComponent(jLabel1)

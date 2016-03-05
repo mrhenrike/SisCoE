@@ -17,8 +17,8 @@ public class Controle_Ajuste_Estoque {
     public Modelo_Ajuste_Estoque Inserir_Ajuste_Estoque(Modelo_Ajuste_Estoque ObjModeloAjuste, int id_usuario, int id_prod){
         ObjConecta.Conectar();
         
-        String sql = "insert into ajuste_estoque (motivo, observacao, quantidade, produto_id_produto, lote_estoque_id_lote, usuario_id_usuario, situacao_ajuste) "
-                + "values(?,?,?,?,?,?,?)";
+        String sql = "insert into ajuste_estoque (motivo, observacao, quantidade, produto_id_produto, lote_estoque_id_lote, usuario_id_usuario, situacao_ajuste, data_ajuste) "
+                + "values(?,?,?,?,?,?,?,?)";
             try {                
                 try(PreparedStatement stmt = ObjConecta.conn.prepareStatement(sql))
                 {
@@ -30,6 +30,7 @@ public class Controle_Ajuste_Estoque {
                         stmt.setInt   (5, ObjModeloAjuste.getLote_id_lote());
                         stmt.setInt   (6, id_usuario);
                         stmt.setString(7, "CONFIRMADA");
+                        stmt.setString(8, ObjModeloAjuste.getData_ajuste());
                     }
                     stmt.execute();
                     stmt.close();

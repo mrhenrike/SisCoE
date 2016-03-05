@@ -15,16 +15,24 @@ import GUI_Dialogs_Usuario.Inf_Dados_Salvos_Edit;
 import GUI_Dialogs_Usuario.Inf_Preencher_Campos_Edit;
 import GUI_Dialogs_Usuario.Inf_Senhas_Diferentes_Edit;
 import GUI_Dialogs_Usuario.Inf_Senhas_Minima_Edit;
+import static GUI_Frames.Tela_Principal.PermissaoLogado;
 import Metodos.Formatacao;
 import Metodos.Metodos;
 import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.event.ActionEvent;
+import java.awt.event.KeyEvent;
 import java.beans.PropertyVetoException;
 import java.sql.SQLException;
 import java.text.ParseException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.AbstractAction;
+import javax.swing.InputMap;
+import javax.swing.JComponent;
 import javax.swing.JFormattedTextField;
+import javax.swing.JOptionPane;
+import javax.swing.KeyStroke;
 
 
 public class Tela_Cadastro_Usuario_Edit extends javax.swing.JInternalFrame {
@@ -76,6 +84,7 @@ public class Tela_Cadastro_Usuario_Edit extends javax.swing.JInternalFrame {
     
     public Tela_Cadastro_Usuario_Edit() {
         initComponents();
+        Controle_Acesso();
        
         Habilita_Campos(false);        
         JTF_Cod.setEnabled(false);
@@ -86,7 +95,7 @@ public class Tela_Cadastro_Usuario_Edit extends javax.swing.JInternalFrame {
         JTF_Senha_Conf.setDocument(ObjFormat.new Format_Campo_Senha(50));
         JTF_Nome.setDocument(ObjFormat.new Format_Geral(100));
         JTF_Nome_Us.setDocument(ObjFormat.new Format_Geral(50));
-        
+        Setar_Atalho_BT();
     }
 
     @SuppressWarnings("unchecked")
@@ -118,6 +127,7 @@ public class Tela_Cadastro_Usuario_Edit extends javax.swing.JInternalFrame {
         BT_Editar = new javax.swing.JButton();
         JL_Caracteres = new javax.swing.JLabel();
         JL_Campos = new javax.swing.JLabel();
+        JL_Quant_Itens1 = new javax.swing.JLabel();
 
         setBorder(javax.swing.BorderFactory.createCompoundBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.LOWERED), javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED)));
         setIconifiable(true);
@@ -335,6 +345,9 @@ public class Tela_Cadastro_Usuario_Edit extends javax.swing.JInternalFrame {
         JL_Campos.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
         JL_Campos.setText("* Campos Obrigatórios");
 
+        JL_Quant_Itens1.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        JL_Quant_Itens1.setText("Esc - Voltar | F7 - Editar | F10 - Salvar");
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -351,11 +364,14 @@ public class Tela_Cadastro_Usuario_Edit extends javax.swing.JInternalFrame {
                         .addComponent(BT_Sair, javax.swing.GroupLayout.PREFERRED_SIZE, 160, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addComponent(JP_Dados_Pess, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(JP_Dados_Us, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(JL_Caracteres)
-                            .addComponent(JL_Campos))
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(JP_Dados_Us, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(JL_Caracteres)
+                                    .addComponent(JL_Campos)))
+                            .addComponent(JL_Quant_Itens1))
                         .addGap(0, 104, Short.MAX_VALUE)))
                 .addContainerGap())
         );
@@ -371,7 +387,9 @@ public class Tela_Cadastro_Usuario_Edit extends javax.swing.JInternalFrame {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(JL_Caracteres))
                     .addComponent(JP_Dados_Us, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 36, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(JL_Quant_Itens1)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 13, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(BT_Salvar, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(BT_Editar, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -396,17 +414,16 @@ public class Tela_Cadastro_Usuario_Edit extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_BT_SalvarActionPerformed
 
     private void JTF_CelularFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_JTF_CelularFocusGained
-        Mascara_Celular(JTF_Celular,"(##) #####-####");
+        Mascara_Celular(JTF_Celular,"(##) #####-####");        
     }//GEN-LAST:event_JTF_CelularFocusGained
 
     private void JTF_CelularFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_JTF_CelularFocusLost
         if(JTF_Celular.getText().equalsIgnoreCase("(  )      -    ")){
-            Mascara_Celular(JTF_Celular,"");
-        }else{}
+            Mascara_Celular(JTF_Celular,"");        
+        }
     }//GEN-LAST:event_JTF_CelularFocusLost
 
     private void BT_SairActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BT_SairActionPerformed
-        
         if(Habilita ==true)
             {
                 Sair_Sem_Salvar();
@@ -653,6 +670,51 @@ public void Virar_BT_Cancelar(){
     BT_Sair.setToolTipText("Clique Para Cancelar Ou Pressione Alt + C");
     BT_Sair.setPressedIcon(new javax.swing.ImageIcon(getClass().getResource("/Icones/Bt Cancelar Press.png"))); 
 }
+ final void Controle_Acesso(){
+    if(PermissaoLogado.equalsIgnoreCase("USUÁRIO")){
+            BT_Editar.setEnabled(false);
+        }else{
+            BT_Editar.setEnabled(!false);
+        }
+    }
+ 
+ public final void Setar_Atalho_BT(){
+        //metodo para pegar a tecla pressionada
+        InputMap inputMap = this.getRootPane().getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW);
+        inputMap.put(KeyStroke.getKeyStroke(KeyEvent.VK_ESCAPE, 0),"Esc");
+        this.getRootPane().setInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW, inputMap);
+        
+        InputMap inputMap2 = this.getRootPane().getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW);
+        inputMap2.put(KeyStroke.getKeyStroke(KeyEvent.VK_F7, 0),"Editar");
+        this.getRootPane().setInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW, inputMap2);
+        
+        InputMap inputMap4 = this.getRootPane().getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW);
+        inputMap4.put(KeyStroke.getKeyStroke(KeyEvent.VK_F10, 0),"Salvar");
+        this.getRootPane().setInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW, inputMap4);
+        //método para executar
+         this.getRootPane().getActionMap().put("Salvar", new AbstractAction(){
+        private static final long serialVersionUID = 1L;
+        @Override
+        public void actionPerformed(ActionEvent arg0) {
+        BT_Salvar.doClick();
+        }
+        });
+        this.getRootPane().getActionMap().put("Editar", new AbstractAction(){
+        private static final long serialVersionUID = 1L;
+        @Override
+        public void actionPerformed(ActionEvent arg0) {
+        BT_Editar.doClick();
+        }
+        });
+        this.getRootPane().getActionMap().put("Esc", new AbstractAction(){
+        private static final long serialVersionUID = 1L;
+        @Override
+        public void actionPerformed(ActionEvent arg0) {
+        BT_Sair.doClick();
+        }
+        });
+        
+    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton BT_Editar;
@@ -663,6 +725,7 @@ public void Virar_BT_Cancelar(){
     private javax.swing.JComboBox JCB_Situacao;
     private javax.swing.JLabel JL_Campos;
     private javax.swing.JLabel JL_Caracteres;
+    private javax.swing.JLabel JL_Quant_Itens1;
     private javax.swing.JLabel JL_Senha;
     private javax.swing.JLabel JL_Senha_Conf;
     private javax.swing.JPanel JP_Dados_Pess;

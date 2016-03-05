@@ -35,7 +35,7 @@ public class Tela_Login extends javax.swing.JDialog {
         setLocationRelativeTo(TP);
         setResizable(false);
         setSize(670,350);
-        Setar_Atalho_BT_OK();
+        Setar_Atalho_BT();
         JTF_LG_Usuario.setDocument(ObjFormat.new Format_Geral(50));
         JPF_LG_Senha.setDocument(ObjFormat.new Format_Geral(50));
         //JTF_LG_Usuario.setText("MÁRISON");
@@ -92,21 +92,11 @@ public class Tela_Login extends javax.swing.JDialog {
 
         JCB_LG_Permissão.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         JCB_LG_Permissão.setModel(new javax.swing.DefaultComboBoxModel(new String[] { " ", "ADMINISTRADOR", "USUÁRIO" }));
-        JCB_LG_Permissão.setToolTipText("Selecione O Tipo De Permissão Ao Sistema");
+        JCB_LG_Permissão.setToolTipText("Selecione O Tipo De Permissão De Acesso Ao Sistema");
 
         JTF_LG_Usuario.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        JTF_LG_Usuario.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                JTF_LG_UsuarioActionPerformed(evt);
-            }
-        });
 
         JPF_LG_Senha.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        JPF_LG_Senha.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                JPF_LG_SenhaActionPerformed(evt);
-            }
-        });
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
@@ -223,14 +213,6 @@ public class Tela_Login extends javax.swing.JDialog {
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
-    private void JTF_LG_UsuarioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_JTF_LG_UsuarioActionPerformed
-        JPF_LG_Senha.requestFocus();
-    }//GEN-LAST:event_JTF_LG_UsuarioActionPerformed
-
-    private void JPF_LG_SenhaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_JPF_LG_SenhaActionPerformed
-        BT_Ok.requestFocus();
-    }//GEN-LAST:event_JPF_LG_SenhaActionPerformed
-
     private void BT_OkActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BT_OkActionPerformed
         ObjControlUser.Acesso_Adm("SISTEMA");
         if((JTF_LG_Usuario.getText().equalsIgnoreCase(ObjControlUser.Adm_Login))&&(JCB_LG_Permissão.getSelectedItem().equals("ADMINISTRADOR"))
@@ -248,7 +230,7 @@ public class Tela_Login extends javax.swing.JDialog {
            if(ObjControlUser.ControleAcesso==true){
                 dispose();
                 TP.Setar_Usuario(JTF_LG_Usuario.getText(), JCB_LG_Permissão.getSelectedItem().toString());
-                //TP.Controle_De_Acesso();
+                TP.Controle_De_Acesso();
                 Abaixo_Do_Minimo();
                 Abaixo_De_30_Dias();
                 Produto_Vencido();
@@ -333,15 +315,28 @@ public class Tela_Login extends javax.swing.JDialog {
         ObjUserInvalido = new Inf_Senha_Usuario_Invalido(this, true);
         ObjUserInvalido.setVisible(true);
     }
-    public final void Setar_Atalho_BT_OK(){
+    public final void Setar_Atalho_BT(){
+        //metodo para pegar a tecla pressionada
         InputMap inputMap = this.getRootPane().getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW);
-        inputMap.put(KeyStroke.getKeyStroke(KeyEvent.VK_ENTER, 0),"Tecla");
+        inputMap.put(KeyStroke.getKeyStroke(KeyEvent.VK_ESCAPE, 0),"Tecla Esc");
         this.getRootPane().setInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW, inputMap);
-        this.getRootPane().getActionMap().put("Tecla", new AbstractAction(){
-        private static final long serialVersionUID = 1L;
+        
+        InputMap inputMap2 = this.getRootPane().getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW);
+        inputMap2.put(KeyStroke.getKeyStroke(KeyEvent.VK_ENTER, 0),"Tecla Enter");
+        this.getRootPane().setInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW, inputMap2);
+        //método para executar
+        this.getRootPane().getActionMap().put("Tecla Enter", new AbstractAction(){
+        private static final long serialVersionUID = 2L;
         @Override
         public void actionPerformed(ActionEvent arg0) {
         BT_Ok.doClick();
+    }
+    });
+        this.getRootPane().getActionMap().put("Tecla Esc", new AbstractAction(){
+        private static final long serialVersionUID = 2L;
+        @Override
+        public void actionPerformed(ActionEvent arg0) {
+        BT_Cancelar.doClick();
     }
     });
     }

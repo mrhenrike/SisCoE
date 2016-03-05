@@ -13,13 +13,19 @@ import Metodos.Formatacao;
 import Metodos.Pintar_Tabela_Padrao;
 import java.awt.Dimension;
 import java.awt.HeadlessException;
+import java.awt.event.ActionEvent;
+import java.awt.event.KeyEvent;
 import java.beans.PropertyVetoException;
 import java.sql.SQLException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import javax.swing.AbstractAction;
+import javax.swing.InputMap;
+import javax.swing.JComponent;
 import javax.swing.JOptionPane;
+import javax.swing.KeyStroke;
 import javax.swing.ListSelectionModel;
 
 // @author Márison Tamiarana
@@ -73,6 +79,7 @@ public class Tela_Consulta_Saida extends javax.swing.JInternalFrame {
         JTF_Num_Saida.setDocument(ObjFormat.new Format_Apenas_Numero(50));
         Preencher_CB_Pesquisa();    
         BT_Relatorio.setEnabled(false);
+        Setar_Atalho_BT();
     }
 
     
@@ -97,10 +104,11 @@ public class Tela_Consulta_Saida extends javax.swing.JInternalFrame {
         jScrollPane2 = new javax.swing.JScrollPane();
         JTB_Saidas = new javax.swing.JTable();
         BT_Relatorio = new javax.swing.JButton();
+        JL_Quant_Itens1 = new javax.swing.JLabel();
 
         setBorder(javax.swing.BorderFactory.createCompoundBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.LOWERED), javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED)));
         setIconifiable(true);
-        setTitle("Consulta De Saídas");
+        setTitle("Consulta De Saída");
         setFrameIcon(new javax.swing.ImageIcon(getClass().getResource("/Icones_Gerais/Relatório - Saida 24x24.png"))); // NOI18N
         setMaximumSize(new java.awt.Dimension(1000, 560));
         setMinimumSize(new java.awt.Dimension(1000, 560));
@@ -125,8 +133,10 @@ public class Tela_Consulta_Saida extends javax.swing.JInternalFrame {
 
         jPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createCompoundBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.LOWERED), javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED)), "Tipo De Pesquisa", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 0, 12))); // NOI18N
 
+        JD_Inicial.setToolTipText("Selecione A Data Inicial");
         JD_Inicial.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
 
+        JD_Final.setToolTipText("Selecione A Data Final");
         JD_Final.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
 
         jLabel1.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
@@ -143,7 +153,7 @@ public class Tela_Consulta_Saida extends javax.swing.JInternalFrame {
         });
 
         BT_Consultar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icones_Gerais/Search_24x24.png"))); // NOI18N
-        BT_Consultar.setToolTipText("Clique Para Pesquisar Um Produto");
+        BT_Consultar.setToolTipText("Clique Para Pesquisar O Tipo Da Saída");
         BT_Consultar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 BT_ConsultarActionPerformed(evt);
@@ -263,6 +273,11 @@ public class Tela_Consulta_Saida extends javax.swing.JInternalFrame {
                 JTB_SaidasMouseClicked(evt);
             }
         });
+        JTB_Saidas.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                JTB_SaidasKeyReleased(evt);
+            }
+        });
         jScrollPane2.setViewportView(JTB_Saidas);
 
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
@@ -289,6 +304,9 @@ public class Tela_Consulta_Saida extends javax.swing.JInternalFrame {
             }
         });
 
+        JL_Quant_Itens1.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        JL_Quant_Itens1.setText("Esc - Sair | F3 - Consultar | F11 - Relatório");
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -298,7 +316,8 @@ public class Tela_Consulta_Saida extends javax.swing.JInternalFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jPanel2, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addGap(0, 0, Short.MAX_VALUE)
+                        .addComponent(JL_Quant_Itens1)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(BT_Relatorio, javax.swing.GroupLayout.PREFERRED_SIZE, 160, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(27, 27, 27)
                         .addComponent(BT_Sair, javax.swing.GroupLayout.PREFERRED_SIZE, 160, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -318,9 +337,11 @@ public class Tela_Consulta_Saida extends javax.swing.JInternalFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(BT_Sair, javax.swing.GroupLayout.DEFAULT_SIZE, 50, Short.MAX_VALUE)
-                    .addComponent(BT_Relatorio, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                        .addComponent(BT_Sair, javax.swing.GroupLayout.DEFAULT_SIZE, 50, Short.MAX_VALUE)
+                        .addComponent(BT_Relatorio, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(JL_Quant_Itens1))
                 .addContainerGap())
         );
 
@@ -480,6 +501,17 @@ public class Tela_Consulta_Saida extends javax.swing.JInternalFrame {
         if(Controle==3){ObjRelatEntrada.Relatorio_Entrada_Periodo(JD_Inicial, JD_Final);}
         if(Controle==4){ObjRelatEntrada.Relatorio_Entrada_N_Entrada(JTF_Num_Saida);}
     }//GEN-LAST:event_BT_RelatorioActionPerformed
+
+    private void JTB_SaidasKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_JTB_SaidasKeyReleased
+        int Sel_Saida = JTB_Saidas.getSelectedRow();
+            if (Sel_Saida >= 0) {
+                Object resultado = JTB_Saidas.getValueAt(JTB_Saidas.getSelectedRow(), 0);
+                Preencher_Tabela_Itens_Saida("select * from saida inner join saida_itens "
+                        + "on saida.id_saida=saida_itens.saida_id_saida inner join produto "
+                        + "on produto.id_produto=saida_itens.produto_id_produto where saida_itens.saida_id_saida="+resultado+"");
+            } 
+                
+    }//GEN-LAST:event_JTB_SaidasKeyReleased
 
     public void Testar_Campos(){
     try{
@@ -665,7 +697,7 @@ public class Tela_Consulta_Saida extends javax.swing.JInternalFrame {
     public final void Preencher_Tabela_Itens_Saida(String SQL) {
         ArrayList dados = new ArrayList();
 
-        String[] Colunas = new String[]{"Código", "Descrição","Quantidade","Lote","Validade", "Devolução"};//Seta os indices da tabela
+        String[] Colunas = new String[]{"Código", "Descrição","Quantidade","Un","Lote","Validade", "Devolução"};//Seta os indices da tabela
         ObjConecta_2.Conectar();
         ObjConecta_2.ExecutaSQL(SQL);
         try {
@@ -679,7 +711,7 @@ public class Tela_Consulta_Saida extends javax.swing.JInternalFrame {
                 if(validade != null){data_val = String.valueOf(new SimpleDateFormat("dd-MM-yyyy").format(ObjConecta_2.rs.getDate("validade")));}
                 
                 dados.add(new Object[]{ObjConecta_2.rs.getInt("produto_id_produto"),ObjConecta_2.rs.getString("produto.descricao"),
-                ObjConecta_2.rs.getDouble("quantidade"), lote, data_val, ObjConecta_2.rs.getString("solicita_devolucao")});
+                ObjConecta_2.rs.getDouble("quantidade"),ObjConecta_2.rs.getString("unidade"), lote, data_val, ObjConecta_2.rs.getString("solicita_devolucao")});
             } while (ObjConecta_2.rs.next());
             ObjConecta_2.Desconecta();
         } catch (SQLException ex) {
@@ -690,16 +722,18 @@ public class Tela_Consulta_Saida extends javax.swing.JInternalFrame {
         JTB_Itens_Saidas.setDefaultRenderer(Object.class, new Pintar_Tabela_Padrao());
         JTB_Itens_Saidas.getColumnModel().getColumn(0).setPreferredWidth(100);//Tamanho da coluna
         JTB_Itens_Saidas.getColumnModel().getColumn(0).setResizable(false);//Redimensionavel
-        JTB_Itens_Saidas.getColumnModel().getColumn(1).setPreferredWidth(300);
+        JTB_Itens_Saidas.getColumnModel().getColumn(1).setPreferredWidth(400);
         JTB_Itens_Saidas.getColumnModel().getColumn(1).setResizable(false);
         JTB_Itens_Saidas.getColumnModel().getColumn(2).setPreferredWidth(100);
         JTB_Itens_Saidas.getColumnModel().getColumn(2).setResizable(false);
-        JTB_Itens_Saidas.getColumnModel().getColumn(3).setPreferredWidth(100);
+        JTB_Itens_Saidas.getColumnModel().getColumn(3).setPreferredWidth(50);
         JTB_Itens_Saidas.getColumnModel().getColumn(3).setResizable(false);
         JTB_Itens_Saidas.getColumnModel().getColumn(4).setPreferredWidth(100);
         JTB_Itens_Saidas.getColumnModel().getColumn(4).setResizable(false);
         JTB_Itens_Saidas.getColumnModel().getColumn(5).setPreferredWidth(100);
         JTB_Itens_Saidas.getColumnModel().getColumn(5).setResizable(false);
+        JTB_Itens_Saidas.getColumnModel().getColumn(6).setPreferredWidth(100);
+        JTB_Itens_Saidas.getColumnModel().getColumn(6).setResizable(false);
         JTB_Itens_Saidas.getTableHeader().setReorderingAllowed(false);//Reordenar alocação
         JTB_Itens_Saidas.setAutoResizeMode(JTB_Itens_Saidas.AUTO_RESIZE_ALL_COLUMNS);//Tabela Redimensionavel(todas colunas)
         JTB_Itens_Saidas.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);//Seleciona uma unica linha da tabela
@@ -739,6 +773,44 @@ public class Tela_Consulta_Saida extends javax.swing.JInternalFrame {
        ObjNaoExisteSaida = new Inf_Nao_Existe_Saida(this, true);
        ObjNaoExisteSaida.setVisible(true);
     }
+    
+    public final void Setar_Atalho_BT(){
+        //metodo para pegar a tecla pressionada
+        InputMap inputMap = this.getRootPane().getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW);
+        inputMap.put(KeyStroke.getKeyStroke(KeyEvent.VK_ESCAPE, 0),"Esc");
+        this.getRootPane().setInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW, inputMap);
+        
+        InputMap inputMap3 = this.getRootPane().getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW);
+        inputMap3.put(KeyStroke.getKeyStroke(KeyEvent.VK_F11, 0),"Relatorio");
+        this.getRootPane().setInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW, inputMap3);
+        
+        InputMap inputMap4 = this.getRootPane().getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW);
+        inputMap4.put(KeyStroke.getKeyStroke(KeyEvent.VK_F3, 0),"Consultar");
+        this.getRootPane().setInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW, inputMap4);
+                
+        //método para executar
+         this.getRootPane().getActionMap().put("Consultar", new AbstractAction(){
+        private static final long serialVersionUID = 1L;
+        @Override
+        public void actionPerformed(ActionEvent arg0) {
+        BT_Consultar.doClick();
+        }
+        });        
+        this.getRootPane().getActionMap().put("Esc", new AbstractAction(){
+        private static final long serialVersionUID = 1L;
+        @Override
+        public void actionPerformed(ActionEvent arg0) {
+        BT_Sair.doClick();
+        }
+        }); 
+        this.getRootPane().getActionMap().put("Relatorio", new AbstractAction(){
+        private static final long serialVersionUID = 1L;
+        @Override
+        public void actionPerformed(ActionEvent arg0) {
+        BT_Relatorio.doClick();
+        }
+        }); 
+    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton BT_Consultar;
@@ -747,6 +819,7 @@ public class Tela_Consulta_Saida extends javax.swing.JInternalFrame {
     private javax.swing.JComboBox JCB_Tipo_Pesquisa;
     private com.toedter.calendar.JDateChooser JD_Final;
     private com.toedter.calendar.JDateChooser JD_Inicial;
+    private javax.swing.JLabel JL_Quant_Itens1;
     private javax.swing.JTable JTB_Itens_Saidas;
     private javax.swing.JTable JTB_Saidas;
     private javax.swing.JTextField JTF_Num_Saida;

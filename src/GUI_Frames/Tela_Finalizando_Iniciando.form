@@ -68,10 +68,10 @@
                   <EmptySpace max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="0" max="-2" attributes="0">
                       <Component id="JTF_Mensagem" alignment="1" max="32767" attributes="0"/>
-                      <Component id="jLabel5" alignment="0" min="-2" pref="314" max="-2" attributes="0"/>
                       <Component id="jSeparator2" alignment="0" max="32767" attributes="0"/>
                       <Component id="jLabel2" alignment="0" pref="397" max="32767" attributes="0"/>
                       <Component id="jProgressBar1" max="32767" attributes="0"/>
+                      <Component id="jLabel5" alignment="0" max="32767" attributes="0"/>
                   </Group>
                   <EmptySpace type="separate" max="-2" attributes="0"/>
                   <Component id="jLabel1" min="-2" max="-2" attributes="0"/>
@@ -112,7 +112,7 @@
             <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
               <Color blue="99" green="99" red="99" type="rgb"/>
             </Property>
-            <Property name="text" type="java.lang.String" value="Copyright &#xa9; 2015 SisCoE - Todos os direitos reservados"/>
+            <Property name="text" type="java.lang.String" value="Copyright &#xa9; 2015 - 2016 SisCoE - Todos os direitos reservados"/>
           </Properties>
         </Component>
         <Component class="javax.swing.JLabel" name="jLabel2">

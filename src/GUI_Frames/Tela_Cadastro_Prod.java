@@ -9,17 +9,24 @@ import Conexao.Controle_Entrada_Produto;
 import Conexao.Controle_Produto;
 import GUI_Dialogs_Produto.Conf_Sair_Sem_Salvar_Prod;
 import GUI_Dialogs_Produto.Conf_Salvar_Prod;
+import GUI_Dialogs_Produto.Inf_Cadastro_Existente_Prod;
 import GUI_Dialogs_Produto.Inf_Dados_Nao_Salvos_Prod;
 import GUI_Dialogs_Produto.Inf_Dados_Salvos_Prod;
 import GUI_Dialogs_Produto.Inf_Preencher_Campos_Prod;
 import Metodos.Formatacao;
 import java.awt.Dimension;
+import java.awt.event.ActionEvent;
+import java.awt.event.KeyEvent;
 import java.beans.PropertyVetoException;
 import java.sql.SQLException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.AbstractAction;
+import javax.swing.InputMap;
+import javax.swing.JComponent;
+import javax.swing.KeyStroke;
 
 
 public class Tela_Cadastro_Prod extends javax.swing.JInternalFrame {
@@ -52,6 +59,7 @@ public class Tela_Cadastro_Prod extends javax.swing.JInternalFrame {
     private static Inf_Dados_Nao_Salvos_Prod ObjDadosNaoSalvos;
     private static Conf_Salvar_Prod ObjConfSalvar;
     private static Conf_Sair_Sem_Salvar_Prod ObjSairSemSalvar;
+    private static Inf_Cadastro_Existente_Prod ObjCadExistente;
     
     Controle_Categoria ObjControlCat = new Controle_Categoria();
     Modelo_Produto ObjModeloProd = new Modelo_Produto();
@@ -77,7 +85,7 @@ public class Tela_Cadastro_Prod extends javax.swing.JInternalFrame {
         Preencher_CB_Macro();
         Preencher_CB_Unidade();
         
-        
+        Setar_Atalho_BT();
     }
 
     @SuppressWarnings("unchecked")
@@ -112,6 +120,7 @@ public class Tela_Cadastro_Prod extends javax.swing.JInternalFrame {
         BT_Salvar = new javax.swing.JButton();
         BT_Consulta = new javax.swing.JButton();
         JL_Campos = new javax.swing.JLabel();
+        JL_Quant_Itens1 = new javax.swing.JLabel();
 
         setBorder(javax.swing.BorderFactory.createCompoundBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.LOWERED), javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED)));
         setIconifiable(true);
@@ -359,6 +368,9 @@ public class Tela_Cadastro_Prod extends javax.swing.JInternalFrame {
         JL_Campos.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
         JL_Campos.setText("* Campos Obrigatórios");
 
+        JL_Quant_Itens1.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        JL_Quant_Itens1.setText("Esc - Sair | F3 - Consultar | F10 - Salvar");
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -369,14 +381,15 @@ public class Tela_Cadastro_Prod extends javax.swing.JInternalFrame {
                     .addComponent(JP_Descricao, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(JP_Controle, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addGap(0, 0, Short.MAX_VALUE)
+                        .addComponent(JL_Campos)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(BT_Salvar, javax.swing.GroupLayout.PREFERRED_SIZE, 160, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
                         .addComponent(BT_Consulta, javax.swing.GroupLayout.PREFERRED_SIZE, 161, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
                         .addComponent(BT_Sair, javax.swing.GroupLayout.PREFERRED_SIZE, 160, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(JL_Campos)
+                        .addComponent(JL_Quant_Itens1)
                         .addGap(0, 0, Short.MAX_VALUE)))
                 .addContainerGap())
         );
@@ -387,17 +400,19 @@ public class Tela_Cadastro_Prod extends javax.swing.JInternalFrame {
                 .addComponent(JP_Descricao, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addComponent(JP_Controle, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(2, 2, 2)
-                .addComponent(JL_Campos)
-                .addGap(1, 1, 1)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(BT_Salvar, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(BT_Consulta, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(BT_Sair, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(JL_Quant_Itens1)
+                .addGap(4, 4, 4)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                        .addComponent(BT_Salvar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(BT_Consulta, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(BT_Sair, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(JL_Campos))
                 .addContainerGap())
         );
 
-        setBounds(20, 20, 805, 347);
+        setBounds(20, 20, 805, 355);
     }// </editor-fold>//GEN-END:initComponents
 
     private void JCB_CategoriaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_JCB_CategoriaActionPerformed
@@ -455,7 +470,9 @@ public class Tela_Cadastro_Prod extends javax.swing.JInternalFrame {
     JCB_Unidade.removeAllItems();
     JCB_Unidade.addItem("");
     JCB_Unidade.addItem("CM");
+    JCB_Unidade.addItem("G");    
     JCB_Unidade.addItem("L");
+    JCB_Unidade.addItem("MG");
     JCB_Unidade.addItem("ML");
     JCB_Unidade.addItem("MM");
     JCB_Unidade.addItem("UN");
@@ -486,7 +503,13 @@ public class Tela_Cadastro_Prod extends javax.swing.JInternalFrame {
         {
             Mostrar_Preencher_Campos(); 
         }else{
-            Mostrar_Conf_Salvar();
+            ObjControlProd.Testar_Existente(JTF_Descricao);
+            if(ObjControlProd.Controle_Existente == true){
+                Mostrar_Cadastro_Existente();
+                ObjControlProd.Controle_Existente = false;
+            }else{
+                Mostrar_Conf_Salvar();
+            }
         }
     }
     
@@ -600,6 +623,49 @@ public class Tela_Cadastro_Prod extends javax.swing.JInternalFrame {
         ObjCadCategoria = new Tela_Cadastro_Categoria_DL(this, true);
         ObjCadCategoria.setVisible(true);
     }
+    void Mostrar_Cadastro_Existente(){
+        ObjCadExistente = new Inf_Cadastro_Existente_Prod(this, true);
+        ObjCadExistente.setVisible(true);
+    }
+    
+    public final void Setar_Atalho_BT(){
+        //metodo para pegar a tecla pressionada
+        InputMap inputMap = this.getRootPane().getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW);
+        inputMap.put(KeyStroke.getKeyStroke(KeyEvent.VK_ESCAPE, 0),"Esc");
+        this.getRootPane().setInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW, inputMap);
+        
+        InputMap inputMap4 = this.getRootPane().getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW);
+        inputMap4.put(KeyStroke.getKeyStroke(KeyEvent.VK_F10, 0),"Salvar");
+        this.getRootPane().setInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW, inputMap4);
+        
+        InputMap inputMap3 = this.getRootPane().getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW);
+        inputMap3.put(KeyStroke.getKeyStroke(KeyEvent.VK_F3, 0),"Consultar");
+        this.getRootPane().setInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW, inputMap3);
+                
+        //método para executar
+         this.getRootPane().getActionMap().put("Salvar", new AbstractAction(){
+        private static final long serialVersionUID = 1L;
+        @Override
+        public void actionPerformed(ActionEvent arg0) {
+        BT_Salvar.doClick();
+        }
+        });        
+        this.getRootPane().getActionMap().put("Esc", new AbstractAction(){
+        private static final long serialVersionUID = 1L;
+        @Override
+        public void actionPerformed(ActionEvent arg0) {
+        BT_Sair.doClick();
+        }
+        }); 
+        this.getRootPane().getActionMap().put("Consultar", new AbstractAction(){
+        private static final long serialVersionUID = 1L;
+        @Override
+        public void actionPerformed(ActionEvent arg0) {
+        BT_Consulta.doClick();
+        }
+        }); 
+    }
+    
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton BT_Consulta;
     private javax.swing.JButton BT_Sair;
@@ -610,6 +676,7 @@ public class Tela_Cadastro_Prod extends javax.swing.JInternalFrame {
     private javax.swing.JComboBox JCB_Solicita_Lote;
     private javax.swing.JComboBox JCB_Unidade;
     private javax.swing.JLabel JL_Campos;
+    private javax.swing.JLabel JL_Quant_Itens1;
     private javax.swing.JPanel JP_Controle;
     private javax.swing.JPanel JP_Descricao;
     private com.toedter.calendar.JDateChooser JTF_Data_Cad;

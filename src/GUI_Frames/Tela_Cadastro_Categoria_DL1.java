@@ -18,11 +18,17 @@ import GUI_Dialogs_Categoria.Inf_Dados_Salvos_Categ1;
 import GUI_Dialogs_Categoria.Inf_Preencher_Campos_Categ1;
 import Metodos.Formatacao;
 import java.awt.HeadlessException;
+import java.awt.event.ActionEvent;
+import java.awt.event.KeyEvent;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.AbstractAction;
+import javax.swing.InputMap;
+import javax.swing.JComponent;
 import javax.swing.JTextField;
+import javax.swing.KeyStroke;
 import javax.swing.ListSelectionModel;
 
 
@@ -57,7 +63,7 @@ public class Tela_Cadastro_Categoria_DL1 extends javax.swing.JDialog {
         
         initComponents();
         setResizable(false);
-        setSize(725,470);
+        setSize(725,480);
         setLocationRelativeTo(ObjCadProd);
         Preencher_Tabela_Categoria("select * from categoria_produto order by categoria");
         JRB_Ativo.setSelected(true);
@@ -66,6 +72,7 @@ public class Tela_Cadastro_Categoria_DL1 extends javax.swing.JDialog {
         Desabilita_Alterar();
         JTF_Categoria.setDocument(ObjFormat.new Format_Geral(100));
         JTF_Desc_Alterar.setDocument(ObjFormat.new Format_Geral(100));
+        Setar_Atalho_BT();
     }
     
     
@@ -96,6 +103,8 @@ public class Tela_Cadastro_Categoria_DL1 extends javax.swing.JDialog {
         JTF_Desc_Alterar = new javax.swing.JTextField();
         JL_Situacao = new javax.swing.JLabel();
         JCB_Situacao = new javax.swing.JComboBox();
+        JL_Quant_Itens1 = new javax.swing.JLabel();
+        JL_Campos = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Cadastro De Categoria");
@@ -308,6 +317,12 @@ public class Tela_Cadastro_Categoria_DL1 extends javax.swing.JDialog {
                 .addContainerGap(16, Short.MAX_VALUE))
         );
 
+        JL_Quant_Itens1.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        JL_Quant_Itens1.setText("Esc - Sair | F7 - Editar | F10 - Salvar | F11 - Cancelar");
+
+        JL_Campos.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
+        JL_Campos.setText("* Campos Obrigatórios");
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -329,7 +344,11 @@ public class Tela_Cadastro_Categoria_DL1 extends javax.swing.JDialog {
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                         .addComponent(JP_TB_Categoria, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(JP_Organizar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(JP_Organizar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(JL_Quant_Itens1)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(JL_Campos, javax.swing.GroupLayout.PREFERRED_SIZE, 170, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -343,7 +362,11 @@ public class Tela_Cadastro_Categoria_DL1 extends javax.swing.JDialog {
                     .addComponent(JP_Organizar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addComponent(JP_Alterar_Dados, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
+                .addGap(7, 7, 7)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(JL_Quant_Itens1)
+                    .addComponent(JL_Campos))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                         .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
@@ -354,7 +377,7 @@ public class Tela_Cadastro_Categoria_DL1 extends javax.swing.JDialog {
                 .addContainerGap())
         );
 
-        setSize(new java.awt.Dimension(714, 442));
+        setSize(new java.awt.Dimension(714, 454));
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
@@ -745,7 +768,54 @@ public class Tela_Cadastro_Categoria_DL1 extends javax.swing.JDialog {
         });
     }
     
-   
+   public final void Setar_Atalho_BT(){
+        //metodo para pegar a tecla pressionada
+        InputMap inputMap = this.getRootPane().getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW);
+        inputMap.put(KeyStroke.getKeyStroke(KeyEvent.VK_ESCAPE, 0),"Esc");
+        this.getRootPane().setInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW, inputMap);
+        
+        InputMap inputMap2 = this.getRootPane().getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW);
+        inputMap2.put(KeyStroke.getKeyStroke(KeyEvent.VK_F7, 0),"Editar");
+        this.getRootPane().setInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW, inputMap2);
+        
+        InputMap inputMap3 = this.getRootPane().getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW);
+        inputMap3.put(KeyStroke.getKeyStroke(KeyEvent.VK_F11, 0),"Cancelar");
+        this.getRootPane().setInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW, inputMap3);
+        
+        InputMap inputMap4 = this.getRootPane().getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW);
+        inputMap4.put(KeyStroke.getKeyStroke(KeyEvent.VK_F10, 0),"Salvar");
+        this.getRootPane().setInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW, inputMap4);
+                
+        //método para executar
+         this.getRootPane().getActionMap().put("Salvar", new AbstractAction(){
+        private static final long serialVersionUID = 1L;
+        @Override
+        public void actionPerformed(ActionEvent arg0) {
+        BT_Salvar.doClick();
+        }
+        });
+        this.getRootPane().getActionMap().put("Editar", new AbstractAction(){
+        private static final long serialVersionUID = 1L;
+        @Override
+        public void actionPerformed(ActionEvent arg0) {
+        BT_Editar.doClick();
+        }
+        });
+        this.getRootPane().getActionMap().put("Esc", new AbstractAction(){
+        private static final long serialVersionUID = 1L;
+        @Override
+        public void actionPerformed(ActionEvent arg0) {
+        BT_Sair.doClick();
+        }
+        });
+        this.getRootPane().getActionMap().put("Cancelar", new AbstractAction(){
+        private static final long serialVersionUID = 1L;
+        @Override
+        public void actionPerformed(ActionEvent arg0) {
+        BT_Cancelar.doClick();     
+        }
+        });   
+    }
     
     
 
@@ -756,9 +826,11 @@ public class Tela_Cadastro_Categoria_DL1 extends javax.swing.JDialog {
     private javax.swing.JButton BT_Sair;
     private javax.swing.JButton BT_Salvar;
     private javax.swing.JComboBox JCB_Situacao;
+    private javax.swing.JLabel JL_Campos;
     private javax.swing.JLabel JL_Cod;
     private javax.swing.JLabel JL_Desc_Alterar;
     private javax.swing.JLabel JL_Descricao;
+    private javax.swing.JLabel JL_Quant_Itens1;
     private javax.swing.JLabel JL_Situacao;
     private javax.swing.JPanel JP_Alterar_Dados;
     private javax.swing.JPanel JP_Categoria;

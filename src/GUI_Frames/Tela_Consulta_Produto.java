@@ -9,12 +9,17 @@ import Conexao.Controle_Lote_Estoque;
 import Metodos.Formatacao;
 import Metodos.Pintar_Tabela;
 import java.awt.Dimension;
+import java.awt.event.ActionEvent;
 import java.awt.event.KeyEvent;
 import java.beans.PropertyVetoException;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.AbstractAction;
+import javax.swing.InputMap;
+import javax.swing.JComponent;
+import javax.swing.KeyStroke;
 import javax.swing.ListSelectionModel;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
@@ -67,7 +72,7 @@ public class Tela_Consulta_Produto extends javax.swing.JInternalFrame {
                 + JTF_Pesquisa.getText().toUpperCase() + "%' and produto.situacao='ATIVO' order by produto.descricao"); 
         
         ObjControlProd.Contar_Produtos_Ativos(JL_ItensCad);
-        
+        Setar_Atalho_BT();
         
         }
 
@@ -86,6 +91,7 @@ public class Tela_Consulta_Produto extends javax.swing.JInternalFrame {
         jLabel1 = new javax.swing.JLabel();
         JL_Prod = new javax.swing.JLabel();
         JL_ItensCad = new javax.swing.JLabel();
+        jLabel3 = new javax.swing.JLabel();
 
         setBorder(javax.swing.BorderFactory.createCompoundBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.LOWERED), javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED)));
         setIconifiable(true);
@@ -156,7 +162,7 @@ public class Tela_Consulta_Produto extends javax.swing.JInternalFrame {
 
             }
         ));
-        JTB_Consulta_Prod.setToolTipText("Clique Duas Vezes Em Uma Linha Para Editar  Ou Selecione Uma Linha E Clique No Botão Consultar (Alt+N)");
+        JTB_Consulta_Prod.setToolTipText("Clique Duas Vezes Em Uma Linha Para Consultar Ou Selecione Uma Linha E Clique No Botão Consultar (Alt+N)");
         JTB_Consulta_Prod.getTableHeader().setReorderingAllowed(false);
         JTB_Consulta_Prod.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
@@ -195,7 +201,7 @@ public class Tela_Consulta_Produto extends javax.swing.JInternalFrame {
 
         BT_Consulta.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icones/Bt Consultar.png"))); // NOI18N
         BT_Consulta.setMnemonic('n');
-        BT_Consulta.setToolTipText("Clique Para Consultar Ou Pressione Alt + N");
+        BT_Consulta.setToolTipText("Selecione Uma Linha E Clique Para Consultar Ou Pressione Alt + N");
         BT_Consulta.setPressedIcon(new javax.swing.ImageIcon(getClass().getResource("/Icones/Bt Consultar Press.png"))); // NOI18N
         BT_Consulta.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -203,27 +209,31 @@ public class Tela_Consulta_Produto extends javax.swing.JInternalFrame {
             }
         });
 
-        jLabel1.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        jLabel1.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         jLabel1.setText("Itens Cadastrados:");
 
         JL_Prod.setFont(new java.awt.Font("Tahoma", 0, 24)); // NOI18N
         JL_Prod.setForeground(new java.awt.Color(102, 102, 102));
 
-        JL_ItensCad.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        JL_ItensCad.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+
+        jLabel3.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        jLabel3.setText("ESC - Sair | F3 - Consultar | F5 - Atualizar | F6 - Cadastrar");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+            .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addGroup(layout.createSequentialGroup()
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                         .addGap(0, 0, Short.MAX_VALUE)
                         .addComponent(JL_Prod, javax.swing.GroupLayout.PREFERRED_SIZE, 777, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(jPanel1, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jScrollPane1)
-                    .addGroup(layout.createSequentialGroup()
+                    .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                         .addComponent(jLabel1)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(JL_ItensCad, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -243,15 +253,17 @@ public class Tela_Consulta_Produto extends javax.swing.JInternalFrame {
                 .addGap(1, 1, 1)
                 .addComponent(JL_Prod, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 327, Short.MAX_VALUE)
-                .addGap(18, 18, 18)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 316, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jLabel3)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(jLabel1)
                     .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                         .addComponent(BT_Sair, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 50, Short.MAX_VALUE)
                         .addComponent(BT_Cadastrar, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(BT_Consulta, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                    .addComponent(JL_ItensCad, javax.swing.GroupLayout.PREFERRED_SIZE, 17, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel1))
+                    .addComponent(JL_ItensCad, javax.swing.GroupLayout.PREFERRED_SIZE, 17, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap())
         );
 
@@ -332,7 +344,7 @@ public class Tela_Consulta_Produto extends javax.swing.JInternalFrame {
                 if (linha_selecionada >= 0)
                     {
                     
-                    if(evt.getKeyChar()==KeyEvent.VK_ENTER){
+                    if((evt.getKeyChar()==KeyEvent.VK_ENTER)){
                         Object resultado = (JTB_Consulta_Prod.getValueAt(JTB_Consulta_Prod.getSelectedRow(), 0));
                         Tela_Cadastro_Prod_Edit obj = new Tela_Cadastro_Prod_Edit();
                         Tela_Principal.getPainel().add(obj);
@@ -350,7 +362,14 @@ public class Tela_Consulta_Produto extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_JTB_Consulta_ProdKeyPressed
 
     private void JTB_Consulta_ProdKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_JTB_Consulta_ProdKeyReleased
-         JL_Prod.setText(String.valueOf(JTB_Consulta_Prod.getValueAt(JTB_Consulta_Prod.getSelectedRow(), 1)));
+        int linha_selecionada = JTB_Consulta_Prod.getSelectedRow();
+                if (linha_selecionada >= 0)
+                    {
+                    JL_Prod.setText(String.valueOf(JTB_Consulta_Prod.getValueAt(JTB_Consulta_Prod.getSelectedRow(), 1)));
+                    }
+                else{
+                    JL_Prod.setText("");
+                }
     }//GEN-LAST:event_JTB_Consulta_ProdKeyReleased
     
     //metodo para pesquisar ao digitar
@@ -427,6 +446,60 @@ public class Tela_Consulta_Produto extends javax.swing.JInternalFrame {
         JTB_Consulta_Prod.setAutoResizeMode(JTB_Consulta_Prod.AUTO_RESIZE_ALL_COLUMNS);//Tabela Redimensionavel(Todas colunas)
         JTB_Consulta_Prod.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);//Seleciona uma unica linha da tabela
     }
+    
+    
+    public final void Setar_Atalho_BT(){
+        //metodo para pegar a tecla pressionada
+        InputMap inputMap = this.getRootPane().getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW);
+        inputMap.put(KeyStroke.getKeyStroke(KeyEvent.VK_ESCAPE, 0),"Tecla Esc");
+        this.getRootPane().setInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW, inputMap);
+        
+        
+        InputMap inputMap2 = this.getRootPane().getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW);
+        inputMap2.put(KeyStroke.getKeyStroke(KeyEvent.VK_F5, 0),"Tecla F5");
+        this.getRootPane().setInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW, inputMap2);
+        //metodo para pegar a tecla pressionada
+        InputMap inputMap3 = this.getRootPane().getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW);
+        inputMap3.put(KeyStroke.getKeyStroke(KeyEvent.VK_F3, 0),"Tecla Consultar");
+        this.getRootPane().setInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW, inputMap3);
+        //metodo para pegar a tecla pressionada
+        InputMap inputMap4 = this.getRootPane().getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW);
+        inputMap4.put(KeyStroke.getKeyStroke(KeyEvent.VK_F6, 0),"Tecla Cadastrar");
+        this.getRootPane().setInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW, inputMap4);
+        
+        //método para executar
+        this.getRootPane().getActionMap().put("Tecla F5", new AbstractAction(){
+        private static final long serialVersionUID = 1L;
+        @Override
+        public void actionPerformed(ActionEvent arg0) {
+        Preencher_Tabela("select*from produto inner join categoria_produto "
+                + "on produto.Categoria_Produto_id_categoria = categoria_produto.id_categoria where produto.descricao like '%"    
+                + JTF_Pesquisa.getText().toUpperCase() + "%' and produto.situacao='ATIVO' order by produto.descricao"); 
+        JL_Prod.setText("");
+    }
+    });
+        this.getRootPane().getActionMap().put("Tecla Esc", new AbstractAction(){
+        private static final long serialVersionUID = 1L;
+        @Override
+        public void actionPerformed(ActionEvent arg0) {
+        BT_Sair.doClick();
+    }
+    });
+         this.getRootPane().getActionMap().put("Tecla Cadastrar", new AbstractAction(){
+        private static final long serialVersionUID = 1L;
+        @Override
+        public void actionPerformed(ActionEvent arg0) {
+           BT_Cadastrar.doClick();
+    }
+    });
+          this.getRootPane().getActionMap().put("Tecla Consultar", new AbstractAction(){
+        private static final long serialVersionUID = 1L;
+        @Override
+        public void actionPerformed(ActionEvent arg0) {
+            BT_Consulta.doClick();
+    }
+    });
+    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton BT_Cadastrar;
@@ -438,6 +511,7 @@ public class Tela_Consulta_Produto extends javax.swing.JInternalFrame {
     private javax.swing.JTextField JTF_Pesquisa;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
     // End of variables declaration//GEN-END:variables

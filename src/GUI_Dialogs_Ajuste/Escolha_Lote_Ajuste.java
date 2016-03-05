@@ -11,7 +11,7 @@ import Conexao.Controle_Saida_Produto;
 import GUI_Frames.Tela_Ajuste_Estoque;
 import Metodos.Formatacao;
 import Metodos.Pintar_Tabela_Padrao;
-import java.awt.HeadlessException;
+import java.awt.event.ActionEvent;
 import java.awt.event.KeyEvent;
 import java.sql.SQLException;
 import java.text.SimpleDateFormat;
@@ -19,6 +19,10 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.AbstractAction;
+import javax.swing.InputMap;
+import javax.swing.JComponent;
+import javax.swing.KeyStroke;
 import javax.swing.ListSelectionModel;
 
 
@@ -28,6 +32,7 @@ public class Escolha_Lote_Ajuste extends javax.swing.JDialog {
     public static Conf_Alterar_Quant_Lote_Saida ObjAlterarQuant;
     
     Conecta_Banco ObjConecta = new Conecta_Banco();
+    Conecta_Banco ObjConecta2 = new Conecta_Banco();
     Modelo_Lote_Estoque ObjModeloLote = new Modelo_Lote_Estoque();
     Modelo_Produto ObjModeloProd = new Modelo_Produto();
     Controle_Saida_Produto ObjControlSaida = new Controle_Saida_Produto();
@@ -49,6 +54,8 @@ public class Escolha_Lote_Ajuste extends javax.swing.JDialog {
         data = new SimpleDateFormat("yyyy/MM/dd").format(new Date(System.currentTimeMillis()));
         Preencher_Tabela_Lote_Estoque("select * from lote_estoque where quantidade_estoque > 0 "
                 + " and data_validade_lote>='"+data+"' and produto_id_produto="+id+"");
+        
+        Setar_Atalho_BT();
        
     }
     
@@ -63,7 +70,7 @@ public class Escolha_Lote_Ajuste extends javax.swing.JDialog {
         jLabel1 = new javax.swing.JLabel();
         JB_Ok = new javax.swing.JButton();
         jLabel2 = new javax.swing.JLabel();
-        BT_Sair = new javax.swing.JButton();
+        BT_Cancelar = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
         JTB_Lote = new javax.swing.JTable();
 
@@ -84,13 +91,13 @@ public class Escolha_Lote_Ajuste extends javax.swing.JDialog {
             }
         });
 
-        BT_Sair.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icones/Bt Cancelar.png"))); // NOI18N
-        BT_Sair.setMnemonic('c');
-        BT_Sair.setToolTipText("Clique Para Cancelar Ou Pressione Alt + C");
-        BT_Sair.setPressedIcon(new javax.swing.ImageIcon(getClass().getResource("/Icones/Bt Cancelar Press.png"))); // NOI18N
-        BT_Sair.addActionListener(new java.awt.event.ActionListener() {
+        BT_Cancelar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icones/Bt Cancelar.png"))); // NOI18N
+        BT_Cancelar.setMnemonic('c');
+        BT_Cancelar.setToolTipText("Clique Para Cancelar Ou Pressione Alt + C");
+        BT_Cancelar.setPressedIcon(new javax.swing.ImageIcon(getClass().getResource("/Icones/Bt Cancelar Press.png"))); // NOI18N
+        BT_Cancelar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                BT_SairActionPerformed(evt);
+                BT_CancelarActionPerformed(evt);
             }
         });
 
@@ -129,7 +136,7 @@ public class Escolha_Lote_Ajuste extends javax.swing.JDialog {
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(JB_Ok, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
-                        .addComponent(BT_Sair, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(BT_Cancelar, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(0, 0, Short.MAX_VALUE))
                     .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
                 .addContainerGap())
@@ -152,7 +159,7 @@ public class Escolha_Lote_Ajuste extends javax.swing.JDialog {
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 145, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(BT_Sair, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(BT_Cancelar, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(JB_Ok, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -167,10 +174,10 @@ public class Escolha_Lote_Ajuste extends javax.swing.JDialog {
         Testar_Quantidade();
     }//GEN-LAST:event_JB_OkActionPerformed
 
-    private void BT_SairActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BT_SairActionPerformed
+    private void BT_CancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BT_CancelarActionPerformed
     ObjAjuste.Limpar_Campos_Produto();
     dispose();
-    }//GEN-LAST:event_BT_SairActionPerformed
+    }//GEN-LAST:event_BT_CancelarActionPerformed
 
     private void JTB_LoteKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_JTB_LoteKeyPressed
          try {
@@ -217,39 +224,62 @@ public class Escolha_Lote_Ajuste extends javax.swing.JDialog {
     public final void Preencher_Tabela_Lote_Estoque(String SQL) {
         ArrayList dados = new ArrayList();
 
-        String[] Colunas = new String[]{"Lote", "Validade","Quantidade"};//Seta os indices da tabela
+        String[] Colunas = new String[]{"Lote", "Validade","Quantidade","Un"};//Seta os indices da tabela
         ObjConecta.Conectar();
         ObjConecta.ExecutaSQL(SQL);
         
         try {
             ObjConecta.rs.first();           
             do {
-                String Lote = ObjConecta.rs.getString("numero_lote");  
-                double Quant= ObjConecta.rs.getDouble("quantidade_estoque");
+                String lote = ObjConecta.rs.getString("numero_lote");  
+                double quantidade= ObjConecta.rs.getDouble("quantidade_estoque");
                 
                 Date validade = ObjConecta.rs.getDate("data_validade_lote");
                 String data_val= "";
                 if(validade != null){data_val = String.valueOf(new SimpleDateFormat("dd-MM-yyyy").format(ObjConecta.rs.getDate("data_validade_lote")));}
                 
+                 ObjConecta2.Conectar();
+                ObjConecta2.ExecutaSQL("select * from produto where id_produto = "+ObjConecta.rs.getInt("produto_id_produto")+"");
+                ObjConecta2.rs.first();
+                String unidade = ObjConecta2.rs.getString("Unidade");
+                ObjConecta2.Desconecta();  
                 //adicionando na tabela
-                dados.add(new Object[]{Lote,data_val,Quant});
+                dados.add(new Object[]{lote,data_val,quantidade, unidade});
             } while (ObjConecta.rs.next());
                 ObjConecta.Desconecta();
         } catch (SQLException ex) {
         }
         
         Modelo_Tabela tabela = new Modelo_Tabela(dados, Colunas);
-        JTB_Lote.setModel(tabela);  
-        JTB_Lote.setDefaultRenderer(Object.class, new Pintar_Tabela_Padrao());
-        JTB_Lote.getColumnModel().getColumn(0).setPreferredWidth(120);//Tamanho da coluna
-        JTB_Lote.getColumnModel().getColumn(0).setResizable(false);//Redimensionavel
-        JTB_Lote.getColumnModel().getColumn(1).setPreferredWidth(300);
+         JTB_Lote.setModel(tabela);  
+        JTB_Lote.setDefaultRenderer(Object.class, new Pintar_Tabela_Padrao());//pita as cores das linhas da tabela
+        JTB_Lote.getColumnModel().getColumn(0).setPreferredWidth(150);//Tamanho da coluna
+        JTB_Lote.getColumnModel().getColumn(0).setResizable(false);//Redimensionavel?
+        JTB_Lote.getColumnModel().getColumn(1).setPreferredWidth(230);
         JTB_Lote.getColumnModel().getColumn(1).setResizable(false);
         JTB_Lote.getColumnModel().getColumn(2).setPreferredWidth(120);
         JTB_Lote.getColumnModel().getColumn(2).setResizable(false);
-        JTB_Lote.getTableHeader().setReorderingAllowed(false);//Reordenar alocação
+        JTB_Lote.getColumnModel().getColumn(3).setPreferredWidth(40);
+        JTB_Lote.getColumnModel().getColumn(3).setResizable(false);
+        JTB_Lote.getTableHeader().setReorderingAllowed(false);//Reordenar alocação?
         JTB_Lote.setAutoResizeMode(JTB_Lote.AUTO_RESIZE_ALL_COLUMNS);//Tabela Redimensionavel(Todas colunas)
         JTB_Lote.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);//Seleciona uma unica linha da tabela
+    }
+    
+    public final void Setar_Atalho_BT(){
+        //metodo para pegar a tecla pressionada
+        InputMap inputMap = this.getRootPane().getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW);
+        inputMap.put(KeyStroke.getKeyStroke(KeyEvent.VK_ESCAPE, 0),"Esc");
+        this.getRootPane().setInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW, inputMap);
+        
+         this.getRootPane().getActionMap().put("Esc", new AbstractAction(){
+        private static final long serialVersionUID = 1L;
+        @Override
+        public void actionPerformed(ActionEvent arg0) {
+        BT_Cancelar.doClick();
+        }
+        });
+        
     }
     
     
@@ -290,7 +320,7 @@ public class Escolha_Lote_Ajuste extends javax.swing.JDialog {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton BT_Sair;
+    private javax.swing.JButton BT_Cancelar;
     private javax.swing.JButton JB_Ok;
     private javax.swing.JTable JTB_Lote;
     private javax.swing.JLabel jLabel1;

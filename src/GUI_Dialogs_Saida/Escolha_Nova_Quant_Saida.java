@@ -29,6 +29,7 @@ public class Escolha_Nova_Quant_Saida extends javax.swing.JDialog {
         ObjControlSaida.Estoque(ObjModeloSaida, ObjSaida.Id_Prod);
         JL_Quant.setText(String.valueOf(ObjModeloSaida.getQuantidade()));
         JL_QuantSolicitada.setText(String.valueOf(ObjSaida.QuantidadeSemLote));
+        JL_Un.setText(ObjSaida.unidade);
                
     }
 
@@ -45,6 +46,7 @@ public class Escolha_Nova_Quant_Saida extends javax.swing.JDialog {
         jLabel5 = new javax.swing.JLabel();
         jLabel6 = new javax.swing.JLabel();
         JL_QuantSolicitada = new javax.swing.JLabel();
+        JL_Un = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Informação!");
@@ -86,6 +88,9 @@ public class Escolha_Nova_Quant_Saida extends javax.swing.JDialog {
         JL_QuantSolicitada.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         JL_QuantSolicitada.setText("0");
 
+        JL_Un.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        JL_Un.setText("UN");
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -97,7 +102,9 @@ public class Escolha_Nova_Quant_Saida extends javax.swing.JDialog {
                         .addGap(0, 0, Short.MAX_VALUE)
                         .addComponent(jLabel5)
                         .addGap(10, 10, 10)
-                        .addComponent(JL_Quant, javax.swing.GroupLayout.PREFERRED_SIZE, 105, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(JL_Quant, javax.swing.GroupLayout.PREFERRED_SIZE, 55, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(20, 20, 20)
+                        .addComponent(JL_Un, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(layout.createSequentialGroup()
                         .addGap(20, 20, 20)
                         .addComponent(jLabel3)
@@ -129,7 +136,8 @@ public class Escolha_Nova_Quant_Saida extends javax.swing.JDialog {
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel5)
-                    .addComponent(JL_Quant))
+                    .addComponent(JL_Quant)
+                    .addComponent(JL_Un))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel6)
@@ -228,6 +236,7 @@ public class Escolha_Nova_Quant_Saida extends javax.swing.JDialog {
     private javax.swing.JButton JB_Ok;
     private javax.swing.JLabel JL_Quant;
     private javax.swing.JLabel JL_QuantSolicitada;
+    private javax.swing.JLabel JL_Un;
     private javax.swing.JTextField JTF_Quantidade;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;

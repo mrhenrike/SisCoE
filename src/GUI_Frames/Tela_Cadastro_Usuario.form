@@ -60,17 +60,22 @@
                       <EmptySpace min="-2" pref="18" max="-2" attributes="0"/>
                       <Component id="BT_Sair" min="-2" pref="160" max="-2" attributes="0"/>
                   </Group>
-                  <Group type="102" alignment="0" attributes="0">
-                      <Component id="JP_Dados_Us" min="-2" max="-2" attributes="0"/>
+                  <Group type="102" attributes="0">
                       <Group type="103" groupAlignment="0" attributes="0">
                           <Group type="102" attributes="0">
-                              <EmptySpace min="-2" pref="5" max="-2" attributes="0"/>
-                              <Component id="JL_Caracteres" min="-2" max="-2" attributes="0"/>
+                              <Component id="JP_Dados_Us" min="-2" max="-2" attributes="0"/>
+                              <Group type="103" groupAlignment="0" attributes="0">
+                                  <Group type="102" attributes="0">
+                                      <EmptySpace min="-2" pref="5" max="-2" attributes="0"/>
+                                      <Component id="JL_Caracteres" min="-2" max="-2" attributes="0"/>
+                                  </Group>
+                                  <Group type="102" alignment="0" attributes="0">
+                                      <EmptySpace type="unrelated" max="-2" attributes="0"/>
+                                      <Component id="JL_Campos" min="-2" max="-2" attributes="0"/>
+                                  </Group>
+                              </Group>
                           </Group>
-                          <Group type="102" alignment="0" attributes="0">
-                              <EmptySpace type="unrelated" max="-2" attributes="0"/>
-                              <Component id="JL_Campos" min="-2" max="-2" attributes="0"/>
-                          </Group>
+                          <Component id="JL_Quant_Itens1" alignment="0" min="-2" max="-2" attributes="0"/>
                       </Group>
                       <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
                   </Group>
@@ -96,7 +101,9 @@
                       <Component id="JP_Dados_Us" min="-2" max="-2" attributes="0"/>
                   </Group>
               </Group>
-              <EmptySpace pref="36" max="32767" attributes="0"/>
+              <EmptySpace max="-2" attributes="0"/>
+              <Component id="JL_Quant_Itens1" min="-2" max="-2" attributes="0"/>
+              <EmptySpace pref="13" max="32767" attributes="0"/>
               <Group type="103" groupAlignment="0" max="-2" attributes="0">
                   <Component id="BT_Salvar" alignment="1" max="32767" attributes="0"/>
                   <Component id="BT_Consulta" alignment="1" max="32767" attributes="0"/>
@@ -466,6 +473,7 @@
         <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
           <Image iconType="3" name="/Icones/Bt Limpar.png"/>
         </Property>
+        <Property name="mnemonic" type="int" value="108"/>
         <Property name="toolTipText" type="java.lang.String" value="Clique Para Limpar Os Campos Ou Pressione Alt + L"/>
         <Property name="pressedIcon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
           <Image iconType="3" name="/Icones/Bt Limpar Pess.png"/>
@@ -489,6 +497,14 @@
           <Font name="Tahoma" size="12" style="0"/>
         </Property>
         <Property name="text" type="java.lang.String" value="* Campos Obrigat&#xf3;rios"/>
+      </Properties>
+    </Component>
+    <Component class="javax.swing.JLabel" name="JL_Quant_Itens1">
+      <Properties>
+        <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+          <Font name="Tahoma" size="14" style="1"/>
+        </Property>
+        <Property name="text" type="java.lang.String" value="Esc - Sair | F3 - Consultar | F8 - Limpar | F10 - Salvar"/>
       </Properties>
     </Component>
   </SubComponents>

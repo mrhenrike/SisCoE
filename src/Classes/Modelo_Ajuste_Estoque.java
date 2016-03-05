@@ -10,6 +10,7 @@ public class Modelo_Ajuste_Estoque {
     private int usuario_id_usuario;
     private String motivo;
     private String observacao;
+    private String data_ajuste;
     private double quantidade;
 
     public int getId_ajuste_estoque() {
@@ -66,5 +67,19 @@ public class Modelo_Ajuste_Estoque {
 
     public void setQuantidade(double quantidade) {
         this.quantidade = quantidade;
+    }
+
+    /**
+     * @return the data_ajuste
+     */
+    public String getData_ajuste() {
+        return data_ajuste;
+    }
+
+    /**
+     * @param data_ajuste the data_ajuste to set
+     */
+    public void setData_ajuste(String data_ajuste) {
+        this.data_ajuste = data_ajuste;
     }
 }

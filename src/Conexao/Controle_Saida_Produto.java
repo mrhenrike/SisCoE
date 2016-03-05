@@ -225,7 +225,7 @@ public class Controle_Saida_Produto {
                         + "saida.id_saida=saida_itens.saida_id_saida "
                         + "where saida.data_saida between "+"'"+data_inicio+"'"+" and "+"'"+data_atual+"'"+" and produto_id_produto=" + id + "");
                 ObjConecta.rs.first();
-                int soma = ObjConecta.rs.getInt("media");
+                int soma = ObjConecta.rs.getInt("media");//recebe o total
                 if(dt_inicio.before(dt1)){               
                     if (dt <= 30) {
                         int resultado = soma;
@@ -274,6 +274,7 @@ public class Controle_Saida_Produto {
                 ObjModeloSaida.setDisciplina_nome(rs.getString("disciplina"));
                 ObjModeloSaida.setObservacao(rs.getString("observacao"));
                 ObjModeloSaida.setSituacao(rs.getString("situacao"));
+                ObjModeloSaida.setId_saida(rs.getInt("id_saida"));
 
                 ObjConecta.Desconecta();
             }

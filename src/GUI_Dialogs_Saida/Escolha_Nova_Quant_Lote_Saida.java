@@ -25,6 +25,7 @@ public class Escolha_Nova_Quant_Lote_Saida extends javax.swing.JDialog {
         JTF_Quantidade.setDocument(ObjFormat.new Format_Apenas_Numero(10));
         JL_Quant.setText(String.valueOf(ObjSaida.QuantDisponivel));
         ObjSaida.Quantidade_Solicitada_Lote(ObjSaida.NumLinha - 1, JL_QuantSolicitada);
+         JL_Un.setText(ObjSaida.unidade);
         
     }
 
@@ -41,6 +42,7 @@ public class Escolha_Nova_Quant_Lote_Saida extends javax.swing.JDialog {
         jLabel5 = new javax.swing.JLabel();
         jLabel6 = new javax.swing.JLabel();
         JL_QuantSolicitada = new javax.swing.JLabel();
+        JL_Un = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Informação!");
@@ -82,6 +84,9 @@ public class Escolha_Nova_Quant_Lote_Saida extends javax.swing.JDialog {
         JL_QuantSolicitada.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         JL_QuantSolicitada.setText("0");
 
+        JL_Un.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        JL_Un.setText("UN");
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -94,7 +99,8 @@ public class Escolha_Nova_Quant_Lote_Saida extends javax.swing.JDialog {
                             .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, 250, Short.MAX_VALUE)
                             .addGroup(layout.createSequentialGroup()
                                 .addComponent(jLabel5)
-                                .addGap(0, 0, Short.MAX_VALUE))))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(JL_Un, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))))
                     .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
                         .addGap(26, 26, 26)
                         .addComponent(jLabel3)
@@ -103,19 +109,19 @@ public class Escolha_Nova_Quant_Lote_Saida extends javax.swing.JDialog {
                         .addGap(0, 0, Short.MAX_VALUE))
                     .addGroup(layout.createSequentialGroup()
                         .addContainerGap()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                                .addComponent(jLabel6)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(JL_QuantSolicitada, javax.swing.GroupLayout.PREFERRED_SIZE, 101, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                                .addGap(0, 149, Short.MAX_VALUE)
-                                .addComponent(JL_Quant, javax.swing.GroupLayout.PREFERRED_SIZE, 101, javax.swing.GroupLayout.PREFERRED_SIZE)))))
+                        .addComponent(jLabel6)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(JL_QuantSolicitada, javax.swing.GroupLayout.PREFERRED_SIZE, 101, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap())
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addGap(0, 0, Short.MAX_VALUE)
-                .addComponent(JB_Ok, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(64, 64, 64))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addComponent(JB_Ok, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(64, 64, 64))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addComponent(JL_Quant, javax.swing.GroupLayout.PREFERRED_SIZE, 68, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(43, 43, 43))))
             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(layout.createSequentialGroup()
                     .addGap(48, 48, 48)
@@ -130,7 +136,8 @@ public class Escolha_Nova_Quant_Lote_Saida extends javax.swing.JDialog {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel5)
-                    .addComponent(JL_Quant))
+                    .addComponent(JL_Quant)
+                    .addComponent(JL_Un))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel6)
@@ -229,6 +236,7 @@ public class Escolha_Nova_Quant_Lote_Saida extends javax.swing.JDialog {
     private javax.swing.JButton JB_Ok;
     private javax.swing.JLabel JL_Quant;
     private javax.swing.JLabel JL_QuantSolicitada;
+    private javax.swing.JLabel JL_Un;
     private javax.swing.JTextField JTF_Quantidade;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;

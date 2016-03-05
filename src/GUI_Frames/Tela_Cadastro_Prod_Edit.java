@@ -25,12 +25,19 @@ import Metodos.Formatacao;
 import Metodos.Pintar_Tabela_Padrao;
 import java.awt.Dimension;
 import java.awt.HeadlessException;
+import java.awt.event.ActionEvent;
+import java.awt.event.KeyEvent;
 import java.beans.PropertyVetoException;
 import java.sql.SQLException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
+import javax.swing.AbstractAction;
+import javax.swing.InputMap;
+import javax.swing.JComponent;
 import javax.swing.JOptionPane;
+import javax.swing.KeyStroke;
 import javax.swing.ListSelectionModel;
 
 
@@ -98,6 +105,7 @@ public class Tela_Cadastro_Prod_Edit extends javax.swing.JInternalFrame {
         Preencher_CB_Unidade();
         
         BT_Salvar.setEnabled(false);
+        Setar_Atalho_BT();
         
         
     }
@@ -137,7 +145,7 @@ public class Tela_Cadastro_Prod_Edit extends javax.swing.JInternalFrame {
         BT_Sair = new javax.swing.JButton();
         BT_Cadastrar = new javax.swing.JButton();
         JL_Campos = new javax.swing.JLabel();
-        BT_Editar1 = new javax.swing.JButton();
+        BT_Editar = new javax.swing.JButton();
         jPanel1 = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
         JTB_Consulta_Prod = new javax.swing.JTable();
@@ -148,10 +156,11 @@ public class Tela_Cadastro_Prod_Edit extends javax.swing.JInternalFrame {
         JL_Media = new javax.swing.JLabel();
         JTF_Media = new javax.swing.JTextField();
         BT_Salvar = new javax.swing.JButton();
+        JL_Quant_Itens1 = new javax.swing.JLabel();
 
         setBorder(javax.swing.BorderFactory.createCompoundBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.LOWERED), javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED)));
         setIconifiable(true);
-        setTitle("Cadastro De Produto");
+        setTitle("Consultar E Alterar Produto");
         setFrameIcon(new javax.swing.ImageIcon(getClass().getResource("/Icones_Gerais/Prod 24x24.png"))); // NOI18N
         setMaximumSize(new java.awt.Dimension(805, 560));
         setMinimumSize(new java.awt.Dimension(805, 560));
@@ -309,7 +318,7 @@ public class Tela_Cadastro_Prod_Edit extends javax.swing.JInternalFrame {
                     .addComponent(JTF_Descricao, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel13)
                     .addComponent(JTF_Id, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(JP_DescricaoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel2)
                     .addComponent(JCB_Categoria, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -317,7 +326,7 @@ public class Tela_Cadastro_Prod_Edit extends javax.swing.JInternalFrame {
                     .addComponent(jLabel11)
                     .addComponent(jLabel15)
                     .addComponent(JTF_Estoque, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(JP_DescricaoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(JTF_Quant_Macro, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel10)
@@ -406,13 +415,13 @@ public class Tela_Cadastro_Prod_Edit extends javax.swing.JInternalFrame {
         JL_Campos.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
         JL_Campos.setText("* Campos Obrigatórios");
 
-        BT_Editar1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icones/Bt Editar.png"))); // NOI18N
-        BT_Editar1.setMnemonic('e');
-        BT_Editar1.setToolTipText("Clique Para Editar Os Dados Ou Pressione Alt + E");
-        BT_Editar1.setPressedIcon(new javax.swing.ImageIcon(getClass().getResource("/Icones/Bt Editar press.png"))); // NOI18N
-        BT_Editar1.addActionListener(new java.awt.event.ActionListener() {
+        BT_Editar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icones/Bt Editar.png"))); // NOI18N
+        BT_Editar.setMnemonic('e');
+        BT_Editar.setToolTipText("Clique Para Editar Os Dados Ou Pressione Alt + E");
+        BT_Editar.setPressedIcon(new javax.swing.ImageIcon(getClass().getResource("/Icones/Bt Editar press.png"))); // NOI18N
+        BT_Editar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                BT_Editar1ActionPerformed(evt);
+                BT_EditarActionPerformed(evt);
             }
         });
 
@@ -427,7 +436,7 @@ public class Tela_Cadastro_Prod_Edit extends javax.swing.JInternalFrame {
 
             }
         ));
-        JTB_Consulta_Prod.setToolTipText("");
+        JTB_Consulta_Prod.setToolTipText("Clique Duas Vezes Em Uma Linha Para Mais Detalhes");
         JTB_Consulta_Prod.getTableHeader().setReorderingAllowed(false);
         JTB_Consulta_Prod.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
@@ -477,7 +486,7 @@ public class Tela_Cadastro_Prod_Edit extends javax.swing.JInternalFrame {
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addContainerGap(13, Short.MAX_VALUE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(jLabel8)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(JCB_Tipo_Pesquisa, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -502,6 +511,9 @@ public class Tela_Cadastro_Prod_Edit extends javax.swing.JInternalFrame {
             }
         });
 
+        JL_Quant_Itens1.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        JL_Quant_Itens1.setText("Esc - Voltar/Cancelar | F6 - Cadastrar | F7 - Editar | F10 - Salvar");
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -510,19 +522,23 @@ public class Tela_Cadastro_Prod_Edit extends javax.swing.JInternalFrame {
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(JP_Controle, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(649, 649, 649)
-                        .addComponent(JL_Campos))
                     .addComponent(JP_Descricao, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                         .addComponent(BT_Salvar, javax.swing.GroupLayout.PREFERRED_SIZE, 160, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
                         .addComponent(BT_Cadastrar, javax.swing.GroupLayout.PREFERRED_SIZE, 160, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
-                        .addComponent(BT_Editar1, javax.swing.GroupLayout.PREFERRED_SIZE, 161, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(BT_Editar, javax.swing.GroupLayout.PREFERRED_SIZE, 161, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
                         .addComponent(BT_Sair, javax.swing.GroupLayout.PREFERRED_SIZE, 160, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(jPanel1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(jPanel1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(layout.createSequentialGroup()
+                                .addGap(649, 649, 649)
+                                .addComponent(JL_Campos))
+                            .addComponent(JL_Quant_Itens1))
+                        .addGap(0, 0, Short.MAX_VALUE)))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -530,17 +546,19 @@ public class Tela_Cadastro_Prod_Edit extends javax.swing.JInternalFrame {
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(JP_Descricao, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(JP_Controle, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(2, 2, 2)
                 .addComponent(JL_Campos)
-                .addGap(1, 1, 1)
-                .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(JL_Quant_Itens1)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(BT_Cadastrar, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(BT_Sair, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(BT_Editar1, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(BT_Editar, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(BT_Salvar, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
         );
@@ -580,25 +598,33 @@ public class Tela_Cadastro_Prod_Edit extends javax.swing.JInternalFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_JTF_EstoqueActionPerformed
 
-    private void BT_Editar1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BT_Editar1ActionPerformed
+    private void BT_EditarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BT_EditarActionPerformed
         Virar_BT_Cancelar();
         Habilitar_Campos();
         BT_Salvar.setEnabled(true);
-        BT_Editar1.setEnabled(false);
+        BT_Editar.setEnabled(false);
         BT_Cadastrar.setEnabled(false);
         Testar_Sair = true;
-    }//GEN-LAST:event_BT_Editar1ActionPerformed
+    }//GEN-LAST:event_BT_EditarActionPerformed
 
     private void JCB_Tipo_PesquisaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_JCB_Tipo_PesquisaActionPerformed
+        Calendar c = Calendar.getInstance();
+        c.add(Calendar.MONTH, -3); //diminuir datas - inicio para 90 dias;
+        String data_atual = new SimpleDateFormat("yyyy-MM-dd").format(Calendar.getInstance().getTime());
+        String data_inicio = new SimpleDateFormat("yyyy-MM-dd").format(c.getTime());
+        
+        
         if(JCB_Tipo_Pesquisa.getSelectedItem()=="SAÍDA")
         {   JTF_Ultimo.setText("");JL_Ultimo.setText("Ultima Saída");JTF_Media.setText("");
             Preencher_Tabela_Saidas("select * from saida inner join saida_itens on saida.id_saida=saida_itens.saida_id_saida "
-                    + "where saida_itens.produto_id_produto="+JTF_Cod.getText().trim()+"");
+                    + "where saida_itens.produto_id_produto="+JTF_Cod.getText().trim()+" "
+                    + "and saida.data_saida between '"+data_inicio+"' and '"+data_atual+"';");
         }
         if(JCB_Tipo_Pesquisa.getSelectedItem()=="ENTRADA")
         {   JTF_Ultimo.setText("");JL_Ultimo.setText("Ultima Entrada");JTF_Media.setText("");
             Preencher_Tabela_Entradas("select * from entrada inner join entrada_itens on"
-                + " entrada.id_entrada=entrada_itens.entrada_id_entrada where produto_id_produto="+JTF_Cod.getText().trim()+"");
+                + " entrada.id_entrada=entrada_itens.entrada_id_entrada where produto_id_produto="+JTF_Cod.getText().trim()+" "
+                    + "and entrada.data_entrada between '"+data_inicio+"' and '"+data_atual+"';");
         }
     }//GEN-LAST:event_JCB_Tipo_PesquisaActionPerformed
 
@@ -676,7 +702,9 @@ public class Tela_Cadastro_Prod_Edit extends javax.swing.JInternalFrame {
     JCB_Unidade.removeAllItems();
     JCB_Unidade.addItem("");
     JCB_Unidade.addItem("CM");
+    JCB_Unidade.addItem("G");    
     JCB_Unidade.addItem("L");
+    JCB_Unidade.addItem("MG");
     JCB_Unidade.addItem("ML");
     JCB_Unidade.addItem("MM");
     JCB_Unidade.addItem("UN");
@@ -1000,10 +1028,61 @@ public class Tela_Cadastro_Prod_Edit extends javax.swing.JInternalFrame {
         JTB_Consulta_Prod.setToolTipText("Clique Duas Vezes Em Uma Linha Para Mais Informações!");
     }
     
+    
+    public final void Setar_Atalho_BT(){
+        //metodo para pegar a tecla pressionada
+        InputMap inputMap = this.getRootPane().getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW);
+        inputMap.put(KeyStroke.getKeyStroke(KeyEvent.VK_ESCAPE, 0),"Esc");
+        this.getRootPane().setInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW, inputMap);
+        
+        
+        InputMap inputMap2 = this.getRootPane().getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW);
+        inputMap2.put(KeyStroke.getKeyStroke(KeyEvent.VK_F6, 0),"Cadastrar");
+        this.getRootPane().setInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW, inputMap2);
+        //metodo para pegar a tecla pressionada
+        InputMap inputMap3 = this.getRootPane().getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW);
+        inputMap3.put(KeyStroke.getKeyStroke(KeyEvent.VK_F10, 0),"Salvar");
+        this.getRootPane().setInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW, inputMap3);
+        //metodo para pegar a tecla pressionada
+        InputMap inputMap4 = this.getRootPane().getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW);
+        inputMap4.put(KeyStroke.getKeyStroke(KeyEvent.VK_F7, 0),"Editar");
+        this.getRootPane().setInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW, inputMap4);
+        
+        //método para executar
+        this.getRootPane().getActionMap().put("Cadastrar", new AbstractAction(){
+        private static final long serialVersionUID = 1L;
+        @Override
+        public void actionPerformed(ActionEvent arg0) {
+            BT_Cadastrar.doClick();
+    }
+    });
+        this.getRootPane().getActionMap().put("Esc", new AbstractAction(){
+        private static final long serialVersionUID = 1L;
+        @Override
+        public void actionPerformed(ActionEvent arg0) {
+            BT_Sair.doClick();
+    }
+    });
+         this.getRootPane().getActionMap().put("Editar", new AbstractAction(){
+        private static final long serialVersionUID = 1L;
+        @Override
+        public void actionPerformed(ActionEvent arg0) {
+           BT_Editar.doClick();
+    }
+    });
+          this.getRootPane().getActionMap().put("Salvar", new AbstractAction(){
+        private static final long serialVersionUID = 1L;
+        @Override
+        public void actionPerformed(ActionEvent arg0) {
+            BT_Salvar.doClick();
+    }
+    });
+    }
+    
    
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton BT_Cadastrar;
-    private javax.swing.JButton BT_Editar1;
+    private javax.swing.JButton BT_Editar;
     public javax.swing.JButton BT_Sair;
     private javax.swing.JButton BT_Salvar;
     private javax.swing.JComboBox JCB_Categoria;
@@ -1015,6 +1094,7 @@ public class Tela_Cadastro_Prod_Edit extends javax.swing.JInternalFrame {
     private javax.swing.JComboBox JCB_Unidade;
     private javax.swing.JLabel JL_Campos;
     private javax.swing.JLabel JL_Media;
+    private javax.swing.JLabel JL_Quant_Itens1;
     private javax.swing.JLabel JL_Ultimo;
     private javax.swing.JPanel JP_Controle;
     private javax.swing.JPanel JP_Descricao;

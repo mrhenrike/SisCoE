@@ -16,12 +16,19 @@ import GUI_Dialogs_Ativacao.Inf_Dados_Nao_Salvos_Ativ;
 import GUI_Dialogs_Ativacao.Inf_Dados_Salvos_Ativ;
 import GUI_Dialogs_Ativacao.Inf_Nao_Ha_Itens_Ativar;
 import GUI_Dialogs_Ativacao.Inf_Selecione_Linha_Ativar;
+import static GUI_Frames.Tela_Principal.PermissaoLogado;
 import Metodos.Pintar_Tabela_Padrao;
 import java.awt.Dimension;
 import java.awt.HeadlessException;
+import java.awt.event.ActionEvent;
+import java.awt.event.KeyEvent;
 import java.beans.PropertyVetoException;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import javax.swing.AbstractAction;
+import javax.swing.InputMap;
+import javax.swing.JComponent;
+import javax.swing.KeyStroke;
 import javax.swing.ListSelectionModel;
 
 //@author Márison Tamiarana
@@ -69,7 +76,8 @@ public class Tela_Ativacao extends javax.swing.JInternalFrame {
     
     public Tela_Ativacao() {
         initComponents();
-        preencher_CB_Itens();
+        Controle_Acesso();
+        Setar_Atalho_BT();
     }
 
     @SuppressWarnings("unchecked")
@@ -84,6 +92,7 @@ public class Tela_Ativacao extends javax.swing.JInternalFrame {
         JTB_Itens = new javax.swing.JTable();
         BT_Sair = new javax.swing.JButton();
         BT_Ativar = new javax.swing.JButton();
+        JL_Quant_Itens1 = new javax.swing.JLabel();
 
         setBorder(javax.swing.BorderFactory.createCompoundBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.LOWERED), javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED)));
         setIconifiable(true);
@@ -151,6 +160,7 @@ public class Tela_Ativacao extends javax.swing.JInternalFrame {
 
             }
         ));
+        JTB_Itens.setToolTipText("Selecione Uma Linha Para Ativar");
         JTB_Itens.getTableHeader().setReorderingAllowed(false);
         jScrollPane1.setViewportView(JTB_Itens);
 
@@ -190,6 +200,9 @@ public class Tela_Ativacao extends javax.swing.JInternalFrame {
             }
         });
 
+        JL_Quant_Itens1.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        JL_Quant_Itens1.setText("Esc - Sair | F10 - Ativar");
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -199,7 +212,8 @@ public class Tela_Ativacao extends javax.swing.JInternalFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addGap(0, 0, Short.MAX_VALUE)
+                        .addComponent(JL_Quant_Itens1, javax.swing.GroupLayout.PREFERRED_SIZE, 220, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(BT_Ativar, javax.swing.GroupLayout.PREFERRED_SIZE, 160, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
                         .addComponent(BT_Sair, javax.swing.GroupLayout.PREFERRED_SIZE, 160, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -216,9 +230,11 @@ public class Tela_Ativacao extends javax.swing.JInternalFrame {
                 .addGap(18, 18, 18)
                 .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGap(22, 22, 22)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(BT_Ativar, javax.swing.GroupLayout.DEFAULT_SIZE, 50, Short.MAX_VALUE)
-                    .addComponent(BT_Sair, javax.swing.GroupLayout.DEFAULT_SIZE, 50, Short.MAX_VALUE))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                        .addComponent(BT_Ativar, javax.swing.GroupLayout.DEFAULT_SIZE, 50, Short.MAX_VALUE)
+                        .addComponent(BT_Sair, javax.swing.GroupLayout.DEFAULT_SIZE, 50, Short.MAX_VALUE))
+                    .addComponent(JL_Quant_Itens1))
                 .addContainerGap())
         );
 
@@ -294,6 +310,23 @@ public class Tela_Ativacao extends javax.swing.JInternalFrame {
         JCB_Tipo_Pesquisa.addItem("PRODUTO");
         JCB_Tipo_Pesquisa.addItem("TURMA");
         JCB_Tipo_Pesquisa.addItem("USUÁRIO");
+    }
+    
+    public final void preencher_CB_Itens_2(){
+        JCB_Tipo_Pesquisa.removeAllItems();
+        JCB_Tipo_Pesquisa.addItem("");
+        JCB_Tipo_Pesquisa.addItem("CURSO");
+        JCB_Tipo_Pesquisa.addItem("DISCIPLINA");
+        JCB_Tipo_Pesquisa.addItem("PRODUTO");
+        JCB_Tipo_Pesquisa.addItem("TURMA");
+    }
+    
+    final void Controle_Acesso(){
+    if(PermissaoLogado.equalsIgnoreCase("USUÁRIO")){
+            preencher_CB_Itens_2();
+        }else{
+            preencher_CB_Itens();
+        }
     }
     
     public void Conf_Ativar_Curso(){
@@ -615,10 +648,38 @@ public class Tela_Ativacao extends javax.swing.JInternalFrame {
         ObjNaoHaItenAtivar.setVisible(true);
     }
     
+    public final void Setar_Atalho_BT(){
+        //metodo para pegar a tecla pressionada
+        InputMap inputMap = this.getRootPane().getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW);
+        inputMap.put(KeyStroke.getKeyStroke(KeyEvent.VK_ESCAPE, 0),"Esc");
+        this.getRootPane().setInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW, inputMap);
+        
+        InputMap inputMap4 = this.getRootPane().getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW);
+        inputMap4.put(KeyStroke.getKeyStroke(KeyEvent.VK_F10, 0),"Salvar");
+        this.getRootPane().setInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW, inputMap4);
+                
+        //método para executar
+         this.getRootPane().getActionMap().put("Salvar", new AbstractAction(){
+        private static final long serialVersionUID = 1L;
+        @Override
+        public void actionPerformed(ActionEvent arg0) {
+        BT_Ativar.doClick();
+        }
+        });        
+        this.getRootPane().getActionMap().put("Esc", new AbstractAction(){
+        private static final long serialVersionUID = 1L;
+        @Override
+        public void actionPerformed(ActionEvent arg0) {
+        BT_Sair.doClick();
+        }
+        });               
+    }
+    
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton BT_Ativar;
     private javax.swing.JButton BT_Sair;
     private javax.swing.JComboBox JCB_Tipo_Pesquisa;
+    private javax.swing.JLabel JL_Quant_Itens1;
     private javax.swing.JTable JTB_Itens;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JPanel jPanel1;

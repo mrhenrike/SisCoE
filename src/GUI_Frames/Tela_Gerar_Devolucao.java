@@ -14,14 +14,20 @@ import GUI_Dialogs_Devolucao.Inf_Preencher_Campos_Dev;
 import GUI_Dialogs_Devolucao.Inf_Saida_Nao_Encontrada_Dev;
 import Metodos.Pintar_Tabela_Padrao;
 import java.awt.Dimension;
+import java.awt.event.ActionEvent;
+import java.awt.event.KeyEvent;
 import java.beans.PropertyVetoException;
 import java.sql.SQLException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import javax.swing.AbstractAction;
+import javax.swing.InputMap;
+import javax.swing.JComponent;
 import javax.swing.JOptionPane;
 import javax.swing.JTable;
+import javax.swing.KeyStroke;
 import javax.swing.ListSelectionModel;
 
 // @author Márison Tamiarana
@@ -77,7 +83,8 @@ public class Tela_Gerar_Devolucao extends javax.swing.JInternalFrame {
         JL_Saida_Numero.setText("");
         JL_Status.setVisible(false);
         JL_Status_Msg.setText("");
-        
+        BT_Salvar.setEnabled(false);
+        Setar_Atalho_BT();
     }
 
    
@@ -109,18 +116,20 @@ public class Tela_Gerar_Devolucao extends javax.swing.JInternalFrame {
         jPanel2 = new javax.swing.JPanel();
         JTF_Pesquisa = new javax.swing.JTextField();
         jLabel2 = new javax.swing.JLabel();
+        BT_Confirmar = new javax.swing.JButton();
         BT_Procurar = new javax.swing.JButton();
-        BT_Procurar1 = new javax.swing.JButton();
         JL_Saida = new javax.swing.JLabel();
         JL_Saida_Numero = new javax.swing.JLabel();
         JL_Status = new javax.swing.JLabel();
         JL_Status_Msg = new javax.swing.JLabel();
         BT_Salvar = new javax.swing.JButton();
+        JL_Quant_Itens1 = new javax.swing.JLabel();
+        JL_Campos = new javax.swing.JLabel();
 
         setBorder(javax.swing.BorderFactory.createCompoundBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.LOWERED), javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED)));
         setIconifiable(true);
         setTitle("Devolução De Produtos");
-        setFrameIcon(new javax.swing.ImageIcon(getClass().getResource("/Icones_Gerais/Devoluca 22x22.png"))); // NOI18N
+        setFrameIcon(new javax.swing.ImageIcon(getClass().getResource("/Icones_Gerais/Prod 24x24.png"))); // NOI18N
         addInternalFrameListener(new javax.swing.event.InternalFrameListener() {
             public void internalFrameActivated(javax.swing.event.InternalFrameEvent evt) {
             }
@@ -292,19 +301,19 @@ public class Tela_Gerar_Devolucao extends javax.swing.JInternalFrame {
         jLabel2.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         jLabel2.setText("Número Da Saída*:");
 
-        BT_Procurar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icones_Gerais/Ativar 24x24.png"))); // NOI18N
+        BT_Confirmar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icones_Gerais/Ativar 24x24.png"))); // NOI18N
+        BT_Confirmar.setToolTipText("Clique Para Pesquisar Um Produto");
+        BT_Confirmar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                BT_ConfirmarActionPerformed(evt);
+            }
+        });
+
+        BT_Procurar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icones_Gerais/Search_24x24.png"))); // NOI18N
         BT_Procurar.setToolTipText("Clique Para Pesquisar Um Produto");
         BT_Procurar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 BT_ProcurarActionPerformed(evt);
-            }
-        });
-
-        BT_Procurar1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icones_Gerais/Search_24x24.png"))); // NOI18N
-        BT_Procurar1.setToolTipText("Clique Para Pesquisar Um Produto");
-        BT_Procurar1.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                BT_Procurar1ActionPerformed(evt);
             }
         });
 
@@ -318,9 +327,9 @@ public class Tela_Gerar_Devolucao extends javax.swing.JInternalFrame {
                 .addGap(18, 18, 18)
                 .addComponent(JTF_Pesquisa, javax.swing.GroupLayout.PREFERRED_SIZE, 95, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
-                .addComponent(BT_Procurar)
+                .addComponent(BT_Confirmar)
                 .addGap(18, 18, 18)
-                .addComponent(BT_Procurar1)
+                .addComponent(BT_Procurar)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel2Layout.setVerticalGroup(
@@ -332,8 +341,8 @@ public class Tela_Gerar_Devolucao extends javax.swing.JInternalFrame {
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(JTF_Pesquisa, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jLabel2)))
-                    .addComponent(BT_Procurar)
-                    .addComponent(BT_Procurar1))
+                    .addComponent(BT_Confirmar)
+                    .addComponent(BT_Procurar))
                 .addGap(5, 5, 5))
         );
 
@@ -365,6 +374,12 @@ public class Tela_Gerar_Devolucao extends javax.swing.JInternalFrame {
             }
         });
 
+        JL_Quant_Itens1.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        JL_Quant_Itens1.setText("Esc - Sair | F2 - Confirmar | F3 - Consultar | F10 - Salvar");
+
+        JL_Campos.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
+        JL_Campos.setText("* Campos Obrigatórios");
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -375,6 +390,10 @@ public class Tela_Gerar_Devolucao extends javax.swing.JInternalFrame {
                     .addComponent(jScrollPane1)
                     .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(JL_Campos)
+                            .addComponent(JL_Quant_Itens1))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(BT_Salvar, javax.swing.GroupLayout.PREFERRED_SIZE, 160, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
                         .addComponent(BT_Sair, javax.swing.GroupLayout.PREFERRED_SIZE, 160, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -410,9 +429,13 @@ public class Tela_Gerar_Devolucao extends javax.swing.JInternalFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 225, Short.MAX_VALUE)
                 .addGap(18, 18, 18)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(BT_Sair, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(BT_Salvar, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(BT_Salvar, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addComponent(JL_Quant_Itens1)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(JL_Campos)))
                 .addContainerGap())
         );
 
@@ -432,19 +455,19 @@ public class Tela_Gerar_Devolucao extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_JTF_PesquisaFocusGained
 
     private void JTF_PesquisaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_JTF_PesquisaActionPerformed
-        Testar_Campos();
+        Testar_Campos_Pesquisa();
     }//GEN-LAST:event_JTF_PesquisaActionPerformed
 
+    private void BT_ConfirmarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BT_ConfirmarActionPerformed
+        Testar_Campos_Pesquisa();
+    }//GEN-LAST:event_BT_ConfirmarActionPerformed
+
     private void BT_ProcurarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BT_ProcurarActionPerformed
-        Testar_Campos();
+        Mostrar_Consulta_Saida();
     }//GEN-LAST:event_BT_ProcurarActionPerformed
 
-    private void BT_Procurar1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BT_Procurar1ActionPerformed
-        Mostrar_Consulta_Saida();
-    }//GEN-LAST:event_BT_Procurar1ActionPerformed
-
     private void BT_SalvarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BT_SalvarActionPerformed
-        Conf_Salvar_Devolucao();
+        Testar_Campos_Salvar();
        
     }//GEN-LAST:event_BT_SalvarActionPerformed
 
@@ -486,14 +509,14 @@ public class Tela_Gerar_Devolucao extends javax.swing.JInternalFrame {
         JTF_Disciplina.setText(String.valueOf(ObjModeloSaida.getDisciplina_nome()));
         JTF_Observacao.setText(String.valueOf(ObjModeloSaida.getObservacao()));
         JL_Saida.setVisible(true);
-        JL_Saida_Numero.setText(JTF_Pesquisa.getText());
+        JL_Saida_Numero.setText(String.valueOf(ObjModeloSaida.getId_saida()));
         JL_Status.setVisible(true);
         JL_Status_Msg.setText(String.valueOf(ObjModeloSaida.getSituacao()));
         
         
     }
     //verifica se a saida necessita devolução
-    public void Testar_Campos(){
+    public void Testar_Campos_Pesquisa(){
         if(!JTF_Pesquisa.getText().equalsIgnoreCase("")){
             ObjControlSaida.Consulta_Saida_Id(Integer.parseInt(JTF_Pesquisa.getText()));
             if(ObjControlSaida.Controle_Saida == true){
@@ -507,19 +530,25 @@ public class Tela_Gerar_Devolucao extends javax.swing.JInternalFrame {
                     Limpar_Campos();
                     ObjControlSaida.Consulta_Saida_Devolucao(ObjModeloSaida, Integer.parseInt(JTF_Pesquisa.getText()));
                     Setar_Campos();
+                    BT_Salvar.setEnabled(true);
                     ObjControlSaida.Verifica_Devolucao= false;
+                    JTF_Pesquisa.setText("");
                 }else{
                     Mostrar_Nao_Existe_Prod_Dev();
                     ObjControlSaida.Verifica_Devolucao= false;
                     Limpar_Campos();
                     Limpar_Tabela(JTB_Devolucao_Prod);
+                    BT_Salvar.setEnabled(false);
                     ObjControlSaida.Efetivar_Devolucao(JTF_Pesquisa.getText(),"SEM DEVOLUÇÃO");
+                    JTF_Pesquisa.setText("");
                 }
             }else{
                 JTF_Pesquisa.setText("");
                 Mostrar_Saida_Nao_Encontrada();
                 Limpar_Campos();
-                Limpar_Tabela(JTB_Devolucao_Prod);                                        
+                Limpar_Tabela(JTB_Devolucao_Prod);
+                BT_Salvar.setEnabled(false);
+                JTF_Pesquisa.setText("");
             }
         }else{
             Mostrar_Preencher_Campos();
@@ -533,22 +562,32 @@ public class Tela_Gerar_Devolucao extends javax.swing.JInternalFrame {
         tb.setModel(tabela);
     }
     
-    public void Conf_Salvar_Devolucao(){
+    public void Testar_Campos_Salvar(){
         ObjControlSaida.Verifica_Devolucao_Efetivada(JL_Saida_Numero.getText());
         if(ObjControlSaida.Confirma_Devolucao==true){
             Mostrar_Dev_Ja_Efetivada();
             ObjControlSaida.Confirma_Devolucao=false;
         }
         else{
-            Mostrar_Confirma_Salvar();
-                if(Confirma_Devolucao == true){
-                    Testar_Campos();
-                    Mostrar_Dados_Salvos();
-                    Confirma_Devolucao=false;
-                }else{
-                    Mostrar_Dados_Nao_Salvos();
-                }
+            Mostrar_Confirma_Salvar();                
         }
+    }
+    
+    public void Conf_Inserir_Devolucao(){
+        Inserir_Devolucao();
+        if(Confirma_Devolucao == true){
+            Mostrar_Dados_Salvos(); 
+            int id = Integer.parseInt(JL_Saida_Numero.getText());
+            ObjControlSaida.Consulta_Saida_Devolucao(ObjModeloSaida, id);
+            Limpar_Campos();
+            Setar_Campos();
+            BT_Salvar.setEnabled(false);
+            ObjControlSaida.Verifica_Devolucao= false;
+            Confirma_Devolucao=false;
+        }else{
+            Mostrar_Dados_Nao_Salvos();
+        }
+    
     }
     
     public void Inserir_Devolucao(){
@@ -686,12 +725,63 @@ public class Tela_Gerar_Devolucao extends javax.swing.JInternalFrame {
         JTB_Devolucao_Prod.setAutoResizeMode(JTB_Devolucao_Prod.AUTO_RESIZE_ALL_COLUMNS);//Tabela Redimensionavel(Todas colunas)
         JTB_Devolucao_Prod.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);//Seleciona uma unica linha da tabela
     }
+    
+    public final void Setar_Atalho_BT(){
+        //metodo para pegar a tecla pressionada
+        InputMap inputMap = this.getRootPane().getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW);
+        inputMap.put(KeyStroke.getKeyStroke(KeyEvent.VK_ESCAPE, 0),"Esc");
+        this.getRootPane().setInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW, inputMap);
+        
+        InputMap inputMap2 = this.getRootPane().getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW);
+        inputMap2.put(KeyStroke.getKeyStroke(KeyEvent.VK_F3, 0),"Consultar");
+        this.getRootPane().setInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW, inputMap2);
+        
+        InputMap inputMap3 = this.getRootPane().getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW);
+        inputMap3.put(KeyStroke.getKeyStroke(KeyEvent.VK_F2, 0),"Confirmar");
+        this.getRootPane().setInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW, inputMap3);
+        
+        InputMap inputMap4 = this.getRootPane().getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW);
+        inputMap4.put(KeyStroke.getKeyStroke(KeyEvent.VK_F10, 0),"Salvar");
+        this.getRootPane().setInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW, inputMap4);
+                
+        //método para executar
+         this.getRootPane().getActionMap().put("Salvar", new AbstractAction(){
+        private static final long serialVersionUID = 1L;
+        @Override
+        public void actionPerformed(ActionEvent arg0) {
+        BT_Salvar.doClick();
+        }
+        });        
+        this.getRootPane().getActionMap().put("Esc", new AbstractAction(){
+        private static final long serialVersionUID = 1L;
+        @Override
+        public void actionPerformed(ActionEvent arg0) {
+        BT_Sair.doClick();
+        }
+        });               
+        this.getRootPane().getActionMap().put("Consultar", new AbstractAction(){
+        private static final long serialVersionUID = 1L;
+        @Override
+        public void actionPerformed(ActionEvent arg0) {
+        BT_Procurar.doClick();
+        }
+        });               
+        this.getRootPane().getActionMap().put("Confirmar", new AbstractAction(){
+        private static final long serialVersionUID = 1L;
+        @Override
+        public void actionPerformed(ActionEvent arg0) {
+        BT_Confirmar.doClick();
+        }
+        });               
+    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton BT_Confirmar;
     private javax.swing.JButton BT_Procurar;
-    private javax.swing.JButton BT_Procurar1;
     private javax.swing.JButton BT_Sair;
     private javax.swing.JButton BT_Salvar;
+    private javax.swing.JLabel JL_Campos;
+    private javax.swing.JLabel JL_Quant_Itens1;
     private javax.swing.JLabel JL_Saida;
     private javax.swing.JLabel JL_Saida_Numero;
     private javax.swing.JLabel JL_Status;

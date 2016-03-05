@@ -10,10 +10,16 @@ import Metodos.Formatacao;
 import Metodos.Pintar_Tabela_Padrao;
 import java.awt.Dimension;
 import java.awt.HeadlessException;
+import java.awt.event.ActionEvent;
+import java.awt.event.KeyEvent;
 import java.beans.PropertyVetoException;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import javax.swing.AbstractAction;
+import javax.swing.InputMap;
+import javax.swing.JComponent;
 import javax.swing.JTable;
+import javax.swing.KeyStroke;
 import javax.swing.ListSelectionModel;
 
 // @author Márison Tamiarana
@@ -65,7 +71,7 @@ public class Tela_Consulta_Curso_Turma extends javax.swing.JInternalFrame {
         Preencher_Tabela_Curso("select * from curso where situacao_curso = 'ATIVO' order by nome_curso");
         JRB_Nome.setSelected(true);
         BT_Editar_Curso.setEnabled(false);
-
+        Setar_Atalho_BT();
     }
 
     @SuppressWarnings("unchecked")
@@ -100,6 +106,7 @@ public class Tela_Consulta_Curso_Turma extends javax.swing.JInternalFrame {
         BT_Editar_Disciplina = new javax.swing.JButton();
         jScrollPane3 = new javax.swing.JScrollPane();
         JTB_Disciplina = new javax.swing.JTable();
+        JL_Quant_Itens1 = new javax.swing.JLabel();
 
         setBorder(javax.swing.BorderFactory.createCompoundBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.LOWERED), javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED)));
         setIconifiable(true);
@@ -213,10 +220,9 @@ public class Tela_Consulta_Curso_Turma extends javax.swing.JInternalFrame {
         });
         jScrollPane2.setViewportView(JTB_Turma);
 
-        BT_Editar_Turma.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icones/Bt Editar.png"))); // NOI18N
-        BT_Editar_Turma.setMnemonic('r');
-        BT_Editar_Turma.setToolTipText("Clique Para Sair Ou Pressione Alt + R");
-        BT_Editar_Turma.setPressedIcon(new javax.swing.ImageIcon(getClass().getResource("/Icones/Bt Editar press.png"))); // NOI18N
+        BT_Editar_Turma.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icones/Bt Editar 2.png"))); // NOI18N
+        BT_Editar_Turma.setToolTipText("Clique Para Editar A Turma");
+        BT_Editar_Turma.setPressedIcon(new javax.swing.ImageIcon(getClass().getResource("/Icones/Bt Editar press 2.png"))); // NOI18N
         BT_Editar_Turma.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 BT_Editar_TurmaActionPerformed(evt);
@@ -262,7 +268,7 @@ public class Tela_Consulta_Curso_Turma extends javax.swing.JInternalFrame {
 
         BT_Cadastrar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icones/Bt Cadastrar.png"))); // NOI18N
         BT_Cadastrar.setMnemonic('d');
-        BT_Cadastrar.setToolTipText("Clique Para Cadastrar Novo Usuario Ou Pressione Alt + D");
+        BT_Cadastrar.setToolTipText("Clique Para Cadastrar Ou Pressione Alt + D");
         BT_Cadastrar.setPressedIcon(new javax.swing.ImageIcon(getClass().getResource("/Icones/Bt Cadastrar Press.png"))); // NOI18N
         BT_Cadastrar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -291,6 +297,7 @@ public class Tela_Consulta_Curso_Turma extends javax.swing.JInternalFrame {
         jScrollPane1.setViewportView(JTB_Curso);
 
         jPanel2.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createCompoundBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.LOWERED), javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED)), "Organizar Por:", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 0, 12))); // NOI18N
+        jPanel2.setToolTipText("");
 
         BG_Organizar.add(JRB_Cod);
         JRB_Cod.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
@@ -328,10 +335,9 @@ public class Tela_Consulta_Curso_Turma extends javax.swing.JInternalFrame {
                 .addComponent(JRB_Nome))
         );
 
-        BT_Editar_Curso.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icones/Bt Editar.png"))); // NOI18N
-        BT_Editar_Curso.setMnemonic('r');
-        BT_Editar_Curso.setToolTipText("Clique Para Sair Ou Pressione Alt + R");
-        BT_Editar_Curso.setPressedIcon(new javax.swing.ImageIcon(getClass().getResource("/Icones/Bt Editar press.png"))); // NOI18N
+        BT_Editar_Curso.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icones/Bt Editar 2.png"))); // NOI18N
+        BT_Editar_Curso.setToolTipText("Clique Para Editar O Curso");
+        BT_Editar_Curso.setPressedIcon(new javax.swing.ImageIcon(getClass().getResource("/Icones/Bt Editar press 2.png"))); // NOI18N
         BT_Editar_Curso.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 BT_Editar_CursoActionPerformed(evt);
@@ -403,10 +409,9 @@ public class Tela_Consulta_Curso_Turma extends javax.swing.JInternalFrame {
                 .addComponent(JRB_Semestre_D))
         );
 
-        BT_Editar_Disciplina.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icones/Bt Editar.png"))); // NOI18N
-        BT_Editar_Disciplina.setMnemonic('r');
-        BT_Editar_Disciplina.setToolTipText("Clique Para Sair Ou Pressione Alt + R");
-        BT_Editar_Disciplina.setPressedIcon(new javax.swing.ImageIcon(getClass().getResource("/Icones/Bt Editar press.png"))); // NOI18N
+        BT_Editar_Disciplina.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icones/Bt Editar 2.png"))); // NOI18N
+        BT_Editar_Disciplina.setToolTipText("Clique Para Editar A Disciplina");
+        BT_Editar_Disciplina.setPressedIcon(new javax.swing.ImageIcon(getClass().getResource("/Icones/Bt Editar press 2.png"))); // NOI18N
         BT_Editar_Disciplina.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 BT_Editar_DisciplinaActionPerformed(evt);
@@ -460,6 +465,9 @@ public class Tela_Consulta_Curso_Turma extends javax.swing.JInternalFrame {
                 .addGap(5, 5, 5))
         );
 
+        JL_Quant_Itens1.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        JL_Quant_Itens1.setText("Esc - Sair | F6 - Cadastrar");
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -468,7 +476,8 @@ public class Tela_Consulta_Curso_Turma extends javax.swing.JInternalFrame {
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(0, 0, Short.MAX_VALUE)
+                        .addComponent(JL_Quant_Itens1)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(BT_Cadastrar, javax.swing.GroupLayout.PREFERRED_SIZE, 160, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
                         .addComponent(BT_Sair, javax.swing.GroupLayout.PREFERRED_SIZE, 160, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -489,8 +498,9 @@ public class Tela_Consulta_Curso_Turma extends javax.swing.JInternalFrame {
                 .addGap(9, 9, 9)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(BT_Sair, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(BT_Cadastrar, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(10, 10, 10))
+                    .addComponent(BT_Cadastrar, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(JL_Quant_Itens1))
+                .addContainerGap())
         );
 
         setBounds(20, 20, 805, 560);
@@ -844,6 +854,33 @@ public class Tela_Consulta_Curso_Turma extends javax.swing.JInternalFrame {
         Modelo_Tabela tabela = new Modelo_Tabela(dados, Colunas);
         tb.setModel(tabela);
     }
+    
+    public final void Setar_Atalho_BT(){
+        //metodo para pegar a tecla pressionada
+        InputMap inputMap = this.getRootPane().getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW);
+        inputMap.put(KeyStroke.getKeyStroke(KeyEvent.VK_ESCAPE, 0),"Esc");
+        this.getRootPane().setInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW, inputMap);
+        
+        InputMap inputMap4 = this.getRootPane().getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW);
+        inputMap4.put(KeyStroke.getKeyStroke(KeyEvent.VK_F6, 0),"Cadastrar");
+        this.getRootPane().setInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW, inputMap4);
+                
+        //método para executar
+         this.getRootPane().getActionMap().put("Cadastrar", new AbstractAction(){
+        private static final long serialVersionUID = 1L;
+        @Override
+        public void actionPerformed(ActionEvent arg0) {
+        BT_Cadastrar.doClick();
+        }
+        });        
+        this.getRootPane().getActionMap().put("Esc", new AbstractAction(){
+        private static final long serialVersionUID = 1L;
+        @Override
+        public void actionPerformed(ActionEvent arg0) {
+        BT_Sair.doClick();
+        }
+        });               
+    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.ButtonGroup BG_Organizar;
@@ -854,6 +891,7 @@ public class Tela_Consulta_Curso_Turma extends javax.swing.JInternalFrame {
     private javax.swing.JButton BT_Editar_Disciplina;
     private javax.swing.JButton BT_Editar_Turma;
     private javax.swing.JButton BT_Sair;
+    private javax.swing.JLabel JL_Quant_Itens1;
     private javax.swing.JPanel JP_Dados_Disciplinas;
     private javax.swing.JPanel JP_Dados_Turma;
     private javax.swing.JPanel JP_Org_Disciplina;

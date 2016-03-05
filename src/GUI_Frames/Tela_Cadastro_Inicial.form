@@ -227,8 +227,8 @@
             <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
               <Image iconType="3" name="/Icones/Bt Salvar.png"/>
             </Property>
-            <Property name="mnemonic" type="int" value="111"/>
-            <Property name="toolTipText" type="java.lang.String" value="Clique Para Efetuar O Login Ou Pressione Alt + O"/>
+            <Property name="mnemonic" type="int" value="115"/>
+            <Property name="toolTipText" type="java.lang.String" value="Clique Para Salvar Ou Pressione Alt+S"/>
             <Property name="pressedIcon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
               <Image iconType="3" name="/Icones/Bt Salvar Press.png"/>
             </Property>

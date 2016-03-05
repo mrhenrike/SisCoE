@@ -105,8 +105,8 @@ public class Tela_Cadastro_Inicial extends javax.swing.JDialog {
         jLabel7.setText("Senha:");
 
         BT_Ok.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icones/Bt Salvar.png"))); // NOI18N
-        BT_Ok.setMnemonic('o');
-        BT_Ok.setToolTipText("Clique Para Efetuar O Login Ou Pressione Alt + O");
+        BT_Ok.setMnemonic('s');
+        BT_Ok.setToolTipText("Clique Para Salvar Ou Pressione Alt+S");
         BT_Ok.setPressedIcon(new javax.swing.ImageIcon(getClass().getResource("/Icones/Bt Salvar Press.png"))); // NOI18N
         BT_Ok.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {

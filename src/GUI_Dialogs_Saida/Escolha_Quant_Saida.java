@@ -16,6 +16,7 @@ public class Escolha_Quant_Saida extends javax.swing.JDialog {
     Modelo_Saida_Produto ObjModeloSaida = new Modelo_Saida_Produto();
     Controle_Saida_Produto ObjControlSaida = new Controle_Saida_Produto();
     Formatacao ObjFormat = new Formatacao();
+    boolean flag = false;
                  
     public Escolha_Quant_Saida(Tela_Saida_Produto parent, boolean modal) {
         this.ObjSaida = parent;
@@ -47,6 +48,11 @@ public class Escolha_Quant_Saida extends javax.swing.JDialog {
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Informação!");
         setMinimumSize(new java.awt.Dimension(270, 195));
+        addWindowListener(new java.awt.event.WindowAdapter() {
+            public void windowClosed(java.awt.event.WindowEvent evt) {
+                formWindowClosed(evt);
+            }
+        });
 
         jLabel1.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
@@ -106,7 +112,7 @@ public class Escolha_Quant_Saida extends javax.swing.JDialog {
                                         .addComponent(jLabel3)
                                         .addGap(20, 20, 20)
                                         .addComponent(JTF_Quantidade, javax.swing.GroupLayout.PREFERRED_SIZE, 104, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                         .addComponent(JL_Un, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap())
             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -144,6 +150,7 @@ public class Escolha_Quant_Saida extends javax.swing.JDialog {
     }// </editor-fold>//GEN-END:initComponents
 
     private void JB_OkActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_JB_OkActionPerformed
+        flag = true;
         Testar_Campos();
               
     }//GEN-LAST:event_JB_OkActionPerformed
@@ -151,6 +158,12 @@ public class Escolha_Quant_Saida extends javax.swing.JDialog {
     private void JTF_QuantidadeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_JTF_QuantidadeActionPerformed
         JB_Ok.requestFocus();
     }//GEN-LAST:event_JTF_QuantidadeActionPerformed
+
+    private void formWindowClosed(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosed
+        if(flag == false){
+            ObjSaida.Limpar_Produto();
+        }
+    }//GEN-LAST:event_formWindowClosed
 
      public void Adicionar_Quantidade(){
         try {

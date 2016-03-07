@@ -5,26 +5,15 @@ package GUI_Frames;
 import Conexao.Conecta_Banco;
 import Conexao.Controle_Relatorio_Entradas;
 import Conexao.Controle_Usuario;
-import com.jtattoo.plaf.acryl.AcrylLookAndFeel;
-import com.jtattoo.plaf.aero.AeroLookAndFeel;
-import com.jtattoo.plaf.aluminium.AluminiumLookAndFeel;
-import com.jtattoo.plaf.graphite.GraphiteLookAndFeel;
-import com.jtattoo.plaf.hifi.HiFiLookAndFeel;
-import com.jtattoo.plaf.luna.LunaLookAndFeel;
 import com.jtattoo.plaf.mcwin.McWinLookAndFeel;
-import com.jtattoo.plaf.mint.MintLookAndFeel;
-import com.jtattoo.plaf.smart.SmartLookAndFeel;
-import com.jtattoo.plaf.texture.TextureLookAndFeel;
 import static java.lang.Thread.sleep;
 import java.util.Properties;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
-import javax.swing.LookAndFeel;
 import javax.swing.SwingUtilities;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
-import javax.swing.plaf.metal.MetalLookAndFeel;
 
 
 
@@ -134,6 +123,7 @@ public class Tela_Splash extends javax.swing.JDialog {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("SisCoE - Sistema De Controle De Estoque");
+        setBackground(new java.awt.Color(255, 0, 204));
         setUndecorated(true);
 
         jPanel1.setBorder(javax.swing.BorderFactory.createCompoundBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.LOWERED), javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED)));
@@ -259,64 +249,12 @@ public class Tela_Splash extends javax.swing.JDialog {
         try {
             
             Properties props = new Properties();
-            props.put("logoString", "SisCoE");
-//            props.put("foregroundColor", "255 255 255"); //seleção letra
-//            props.put("backgroundColor", "255 0 102"); //seleção fundo
-//            props.put("backgroundColorLight", "255 0 102"); //cor dos componentes acima
-//            props.put("backgroundColorDark", "255 50 102"); //cor dos componentes abaixo
-//            props.put("inputForegroundColor", "255 0 153"); //cor da letra ao ser digitado
-//            props.put("inputBackgroundColor", "255 0 153"); //cor do fundo dos campos            
-//            props.put("selectionBackgroundColor", "255 0 102"); //seleção fundo ao passar o mouse
-//            props.put("selectionForegroundColor", "255 255 255"); //seleção letra ao passar o mouse
-//            props.put("frameColor", "255 0 102"); //contorno dos botoes e das textfileds            
-//            props.put("gridColor", "255 0 102"); //linhas das tabelas  
-//            props.put("controlColorLight", "255 0 103"); //barra de carregamento acima
-//            props.put("controlColorDark", "255 0 103"); //barra da carregamento abaixo
+            props.put("logoString", "SisCoE");  
             
-            //Botoes
-//            props.put("rolloverColorLight", "255 50 102"); //cor dos botoes ao passar o mouse acima
-//            props.put("rolloverColorDark", "255 0 102"); //cor dos botoes ao passar o mouse abaixo
-//            props.put("buttonColorLight", "255 0 102"); //cor dos botoes acima
-//            props.put("buttonColorDark", "255 255 255"); //cor dos botoes abaixo            
-//            props.put("buttonForegroundColor", "255 0 102"); //cor da fonte dos botoes 
-//            props.put("focusColor", "0 0 0");//cor do focus no botao
-//            props.put("controlForegroundColor", "255 0 102"); //cor da seta onde escreve piscando
-            
-            //Janela
-//            props.put("windowTitleForegroundColor", "0 0 0");//Titulo da janela
-//            props.put("windowTitleBackgroundColor", "255 0 153");//contorno do titulo
-//            props.put("windowTitleColorLight", "255 0 153");//barra da janela cima
-//            props.put("windowTitleColorDark", "255 51 153"); //barra da janela baixo
-//            props.put("windowBorderColor", "255 0 153");//bordas da janela          
-//            props.put("windowIconColor", "255 0 153"); //icones da janela(fechar, max e mini)
-//            props.put("windowIconShadowColor", "255 0 102"); //sombra icones da janela(fechar, max e mini)
-//            props.put("windowIconRolloverColor", "255 0 102"); //icones da janela(fechar, max e mini) ao passar o mouse
-            
-            //Menus
-//            props.put("menuForegroundColor", "255 0 102"); //cor das letras dos menus
-//            props.put("menuBackgroundColor", "0 0 0");//cor do fundo do menu(bordas)
-//            props.put("menuColorLight", "255 0 153");//cor do menu acima
-//            props.put("menuColorDark", "255 0 153");//cor do menu abaixo
-//            props.put("menuSelectionBackgroundColor", "255 255 255");//cor da linha selecionada no menu
-//            props.put("menuSelectionBackgroundColorLight", "255 51 103"); //cor do fundo selecionada no menu acima
-//            props.put("menuSelectionBackgroundColorDark", "255 0 103"); //cor do fundo selecionada no menu abaixo
-//            props.put("menuSelectionForegroundColor", "255 0 102");//cor da letra selecionada no menu
-//            props.put("menuOpaque", "off"); //menu translucido
-            
-            //Texto de ajuda
-//            props.put("tooltipForegroundColor", "0 0 0");//cor da letra do texto de ajuda
-//            props.put("tooltipBackgroundColor", "255 0 102");//cor do fundo do texto de ajuda
-//            props.put("tooltipBorderSize", "5");//largura da borda do texto de ajuda            
-//            props.put("tooltipShadowSize", "8");//sombra do texto de ajuda 
-            
-            props.put("textureSet", "Snow");//bordas da janela
-            props.put("backgroundTexture", "on"); //barra da janela baixo
-            
-//            props.put("windowBorderColor", "0 0 0");//bordas da janela
-            
-            GraphiteLookAndFeel.setCurrentTheme(props);
-            UIManager.setLookAndFeel(new GraphiteLookAndFeel());
+            McWinLookAndFeel.setCurrentTheme(props);
+            UIManager.setLookAndFeel(new McWinLookAndFeel());
              SwingUtilities.updateComponentTreeUI(this);
+     
         } catch (UnsupportedLookAndFeelException ex) {
             Logger.getLogger(Tela_Splash.class.getName()).log(Level.SEVERE, null, ex);
         }

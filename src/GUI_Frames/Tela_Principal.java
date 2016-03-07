@@ -26,10 +26,10 @@ import com.jtattoo.plaf.acryl.AcrylLookAndFeel;
 import com.jtattoo.plaf.aluminium.AluminiumLookAndFeel;
 import com.jtattoo.plaf.bernstein.BernsteinLookAndFeel;
 import com.jtattoo.plaf.graphite.GraphiteLookAndFeel;
-import com.jtattoo.plaf.hifi.HiFiLookAndFeel;
 import com.jtattoo.plaf.luna.LunaLookAndFeel;
 import com.jtattoo.plaf.mcwin.McWinLookAndFeel;
 import com.jtattoo.plaf.mint.MintLookAndFeel;
+import com.jtattoo.plaf.noire.NoireLookAndFeel;
 import com.jtattoo.plaf.texture.TextureLookAndFeel;
 import static java.awt.image.ImageObserver.WIDTH;
 import java.sql.SQLException;
@@ -41,11 +41,13 @@ import javax.swing.JDesktopPane;
 import javax.swing.SwingUtilities;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
+import org.jvnet.substance.SubstanceLookAndFeel;
 import org.jvnet.substance.skin.SubstanceAutumnLookAndFeel;
 import org.jvnet.substance.skin.SubstanceEmeraldDuskLookAndFeel;
-import org.jvnet.substance.skin.SubstanceGreenMagicLookAndFeel;
 import org.jvnet.substance.skin.SubstanceMagmaLookAndFeel;
 import org.jvnet.substance.skin.SubstanceRavenGraphiteGlassLookAndFeel;
+import org.jvnet.substance.theme.SubstanceBarbyPinkTheme;
+import org.jvnet.substance.theme.SubstanceCremeTheme;
 
 
 public final class Tela_Principal extends javax.swing.JFrame {
@@ -108,7 +110,7 @@ public static Tela_Principal TP;
         JL_Cod.setVisible(false);
         jLabel1.setVisible(false);
         jLabel2.setVisible(false);
-        JCH_Padrao.setSelected(true);
+        JRB_Padrao.setSelected(true);
     }
     
     
@@ -131,12 +133,11 @@ public static Tela_Principal TP;
         jLabel3 = new javax.swing.JLabel();
         jLabel5 = new javax.swing.JLabel();
         Area_Trabalho_Pricinpal = new javax.swing.JDesktopPane();
-        uJPanelImagem1 = new componentes.UJPanelImagem();
-        jLabel4 = new javax.swing.JLabel();
         JL_Logo_Fcat = new javax.swing.JLabel();
         JL_Logo_Estacio = new javax.swing.JLabel();
         JL_Logo_ADS = new javax.swing.JLabel();
         JL_Logo_Coolab2 = new javax.swing.JLabel();
+        jLabel4 = new javax.swing.JLabel();
         JP_Acesso_Rapido = new javax.swing.JPanel();
         BT_CD_Produto = new javax.swing.JButton();
         BT_CD_Usuario = new javax.swing.JButton();
@@ -201,20 +202,33 @@ public static Tela_Principal TP;
         MP_Ajuda = new javax.swing.JMenu();
         Aj_Sobre = new javax.swing.JMenuItem();
         jMenu7 = new javax.swing.JMenu();
-        jCheckBoxMenuItem1 = new javax.swing.JCheckBoxMenuItem();
-        jCheckBoxMenuItem2 = new javax.swing.JCheckBoxMenuItem();
-        jCheckBoxMenuItem3 = new javax.swing.JCheckBoxMenuItem();
-        jCheckBoxMenuItem4 = new javax.swing.JCheckBoxMenuItem();
-        jCheckBoxMenuItem5 = new javax.swing.JCheckBoxMenuItem();
-        JCH_Dark = new javax.swing.JCheckBoxMenuItem();
-        JCH_Padrao = new javax.swing.JCheckBoxMenuItem();
-        jCheckBoxMenuItem6 = new javax.swing.JCheckBoxMenuItem();
-        jCheckBoxMenuItem7 = new javax.swing.JCheckBoxMenuItem();
-        jCheckBoxMenuItem8 = new javax.swing.JCheckBoxMenuItem();
-        jCheckBoxMenuItem9 = new javax.swing.JCheckBoxMenuItem();
-        jCheckBoxMenuItem10 = new javax.swing.JCheckBoxMenuItem();
-        jCheckBoxMenuItem11 = new javax.swing.JCheckBoxMenuItem();
-        jCheckBoxMenuItem12 = new javax.swing.JCheckBoxMenuItem();
+        jRadioButtonMenuItem13 = new javax.swing.JRadioButtonMenuItem();
+        jRadioButtonMenuItem14 = new javax.swing.JRadioButtonMenuItem();
+        jRadioButtonMenuItem15 = new javax.swing.JRadioButtonMenuItem();
+        jRadioButtonMenuItem16 = new javax.swing.JRadioButtonMenuItem();
+        jRadioButtonMenuItem17 = new javax.swing.JRadioButtonMenuItem();
+        jRadioButtonMenuItem23 = new javax.swing.JRadioButtonMenuItem();
+        jRadioButtonMenuItem20 = new javax.swing.JRadioButtonMenuItem();
+        jRadioButtonMenuItem21 = new javax.swing.JRadioButtonMenuItem();
+        jRadioButtonMenuItem22 = new javax.swing.JRadioButtonMenuItem();
+        jRadioButtonMenuItem12 = new javax.swing.JRadioButtonMenuItem();
+        jMenu9 = new javax.swing.JMenu();
+        jRadioButtonMenuItem5 = new javax.swing.JRadioButtonMenuItem();
+        jRadioButtonMenuItem6 = new javax.swing.JRadioButtonMenuItem();
+        jRadioButtonMenuItem7 = new javax.swing.JRadioButtonMenuItem();
+        jRadioButtonMenuItem8 = new javax.swing.JRadioButtonMenuItem();
+        jMenu10 = new javax.swing.JMenu();
+        jRadioButtonMenuItem9 = new javax.swing.JRadioButtonMenuItem();
+        jRadioButtonMenuItem10 = new javax.swing.JRadioButtonMenuItem();
+        jRadioButtonMenuItem11 = new javax.swing.JRadioButtonMenuItem();
+        jMenu11 = new javax.swing.JMenu();
+        JRB_Padrao = new javax.swing.JRadioButtonMenuItem();
+        jRadioButtonMenuItem18 = new javax.swing.JRadioButtonMenuItem();
+        jRadioButtonMenuItem19 = new javax.swing.JRadioButtonMenuItem();
+        jMenu8 = new javax.swing.JMenu();
+        jRadioButtonMenuItem2 = new javax.swing.JRadioButtonMenuItem();
+        jRadioButtonMenuItem3 = new javax.swing.JRadioButtonMenuItem();
+        jRadioButtonMenuItem4 = new javax.swing.JRadioButtonMenuItem();
         MP_Sair = new javax.swing.JMenu();
         Sair_Logout = new javax.swing.JMenuItem();
         Sair_Bloquear = new javax.swing.JMenuItem();
@@ -314,30 +328,6 @@ public static Tela_Principal TP;
         Area_Trabalho_Pricinpal.setMinimumSize(new java.awt.Dimension(1000, 0));
         Area_Trabalho_Pricinpal.setPreferredSize(new java.awt.Dimension(1000, 610));
 
-        uJPanelImagem1.setBackground(new java.awt.Color(255, 255, 255));
-        uJPanelImagem1.setPreferredSize(new java.awt.Dimension(1135, 564));
-
-        jLabel4.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel4.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icones_Gerais/Logo - SisCoE 4.png"))); // NOI18N
-        jLabel4.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
-
-        javax.swing.GroupLayout uJPanelImagem1Layout = new javax.swing.GroupLayout(uJPanelImagem1);
-        uJPanelImagem1.setLayout(uJPanelImagem1Layout);
-        uJPanelImagem1Layout.setHorizontalGroup(
-            uJPanelImagem1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(uJPanelImagem1Layout.createSequentialGroup()
-                .addGap(433, 433, 433)
-                .addComponent(jLabel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addGap(379, 379, 379))
-        );
-        uJPanelImagem1Layout.setVerticalGroup(
-            uJPanelImagem1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, uJPanelImagem1Layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jLabel4)
-                .addGap(20, 20, 20))
-        );
-
         JL_Logo_Fcat.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icones_Gerais/fcat.png"))); // NOI18N
 
         JL_Logo_Estacio.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
@@ -353,12 +343,17 @@ public static Tela_Principal TP;
         JL_Logo_Coolab2.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         JL_Logo_Coolab2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icones_Gerais/Logo Coolab 250 x 100.png"))); // NOI18N
 
+        jLabel4.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel4.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icones_Gerais/Logo - SisCoE 4.png"))); // NOI18N
+        jLabel4.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+
         javax.swing.GroupLayout Area_Trabalho_PricinpalLayout = new javax.swing.GroupLayout(Area_Trabalho_Pricinpal);
         Area_Trabalho_Pricinpal.setLayout(Area_Trabalho_PricinpalLayout);
         Area_Trabalho_PricinpalLayout.setHorizontalGroup(
             Area_Trabalho_PricinpalLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(Area_Trabalho_PricinpalLayout.createSequentialGroup()
-                .addGroup(Area_Trabalho_PricinpalLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, Area_Trabalho_PricinpalLayout.createSequentialGroup()
+                .addGroup(Area_Trabalho_PricinpalLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(jLabel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGroup(Area_Trabalho_PricinpalLayout.createSequentialGroup()
                         .addContainerGap()
                         .addComponent(JL_Logo_ADS, javax.swing.GroupLayout.PREFERRED_SIZE, 264, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -367,15 +362,14 @@ public static Tela_Principal TP;
                         .addGap(32, 32, 32)
                         .addComponent(JL_Logo_Estacio, javax.swing.GroupLayout.DEFAULT_SIZE, 254, Short.MAX_VALUE)
                         .addGap(16, 16, 16)
-                        .addComponent(JL_Logo_Fcat))
-                    .addComponent(uJPanelImagem1, javax.swing.GroupLayout.DEFAULT_SIZE, 1112, Short.MAX_VALUE))
+                        .addComponent(JL_Logo_Fcat)))
                 .addContainerGap())
         );
         Area_Trabalho_PricinpalLayout.setVerticalGroup(
             Area_Trabalho_PricinpalLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(Area_Trabalho_PricinpalLayout.createSequentialGroup()
-                .addComponent(uJPanelImagem1, javax.swing.GroupLayout.DEFAULT_SIZE, 431, Short.MAX_VALUE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jLabel4)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(Area_Trabalho_PricinpalLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(JL_Logo_Fcat)
                     .addComponent(JL_Logo_Estacio)
@@ -383,11 +377,11 @@ public static Tela_Principal TP;
                     .addComponent(JL_Logo_Coolab2))
                 .addGap(36, 36, 36))
         );
-        Area_Trabalho_Pricinpal.setLayer(uJPanelImagem1, javax.swing.JLayeredPane.DEFAULT_LAYER);
         Area_Trabalho_Pricinpal.setLayer(JL_Logo_Fcat, javax.swing.JLayeredPane.DEFAULT_LAYER);
         Area_Trabalho_Pricinpal.setLayer(JL_Logo_Estacio, javax.swing.JLayeredPane.DEFAULT_LAYER);
         Area_Trabalho_Pricinpal.setLayer(JL_Logo_ADS, javax.swing.JLayeredPane.DEFAULT_LAYER);
         Area_Trabalho_Pricinpal.setLayer(JL_Logo_Coolab2, javax.swing.JLayeredPane.DEFAULT_LAYER);
+        Area_Trabalho_Pricinpal.setLayer(jLabel4, javax.swing.JLayeredPane.DEFAULT_LAYER);
 
         JP_Acesso_Rapido.setBorder(javax.swing.BorderFactory.createCompoundBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.LOWERED), javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED)));
 
@@ -921,159 +915,255 @@ public static Tela_Principal TP;
         jMenu7.setToolTipText("Módulo De Aparências E Temas (Alt + P)");
         jMenu7.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
 
-        jCheckBoxMenuItem1.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_A, java.awt.event.InputEvent.ALT_MASK | java.awt.event.InputEvent.SHIFT_MASK));
-        BG_Menu.add(jCheckBoxMenuItem1);
-        jCheckBoxMenuItem1.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        jCheckBoxMenuItem1.setText("Acrílico");
-        jCheckBoxMenuItem1.addActionListener(new java.awt.event.ActionListener() {
+        BG_Menu.add(jRadioButtonMenuItem13);
+        jRadioButtonMenuItem13.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        jRadioButtonMenuItem13.setText("Alumínio");
+        jRadioButtonMenuItem13.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jCheckBoxMenuItem1ActionPerformed(evt);
+                jRadioButtonMenuItem13ActionPerformed(evt);
             }
         });
-        jMenu7.add(jCheckBoxMenuItem1);
+        jMenu7.add(jRadioButtonMenuItem13);
 
-        jCheckBoxMenuItem2.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_L, java.awt.event.InputEvent.ALT_MASK | java.awt.event.InputEvent.SHIFT_MASK));
-        BG_Menu.add(jCheckBoxMenuItem2);
-        jCheckBoxMenuItem2.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        jCheckBoxMenuItem2.setText("Alumínio");
-        jCheckBoxMenuItem2.addActionListener(new java.awt.event.ActionListener() {
+        BG_Menu.add(jRadioButtonMenuItem14);
+        jRadioButtonMenuItem14.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        jRadioButtonMenuItem14.setText("Amarelo");
+        jRadioButtonMenuItem14.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jCheckBoxMenuItem2ActionPerformed(evt);
+                jRadioButtonMenuItem14ActionPerformed(evt);
             }
         });
-        jMenu7.add(jCheckBoxMenuItem2);
+        jMenu7.add(jRadioButtonMenuItem14);
 
-        jCheckBoxMenuItem3.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_M, java.awt.event.InputEvent.ALT_MASK | java.awt.event.InputEvent.SHIFT_MASK));
-        BG_Menu.add(jCheckBoxMenuItem3);
-        jCheckBoxMenuItem3.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        jCheckBoxMenuItem3.setText("Amarelo");
-        jCheckBoxMenuItem3.addActionListener(new java.awt.event.ActionListener() {
+        BG_Menu.add(jRadioButtonMenuItem15);
+        jRadioButtonMenuItem15.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        jRadioButtonMenuItem15.setText("Ciano");
+        jRadioButtonMenuItem15.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jCheckBoxMenuItem3ActionPerformed(evt);
+                jRadioButtonMenuItem15ActionPerformed(evt);
             }
         });
-        jMenu7.add(jCheckBoxMenuItem3);
+        jMenu7.add(jRadioButtonMenuItem15);
 
-        jCheckBoxMenuItem4.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_B, java.awt.event.InputEvent.ALT_MASK | java.awt.event.InputEvent.SHIFT_MASK));
-        BG_Menu.add(jCheckBoxMenuItem4);
-        jCheckBoxMenuItem4.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        jCheckBoxMenuItem4.setText("Básico");
-        jCheckBoxMenuItem4.addActionListener(new java.awt.event.ActionListener() {
+        BG_Menu.add(jRadioButtonMenuItem16);
+        jRadioButtonMenuItem16.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        jRadioButtonMenuItem16.setText("Dark");
+        jRadioButtonMenuItem16.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jCheckBoxMenuItem4ActionPerformed(evt);
+                jRadioButtonMenuItem16ActionPerformed(evt);
             }
         });
-        jMenu7.add(jCheckBoxMenuItem4);
+        jMenu7.add(jRadioButtonMenuItem16);
 
-        jCheckBoxMenuItem5.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_C, java.awt.event.InputEvent.ALT_MASK | java.awt.event.InputEvent.SHIFT_MASK));
-        BG_Menu.add(jCheckBoxMenuItem5);
-        jCheckBoxMenuItem5.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        jCheckBoxMenuItem5.setText("Ciano");
-        jCheckBoxMenuItem5.addActionListener(new java.awt.event.ActionListener() {
+        BG_Menu.add(jRadioButtonMenuItem17);
+        jRadioButtonMenuItem17.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        jRadioButtonMenuItem17.setText("Preto");
+        jRadioButtonMenuItem17.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jCheckBoxMenuItem5ActionPerformed(evt);
+                jRadioButtonMenuItem17ActionPerformed(evt);
             }
         });
-        jMenu7.add(jCheckBoxMenuItem5);
+        jMenu7.add(jRadioButtonMenuItem17);
 
-        JCH_Dark.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_P, java.awt.event.InputEvent.ALT_MASK | java.awt.event.InputEvent.SHIFT_MASK));
-        BG_Menu.add(JCH_Dark);
-        JCH_Dark.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        JCH_Dark.setText("Dark");
-        JCH_Dark.addActionListener(new java.awt.event.ActionListener() {
+        BG_Menu.add(jRadioButtonMenuItem23);
+        jRadioButtonMenuItem23.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        jRadioButtonMenuItem23.setText("Pink");
+        jRadioButtonMenuItem23.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                JCH_DarkActionPerformed(evt);
+                jRadioButtonMenuItem23ActionPerformed(evt);
             }
         });
-        jMenu7.add(JCH_Dark);
+        jMenu7.add(jRadioButtonMenuItem23);
 
-        JCH_Padrao.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_P, java.awt.event.InputEvent.ALT_MASK | java.awt.event.InputEvent.SHIFT_MASK));
-        BG_Menu.add(JCH_Padrao);
-        JCH_Padrao.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        JCH_Padrao.setText("Padrão");
-        JCH_Padrao.addActionListener(new java.awt.event.ActionListener() {
+        BG_Menu.add(jRadioButtonMenuItem20);
+        jRadioButtonMenuItem20.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        jRadioButtonMenuItem20.setText("Rosa");
+        jRadioButtonMenuItem20.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                JCH_PadraoActionPerformed(evt);
+                jRadioButtonMenuItem20ActionPerformed(evt);
             }
         });
-        jMenu7.add(JCH_Padrao);
+        jMenu7.add(jRadioButtonMenuItem20);
 
-        jCheckBoxMenuItem6.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_Z, java.awt.event.InputEvent.ALT_MASK | java.awt.event.InputEvent.SHIFT_MASK));
-        BG_Menu.add(jCheckBoxMenuItem6);
-        jCheckBoxMenuItem6.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        jCheckBoxMenuItem6.setText("Preto / Cinza");
-        jCheckBoxMenuItem6.addActionListener(new java.awt.event.ActionListener() {
+        BG_Menu.add(jRadioButtonMenuItem21);
+        jRadioButtonMenuItem21.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        jRadioButtonMenuItem21.setText("Verde");
+        jRadioButtonMenuItem21.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jCheckBoxMenuItem6ActionPerformed(evt);
+                jRadioButtonMenuItem21ActionPerformed(evt);
             }
         });
-        jMenu7.add(jCheckBoxMenuItem6);
+        jMenu7.add(jRadioButtonMenuItem21);
 
-        jCheckBoxMenuItem7.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_T, java.awt.event.InputEvent.ALT_MASK | java.awt.event.InputEvent.SHIFT_MASK));
-        BG_Menu.add(jCheckBoxMenuItem7);
-        jCheckBoxMenuItem7.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        jCheckBoxMenuItem7.setText("Preto");
-        jCheckBoxMenuItem7.addActionListener(new java.awt.event.ActionListener() {
+        BG_Menu.add(jRadioButtonMenuItem22);
+        jRadioButtonMenuItem22.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        jRadioButtonMenuItem22.setText("Vermelho");
+        jRadioButtonMenuItem22.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jCheckBoxMenuItem7ActionPerformed(evt);
+                jRadioButtonMenuItem22ActionPerformed(evt);
             }
         });
-        jMenu7.add(jCheckBoxMenuItem7);
+        jMenu7.add(jRadioButtonMenuItem22);
 
-        jCheckBoxMenuItem8.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_R, java.awt.event.InputEvent.ALT_MASK | java.awt.event.InputEvent.SHIFT_MASK));
-        BG_Menu.add(jCheckBoxMenuItem8);
-        jCheckBoxMenuItem8.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        jCheckBoxMenuItem8.setText("Rosa");
-        jCheckBoxMenuItem8.addActionListener(new java.awt.event.ActionListener() {
+        BG_Menu.add(jRadioButtonMenuItem12);
+        jRadioButtonMenuItem12.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        jRadioButtonMenuItem12.setText("Windows XP");
+        jRadioButtonMenuItem12.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jCheckBoxMenuItem8ActionPerformed(evt);
+                jRadioButtonMenuItem12ActionPerformed(evt);
             }
         });
-        jMenu7.add(jCheckBoxMenuItem8);
+        jMenu7.add(jRadioButtonMenuItem12);
 
-        jCheckBoxMenuItem9.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_X, java.awt.event.InputEvent.ALT_MASK | java.awt.event.InputEvent.SHIFT_MASK));
-        BG_Menu.add(jCheckBoxMenuItem9);
-        jCheckBoxMenuItem9.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        jCheckBoxMenuItem9.setText("Textura");
-        jCheckBoxMenuItem9.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jCheckBoxMenuItem9ActionPerformed(evt);
-            }
-        });
-        jMenu7.add(jCheckBoxMenuItem9);
+        jMenu9.setText("Acrílico");
+        jMenu9.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
 
-        jCheckBoxMenuItem10.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_V, java.awt.event.InputEvent.ALT_MASK | java.awt.event.InputEvent.SHIFT_MASK));
-        BG_Menu.add(jCheckBoxMenuItem10);
-        jCheckBoxMenuItem10.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        jCheckBoxMenuItem10.setText("Verde Claro");
-        jCheckBoxMenuItem10.addActionListener(new java.awt.event.ActionListener() {
+        BG_Menu.add(jRadioButtonMenuItem5);
+        jRadioButtonMenuItem5.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        jRadioButtonMenuItem5.setText("Preto");
+        jRadioButtonMenuItem5.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jCheckBoxMenuItem10ActionPerformed(evt);
+                jRadioButtonMenuItem5ActionPerformed(evt);
             }
         });
-        jMenu7.add(jCheckBoxMenuItem10);
+        jMenu9.add(jRadioButtonMenuItem5);
 
-        jCheckBoxMenuItem11.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_E, java.awt.event.InputEvent.ALT_MASK | java.awt.event.InputEvent.SHIFT_MASK));
-        BG_Menu.add(jCheckBoxMenuItem11);
-        jCheckBoxMenuItem11.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        jCheckBoxMenuItem11.setText("Verde Escuro");
-        jCheckBoxMenuItem11.addActionListener(new java.awt.event.ActionListener() {
+        BG_Menu.add(jRadioButtonMenuItem6);
+        jRadioButtonMenuItem6.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        jRadioButtonMenuItem6.setText("Verde");
+        jRadioButtonMenuItem6.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jCheckBoxMenuItem11ActionPerformed(evt);
+                jRadioButtonMenuItem6ActionPerformed(evt);
             }
         });
-        jMenu7.add(jCheckBoxMenuItem11);
+        jMenu9.add(jRadioButtonMenuItem6);
 
-        jCheckBoxMenuItem12.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_H, java.awt.event.InputEvent.ALT_MASK | java.awt.event.InputEvent.SHIFT_MASK));
-        BG_Menu.add(jCheckBoxMenuItem12);
-        jCheckBoxMenuItem12.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        jCheckBoxMenuItem12.setText("Vermelho");
-        jCheckBoxMenuItem12.addActionListener(new java.awt.event.ActionListener() {
+        BG_Menu.add(jRadioButtonMenuItem7);
+        jRadioButtonMenuItem7.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        jRadioButtonMenuItem7.setText("Limão");
+        jRadioButtonMenuItem7.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jCheckBoxMenuItem12ActionPerformed(evt);
+                jRadioButtonMenuItem7ActionPerformed(evt);
             }
         });
-        jMenu7.add(jCheckBoxMenuItem12);
+        jMenu9.add(jRadioButtonMenuItem7);
+
+        BG_Menu.add(jRadioButtonMenuItem8);
+        jRadioButtonMenuItem8.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        jRadioButtonMenuItem8.setText("Vermelho");
+        jRadioButtonMenuItem8.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jRadioButtonMenuItem8ActionPerformed(evt);
+            }
+        });
+        jMenu9.add(jRadioButtonMenuItem8);
+
+        jMenu7.add(jMenu9);
+
+        jMenu10.setText("Grafite");
+        jMenu10.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+
+        BG_Menu.add(jRadioButtonMenuItem9);
+        jRadioButtonMenuItem9.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        jRadioButtonMenuItem9.setText("Azul");
+        jRadioButtonMenuItem9.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jRadioButtonMenuItem9ActionPerformed(evt);
+            }
+        });
+        jMenu10.add(jRadioButtonMenuItem9);
+
+        BG_Menu.add(jRadioButtonMenuItem10);
+        jRadioButtonMenuItem10.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        jRadioButtonMenuItem10.setText("Preto");
+        jRadioButtonMenuItem10.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jRadioButtonMenuItem10ActionPerformed(evt);
+            }
+        });
+        jMenu10.add(jRadioButtonMenuItem10);
+
+        BG_Menu.add(jRadioButtonMenuItem11);
+        jRadioButtonMenuItem11.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        jRadioButtonMenuItem11.setText("Verde");
+        jRadioButtonMenuItem11.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jRadioButtonMenuItem11ActionPerformed(evt);
+            }
+        });
+        jMenu10.add(jRadioButtonMenuItem11);
+
+        jMenu7.add(jMenu10);
+
+        jMenu11.setText("Padrão");
+        jMenu11.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+
+        BG_Menu.add(JRB_Padrao);
+        JRB_Padrao.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        JRB_Padrao.setText("Azul");
+        JRB_Padrao.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                JRB_PadraoActionPerformed(evt);
+            }
+        });
+        jMenu11.add(JRB_Padrao);
+
+        BG_Menu.add(jRadioButtonMenuItem18);
+        jRadioButtonMenuItem18.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        jRadioButtonMenuItem18.setText("Cinza");
+        jRadioButtonMenuItem18.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jRadioButtonMenuItem18ActionPerformed(evt);
+            }
+        });
+        jMenu11.add(jRadioButtonMenuItem18);
+
+        BG_Menu.add(jRadioButtonMenuItem19);
+        jRadioButtonMenuItem19.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        jRadioButtonMenuItem19.setText("Lilás");
+        jRadioButtonMenuItem19.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jRadioButtonMenuItem19ActionPerformed(evt);
+            }
+        });
+        jMenu11.add(jRadioButtonMenuItem19);
+
+        jMenu7.add(jMenu11);
+
+        jMenu8.setText("Textura");
+        jMenu8.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+
+        BG_Menu.add(jRadioButtonMenuItem2);
+        jRadioButtonMenuItem2.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        jRadioButtonMenuItem2.setText("Azul");
+        jRadioButtonMenuItem2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jRadioButtonMenuItem2ActionPerformed(evt);
+            }
+        });
+        jMenu8.add(jRadioButtonMenuItem2);
+
+        BG_Menu.add(jRadioButtonMenuItem3);
+        jRadioButtonMenuItem3.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        jRadioButtonMenuItem3.setText("Neve");
+        jRadioButtonMenuItem3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jRadioButtonMenuItem3ActionPerformed(evt);
+            }
+        });
+        jMenu8.add(jRadioButtonMenuItem3);
+
+        BG_Menu.add(jRadioButtonMenuItem4);
+        jRadioButtonMenuItem4.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        jRadioButtonMenuItem4.setText("Dark");
+        jRadioButtonMenuItem4.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jRadioButtonMenuItem4ActionPerformed(evt);
+            }
+        });
+        jMenu8.add(jRadioButtonMenuItem4);
+
+        jMenu7.add(jMenu8);
 
         Menu_Principal.add(jMenu7);
 
@@ -1357,120 +1447,55 @@ public static Tela_Principal TP;
         obj.Open_Tela();
     }//GEN-LAST:event_Serv_AjustaEstoqueActionPerformed
 
-    private void jCheckBoxMenuItem12ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jCheckBoxMenuItem12ActionPerformed
-        //metodo aparencia lookandfeel
-        try {
-            Properties props = new Properties();
-            props.put("logoString", "SisCoE");
-            //AluminiumLookAndFeel.setCurrentTheme(props);
-            UIManager.setLookAndFeel(new SubstanceMagmaLookAndFeel());
-            SwingUtilities.updateComponentTreeUI(this);
-        } catch (UnsupportedLookAndFeelException ex) {
-            Logger.getLogger(Tela_Splash.class.getName()).log(Level.SEVERE, null, ex);
-        }
-    }//GEN-LAST:event_jCheckBoxMenuItem12ActionPerformed
+    private void jMenuItem26ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem26ActionPerformed
+        Abaixo_De_30_Dias();
+        Abaixo_Do_Minimo();
+        Devolucao_Pendente();
+        Produto_Vencido();
+    }//GEN-LAST:event_jMenuItem26ActionPerformed
 
-    private void jCheckBoxMenuItem11ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jCheckBoxMenuItem11ActionPerformed
-        try {
-            Properties props = new Properties();
-            props.put("logoString", "SisCoE");
-            //AluminiumLookAndFeel.setCurrentTheme(props);
-            UIManager.setLookAndFeel(new SubstanceEmeraldDuskLookAndFeel());
-            SwingUtilities.updateComponentTreeUI(this);
-        } catch (UnsupportedLookAndFeelException ex) {
-            Logger.getLogger(Tela_Splash.class.getName()).log(Level.SEVERE, null, ex);
-        }
-    }//GEN-LAST:event_jCheckBoxMenuItem11ActionPerformed
+    private void jRadioButtonMenuItem2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jRadioButtonMenuItem2ActionPerformed
+        LAF_Textura("Textile");
+    }//GEN-LAST:event_jRadioButtonMenuItem2ActionPerformed
 
-    private void jCheckBoxMenuItem10ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jCheckBoxMenuItem10ActionPerformed
-        try {
-            Properties props = new Properties();
-            props.put("logoString", "SisCoE");
-            //AluminiumLookAndFeel.setCurrentTheme(props);
-            UIManager.setLookAndFeel(new SubstanceGreenMagicLookAndFeel());
-            SwingUtilities.updateComponentTreeUI(this);
-        } catch (UnsupportedLookAndFeelException ex) {
-            Logger.getLogger(Tela_Splash.class.getName()).log(Level.SEVERE, null, ex);
-        }
-    }//GEN-LAST:event_jCheckBoxMenuItem10ActionPerformed
+    private void jRadioButtonMenuItem3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jRadioButtonMenuItem3ActionPerformed
+        LAF_Textura("Snow");
+    }//GEN-LAST:event_jRadioButtonMenuItem3ActionPerformed
 
-    private void jCheckBoxMenuItem9ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jCheckBoxMenuItem9ActionPerformed
-        try {
-            Properties props = new Properties();
-            props.put("logoString", "SisCoE");
-            TextureLookAndFeel.setCurrentTheme(props);
-            UIManager.setLookAndFeel(new TextureLookAndFeel());
-            SwingUtilities.updateComponentTreeUI(this);
-        } catch (UnsupportedLookAndFeelException ex) {
-            Logger.getLogger(Tela_Splash.class.getName()).log(Level.SEVERE, null, ex);
-        }
-    }//GEN-LAST:event_jCheckBoxMenuItem9ActionPerformed
+    private void jRadioButtonMenuItem4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jRadioButtonMenuItem4ActionPerformed
+        LAF_Textura("Rock");
+    }//GEN-LAST:event_jRadioButtonMenuItem4ActionPerformed
 
-    private void jCheckBoxMenuItem8ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jCheckBoxMenuItem8ActionPerformed
-        try {
-            Properties props = new Properties();
-            props.put("logoString", "SisCoE");
-            UIManager cor = new UIManager();
-            cor.put(cor, cor);
-            //SubstanceMistAquaLookAndFeel.setCurrentTheme(props);
-            
-            UIManager.setLookAndFeel(new SubstanceAutumnLookAndFeel());
-            SwingUtilities.updateComponentTreeUI(this);
-        } catch (UnsupportedLookAndFeelException ex) {
-            Logger.getLogger(Tela_Splash.class.getName()).log(Level.SEVERE, null, ex);
-        }
-    }//GEN-LAST:event_jCheckBoxMenuItem8ActionPerformed
+    private void jRadioButtonMenuItem5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jRadioButtonMenuItem5ActionPerformed
+        LAF_Acryl("Default");
+    }//GEN-LAST:event_jRadioButtonMenuItem5ActionPerformed
 
-    private void jCheckBoxMenuItem7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jCheckBoxMenuItem7ActionPerformed
-        try {
-            Properties props = new Properties();
-            props.put("logoString", "SisCoE");
-            //AluminiumLookAndFeel.setCurrentTheme(props);
-            UIManager.setLookAndFeel(new SubstanceRavenGraphiteGlassLookAndFeel());
-            SwingUtilities.updateComponentTreeUI(this);
-        } catch (UnsupportedLookAndFeelException ex) {
-            Logger.getLogger(Tela_Splash.class.getName()).log(Level.SEVERE, null, ex);
-        }
-    }//GEN-LAST:event_jCheckBoxMenuItem7ActionPerformed
+    private void jRadioButtonMenuItem6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jRadioButtonMenuItem6ActionPerformed
+        LAF_Acryl("Green");
+    }//GEN-LAST:event_jRadioButtonMenuItem6ActionPerformed
 
-    private void jCheckBoxMenuItem6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jCheckBoxMenuItem6ActionPerformed
-        try {
-            Properties props = new Properties();
-            props.put("logoString", "SisCoE");
-            GraphiteLookAndFeel.setCurrentTheme(props);
-            UIManager.setLookAndFeel(new GraphiteLookAndFeel());
-            SwingUtilities.updateComponentTreeUI(this);
-        } catch (UnsupportedLookAndFeelException ex) {
-            Logger.getLogger(Tela_Splash.class.getName()).log(Level.SEVERE, null, ex);
-        }
-    }//GEN-LAST:event_jCheckBoxMenuItem6ActionPerformed
+    private void jRadioButtonMenuItem7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jRadioButtonMenuItem7ActionPerformed
+        LAF_Acryl("Lemmon");
+    }//GEN-LAST:event_jRadioButtonMenuItem7ActionPerformed
 
-    private void JCH_PadraoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_JCH_PadraoActionPerformed
-        try {
-            Properties props = new Properties();
-            props.put("logoString", "SisCoE");
-            McWinLookAndFeel.setCurrentTheme(props);
-            UIManager.setLookAndFeel(new McWinLookAndFeel());
-            SwingUtilities.updateComponentTreeUI(this);
-        } catch (UnsupportedLookAndFeelException ex) {
-            Logger.getLogger(Tela_Splash.class.getName()).log(Level.SEVERE, null, ex);
-        }
-    }//GEN-LAST:event_JCH_PadraoActionPerformed
+    private void jRadioButtonMenuItem8ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jRadioButtonMenuItem8ActionPerformed
+        LAF_Acryl("Red");
+    }//GEN-LAST:event_jRadioButtonMenuItem8ActionPerformed
 
-    private void jCheckBoxMenuItem5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jCheckBoxMenuItem5ActionPerformed
-        try {
-            Properties props = new Properties();
-            props.put("logoString", "SisCoE");
-            MintLookAndFeel.setCurrentTheme(props);
-            UIManager.setLookAndFeel(new MintLookAndFeel());
-            SwingUtilities.updateComponentTreeUI(this);
-        } catch (UnsupportedLookAndFeelException ex) {
-            Logger.getLogger(Tela_Splash.class.getName()).log(Level.SEVERE, null, ex);
-        }
-    }//GEN-LAST:event_jCheckBoxMenuItem5ActionPerformed
+    private void jRadioButtonMenuItem9ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jRadioButtonMenuItem9ActionPerformed
+        LAF_Graf("Blue");
+    }//GEN-LAST:event_jRadioButtonMenuItem9ActionPerformed
 
-    private void jCheckBoxMenuItem4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jCheckBoxMenuItem4ActionPerformed
-        try {
+    private void jRadioButtonMenuItem10ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jRadioButtonMenuItem10ActionPerformed
+        LAF_Graf("Default");
+    }//GEN-LAST:event_jRadioButtonMenuItem10ActionPerformed
+
+    private void jRadioButtonMenuItem11ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jRadioButtonMenuItem11ActionPerformed
+        LAF_Graf("Green");
+    }//GEN-LAST:event_jRadioButtonMenuItem11ActionPerformed
+
+    private void jRadioButtonMenuItem12ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jRadioButtonMenuItem12ActionPerformed
+       try {
             Properties props = new Properties();
             props.put("logoString", "SisCoE");
             LunaLookAndFeel.setCurrentTheme(props);
@@ -1479,22 +1504,10 @@ public static Tela_Principal TP;
         } catch (UnsupportedLookAndFeelException ex) {
             Logger.getLogger(Tela_Splash.class.getName()).log(Level.SEVERE, null, ex);
         }
-    }//GEN-LAST:event_jCheckBoxMenuItem4ActionPerformed
+    }//GEN-LAST:event_jRadioButtonMenuItem12ActionPerformed
 
-    private void jCheckBoxMenuItem3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jCheckBoxMenuItem3ActionPerformed
-        try {
-            Properties props = new Properties();
-            props.put("logoString", "SisCoE");
-            BernsteinLookAndFeel.setCurrentTheme(props);
-            UIManager.setLookAndFeel(new BernsteinLookAndFeel());
-            SwingUtilities.updateComponentTreeUI(this);
-        } catch (UnsupportedLookAndFeelException ex) {
-            Logger.getLogger(Tela_Splash.class.getName()).log(Level.SEVERE, null, ex);
-        }
-    }//GEN-LAST:event_jCheckBoxMenuItem3ActionPerformed
-
-    private void jCheckBoxMenuItem2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jCheckBoxMenuItem2ActionPerformed
-        try {
+    private void jRadioButtonMenuItem13ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jRadioButtonMenuItem13ActionPerformed
+       try {
             Properties props = new Properties();
             props.put("logoString", "SisCoE");
             AluminiumLookAndFeel.setCurrentTheme(props);
@@ -1503,38 +1516,98 @@ public static Tela_Principal TP;
         } catch (UnsupportedLookAndFeelException ex) {
             Logger.getLogger(Tela_Splash.class.getName()).log(Level.SEVERE, null, ex);
         }
-    }//GEN-LAST:event_jCheckBoxMenuItem2ActionPerformed
+    }//GEN-LAST:event_jRadioButtonMenuItem13ActionPerformed
 
-    private void jCheckBoxMenuItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jCheckBoxMenuItem1ActionPerformed
-        try {
+    private void jRadioButtonMenuItem14ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jRadioButtonMenuItem14ActionPerformed
+       try {
             Properties props = new Properties();
             props.put("logoString", "SisCoE");
-            AcrylLookAndFeel.setCurrentTheme(props);
-            UIManager.setLookAndFeel(new AcrylLookAndFeel());
+            BernsteinLookAndFeel.setCurrentTheme(props);
+            UIManager.setLookAndFeel(new BernsteinLookAndFeel());
             SwingUtilities.updateComponentTreeUI(this);
         } catch (UnsupportedLookAndFeelException ex) {
             Logger.getLogger(Tela_Splash.class.getName()).log(Level.SEVERE, null, ex);
         }
-    }//GEN-LAST:event_jCheckBoxMenuItem1ActionPerformed
+    }//GEN-LAST:event_jRadioButtonMenuItem14ActionPerformed
 
-    private void jMenuItem26ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem26ActionPerformed
-        Abaixo_De_30_Dias();
-        Abaixo_Do_Minimo();
-        Devolucao_Pendente();
-        Produto_Vencido();
-    }//GEN-LAST:event_jMenuItem26ActionPerformed
-
-    private void JCH_DarkActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_JCH_DarkActionPerformed
-        try {
+    private void jRadioButtonMenuItem15ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jRadioButtonMenuItem15ActionPerformed
+       try {
             Properties props = new Properties();
             props.put("logoString", "SisCoE");
-            HiFiLookAndFeel.setCurrentTheme(props);
-            UIManager.setLookAndFeel(new HiFiLookAndFeel());
+            MintLookAndFeel.setCurrentTheme(props);
+            UIManager.setLookAndFeel(new MintLookAndFeel());
             SwingUtilities.updateComponentTreeUI(this);
         } catch (UnsupportedLookAndFeelException ex) {
             Logger.getLogger(Tela_Splash.class.getName()).log(Level.SEVERE, null, ex);
         }
-    }//GEN-LAST:event_JCH_DarkActionPerformed
+    }//GEN-LAST:event_jRadioButtonMenuItem15ActionPerformed
+
+    private void jRadioButtonMenuItem16ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jRadioButtonMenuItem16ActionPerformed
+        try {
+            Properties props = new Properties();
+            props.put("logoString", "SisCoE");
+            NoireLookAndFeel.setCurrentTheme(props);
+            UIManager.setLookAndFeel(new NoireLookAndFeel());
+            SwingUtilities.updateComponentTreeUI(this);
+        } catch (UnsupportedLookAndFeelException ex) {
+            Logger.getLogger(Tela_Splash.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }//GEN-LAST:event_jRadioButtonMenuItem16ActionPerformed
+
+    private void JRB_PadraoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_JRB_PadraoActionPerformed
+        LAF_Padrao("Default");
+    }//GEN-LAST:event_JRB_PadraoActionPerformed
+
+    private void jRadioButtonMenuItem18ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jRadioButtonMenuItem18ActionPerformed
+        LAF_Padrao("Modern");
+    }//GEN-LAST:event_jRadioButtonMenuItem18ActionPerformed
+
+    private void jRadioButtonMenuItem19ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jRadioButtonMenuItem19ActionPerformed
+        LAF_Padrao("Pink");
+    }//GEN-LAST:event_jRadioButtonMenuItem19ActionPerformed
+
+    private void jRadioButtonMenuItem17ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jRadioButtonMenuItem17ActionPerformed
+        try {
+            Properties props = new Properties();
+            props.put("logoString", "SisCoE");
+            UIManager.setLookAndFeel(new SubstanceRavenGraphiteGlassLookAndFeel());
+            SwingUtilities.updateComponentTreeUI(this);
+        } catch (UnsupportedLookAndFeelException ex) {
+            Logger.getLogger(Tela_Splash.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }//GEN-LAST:event_jRadioButtonMenuItem17ActionPerformed
+
+    private void jRadioButtonMenuItem20ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jRadioButtonMenuItem20ActionPerformed
+        try {
+            UIManager.setLookAndFeel(new SubstanceAutumnLookAndFeel());
+            SwingUtilities.updateComponentTreeUI(this);
+        } catch (UnsupportedLookAndFeelException ex) {
+            Logger.getLogger(Tela_Splash.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }//GEN-LAST:event_jRadioButtonMenuItem20ActionPerformed
+
+    private void jRadioButtonMenuItem21ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jRadioButtonMenuItem21ActionPerformed
+        try {
+            UIManager.setLookAndFeel(new SubstanceEmeraldDuskLookAndFeel());
+            SwingUtilities.updateComponentTreeUI(this);
+        } catch (UnsupportedLookAndFeelException ex) {
+            Logger.getLogger(Tela_Splash.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }//GEN-LAST:event_jRadioButtonMenuItem21ActionPerformed
+
+    private void jRadioButtonMenuItem22ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jRadioButtonMenuItem22ActionPerformed
+        //metodo aparencia lookandfeel
+        try {
+            UIManager.setLookAndFeel(new SubstanceMagmaLookAndFeel());
+            SwingUtilities.updateComponentTreeUI(this);
+        } catch (UnsupportedLookAndFeelException ex) {
+            Logger.getLogger(Tela_Splash.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }//GEN-LAST:event_jRadioButtonMenuItem22ActionPerformed
+
+    private void jRadioButtonMenuItem23ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jRadioButtonMenuItem23ActionPerformed
+        LAF_Personalizado();
+    }//GEN-LAST:event_jRadioButtonMenuItem23ActionPerformed
 
     //Metodos Para setar os dialogs
 
@@ -1774,8 +1847,6 @@ public static Tela_Principal TP;
     private javax.swing.JMenuItem CS_Produto;
     private javax.swing.JMenuItem CS_Turma;
     private javax.swing.JMenuItem CS_Usuario;
-    private javax.swing.JCheckBoxMenuItem JCH_Dark;
-    private javax.swing.JCheckBoxMenuItem JCH_Padrao;
     public javax.swing.JLabel JL_Cod;
     private javax.swing.JLabel JL_Data;
     private javax.swing.JLabel JL_Hora;
@@ -1787,6 +1858,7 @@ public static Tela_Principal TP;
     public javax.swing.JLabel JL_Usuario;
     private javax.swing.JPanel JP_Acesso_Rapido;
     private javax.swing.JPanel JP_Data_Hora_Sistema;
+    private javax.swing.JRadioButtonMenuItem JRB_Padrao;
     private javax.swing.JMenu MP_Ajuda;
     private javax.swing.JMenu MP_Cadastrar;
     private javax.swing.JMenu MP_Consultar;
@@ -1804,30 +1876,22 @@ public static Tela_Principal TP;
     private javax.swing.JButton jButton5;
     private javax.swing.JButton jButton7;
     private javax.swing.JButton jButton8;
-    private javax.swing.JCheckBoxMenuItem jCheckBoxMenuItem1;
-    private javax.swing.JCheckBoxMenuItem jCheckBoxMenuItem10;
-    private javax.swing.JCheckBoxMenuItem jCheckBoxMenuItem11;
-    private javax.swing.JCheckBoxMenuItem jCheckBoxMenuItem12;
-    private javax.swing.JCheckBoxMenuItem jCheckBoxMenuItem2;
-    private javax.swing.JCheckBoxMenuItem jCheckBoxMenuItem3;
-    private javax.swing.JCheckBoxMenuItem jCheckBoxMenuItem4;
-    private javax.swing.JCheckBoxMenuItem jCheckBoxMenuItem5;
-    private javax.swing.JCheckBoxMenuItem jCheckBoxMenuItem6;
-    private javax.swing.JCheckBoxMenuItem jCheckBoxMenuItem7;
-    private javax.swing.JCheckBoxMenuItem jCheckBoxMenuItem8;
-    private javax.swing.JCheckBoxMenuItem jCheckBoxMenuItem9;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JMenu jMenu1;
+    private javax.swing.JMenu jMenu10;
+    private javax.swing.JMenu jMenu11;
     private javax.swing.JMenu jMenu2;
     private javax.swing.JMenu jMenu3;
     private javax.swing.JMenu jMenu4;
     private javax.swing.JMenu jMenu5;
     private javax.swing.JMenu jMenu6;
     private javax.swing.JMenu jMenu7;
+    private javax.swing.JMenu jMenu8;
+    private javax.swing.JMenu jMenu9;
     private javax.swing.JMenuItem jMenuItem1;
     private javax.swing.JMenuItem jMenuItem10;
     private javax.swing.JMenuItem jMenuItem11;
@@ -1855,12 +1919,33 @@ public static Tela_Principal TP;
     private javax.swing.JMenuItem jMenuItem7;
     private javax.swing.JMenuItem jMenuItem8;
     private javax.swing.JMenuItem jMenuItem9;
+    private javax.swing.JRadioButtonMenuItem jRadioButtonMenuItem10;
+    private javax.swing.JRadioButtonMenuItem jRadioButtonMenuItem11;
+    private javax.swing.JRadioButtonMenuItem jRadioButtonMenuItem12;
+    private javax.swing.JRadioButtonMenuItem jRadioButtonMenuItem13;
+    private javax.swing.JRadioButtonMenuItem jRadioButtonMenuItem14;
+    private javax.swing.JRadioButtonMenuItem jRadioButtonMenuItem15;
+    private javax.swing.JRadioButtonMenuItem jRadioButtonMenuItem16;
+    private javax.swing.JRadioButtonMenuItem jRadioButtonMenuItem17;
+    private javax.swing.JRadioButtonMenuItem jRadioButtonMenuItem18;
+    private javax.swing.JRadioButtonMenuItem jRadioButtonMenuItem19;
+    private javax.swing.JRadioButtonMenuItem jRadioButtonMenuItem2;
+    private javax.swing.JRadioButtonMenuItem jRadioButtonMenuItem20;
+    private javax.swing.JRadioButtonMenuItem jRadioButtonMenuItem21;
+    private javax.swing.JRadioButtonMenuItem jRadioButtonMenuItem22;
+    private javax.swing.JRadioButtonMenuItem jRadioButtonMenuItem23;
+    private javax.swing.JRadioButtonMenuItem jRadioButtonMenuItem3;
+    private javax.swing.JRadioButtonMenuItem jRadioButtonMenuItem4;
+    private javax.swing.JRadioButtonMenuItem jRadioButtonMenuItem5;
+    private javax.swing.JRadioButtonMenuItem jRadioButtonMenuItem6;
+    private javax.swing.JRadioButtonMenuItem jRadioButtonMenuItem7;
+    private javax.swing.JRadioButtonMenuItem jRadioButtonMenuItem8;
+    private javax.swing.JRadioButtonMenuItem jRadioButtonMenuItem9;
     private javax.swing.JPopupMenu.Separator jSeparator1;
     private javax.swing.JPopupMenu.Separator jSeparator2;
     private javax.swing.JPopupMenu.Separator jSeparator3;
     private javax.swing.JPopupMenu.Separator jSeparator4;
     private javax.swing.JPopupMenu.Separator jSeparator5;
-    private componentes.UJPanelImagem uJPanelImagem1;
     // End of variables declaration//GEN-END:variables
 
     
@@ -1868,46 +1953,122 @@ public void Encerrar_Tela_Principal() {
         System.exit(WIDTH);//Fecha o programa
     } 
 
-
-//        try{
-//        if(JCB_CDASS_Aparencia.getSelectedItem().equals("Aluminio")){
-//        this.Seta_Look = ("com.jtattoo.plaf.aluminium.AluminiumLookAndFeel");
-//        lookandfeel();
-//        }
-//        if(JCB_CDASS_Aparencia.getSelectedItem().equals("Mac")){
-//        this.Seta_Look = ("com.jtattoo.plaf.mcwin.McWinLookAndFeel");
-//        lookandfeel();
-//        }
-//        if(JCB_CDASS_Aparencia.getSelectedItem().equals("Preto")){
-//        this.Seta_Look = ( "com.jtattoo.plaf.hifi.HiFiLookAndFeel");
-//        lookandfeel();
-//        }
-//        if(JCB_CDASS_Aparencia.getSelectedItem().equals("Padrão")){
-//        this.Seta_Look = ( "com.jtattoo.plaf.texture.TextureLookAndFeel");
-//        lookandfeel();
-//        }
-//        if(JCB_CDASS_Aparencia.getSelectedItem().equals("Acrílico")){
-//        this.Seta_Look = ( "com.jtattoo.plaf.acryl.AcrylLookAndFeel");
-//        lookandfeel();
-//        }
-//        if(JCB_CDASS_Aparencia.getSelectedItem().equals("Amarelo")){
-//        this.Seta_Look = ( "com.jtattoo.plaf.bernstein.BernsteinLookAndFeel");
-//        lookandfeel();
-//        }
-//        if(JCB_CDASS_Aparencia.getSelectedItem().equals("Grafite")){
-//        this.Seta_Look = ( "com.jtattoo.plaf.graphite.GraphiteLookAndFeel");
-//        lookandfeel();
-//        }
-//        if(JCB_CDASS_Aparencia.getSelectedItem().equals("Mint")){
-//        this.Seta_Look = ( "com.jtattoo.plaf.mint.MintLookAndFeel");
-//        lookandfeel();
-//        }
-//        if(JCB_CDASS_Aparencia.getSelectedItem().equals("Windows")){
-//        this.Seta_Look = ( "com.sun.java.swing.plaf.windows.WindowsLookAndFeel");
-//        lookandfeel();
-//        }
         
+ void LAF_Textura(String tipo){
+    try {
+        TextureLookAndFeel.setTheme(tipo,"", "SisCoE");
+        UIManager.setLookAndFeel(new TextureLookAndFeel());
+        SwingUtilities.updateComponentTreeUI(this);
+        } catch (UnsupportedLookAndFeelException ex) {
+            Logger.getLogger(Tela_Splash.class.getName()).log(Level.SEVERE, null, ex);
+        }
+ }      
+ 
+ void LAF_Acryl(String tipo){
+    try {
+        AcrylLookAndFeel.setTheme(tipo,"", "SisCoE");
+        UIManager.setLookAndFeel(new AcrylLookAndFeel());
+        SwingUtilities.updateComponentTreeUI(this);
+        } catch (UnsupportedLookAndFeelException ex) {
+            Logger.getLogger(Tela_Splash.class.getName()).log(Level.SEVERE, null, ex);
+        }
+ }  
+ void LAF_Graf(String tipo){
+    try {
+        GraphiteLookAndFeel.setTheme(tipo,"", "SisCoE");
+        UIManager.setLookAndFeel(new GraphiteLookAndFeel());
+        SwingUtilities.updateComponentTreeUI(this);
+        } catch (UnsupportedLookAndFeelException ex) {
+            Logger.getLogger(Tela_Splash.class.getName()).log(Level.SEVERE, null, ex);
+        }
+ }
+ void LAF_Padrao(String tipo){
+    try {
+        McWinLookAndFeel.setTheme(tipo,"", "SisCoE");
+        UIManager.setLookAndFeel(new McWinLookAndFeel());
+        SwingUtilities.updateComponentTreeUI(this);
+        } catch (UnsupportedLookAndFeelException ex) {
+            Logger.getLogger(Tela_Splash.class.getName()).log(Level.SEVERE, null, ex);
+        }
+ } 
+ 
+ void LAF_Personalizado(){
+        try {
+            
+            Properties props = new Properties();
+            props.put("logoString", "SisCoE");  
+            
+            props.put("backgroundPattern", "on");//
+            
+            props.put("foregroundColor", "0 0 0"); //seleção letra
+            props.put("backgroundColor", "255 0 153"); //seleção fundo
+            props.put("backgroundColorLight", "255 0 153"); //cor dos componentes acima
+            props.put("backgroundColorDark", "255 0 153"); //cor dos componentes abaixo
+            props.put("inputForegroundColor", "0 0 0"); //cor da letra ao ser digitado
+            props.put("inputBackgroundColor", "255 0 255"); //cor do fundo dos campos            
+            props.put("selectionBackgroundColor", "0 0 0"); //seleção fundo ao passar o mouse
+            props.put("selectionForegroundColor", "255 0 153"); //seleção letra ao passar o mouse
+            props.put("frameColor", "0 0 0"); //contorno dos botoes e das textfileds            
+            props.put("gridColor", "255 0 153"); //linhas das tabelas  
+            props.put("controlColorLight", "0 0 0"); //barra de carregamento acima
+            props.put("controlColorDark", "0 0 0"); //barra da carregamento abaixo
+            props.put("controlForegroundColor", "255 255 255"); //cor da seta onde escreve piscando e titulos da tabela
+            
+            //Botoes
+            props.put("rolloverColor", "255 255 255"); //cor dos botoes quando clica
+            props.put("rolloverColorLight", "255 0 255"); //cor dos botoes ao passar o mouse acima
+            props.put("rolloverColorDark", "255 0 255"); //cor dos botoes ao passar o mouse abaixo
+            props.put("buttonColorLight", "255 153 204"); //cor dos botoes acima
+            props.put("buttonColorDark", "255 0 153"); //cor dos botoes abaixo            
+            props.put("buttonForegroundColor", "0 0 0"); //cor da fonte dos botoes 
+            props.put("focusColor", "0 0 0");//cor do focus no botao
+            
+            //Janela
+            props.put("windowTitleForegroundColor", "255 255 255");//Titulo da janela
+            props.put("windowTitleBackgroundColor", "255 153 204");//contorno do titulo
+            props.put("windowTitleColorLight", "255 0 153");//barra da janela cima
+            props.put("windowTitleColorDark", "255 51 255"); //barra da janela baixo
+            props.put("windowBorderColor", "0 0 0");//bordas da janela    
+            props.put("windowInactiveTitleColorLight", "255 153 204");//barra da janela cima inativa
+            props.put("windowInactiveTitleColorDark", "255 153 204");//barra da janela baixa inativa     
+            props.put("windowInactiveBorderColor", "0 0 0 ");//borda da janela inativa           
+            props.put("windowIconColor", "255 255 255"); //icones da janela(fechar, max e mini)
+            props.put("windowIconShadowColor", "0 0 0"); //sombra icones da janela(fechar, max e mini)
+            props.put("windowIconRolloverColor", "0 0 0"); //icones da janela(fechar, max e mini) ao passar o mouse
+            
+            //Menus
+            props.put("menuForegroundColor", "0 0 0"); //cor das letras dos menus
+            props.put("menuBackgroundColor", "255 0 153");//cor do fundo do menu
+            props.put("menuColorLight", "255 0 153");//cor do menu acima
+            props.put("menuColorDark", "255 0 153");//cor do menu abaixo
+            props.put("menuSelectionForegroundColor", "255 255 255");//cor da letra no menu selecionado
+            props.put("menuSelectionBackgroundColor", "255 0 255");//cor da linha selecionada no menu            
+            props.put("menuSelectionBackgroundColorLight", "255 0 255"); //cor do fundo selecionada no menu acima
+            props.put("menuSelectionBackgroundColorDark", "255 0 255"); //cor do fundo selecionada no menu abaixo
+            props.put("menuOpaque", "off"); //menu translucido toolbarBackgroundColor
+            //Testes 
+            props.put("toolbarBackgroundColor", "255 0 0"); //
+            props.put("toolbarColorLight", "255 0 0"); //
+            props.put("toolbarColorDark", "255 0 0"); //
+            
+            //Texto de ajuda
+            props.put("tooltipForegroundColor", "0 0 0");//cor da letra do texto de ajuda
+            props.put("tooltipBackgroundColor", "255 0 255");//cor do fundo do texto de ajuda
+            props.put("tooltipBorderSize", "2");//largura da borda do texto de ajuda            
+            props.put("tooltipShadowSize", "8");//sombra do texto de ajuda 
+            
+            props.put("alterBackgroundColor", "240 240 240");//sombra do texto de ajuda //
+            props.put("backgroundColorLight", "255 0 153"); //cor dos componentes acima
+            props.put("backgroundColorDark", "255 0 153"); //cor dos componentes abaixo
+                       
+            NoireLookAndFeel.setCurrentTheme(props);
+            UIManager.setLookAndFeel(new NoireLookAndFeel());
+             SwingUtilities.updateComponentTreeUI(this);
+     
+        } catch (UnsupportedLookAndFeelException ex) {
+            Logger.getLogger(Tela_Splash.class.getName()).log(Level.SEVERE, null, ex);
+        }
        
-    
+    }
     
 }//Fim Do Codigo

@@ -2,12 +2,13 @@ package GUI_Dialogs_Relatorios;
 
 // @author Márison Tamiarana
 
+import GUI_Frames.Tela_Relat_Entrada_Periodo;
 
 public class Inf_Preencher_Datas_Relat_Ent extends javax.swing.JDialog {
     
-    public static Tela_Periodo_Entrada ObjRelatEntProd;
+    public static Tela_Relat_Entrada_Periodo ObjRelatEntProd;
     
-    public Inf_Preencher_Datas_Relat_Ent(Tela_Periodo_Entrada parent, boolean modal) {
+    public Inf_Preencher_Datas_Relat_Ent(Tela_Relat_Entrada_Periodo parent, boolean modal) {
         this.ObjRelatEntProd = parent;
         this.setModal(modal);
         initComponents();
@@ -109,21 +110,13 @@ public class Inf_Preencher_Datas_Relat_Ent extends javax.swing.JDialog {
                     break;
                 }
             }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(Inf_Preencher_Datas_Relat_Ent.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(Inf_Preencher_Datas_Relat_Ent.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(Inf_Preencher_Datas_Relat_Ent.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
+        } catch (ClassNotFoundException | InstantiationException | IllegalAccessException | javax.swing.UnsupportedLookAndFeelException ex) {
             java.util.logging.Logger.getLogger(Inf_Preencher_Datas_Relat_Ent.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
-        //</editor-fold>
-        //</editor-fold>
-        
 
         /* Create and display the dialog */
         java.awt.EventQueue.invokeLater(new Runnable() {
+            @Override
             public void run() {
                 Inf_Preencher_Datas_Relat_Ent dialog = new Inf_Preencher_Datas_Relat_Ent(ObjRelatEntProd, true);
                 dialog.addWindowListener(new java.awt.event.WindowAdapter() {

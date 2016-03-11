@@ -11,6 +11,7 @@ import Metodos.Pintar_Tabela;
 import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.KeyEvent;
+import java.awt.event.MouseEvent;
 import java.beans.PropertyVetoException;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -19,6 +20,7 @@ import java.util.logging.Logger;
 import javax.swing.AbstractAction;
 import javax.swing.InputMap;
 import javax.swing.JComponent;
+import javax.swing.JOptionPane;
 import javax.swing.KeyStroke;
 import javax.swing.ListSelectionModel;
 import javax.swing.event.DocumentEvent;
@@ -271,13 +273,17 @@ public class Tela_Consulta_Produto extends javax.swing.JInternalFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void JTF_PesquisaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_JTF_PesquisaActionPerformed
-        JTB_Consulta_Prod.requestFocus();
-        JTB_Consulta_Prod.setRowSelectionInterval(0,0);
+        int quant_itens = JTB_Consulta_Prod.getRowCount();
+            if(quant_itens>0){
+            JTB_Consulta_Prod.setRowSelectionInterval(0, 0);
+            JTB_Consulta_Prod.requestFocus();
+        }
     }//GEN-LAST:event_JTF_PesquisaActionPerformed
 
     private void JTB_Consulta_ProdMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_JTB_Consulta_ProdMouseClicked
         JL_Prod.setText(String.valueOf(JTB_Consulta_Prod.getValueAt(JTB_Consulta_Prod.getSelectedRow(), 1)));
         try {
+            
             if (evt.getClickCount() == 2) {
 
                 Object resultado = (JTB_Consulta_Prod.getValueAt(JTB_Consulta_Prod.getSelectedRow(), 0));

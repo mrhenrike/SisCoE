@@ -279,12 +279,11 @@ public class Tela_Consulta_Produto_Ajuste_DL extends javax.swing.JDialog {
     }//GEN-LAST:event_JTB_Consulta_ProdMouseClicked
 
     private void JTF_PesquisaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_JTF_PesquisaActionPerformed
-//        Preencher_Tabela("select distinct produto.id_produto, produto.descricao, categoria,  unidade, quantidade_minima "
-//        + "from produto inner join categoria_produto on produto.Categoria_Produto_id_categoria = categoria_produto.id_categoria "
-//        + "inner join lote_estoque on produto.id_produto=lote_estoque.produto_id_produto where quantidade_estoque>0 "
-//        + "and produto.descricao like '%" + JTF_Pesquisa.getText().toUpperCase() + "%' "
-//        + "and produto.situacao='ATIVO' order by produto.descricao"); 
-        JTB_Consulta_Prod.requestFocus();
+        int quant_itens = JTB_Consulta_Prod.getRowCount();
+            if(quant_itens>0){
+            JTB_Consulta_Prod.setRowSelectionInterval(0, 0);
+            JTB_Consulta_Prod.requestFocus();
+        }
        
     }//GEN-LAST:event_JTF_PesquisaActionPerformed
 

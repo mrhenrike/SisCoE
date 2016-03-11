@@ -1,6 +1,7 @@
 package Conexao;
 
 //@author Márison Tamiarana
+
 import java.sql.*; //Com "*" ele busca todas as importações
 import javax.swing.JOptionPane;
 
@@ -39,8 +40,7 @@ public class Conecta_Banco {
         }
 }
      public void ExecutaSQL(String sql){
-        try {
-           
+        try {           
                 //stm = conn.createStatement(rs.TYPE_SCROLL_INSENSITIVE,rs.CONCUR_READ_ONLY);
                 stm = conn.createStatement();
                 rs = stm.executeQuery(sql);
@@ -64,7 +64,7 @@ public class Conecta_Banco {
         }
     }
     
-    public void Ultimo_Id(String sql, String sql2) throws Exception {
+    public int Ultimo_Id(String sql, String campo, int id) throws Exception {
        
         try {
              Conectar();//Testa e abre a conexão com o banco
@@ -72,14 +72,15 @@ public class Conecta_Banco {
             rs = stm.executeQuery(sql);
             rs.last();
             
-                int Id = rs.getInt(sql2);
-                //JOptionPane.showMessageDialog(null, Id);
+            id = rs.getInt(campo);
+            //JOptionPane.showMessageDialog(null, Id);
             
             Desconecta();//Fecha a conexão com o banco de dados
 
         } catch (SQLException ex) {
-
+            Desconecta();
         }
+        return id;
     }
     
 

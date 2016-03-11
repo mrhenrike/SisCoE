@@ -17,10 +17,6 @@ import GUI_Dialogs_Principal.Inf_Vencimento_TP;
 import GUI_Dialogs_Principal.Logoff;
 import GUI_Dialogs_Principal.Logout_User_TP;
 import GUI_Dialogs_Principal.Sobre;
-import GUI_Dialogs_Relatorios.Tela_Num_Entrada;
-import GUI_Dialogs_Relatorios.Tela_Periodo_Entrada;
-import GUI_Dialogs_Relatorios.Tela_Produto_Entrada_Periodo;
-import GUI_Dialogs_Relatorios.Tela_Produto_Relat_Categoria;
 import Metodos.Metodos;
 import com.jtattoo.plaf.acryl.AcrylLookAndFeel;
 import com.jtattoo.plaf.aluminium.AluminiumLookAndFeel;
@@ -41,13 +37,10 @@ import javax.swing.JDesktopPane;
 import javax.swing.SwingUtilities;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
-import org.jvnet.substance.SubstanceLookAndFeel;
 import org.jvnet.substance.skin.SubstanceAutumnLookAndFeel;
 import org.jvnet.substance.skin.SubstanceEmeraldDuskLookAndFeel;
 import org.jvnet.substance.skin.SubstanceMagmaLookAndFeel;
 import org.jvnet.substance.skin.SubstanceRavenGraphiteGlassLookAndFeel;
-import org.jvnet.substance.theme.SubstanceBarbyPinkTheme;
-import org.jvnet.substance.theme.SubstanceCremeTheme;
 
 
 public final class Tela_Principal extends javax.swing.JFrame {
@@ -66,22 +59,18 @@ public static Tela_Principal TP;
     }
     
     //Instacia de objetos do tipo dialog
-    private static Logoff ObjLogoff;
-    private static Sobre ObjSobre;
-    private static Tela_Finalizando ObjFim;
-    private static Tela_Finalizando_Iniciando ObjFimInicio;
-    private static Tela_Login ObjLogin;
-    private static Tela_Periodo_Entrada ObjPeriodo;
-    private static Tela_Num_Entrada ObjNumEntrada;
-    private static Inf_Abaixo_Do_Minimo_TP ObjAbaixoDoMinimo;
-    private static Inf_Prod_Vencido_TP ObjProdVencido;
-    private static Inf_Vencimento_TP ObjVencimento;
-    private static Inf_Dev_Pendente_TP ObjDevPendente;
-    private static Inf_Cad_Usuario_TP ObjCadUsuario;
-    private static Tela_Produto_Entrada_Periodo ObjProdEntradaPeriodo;
-    private static Tela_Bloqueio ObjBloqueio;
-    private static Logout_User_TP ObjLogout;
-    private static Tela_Produto_Relat_Categoria ObjProdRelatCat;
+    private static Logoff DLLogoff;
+    private static Sobre DLSobre;
+    private static Tela_Finalizando DLFim;
+    private static Tela_Finalizando_Iniciando DLFimInicio;
+    private static Tela_Login DLLogin;
+    private static Inf_Abaixo_Do_Minimo_TP DLAbaixoDoMinimo;
+    private static Inf_Prod_Vencido_TP DLProdVencido;
+    private static Inf_Vencimento_TP DLVencimento;
+    private static Inf_Dev_Pendente_TP DLDevPendente;
+    private static Inf_Cad_Usuario_TP DLCadUsuario;
+    private static Tela_Bloqueio DLBloqueio;
+    private static Logout_User_TP DLLogout;
     
     public static String UserLogado;
     public static String PermissaoLogado;
@@ -89,9 +78,9 @@ public static Tela_Principal TP;
     
         
     //Instanciando objetos de outras classes para usar os metodos dessa classe
-    Metodos Metodo = new Metodos(); 
+    Metodos ObjMetodo = new Metodos(); 
     Conecta_Banco ObjConecta = new Conecta_Banco();
-    Controle_Usuario ObjControlUser = new Controle_Usuario();
+    Controle_Usuario ObjControleUser = new Controle_Usuario();
     Controle_Log ObjControleLog = new Controle_Log();
     
      
@@ -176,12 +165,14 @@ public static Tela_Principal TP;
         jMenuItem7 = new javax.swing.JMenuItem();
         jMenuItem13 = new javax.swing.JMenuItem();
         jMenuItem27 = new javax.swing.JMenuItem();
+        jMenuItem23 = new javax.swing.JMenuItem();
+        jMenuItem28 = new javax.swing.JMenuItem();
+        jMenuItem29 = new javax.swing.JMenuItem();
         jSeparator3 = new javax.swing.JPopupMenu.Separator();
         jMenu2 = new javax.swing.JMenu();
         jMenuItem2 = new javax.swing.JMenuItem();
         jMenuItem10 = new javax.swing.JMenuItem();
         jMenuItem11 = new javax.swing.JMenuItem();
-        jMenuItem23 = new javax.swing.JMenuItem();
         jMenuItem12 = new javax.swing.JMenuItem();
         jMenuItem15 = new javax.swing.JMenuItem();
         jMenu6 = new javax.swing.JMenu();
@@ -707,6 +698,19 @@ public static Tela_Principal TP;
         jMenuItem27.setText("Abaixo Do Mínimo");
         jMenu4.add(jMenuItem27);
 
+        jMenuItem23.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_Q, java.awt.event.InputEvent.ALT_MASK | java.awt.event.InputEvent.CTRL_MASK));
+        jMenuItem23.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        jMenuItem23.setText("Sem Estoque");
+        jMenu4.add(jMenuItem23);
+
+        jMenuItem28.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        jMenuItem28.setText("Produtos Vencidos");
+        jMenu4.add(jMenuItem28);
+
+        jMenuItem29.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        jMenuItem29.setText("Vencimento Abaixo 30 Dias");
+        jMenu4.add(jMenuItem29);
+
         MP_Relatorio.add(jMenu4);
         MP_Relatorio.add(jSeparator3);
 
@@ -743,11 +747,6 @@ public static Tela_Principal TP;
             }
         });
         jMenu2.add(jMenuItem11);
-
-        jMenuItem23.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_Q, java.awt.event.InputEvent.ALT_MASK | java.awt.event.InputEvent.CTRL_MASK));
-        jMenuItem23.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        jMenuItem23.setText("Sem Estoque");
-        jMenu2.add(jMenuItem23);
 
         jMenuItem12.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_E, java.awt.event.InputEvent.ALT_MASK | java.awt.event.InputEvent.CTRL_MASK));
         jMenuItem12.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
@@ -869,7 +868,7 @@ public static Tela_Principal TP;
         jMenuItem5.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_F12, java.awt.event.InputEvent.CTRL_MASK));
         jMenuItem5.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         jMenuItem5.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icones_Gerais/Calculadora 24x24.png"))); // NOI18N
-        jMenuItem5.setText("Calculadora");
+        jMenuItem5.setText("Calculadora Do Windows");
         jMenuItem5.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jMenuItem5ActionPerformed(evt);
@@ -1369,11 +1368,13 @@ public static Tela_Principal TP;
     }//GEN-LAST:event_jMenuItem4ActionPerformed
 
     private void jMenuItem8ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem8ActionPerformed
-        Mostrar_Tela_Periodo();
+        Tela_Relat_Entrada_Periodo obj = new Tela_Relat_Entrada_Periodo();
+        obj.Open_Tela();
     }//GEN-LAST:event_jMenuItem8ActionPerformed
 
     private void jMenuItem9ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem9ActionPerformed
-        Mostrar_Tela_Num_Entrada();
+        Tela_Relat_Entrada_Num obj = new Tela_Relat_Entrada_Num();
+        obj.Open_Tela();
     }//GEN-LAST:event_jMenuItem9ActionPerformed
 
     private void jMenuItem5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem5ActionPerformed
@@ -1396,8 +1397,9 @@ public static Tela_Principal TP;
     }//GEN-LAST:event_jMenuItem11ActionPerformed
 
     private void jMenuItem12ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem12ActionPerformed
-        Mostrar_Tela_Relat_Prod_Periodo();
-        
+        //Mostrar_Tela_Relat_Prod_Periodo(); 
+        Tela_Relat_Produto_Ent_Periodo obj = new Tela_Relat_Produto_Ent_Periodo();
+        obj.Open_Tela();
     }//GEN-LAST:event_jMenuItem12ActionPerformed
 
     private void Sair_BloquearActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Sair_BloquearActionPerformed
@@ -1415,7 +1417,8 @@ public static Tela_Principal TP;
     }//GEN-LAST:event_jMenuItem16ActionPerformed
 
     private void jMenuItem17ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem17ActionPerformed
-        Mostrar_Tela_Realt_Prod_Categoria();
+        Tela_Relat_Produto_Categoria obj = new Tela_Relat_Produto_Categoria();
+        obj.Open_Tela();
     }//GEN-LAST:event_jMenuItem17ActionPerformed
 
     private void jMenuItem13ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem13ActionPerformed
@@ -1612,83 +1615,67 @@ public static Tela_Principal TP;
     //Metodos Para setar os dialogs
 
     public void Mostrar_DL_Logoff() {
-        ObjLogoff = new Logoff(this, true);
-        ObjLogoff.setVisible(true);
+        DLLogoff = new Logoff(this, true);
+        DLLogoff.setVisible(true);
     }
     public void Mostrar_Sobre(){
-        ObjSobre = new Sobre(this, true);
-        ObjSobre.setVisible(true);
+        DLSobre = new Sobre(this, true);
+        DLSobre.setVisible(true);
     }
     public void Mostrar_Finalizando(){
-        ObjFim = new Tela_Finalizando(this, true);
-        ObjFim.setVisible(true);
+        DLFim = new Tela_Finalizando(this, true);
+        DLFim.setVisible(true);
     }
     public void Mostrar_Finalizando_Iniciando(){
-        ObjFimInicio = new Tela_Finalizando_Iniciando(this, true);
-        ObjFimInicio.setVisible(true);
+        DLFimInicio = new Tela_Finalizando_Iniciando(this, true);
+        DLFimInicio.setVisible(true);
     }
     public void Mostrar_Login(){
-        ObjLogin= new Tela_Login(this, true);
-        ObjLogin.setVisible(true);
+        DLLogin= new Tela_Login(this, true);
+        DLLogin.setVisible(true);
     }
     public void Mostrar_Bloqueio(){
-        ObjBloqueio = new Tela_Bloqueio(this, true);
-        ObjBloqueio.setVisible(true);
+        DLBloqueio = new Tela_Bloqueio(this, true);
+        DLBloqueio.setVisible(true);
     }
     public void Mostrar_Logout(){
-        ObjLogout = new Logout_User_TP(this, true);
-        ObjLogout.setVisible(true);
-    }
-    void Mostrar_Tela_Periodo(){
-        ObjPeriodo = new Tela_Periodo_Entrada(this, true);
-        ObjPeriodo.setVisible(true);
-    }
-    void Mostrar_Tela_Num_Entrada(){
-        ObjNumEntrada = new Tela_Num_Entrada(this, true);
-        ObjNumEntrada.setVisible(true);
+        DLLogout = new Logout_User_TP(this, true);
+        DLLogout.setVisible(true);
     }
     public void Mostrar_Abaixo_Do_Minimo(){
-        ObjAbaixoDoMinimo = new Inf_Abaixo_Do_Minimo_TP(this, true);
-        ObjAbaixoDoMinimo.setVisible(true);
+        DLAbaixoDoMinimo = new Inf_Abaixo_Do_Minimo_TP(this, true);
+        DLAbaixoDoMinimo.setVisible(true);
     }
     public void Mostrar_Prod_Vencido(){
-        ObjProdVencido = new Inf_Prod_Vencido_TP(this, true);
-        ObjProdVencido.setVisible(true);
+        DLProdVencido = new Inf_Prod_Vencido_TP(this, true);
+        DLProdVencido.setVisible(true);
     }
     public void Mostrar_Validade(){
-        ObjVencimento = new Inf_Vencimento_TP(this, true);
-        ObjVencimento.setVisible(true);
-    }
-    public void Mostrar_Tela_Relat_Prod_Periodo(){
-        ObjProdEntradaPeriodo = new Tela_Produto_Entrada_Periodo(this, true);
-        ObjProdEntradaPeriodo.setVisible(true);
-    }
-    public void Mostrar_Tela_Realt_Prod_Categoria(){
-        ObjProdRelatCat = new Tela_Produto_Relat_Categoria(this, true);
-        ObjProdRelatCat.setVisible(true);
+        DLVencimento = new Inf_Vencimento_TP(this, true);
+        DLVencimento.setVisible(true);
     }
     public void Mostrar_Cad_Usuario(){
-        ObjCadUsuario = new Inf_Cad_Usuario_TP(this, true);
-        ObjCadUsuario.setVisible(true);
+        DLCadUsuario = new Inf_Cad_Usuario_TP(this, true);
+        DLCadUsuario.setVisible(true);
     }
     public void Mostrar_Dev_Pendente(){
-        ObjDevPendente = new Inf_Dev_Pendente_TP(this, true);
-        ObjDevPendente.setVisible(true);
+        DLDevPendente = new Inf_Dev_Pendente_TP(this, true);
+        DLDevPendente.setVisible(true);
     }
     
     public void Setar_Usuario(String Usuario, String Permissao) {
-        ObjControlUser.Acesso_Adm("SISTEMA");
-        if(Usuario.equalsIgnoreCase(ObjControlUser.Adm_Login)){
+        ObjControleUser.Acesso_Adm("SISTEMA");
+        if(Usuario.equalsIgnoreCase(ObjControleUser.Adm_Login)){
             JL_Permissao.setText(Permissao);
             JL_Usuario.setText("ADMINISTRADOR DO SISTEMA");
             UserLogado = JL_Usuario.getText();
             PermissaoLogado = "ADMINISTRADOR";
-            JL_Cod.setText(String.valueOf(ObjControlUser.Adm_Id));
+            JL_Cod.setText(String.valueOf(ObjControleUser.Adm_Id));
             CodLogado = JL_Cod.getText();
             jLabel1.setVisible(!false);
             jLabel2.setVisible(!false);
         }else{
-            ObjControlUser.Procura_Nome_Usuario(JL_Usuario, Usuario, JL_Cod);
+            ObjControleUser.Procura_Nome_Usuario(JL_Usuario, Usuario, JL_Cod);
             JL_Permissao.setText(Permissao);        
             UserLogado = JL_Usuario.getText();
             PermissaoLogado = Permissao;
@@ -1721,6 +1708,10 @@ public static Tela_Principal TP;
         Tela_Entrada_Produto.Obj=null;
         Tela_Saida_Produto.Obj=null;
         Tela_Gerar_Devolucao.Obj=null;
+        Tela_Relat_Entrada_Num.Obj=null;
+        Tela_Relat_Entrada_Periodo.Obj=null;
+        Tela_Relat_Produto_Ent_Periodo.Obj=null;
+        Tela_Relat_Produto_Categoria.Obj=null;
         Mostrar_Finalizando_Iniciando();
     } catch (Exception ex) { }    
     }
@@ -1795,7 +1786,7 @@ public static Tela_Principal TP;
     }
     
     public void Fechar_Tela_bloqueio(){
-        ObjLogout.setVisible(false);
+        DLLogout.setVisible(false);
     }
     public static void Fechar_Tela_Principal(){
         TP.dispose();
@@ -1912,6 +1903,8 @@ public static Tela_Principal TP;
     private javax.swing.JMenuItem jMenuItem25;
     private javax.swing.JMenuItem jMenuItem26;
     private javax.swing.JMenuItem jMenuItem27;
+    private javax.swing.JMenuItem jMenuItem28;
+    private javax.swing.JMenuItem jMenuItem29;
     private javax.swing.JMenuItem jMenuItem3;
     private javax.swing.JMenuItem jMenuItem4;
     private javax.swing.JMenuItem jMenuItem5;

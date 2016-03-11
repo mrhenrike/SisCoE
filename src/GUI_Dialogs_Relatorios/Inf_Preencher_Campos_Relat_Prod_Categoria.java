@@ -2,12 +2,15 @@ package GUI_Dialogs_Relatorios;
 
 // @author Márison Tamiarana
 
+import GUI_Frames.Tela_Relat_Produto_Categoria;
+
+
 
 public class Inf_Preencher_Campos_Relat_Prod_Categoria extends javax.swing.JDialog {
     
-    public static Tela_Produto_Relat_Categoria ObjRelatProdCat;
+    public static Tela_Relat_Produto_Categoria ObjRelatProdCat;
     
-    public Inf_Preencher_Campos_Relat_Prod_Categoria(Tela_Produto_Relat_Categoria parent, boolean modal) {
+    public Inf_Preencher_Campos_Relat_Prod_Categoria(Tela_Relat_Produto_Categoria parent, boolean modal) {
         this.ObjRelatProdCat = parent;
         this.setModal(modal);
         initComponents();
@@ -31,7 +34,7 @@ public class Inf_Preencher_Campos_Relat_Prod_Categoria extends javax.swing.JDial
         setMinimumSize(new java.awt.Dimension(360, 100));
 
         jLabel1.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
-        jLabel1.setText("Preencher campos obrigatórios!");
+        jLabel1.setText("Selecione a categoria desejada!");
 
         JB_Ok.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icones/Bt Ok.png"))); // NOI18N
         JB_Ok.setMnemonic('o');
@@ -59,7 +62,7 @@ public class Inf_Preencher_Campos_Relat_Prod_Categoria extends javax.swing.JDial
                     .addGroup(layout.createSequentialGroup()
                         .addGap(49, 49, 49)
                         .addComponent(JB_Ok, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(28, Short.MAX_VALUE))
+                .addContainerGap(30, Short.MAX_VALUE))
             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(layout.createSequentialGroup()
                     .addGap(48, 48, 48)

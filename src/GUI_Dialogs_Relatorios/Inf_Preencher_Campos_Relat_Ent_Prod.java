@@ -2,12 +2,15 @@ package GUI_Dialogs_Relatorios;
 
 // @author Márison Tamiarana
 
+import GUI_Frames.Tela_Relat_Produto_Ent_Periodo;
+
+
 
 public class Inf_Preencher_Campos_Relat_Ent_Prod extends javax.swing.JDialog {
     
-    public static Tela_Produto_Entrada_Periodo ObjRelatEnt;
+    public static Tela_Relat_Produto_Ent_Periodo ObjRelatEnt;
     
-    public Inf_Preencher_Campos_Relat_Ent_Prod(Tela_Produto_Entrada_Periodo parent, boolean modal) {
+    public Inf_Preencher_Campos_Relat_Ent_Prod(Tela_Relat_Produto_Ent_Periodo parent, boolean modal) {
         this.ObjRelatEnt = parent;
         this.setModal(modal);
         initComponents();
@@ -108,13 +111,7 @@ public class Inf_Preencher_Campos_Relat_Ent_Prod extends javax.swing.JDialog {
                     break;
                 }
             }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(Inf_Preencher_Campos_Relat_Ent_Prod.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(Inf_Preencher_Campos_Relat_Ent_Prod.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(Inf_Preencher_Campos_Relat_Ent_Prod.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
+        } catch (ClassNotFoundException | InstantiationException | IllegalAccessException | javax.swing.UnsupportedLookAndFeelException ex) {
             java.util.logging.Logger.getLogger(Inf_Preencher_Campos_Relat_Ent_Prod.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
       

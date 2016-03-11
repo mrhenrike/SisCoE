@@ -471,7 +471,7 @@
             <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
               <Image iconType="3" name="/Icones_Gerais/Ativar 24x24.png"/>
             </Property>
-            <Property name="toolTipText" type="java.lang.String" value="Clique Para Pesquisar Um Produto"/>
+            <Property name="toolTipText" type="java.lang.String" value="Clique Para Confirmar Um Produto"/>
           </Properties>
           <Events>
             <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="BT_ConfirmarActionPerformed"/>

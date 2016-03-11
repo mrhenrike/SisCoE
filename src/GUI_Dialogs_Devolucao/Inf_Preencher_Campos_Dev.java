@@ -33,7 +33,7 @@ public class Inf_Preencher_Campos_Dev extends javax.swing.JDialog {
         setMinimumSize(new java.awt.Dimension(360, 100));
 
         jLabel1.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
-        jLabel1.setText("Preencher campos obrigatórios!");
+        jLabel1.setText("Preencher campo de pesquisa!");
 
         JB_Ok.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icones/Bt Ok.png"))); // NOI18N
         JB_Ok.setMnemonic('o');

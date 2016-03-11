@@ -100,7 +100,7 @@ public class Tela_Cadastro_Categoria_DL extends javax.swing.JDialog {
         JTF_Desc_Alterar = new javax.swing.JTextField();
         JL_Situacao = new javax.swing.JLabel();
         JCB_Situacao = new javax.swing.JComboBox();
-        JL_Quant_Itens1 = new javax.swing.JLabel();
+        JL_Info = new javax.swing.JLabel();
         JL_Campos = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
@@ -314,8 +314,8 @@ public class Tela_Cadastro_Categoria_DL extends javax.swing.JDialog {
                 .addContainerGap(16, Short.MAX_VALUE))
         );
 
-        JL_Quant_Itens1.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
-        JL_Quant_Itens1.setText("Esc - Sair | F7 - Editar | F10 - Salvar | F11 - Cancelar");
+        JL_Info.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        JL_Info.setText("Esc - Sair | F7 - Editar | F10 - Salvar | F11 - Cancelar");
 
         JL_Campos.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
         JL_Campos.setText("* Campos Obrigatórios");
@@ -330,7 +330,7 @@ public class Tela_Cadastro_Categoria_DL extends javax.swing.JDialog {
                     .addComponent(JP_Alterar_Dados, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(JP_Categoria, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(JL_Quant_Itens1)
+                        .addComponent(JL_Info)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(JL_Campos, javax.swing.GroupLayout.PREFERRED_SIZE, 170, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
@@ -363,7 +363,7 @@ public class Tela_Cadastro_Categoria_DL extends javax.swing.JDialog {
                 .addComponent(JP_Alterar_Dados, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(8, 8, 8)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(JL_Quant_Itens1)
+                    .addComponent(JL_Info)
                     .addComponent(JL_Campos))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -723,49 +723,7 @@ public class Tela_Cadastro_Categoria_DL extends javax.swing.JDialog {
      
     }
     
-    /**
-     * @param args the command line arguments
-     */
-    public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
-        try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(Tela_Cadastro_Categoria_DL.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(Tela_Cadastro_Categoria_DL.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(Tela_Cadastro_Categoria_DL.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(Tela_Cadastro_Categoria_DL.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        }
-        //</editor-fold>
-
-        /* Create and display the dialog */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                Tela_Cadastro_Categoria_DL dialog = new Tela_Cadastro_Categoria_DL(new Tela_Cadastro_Prod(), true);
-                dialog.addWindowListener(new java.awt.event.WindowAdapter() {
-                    @Override
-                    public void windowClosing(java.awt.event.WindowEvent e) {
-                        System.exit(0);
-                    }
-                });
-                dialog.setVisible(true);
-            }
-        });
-    }
-    
-   public final void Setar_Atalho_BT(){
+    public final void Setar_Atalho_BT(){
         //metodo para pegar a tecla pressionada
         InputMap inputMap = this.getRootPane().getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW);
         inputMap.put(KeyStroke.getKeyStroke(KeyEvent.VK_ESCAPE, 0),"Esc");
@@ -814,6 +772,50 @@ public class Tela_Cadastro_Categoria_DL extends javax.swing.JDialog {
         });   
     }
     
+    /**
+     * @param args the command line arguments
+     */
+    public static void main(String args[]) {
+        /* Set the Nimbus look and feel */
+        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
+        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
+         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
+         */
+        try {
+            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
+                if ("Nimbus".equals(info.getName())) {
+                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
+                    break;
+                }
+            }
+        } catch (ClassNotFoundException ex) {
+            java.util.logging.Logger.getLogger(Tela_Cadastro_Categoria_DL.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        } catch (InstantiationException ex) {
+            java.util.logging.Logger.getLogger(Tela_Cadastro_Categoria_DL.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        } catch (IllegalAccessException ex) {
+            java.util.logging.Logger.getLogger(Tela_Cadastro_Categoria_DL.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
+            java.util.logging.Logger.getLogger(Tela_Cadastro_Categoria_DL.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        }
+        //</editor-fold>
+
+        /* Create and display the dialog */
+        java.awt.EventQueue.invokeLater(new Runnable() {
+            public void run() {
+                Tela_Cadastro_Categoria_DL dialog = new Tela_Cadastro_Categoria_DL(new Tela_Cadastro_Prod(), true);
+                dialog.addWindowListener(new java.awt.event.WindowAdapter() {
+                    @Override
+                    public void windowClosing(java.awt.event.WindowEvent e) {
+                        System.exit(0);
+                    }
+                });
+                dialog.setVisible(true);
+            }
+        });
+    }
+    
+   
+    
     
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -827,7 +829,7 @@ public class Tela_Cadastro_Categoria_DL extends javax.swing.JDialog {
     private javax.swing.JLabel JL_Cod;
     private javax.swing.JLabel JL_Desc_Alterar;
     private javax.swing.JLabel JL_Descricao;
-    private javax.swing.JLabel JL_Quant_Itens1;
+    private javax.swing.JLabel JL_Info;
     private javax.swing.JLabel JL_Situacao;
     private javax.swing.JPanel JP_Alterar_Dados;
     private javax.swing.JPanel JP_Categoria;

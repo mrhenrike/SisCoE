@@ -209,6 +209,19 @@ public class Controle_Produto {
             JOptionPane.showMessageDialog(null,"Erro ao contar a quantidade de podutos ativos no banco! \n"
                     +ex,"Informação Do Banco De Dados",JOptionPane.INFORMATION_MESSAGE);}
         }
+    public void Contar_Produtos_Filtrados(JLabel jl, String filtro){
+        try{
+            ObjConecta.Conectar();
+            ObjConecta.ExecutaSQL("select count(id_produto) as cont from produto where situacao = 'ATIVO'  and descricao like '%"+filtro+"%' order by descricao;");
+            ObjConecta.rs.first();
+            jl.setText(String.valueOf(ObjConecta.rs.getInt("cont")));
+            ObjConecta.Desconecta();
+        
+        }catch (SQLException ex){
+            ObjConecta.Desconecta();
+            JOptionPane.showMessageDialog(null,"Erro ao contar a quantidade de podutos filtrados ativos no banco! \n"
+                    +ex,"Informação Do Banco De Dados",JOptionPane.INFORMATION_MESSAGE);}
+        }
 
     public void Buscar_Ultimo_Preco(Modelo_Produto ObjModeloProduto,int id){
         try {

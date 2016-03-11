@@ -302,7 +302,7 @@ public class Tela_Gerar_Devolucao extends javax.swing.JInternalFrame {
         jLabel2.setText("Número Da Saída*:");
 
         BT_Confirmar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icones_Gerais/Ativar 24x24.png"))); // NOI18N
-        BT_Confirmar.setToolTipText("Clique Para Pesquisar Um Produto");
+        BT_Confirmar.setToolTipText("Clique Para Confirmar Um Produto");
         BT_Confirmar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 BT_ConfirmarActionPerformed(evt);

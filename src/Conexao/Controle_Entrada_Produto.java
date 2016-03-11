@@ -355,8 +355,28 @@ public void Consulta_Entrada_Id(int id_entrada){
             ObjConecta.rs.first();
             int id = ObjConecta.rs.getInt("id_entrada");
             Controle_Entrada = true;
+             ObjConecta.Desconecta();
         } catch (SQLException ex) {
             Controle_Entrada = false;
+            ObjConecta.Desconecta();
+        }
+    }
+     public void Consulta_Entrada_Periodo(int mes){
+         try {
+            Calendar c = Calendar.getInstance();
+            c.add(Calendar.MONTH, -mes); //diminuir datas - inicio para 30 dias;
+            String df = new SimpleDateFormat("yyyy-MM-dd").format(Calendar.getInstance().getTime());
+            String di = new SimpleDateFormat("yyyy-MM-dd").format(c.getTime());
+            
+            ObjConecta.Conectar();
+            ObjConecta.ExecutaSQL("select * from entrada where data_entrada between '"+di+"' and '"+df+"'");
+            ObjConecta.rs.first();
+            int id = ObjConecta.rs.getInt("id_entrada");
+            Controle_Entrada = true;
+            ObjConecta.Desconecta();
+        } catch (SQLException ex) {
+            Controle_Entrada = false;
+            ObjConecta.Desconecta();
         }
     }
      

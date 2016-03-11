@@ -17,6 +17,7 @@ import Conexao.Controle_Saida_Produto;
 import Conexao.Controle_Turma;
 import GUI_Dialogs_Produto.Conf_Sair_Sem_Salvar_Prod_Edit;
 import GUI_Dialogs_Produto.Conf_Salvar_Prod_Edit;
+import GUI_Dialogs_Produto.Inf_Cadastro_Existente_Prod_Edit;
 import GUI_Dialogs_Produto.Inf_Dados_Nao_Salvos_Prod_Edit;
 import GUI_Dialogs_Produto.Inf_Dados_Salvos_Prod_Edit;
 import GUI_Dialogs_Produto.Inf_Impossivel_Inativar_Prod_Edit;
@@ -71,9 +72,10 @@ public class Tela_Cadastro_Prod_Edit extends javax.swing.JInternalFrame {
     private static Conf_Salvar_Prod_Edit ObjConfSalvar;
     private static Conf_Sair_Sem_Salvar_Prod_Edit ObjSairSemSalvar;
     private static Inf_Impossivel_Inativar_Prod_Edit ObjImpossivelInativar;
+    private static Inf_Cadastro_Existente_Prod_Edit ObjCadExiste;
     
     Controle_Categoria ObjControlCat = new Controle_Categoria();
-    Modelo_Produto ObjModeloProd = new Modelo_Produto();
+    Modelo_Produto ObjModeloProduto = new Modelo_Produto();
     Controle_Produto ObjControlProd = new Controle_Produto();
     Formatacao ObjFormat = new Formatacao();
     Conecta_Banco ObjConecta = new Conecta_Banco();
@@ -739,32 +741,42 @@ public class Tela_Cadastro_Prod_Edit extends javax.swing.JInternalFrame {
         else if(JCB_Situacao.getSelectedItem().equals("INATIVO") && estoque>0){
             Mostrar_Impossivel_Inativar();
         }else{
-            Mostrar_Conf_Salvar();
+            if(JTF_Descricao.getText().equalsIgnoreCase(ObjModeloProduto.getDescricao())){
+                Mostrar_Conf_Salvar();
+            }else{
+                ObjControlProd.Testar_Existente(JTF_Descricao);
+                if(ObjControlProd.Controle_Existente == true){
+                    Mostrar_Cad_Existente();
+                    ObjControlProd.Controle_Existente = false;
+                }else{
+                    Mostrar_Conf_Salvar();
+                }
+            }
         }
     }
     
     public void Preencher_Objetos_Produtos(){
-        ObjModeloProd.setDescricao(JTF_Descricao.getText().trim());
-        ObjModeloProd.setIdentificacao(JTF_Id.getText().trim());
+        ObjModeloProduto.setDescricao(JTF_Descricao.getText().trim());
+        ObjModeloProduto.setIdentificacao(JTF_Id.getText().trim());
         //teste para setar sem valores no banco;
         if(!JTF_Quant_Min.getText().equalsIgnoreCase(""))
-        { ObjModeloProd.setQuant_minima(Integer.parseInt(JTF_Quant_Min.getText().trim())); }
+        { ObjModeloProduto.setQuant_minima(Integer.parseInt(JTF_Quant_Min.getText().trim())); }
         else
-        { ObjModeloProd.setQuant_minima(0); }
+        { ObjModeloProduto.setQuant_minima(0); }
         if(!JTF_Quant_Macro.getText().equalsIgnoreCase(""))
-        { ObjModeloProd.setQuant_macro(Integer.parseInt(JTF_Quant_Macro.getText().trim())); }
+        { ObjModeloProduto.setQuant_macro(Integer.parseInt(JTF_Quant_Macro.getText().trim())); }
         else
-        { ObjModeloProd.setQuant_macro(0); }
+        { ObjModeloProduto.setQuant_macro(0); }
         if(!JTF_Preco.getText().equalsIgnoreCase(""))
-        { ObjModeloProd.setPreco(Double.valueOf(JTF_Preco.getText().trim().replace(",", "."))); }
+        { ObjModeloProduto.setPreco(Double.valueOf(JTF_Preco.getText().trim().replace(",", "."))); }
         else
-        { ObjModeloProd.setPreco(0); }
+        { ObjModeloProduto.setPreco(0); }
 
-        ObjModeloProd.setMacro(JCB_Macro.getSelectedItem().toString().toUpperCase().trim());
-        ObjModeloProd.setUnidade(JCB_Unidade.getSelectedItem().toString().toUpperCase().trim());
-        ObjModeloProd.setSolicita_lote(JCB_Solicita_Lote.getSelectedItem().toString().toUpperCase().trim());
-        ObjModeloProd.setSolicita_devolucao(JCB_Solicita_Dev.getSelectedItem().toString().trim());
-        ObjModeloProd.setSituacao(JCB_Situacao.getSelectedItem().toString().toUpperCase().trim());
+        ObjModeloProduto.setMacro(JCB_Macro.getSelectedItem().toString().toUpperCase().trim());
+        ObjModeloProduto.setUnidade(JCB_Unidade.getSelectedItem().toString().toUpperCase().trim());
+        ObjModeloProduto.setSolicita_lote(JCB_Solicita_Lote.getSelectedItem().toString().toUpperCase().trim());
+        ObjModeloProduto.setSolicita_devolucao(JCB_Solicita_Dev.getSelectedItem().toString().trim());
+        ObjModeloProduto.setSituacao(JCB_Situacao.getSelectedItem().toString().toUpperCase().trim());
         
     }
         
@@ -801,9 +813,9 @@ public class Tela_Cadastro_Prod_Edit extends javax.swing.JInternalFrame {
      
        
     public void Conf_Alterar_Produto(){
-        ObjControlProd.Procura_Id_Categoria(ObjModeloProd, JCB_Categoria);
+        ObjControlProd.Procura_Id_Categoria(ObjModeloProduto, JCB_Categoria);
         Preencher_Objetos_Produtos();
-        ObjControlProd.Atualizar_Produto(ObjModeloProd, JTF_Cod.getText());
+        ObjControlProd.Atualizar_Produto(ObjModeloProduto, JTF_Cod.getText());
             if (ObjControlProd.Confirma_Alterar == true) {
                 Mostrar_Dados_Salvos();
                 Limpar_Campos();
@@ -828,7 +840,7 @@ public class Tela_Cadastro_Prod_Edit extends javax.swing.JInternalFrame {
     
     public void Carregar_Dados_Produtos(Object LinhaSelecionada) throws SQLException { 
         try {           
-            Modelo_Produto ObjModeloProduto = new Modelo_Produto();
+            //Modelo_Produto ObjModeloProduto = new Modelo_Produto();
             
             ObjModeloProduto.setPesquisa(String.valueOf(LinhaSelecionada));
             
@@ -896,11 +908,14 @@ public class Tela_Cadastro_Prod_Edit extends javax.swing.JInternalFrame {
     void Mostrar_Impossivel_Inativar(){
         ObjImpossivelInativar = new Inf_Impossivel_Inativar_Prod_Edit(this, true);
         ObjImpossivelInativar.setVisible(true);
-    }
-       
+    }       
     public void Mostrar_Cadastro_Categoria(){
         ObjCadCategoria = new Tela_Cadastro_Categoria_DL1(this, true);
         ObjCadCategoria.setVisible(true);
+    }
+    void Mostrar_Cad_Existente(){
+        ObjCadExiste = new Inf_Cadastro_Existente_Prod_Edit(this, true);
+        ObjCadExiste.setVisible(true);
     }
     
     public void Abri_Tela_Consulta_Prod(){

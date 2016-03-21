@@ -6,6 +6,7 @@ import Classes.Modelo_Categoria;
 import Classes.Modelo_Tabela;
 import Conexao.Conecta_Banco;
 import Conexao.Controle_Categoria;
+import Conexao.Controle_Log;
 import GUI_Dialogs_Categoria.Conf_Alterar_Categoria;
 import GUI_Dialogs_Categoria.Conf_Cancelar_Categ;
 import GUI_Dialogs_Categoria.Conf_Sair_Sem_Salvar_Categ;
@@ -16,6 +17,7 @@ import GUI_Dialogs_Categoria.Inf_Dados_Nao_Alterados_Categ;
 import GUI_Dialogs_Categoria.Inf_Dados_Nao_Salvos_Categ;
 import GUI_Dialogs_Categoria.Inf_Dados_Salvos_Categ;
 import GUI_Dialogs_Categoria.Inf_Preencher_Campos_Categ;
+import static GUI_Frames.Tela_Principal.CodLogado;
 import Metodos.Formatacao;
 import java.awt.HeadlessException;
 import java.awt.event.ActionEvent;
@@ -36,10 +38,11 @@ public class Tela_Cadastro_Categoria_DL extends javax.swing.JDialog {
     Conecta_Banco ObjConecta = new Conecta_Banco();
     Controle_Categoria ObjControlCategoria = new Controle_Categoria();
     Modelo_Categoria ObjModCategoria = new Modelo_Categoria();
+    Modelo_Categoria ObjModCategoriaLog = new Modelo_Categoria();
     Formatacao ObjFormat = new Formatacao();
     
     public boolean ControleSalvar = false;
-    public boolean ControleExistente = false;
+    public boolean controle_existente = false;
     
     private static Inf_Dados_Salvos_Categ ObjDadosSalvos;
     private static Inf_Preencher_Campos_Categ ObjPreencherCampos;
@@ -73,7 +76,6 @@ public class Tela_Cadastro_Categoria_DL extends javax.swing.JDialog {
     }
     
     
-
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -384,7 +386,7 @@ public class Tela_Cadastro_Categoria_DL extends javax.swing.JDialog {
         if(ControleSalvar == false){        
             Testar_Campos_Salvar();
         }
-        if(ControleSalvar==true){
+        if(ControleSalvar == true){
             Testar_Campos_Alterar();
         }
     }//GEN-LAST:event_BT_SalvarActionPerformed
@@ -394,7 +396,7 @@ public class Tela_Cadastro_Categoria_DL extends javax.swing.JDialog {
             Sair_Sem_Salvar();
             ObjCadProd.Inicio_CB_Categoria();
         }
-        if(ControleSalvar==true){
+        if(ControleSalvar == true){
             Sair_Sem_Salvar_Alterar();
             ObjCadProd.Inicio_CB_Categoria();
         }             
@@ -410,6 +412,7 @@ public class Tela_Cadastro_Categoria_DL extends javax.swing.JDialog {
                     Desabilita_Cadastrar();
                     Object resultado = JTB_Categoria.getValueAt(JTB_Categoria.getSelectedRow(), 0);
                     ObjControlCategoria.Consulta_Categoria(ObjModCategoria, resultado);
+                    ObjControlCategoria.Consulta_Categoria(ObjModCategoriaLog, resultado);
                     Setar_Campos_Alterar();
                     BT_Cancelar.setEnabled(true);
                     BT_Editar.setEnabled(false);
@@ -466,7 +469,8 @@ public class Tela_Cadastro_Categoria_DL extends javax.swing.JDialog {
                         ControleSalvar = true;
                         Habilita_Alterar();
                         Desabilita_Cadastrar();
-                        ObjControlCategoria.Consulta_Categoria(ObjModCategoria, resultado);
+                        ObjControlCategoria.Consulta_Categoria(ObjModCategoria, resultado);                        
+                        ObjControlCategoria.Consulta_Categoria(ObjModCategoriaLog, resultado);//pegar os dados para o controle de log
                         Setar_Campos_Alterar();
                         BT_Cancelar.setEnabled(true);
                         BT_Editar.setEnabled(false);
@@ -547,14 +551,14 @@ public class Tela_Cadastro_Categoria_DL extends javax.swing.JDialog {
     public void Testar_Campos_Salvar(){
         if(JTF_Categoria.getText().equalsIgnoreCase("")){
             Mostrar_Preencher_Campos();
-            ControleSalvar=false;
+            ControleSalvar = false;
         }
         else{            
             Testar_Existente(JTF_Categoria);
-                if(ControleExistente==true)
+                if(controle_existente==true)
                 {
                    Mostrar_Cadastro_Existente();
-                   ControleExistente = false;
+                   controle_existente = false;
                 }else{
                    Mostrar_Confirma_Salvar();
                 }
@@ -564,7 +568,7 @@ public class Tela_Cadastro_Categoria_DL extends javax.swing.JDialog {
         if((JTF_Cod.getText().equalsIgnoreCase("")||JTF_Desc_Alterar.getText().equalsIgnoreCase("")
                 ||JCB_Situacao.getSelectedIndex()==0)){
             Mostrar_Preencher_Campos();
-            ControleSalvar=true;
+            ControleSalvar = true;
         }
         else if(JTF_Desc_Alterar.getText().equalsIgnoreCase(ObjModCategoria.getCategoria()))
         {
@@ -572,31 +576,26 @@ public class Tela_Cadastro_Categoria_DL extends javax.swing.JDialog {
         }
         else{
             Testar_Existente(JTF_Desc_Alterar);
-                if(ControleExistente==true)
+                if(controle_existente==true)
                 {
                    Mostrar_Cadastro_Existente();
-                   ControleExistente = false;
+                   controle_existente = false;
                 }
                 else{
                     Mostrar_Confirma_Alterar();
                 }
             }
     }
+        
     public void Testar_Existente(JTextField jt){
         try {
-        ObjConecta.Conectar();        
-        ObjConecta.ExecutaSQL("Select * from categoria_produto");        
-            ObjConecta.rs.first();            
-            do
-            {
-                String categoria = ObjConecta.rs.getString("categoria");
-                if(jt.getText().equalsIgnoreCase(categoria)){
-                   ControleExistente=true;
-                }
-            }
-            while(ObjConecta.rs.next());
-            } catch (SQLException ex) {
-            ControleExistente=false;
+            ObjConecta.Conectar();        
+            ObjConecta.ExecutaSQL("Select * from categoria_produto where categoria='"+jt.getText()+"'");        
+            ObjConecta.rs.first(); 
+            String cat = ObjConecta.rs.getString("categoria");               
+            controle_existente=true;
+        } catch (SQLException ex) {
+            controle_existente=false;
         }
     }
     public void Alterar_Categoria(){
@@ -607,7 +606,7 @@ public class Tela_Cadastro_Categoria_DL extends javax.swing.JDialog {
         Preencher_Tabela_Categoria("select * from categoria_produto order by categoria");
         BT_Editar.setEnabled(false);
         BT_Cancelar.setEnabled(false);
-        ControleSalvar=false;
+        ControleSalvar = false;
     }
     public void Salvar_Categoria(){
         Preencher_Objetos_Categoria();
@@ -622,10 +621,14 @@ public class Tela_Cadastro_Categoria_DL extends javax.swing.JDialog {
             Mostrar_Dados_Salvos();
             Habilita_Cadastrar();
             ObjControlCategoria.Confirma_Inserir=false;
+            //log
+            new Controle_Log().Registrar_Log("cadastrou a categoria - id: "+ObjModCategoria.getId_categoria()+" - "+ObjModCategoria.getCategoria(), CodLogado);
             dispose();            
         }else{
             Mostrar_Dados_Nao_Salvos();
             ObjControlCategoria.Confirma_Inserir=false;
+            //log
+            new Controle_Log().Registrar_Log("Erro ao cadastrar uma nova categoria", CodLogado);
         }
         
     }
@@ -633,6 +636,7 @@ public class Tela_Cadastro_Categoria_DL extends javax.swing.JDialog {
         Alterar_Categoria();
         if(ObjControlCategoria.Confirma_Alterar==true){
             Mostrar_Dados_Alterados();
+            Controle_Log_Registrar();//log
             Limpar_Campos_Alterar();
             Habilita_Cadastrar();
             Desabilita_Alterar();
@@ -640,14 +644,42 @@ public class Tela_Cadastro_Categoria_DL extends javax.swing.JDialog {
         }else{
             Mostrar_Dados_Nao_Alterados();
             ObjControlCategoria.Confirma_Alterar=false;
+            new Controle_Log().Registrar_Log("Erro ao editar a categoria ID: "+JTF_Cod.getText()+" - "+ObjModCategoria.getCategoria(), CodLogado);
         }
     }
     public void Conf_Cancelar_Alterar(){
         Limpar_Campos_Alterar();
         Desabilita_Alterar();
+        BT_Cancelar.setEnabled(false);
+        Habilita_Cadastrar();
         ControleSalvar = false;
-        BT_Cancelar.setEnabled(false);Habilita_Cadastrar();
         JTF_Categoria.requestFocus();
+    }
+    
+    void Controle_Log_Registrar(){
+        boolean controle = false;//controle de alteracao
+        if(!ObjModCategoriaLog.getCategoria().equalsIgnoreCase(JTF_Desc_Alterar.getText())){
+            new Controle_Log().Registrar_Log("alterou a categoria id: "+JTF_Cod.getText()+ObjModCategoriaLog.getCategoria()
+                    +"( descrição: de '"+ObjModCategoriaLog.getCategoria()
+                    +"' para '"+JTF_Desc_Alterar.getText()+"' )", CodLogado);
+            controle = true;
+        }
+        if(!ObjModCategoriaLog.getSituacao().equalsIgnoreCase(JCB_Situacao.getSelectedItem().toString().trim())){
+            if(JCB_Situacao.getSelectedItem().equals("INATIVO")){
+                new Controle_Log().Registrar_Log("inativou a categoria id: "+JTF_Cod.getText()+" - "
+                        +ObjModCategoria.getCategoria(), CodLogado);
+                controle = true;
+            }
+            if(JCB_Situacao.getSelectedItem().equals("ATIVO")){
+                new Controle_Log().Registrar_Log("ativou a categoria id: "+JTF_Cod.getText()+" - "
+                        +ObjModCategoria.getCategoria(), CodLogado);
+                controle = true;
+            }
+        }
+        if(controle == false){
+            new Controle_Log().Registrar_Log("alterou a categoria id: "+JTF_Cod.getText()+ObjModCategoriaLog.getCategoria()
+                    +"( salvou sem nenhuma alteração )", CodLogado);
+        }    
     }
     
     public void Mostrar_Dados_Salvos(){
@@ -801,6 +833,7 @@ public class Tela_Cadastro_Categoria_DL extends javax.swing.JDialog {
 
         /* Create and display the dialog */
         java.awt.EventQueue.invokeLater(new Runnable() {
+            @Override
             public void run() {
                 Tela_Cadastro_Categoria_DL dialog = new Tela_Cadastro_Categoria_DL(new Tela_Cadastro_Prod(), true);
                 dialog.addWindowListener(new java.awt.event.WindowAdapter() {

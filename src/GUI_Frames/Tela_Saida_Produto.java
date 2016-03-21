@@ -109,17 +109,18 @@ public static Tela_Saida_Produto Obj;
     
     public String Pesquisa;
     public double Quantidade=0;
-    public String NumLote;
-    public boolean Controla_Lote = false;
-    public boolean Controla_Prod = false;
-    public int NumLinha;
-    public double QuantRetirada = 0;
-    public double QuantDisponivel;
-    public int Id_Prod;
+    public String num_lote;
+    public boolean controla_lote = false;
+    public boolean controla_prod = false;
+    public int numero_linha;
+    public double quant_retirada = 0;
+    public double quant_disponivel;
+    public int id_produto;
     public String unidade;
-    public double QuantidadeSemLote=0;
-    public boolean ConfirmaSaida;
-    int ContTurma= -1;
+    public double quantidade_sem_lote=0;
+    public boolean confirma_saida;
+    int cont_turma= -1;
+    public double quantidade_na_tabela=0;
     
     public Tela_Saida_Produto() {
         initComponents();
@@ -807,8 +808,8 @@ public static Tela_Saida_Produto Obj;
             ObjControleCurso.Procura_Id_Curso(ObjModeloCurso, JCB_Curso);
             ObjControleTurma.Preencher_CB_Turma_Saida(JCB_Turma, ObjModeloCurso.getId_curso(),JCB_Turno.getSelectedItem().toString(),
                     JCB_Ano.getSelectedItem().toString(), JCB_Semestre.getSelectedItem().toString(),JCB_Vestibular.getSelectedItem().toString());
-            ContTurma = JCB_Turma.getItemCount();
-            if(ContTurma==0){
+            cont_turma = JCB_Turma.getItemCount();
+            if(cont_turma==0){
                 JCB_Tipo.setEnabled(true);
                 Preencher_CB_Tipo(); 
                 JCB_Turma.setEnabled(false);
@@ -826,7 +827,7 @@ public static Tela_Saida_Produto Obj;
     }//GEN-LAST:event_JCB_VestibularActionPerformed
 
     private void JCB_TurmaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_JCB_TurmaActionPerformed
-        if(ContTurma>0){
+        if(cont_turma>0){
             if(JCB_Turma.getSelectedIndex()>0){ 
                 JCB_Tipo.setEnabled(true);
                 Preencher_CB_Tipo(); 
@@ -985,7 +986,7 @@ public static Tela_Saida_Produto Obj;
         int Quant_Linhas = JTB_Saida_Itens.getRowCount();
         if(Quant_Linhas>0){
             Quantidade = 0;
-            NumLote = "";
+            num_lote = "";
             for(int Linha = 0; Linha < Quant_Linhas; Linha++){
                 try {
                     JTB_Saida_Itens.addRowSelectionInterval(Linha,Linha); //seta na primeira linha da tabela
@@ -994,20 +995,20 @@ public static Tela_Saida_Produto Obj;
                         if(Id_Produto.equalsIgnoreCase(JTF_Cod.getText())&&(Lote.equalsIgnoreCase(lote)))
                         {
                             Quantidade = Double.valueOf(String.valueOf(JTB_Saida_Itens.getValueAt(Linha, 2)));
-                            NumLote = Lote;
+                            num_lote = Lote;
                         }
                     }catch(NumberFormatException ex){
                 }
             }
     }else{
          Quantidade = 0;
-         NumLote = "";
+         num_lote = "";
     }
     }
     
     public void Verifica_Se_Existe_Lote_Na_Lista(Object id, String lote){
-        NumLinha=0;
-        QuantRetirada = 0;
+        numero_linha=0;
+        quant_retirada = 0;
         int Quant_Linhas = JTB_Saida_Itens.getRowCount();
         if(Quant_Linhas>0){
             for(int Linha = 0; Linha < Quant_Linhas; Linha++){
@@ -1018,30 +1019,30 @@ public static Tela_Saida_Produto Obj;
                     String Quant = String.valueOf(JTB_Saida_Itens.getValueAt(Linha, 2));
                         if(Id_Produto.equalsIgnoreCase(String.valueOf(id))&&(Lote.equalsIgnoreCase(lote)))
                         {
-                            Controla_Lote = true;
-                            NumLinha = Linha + 1;
-                            QuantRetirada = Double.parseDouble(Quant);
+                            controla_lote = true;
+                            numero_linha = Linha + 1;
+                            quant_retirada = Double.parseDouble(Quant);
                         }
                     }catch(NumberFormatException ex){
                 }
             }
         }else{
-            Controla_Lote = false;
+            controla_lote = false;
         }
     }
     
     public void Verifica_Se_Existe(Object id){
-        NumLinha=0;
+        numero_linha=0;
         int Quant_Linhas = JTB_Saida_Itens.getRowCount();
         if(Quant_Linhas>0){
-            QuantidadeSemLote = 0;
+            quantidade_sem_lote = 0;
             for(int Linha = 0; Linha < Quant_Linhas; Linha++){
                 try {
                     JTB_Saida_Itens.addRowSelectionInterval(Linha,Linha); //seta na primeira linha da tabela
                     String Id_Produto = String.valueOf(JTB_Saida_Itens.getValueAt(Linha, 0));
                         if(Id_Produto.equalsIgnoreCase(JTF_Cod.getText()))
                         {
-                            QuantidadeSemLote = Double.valueOf(String.valueOf(JTB_Saida_Itens.getValueAt(Linha, 2)));
+                            quantidade_sem_lote = Double.valueOf(String.valueOf(JTB_Saida_Itens.getValueAt(Linha, 2)));
                             
                         }
                     }catch(NumberFormatException ex){
@@ -1053,7 +1054,7 @@ public static Tela_Saida_Produto Obj;
         }
     }
     public void Verifica_Se_Existe_Na_Lista(Object id){
-        NumLinha=0;
+        numero_linha=0;
         int Quant_Linhas = JTB_Saida_Itens.getRowCount();
         if(Quant_Linhas>0){
             for(int Linha = 0; Linha < Quant_Linhas; Linha++){
@@ -1062,14 +1063,33 @@ public static Tela_Saida_Produto Obj;
                     String Id_Produto = String.valueOf(JTB_Saida_Itens.getValueAt(Linha, 0));
                         if(Id_Produto.equalsIgnoreCase(String.valueOf(id)))
                         {
-                            Controla_Prod = true;
-                            NumLinha = Linha + 1;
+                            controla_prod = true;
+                            numero_linha = Linha + 1;
                         }
                     }catch(NumberFormatException ex){
                 }
             }
         }else{
-             Controla_Prod = false;
+             controla_prod = false;
+        }
+    }
+    
+    public void Verifica_A_Quantidade_Na_Lista(Object id){
+        quantidade_na_tabela =0;
+        int quant_linhas = JTB_Saida_Itens.getRowCount();
+        if(quant_linhas>0){
+            for(int Linha = 0; Linha < quant_linhas; Linha++){
+                try {
+                    JTB_Saida_Itens.addRowSelectionInterval(Linha,Linha); //seta na primeira linha da tabela
+                    String id_prod = String.valueOf(JTB_Saida_Itens.getValueAt(Linha, 0));
+                    double quant =Double.parseDouble(String.valueOf(JTB_Saida_Itens.getValueAt(Linha, 2)));
+                        if(id_prod.equalsIgnoreCase(String.valueOf(id)))
+                        {
+                            quantidade_na_tabela = quantidade_na_tabela + quant;
+                        }
+                    }catch(NumberFormatException ex){quantidade_na_tabela =0;
+                }
+            }
         }
     }
     
@@ -1139,7 +1159,7 @@ public static Tela_Saida_Produto Obj;
                     }
                 } catch (NumberFormatException | ParseException ex){JOptionPane.showMessageDialog(rootPane, "Erro No Laço: "+ex);}
             }
-            ConfirmaSaida=true;
+            confirma_saida=true;
             ObjConecta.Desconecta();
             ObjControleSaida.Controla_Devolucao(Id_Saida);
             if(ObjControleSaida.Controla_Devolucao == false){
@@ -1147,24 +1167,24 @@ public static Tela_Saida_Produto Obj;
             }
         
         } catch (SQLException ex) {
-            ConfirmaSaida = false;
+            confirma_saida = false;
             ObjConecta.Desconecta();
             JOptionPane.showMessageDialog(rootPane,"Erro na saida de produtos \n"+ex);
         }   
     }
     public void Conf_Inserir_Saida() {
         Inserir_Saida();
-        if (ConfirmaSaida == true) 
+        if (confirma_saida == true) 
             {
                 Mostrar_Dados_Salvos();                
                 Limpar_Tabela();
                 Limpar_Produto();
                 Limpar_descricao();
-                ConfirmaSaida = false;
+                confirma_saida = false;
             }
             else{
                 Mostrar_Dados_Nao_Salvos();
-                ConfirmaSaida = false;
+                confirma_saida = false;
             }
     }
     public void Sair_Sem_Salvar(){
@@ -1209,7 +1229,7 @@ public static Tela_Saida_Produto Obj;
         ObjNovaQuantLote.setVisible(true);
     }
      public void Mostrar_Conf_Alterar_Quantidade_Lote(){
-        ObjAlterarQuantLote = new Conf_Alterar_Quant_Lote_Saida(this, true,NumLinha);
+        ObjAlterarQuantLote = new Conf_Alterar_Quant_Lote_Saida(this, true,numero_linha);
         ObjAlterarQuantLote.setVisible(true);
     }
      public void Mostrar_Quantidade_Saida(){
@@ -1221,7 +1241,7 @@ public static Tela_Saida_Produto Obj;
         ObjNovaQuant.setVisible(true);
     }
      public void Mostrar_Conf_Alterar_Quantidade(){
-        ObjAlterarQuant = new Conf_Alterar_Quant_Saida(this, true,NumLinha);
+        ObjAlterarQuant = new Conf_Alterar_Quant_Saida(this, true,numero_linha);
         ObjAlterarQuant.setVisible(true);
     }
     public void Mostrar_Preencher_Campos(){

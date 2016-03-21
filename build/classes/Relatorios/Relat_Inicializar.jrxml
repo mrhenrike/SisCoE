@@ -8,7 +8,7 @@
 	<style name="Column header" forecolor="#666666" fontName="Arial" fontSize="12" isBold="true"/>
 	<style name="Detail" fontName="Arial" fontSize="12"/>
 	<queryString>
-		<![CDATA[]]>
+		<![CDATA[select * from usuario]]>
 	</queryString>
 	<field name="id_usuario" class="java.lang.Integer">
 		<fieldDescription><![CDATA[]]></fieldDescription>
@@ -25,7 +25,10 @@
 	<field name="telefone" class="java.lang.String">
 		<fieldDescription><![CDATA[]]></fieldDescription>
 	</field>
-	<field name="data_cad" class="java.sql.Date">
+	<field name="data_cad_usuario" class="java.sql.Date">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="data_ultima_alteracao_usuario" class="java.sql.Date">
 		<fieldDescription><![CDATA[]]></fieldDescription>
 	</field>
 	<field name="sexo" class="java.lang.String">
@@ -41,16 +44,16 @@
 		<band splitType="Stretch"/>
 	</background>
 	<title>
-		<band height="103" splitType="Stretch">
+		<band height="15" splitType="Stretch">
 			<textField pattern="dd &apos;de&apos; MMMMM &apos;de&apos; yyyy &apos;as&apos; HH:mm:ss">
-				<reportElement style="Column header" x="100" y="38" width="294" height="15" forecolor="#000000" uuid="9ea6d740-cfec-44e2-b3de-3cf019835675"/>
+				<reportElement style="Column header" x="100" y="0" width="294" height="15" forecolor="#000000" uuid="9ea6d740-cfec-44e2-b3de-3cf019835675"/>
 				<textElement verticalAlignment="Middle">
 					<font fontName="Tahoma" size="10" isBold="false"/>
 				</textElement>
 				<textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>
 			</textField>
 			<staticText>
-				<reportElement x="0" y="38" width="100" height="15" uuid="975fa273-8f84-4eb6-b643-a3e46d6233ff"/>
+				<reportElement x="0" y="0" width="100" height="15" uuid="975fa273-8f84-4eb6-b643-a3e46d6233ff"/>
 				<textElement verticalAlignment="Middle">
 					<font fontName="Tahoma"/>
 				</textElement>

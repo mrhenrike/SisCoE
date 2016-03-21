@@ -6,6 +6,8 @@ import Classes.Modelo_Categoria;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import javax.swing.JComboBox;
 import javax.swing.JOptionPane;
 
@@ -20,18 +22,24 @@ public class Controle_Categoria {
      public void Inserir_Categoria(Modelo_Categoria ObjModeloCategoria){
         try { 
                 ObjConecta.Conectar();
-                String sql = "insert into categoria_produto (categoria, situacao)values(?,?)";  
+                String sql = "insert into categoria_produto (categoria, situacao, data_cad_categoria)values(?,?,?)";  
                 try(PreparedStatement stmt = ObjConecta.conn.prepareStatement(sql))
                 {
                     {
                         stmt.setString(1, ObjModeloCategoria.getCategoria());
                         stmt.setString(2, "ATIVO");
+                        stmt.setString(3, new SimpleDateFormat("yyyy/MM/dd").format(new Date(System.currentTimeMillis())));
                     }
                     stmt.execute();
                     stmt.close();
                     
                 }
                 Confirma_Inserir = true;
+                //retornar o id
+                ObjConecta.ExecutaSQL("select LAST_INSERT_ID()");
+                ObjConecta.rs.first();
+                ObjModeloCategoria.setId_categoria(ObjConecta.rs.getInt(1));
+                
                 ObjConecta.Desconecta();
             } catch (SQLException ex) {
                 ObjConecta.Desconecta();
@@ -45,12 +53,13 @@ public class Controle_Categoria {
     public void Alterar_Categoria(Modelo_Categoria ObjModeloCategoria, String id){
          try { 
                 ObjConecta.Conectar();
-                String sql = "update categoria_produto set categoria=?, situacao=? where id_categoria="+id+"";
+                String sql = "update categoria_produto set categoria=?, situacao=?, data_ultima_alteracao_categoria=? where id_categoria="+id+"";
                 try(PreparedStatement stmt = ObjConecta.conn.prepareStatement(sql))
                 {
                     {
                         stmt.setString(1, ObjModeloCategoria.getCategoria());
                         stmt.setString(2, ObjModeloCategoria.getSituacao());
+                        stmt.setString(3, new SimpleDateFormat("yyyy/MM/dd").format(new Date(System.currentTimeMillis())));
                     }
                     stmt.execute();
                     stmt.close();

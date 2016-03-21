@@ -3,7 +3,6 @@ package GUI_Dialogs_Principal;
 // @author Márison Tamiarana
 
 import Conexao.Controle_Log;
-import static GUI_Dialogs_Principal.Logout_User_TP.Obj;
 import GUI_Frames.Tela_Bloqueio;
 import GUI_Frames.Tela_Principal;
 

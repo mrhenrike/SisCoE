@@ -4,12 +4,14 @@ package GUI_Frames;
 
 import Classes.Modelo_Curso;
 import Conexao.Controle_Curso;
+import Conexao.Controle_Log;
 import GUI_Dialogs_Curso_Turma.Conf_Sair_Sem_Salvar_Curso_Edit;
 import GUI_Dialogs_Curso_Turma.Conf_Salvar_Curso_Edit;
 import GUI_Dialogs_Curso_Turma.Inf_Cadastro_Existente_Curso_Edit;
 import GUI_Dialogs_Curso_Turma.Inf_Dados_Nao_Salvos_Curso_Edit;
 import GUI_Dialogs_Curso_Turma.Inf_Dados_Salvos_Curso_Edit;
 import GUI_Dialogs_Curso_Turma.Inf_Preencher_Campos_Curso_Edit;
+import static GUI_Frames.Tela_Principal.CodLogado;
 import Metodos.Formatacao;
 import java.awt.Dimension;
 import java.awt.event.ActionEvent;
@@ -45,6 +47,7 @@ public class Tela_Cadastro_Curso_Edit extends javax.swing.JInternalFrame {
     }
     
     Modelo_Curso ObjModCurso = new Modelo_Curso();
+    Modelo_Curso ObjModCursoLog = new Modelo_Curso();//para controle log
     Controle_Curso ObjControleCurso = new Controle_Curso();
     Formatacao ObjFormat = new Formatacao();
     
@@ -247,6 +250,7 @@ public class Tela_Cadastro_Curso_Edit extends javax.swing.JInternalFrame {
 
     public void Setar_Campos_Curso(Object id_curso){
         ObjControleCurso.Consulta_Curso(ObjModCurso, id_curso);
+        ObjControleCurso.Consulta_Curso(ObjModCursoLog, id_curso);//para controle log
         JTF_Curso.setText(ObjModCurso.getNome_curso());
         JTF_Abrev.setText(ObjModCurso.getAbrev_curso());
         JTF_Id.setText(String.valueOf(ObjModCurso.getId_curso()));
@@ -282,12 +286,14 @@ public class Tela_Cadastro_Curso_Edit extends javax.swing.JInternalFrame {
         ObjControleCurso.Alterar_Curso(ObjModCurso, JTF_Id.getText());
         if(ObjControleCurso.Confirma_Alterar==true){
             Mostrar_Dados_Salvos();
+            Controle_Log_Registrar();
             dispose();
-            Mostrar_Tela_Consulta();
+            Mostrar_Tela_Consulta_Curso();
             ObjControleCurso.Confirma_Alterar = false;
         }else{
             Mostrar_Dados_Nao_Salvos();
-            Mostrar_Tela_Consulta();
+            new Controle_Log().Registrar_Log("erro ao alterar o curso - id: "+JTF_Id.getText()+" - "+ObjModCurso.getNome_curso(), CodLogado);
+            Mostrar_Tela_Consulta_Curso();
             ObjControleCurso.Confirma_Alterar = false;
         }
     }
@@ -298,12 +304,42 @@ public class Tela_Cadastro_Curso_Edit extends javax.swing.JInternalFrame {
             Mostrar_Sair_Sem_Salvar();
         }else{
             dispose();
-            Mostrar_Tela_Consulta();
+            Mostrar_Tela_Consulta_Curso();
         }
     }
-    public void Mostrar_Tela_Consulta(){
+    public void Mostrar_Tela_Consulta_Curso(){
         Tela_Consulta_Curso_Turma obj = new Tela_Consulta_Curso_Turma();
         obj.Open_Tela();
+    }
+    
+    void Controle_Log_Registrar(){
+        boolean controle = false;
+        if(!ObjModCursoLog.getNome_curso().equalsIgnoreCase(JTF_Curso.getText())){
+            new Controle_Log().Registrar_Log("alterou o curso id: "+JTF_Id.getText()+" - "+ObjModCursoLog.getNome_curso()
+                    +" ( descrição: de '"+ObjModCursoLog.getNome_curso()
+                    +"' para '"+JTF_Curso.getText()+"' )", CodLogado);
+            controle = true;
+        }
+        if(!ObjModCursoLog.getAbrev_curso().equalsIgnoreCase(JTF_Abrev.getText())){
+            new Controle_Log().Registrar_Log("alterou o curso id: "+JTF_Id.getText()+" - "+ObjModCurso.getNome_curso()
+                    +" ( abreviatura: de '"+ObjModCursoLog.getAbrev_curso()
+                    +"' para '"+JTF_Abrev.getText()+"' )", CodLogado);
+            controle = true;
+        }
+        if(!ObjModCursoLog.getSituacao().equalsIgnoreCase(JCB_Situacao.getSelectedItem().toString().trim())){
+            if(JCB_Situacao.getSelectedItem().equals("INATIVO")){
+                new Controle_Log().Registrar_Log("inativou o curso id: "+JTF_Id.getText()+" - "+ObjModCurso.getNome_curso(), CodLogado);
+                controle = true;
+            }
+            if(JCB_Situacao.getSelectedItem().equals("ATIVO")){
+                new Controle_Log().Registrar_Log("ativou o curso id: "+JTF_Id.getText()+" - "+ObjModCurso.getNome_curso(), CodLogado);
+                controle = true;
+            }
+        }
+        if(controle == false){
+            new Controle_Log().Registrar_Log("alterou o curso id: "+JTF_Id.getText()+" - "+ObjModCursoLog.getNome_curso()
+                    +" ( salvou sem nenhuma alteração )", CodLogado);
+        }
     }
         
     

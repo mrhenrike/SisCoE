@@ -35,11 +35,11 @@ public class Tela_Relat_Consulta_Produto_Entrada_DL extends javax.swing.JDialog 
        
     String descricao;
     int Cod;
-    int intervalo= 0;
-    int itens_por_pagina = 16;
-    int itens_filtrados;
-    int numero_de_pagina;
-    int contador=1;
+    int intervalo= 0;//intervalo de pesquisa por pagina
+    int itens_por_pagina = 16;//itens por páginas
+    int itens_filtrados;//quantidade de itens resultantes na busca pelo filtro
+    int numero_de_pagina;//variave que vai receber a quantidade de pagina
+    int contador=1;//contador para controle da pagina
     
     public Tela_Relat_Consulta_Produto_Entrada_DL(Tela_Relat_Produto_Ent_Periodo parent, boolean modal) {
         this.Obj = parent;
@@ -160,13 +160,13 @@ public class Tela_Relat_Consulta_Produto_Entrada_DL extends javax.swing.JDialog 
         JL_ItensCad.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
 
         JL_Quant_Itens1.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
-        JL_Quant_Itens1.setText("Esc - Sair | F4/Enter - Adicionar | F6 - Anterior | F7 - Próximo");
+        JL_Quant_Itens1.setText("Esc - Sair | F4/Enter - Adicionar | F7- Anterior | F9 - Próximo");
 
         jPanel2.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createCompoundBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.LOWERED), javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED)), "Navegação", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 0, 12))); // NOI18N
 
         BT_Anterior.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         BT_Anterior.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icones_Gerais/Previous_24x24.png"))); // NOI18N
-        BT_Anterior.setText("(F6)");
+        BT_Anterior.setText("(F7)");
         BT_Anterior.setToolTipText("Página Anterir");
         BT_Anterior.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -176,7 +176,7 @@ public class Tela_Relat_Consulta_Produto_Entrada_DL extends javax.swing.JDialog 
 
         BT_Proximo.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         BT_Proximo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icones_Gerais/Next_24x24.png"))); // NOI18N
-        BT_Proximo.setText("(F7)");
+        BT_Proximo.setText("(F9)");
         BT_Proximo.setToolTipText("Próximo Página");
         BT_Proximo.addFocusListener(new java.awt.event.FocusAdapter() {
             public void focusGained(java.awt.event.FocusEvent evt) {
@@ -255,7 +255,7 @@ public class Tela_Relat_Consulta_Produto_Entrada_DL extends javax.swing.JDialog 
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(JL_ItensCad, javax.swing.GroupLayout.PREFERRED_SIZE, 167, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addComponent(JL_Quant_Itens1))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 24, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 28, Short.MAX_VALUE)
                         .addComponent(BT_Adicionar, javax.swing.GroupLayout.PREFERRED_SIZE, 160, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(BT_Sair, javax.swing.GroupLayout.PREFERRED_SIZE, 160, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -438,7 +438,7 @@ public class Tela_Relat_Consulta_Produto_Entrada_DL extends javax.swing.JDialog 
             
             ObjConecta.Desconecta();
         } catch (SQLException ex) {
-           //JOptionPane.showMessageDialog(null, "Cliente Não Encontrado!");
+           
         }
         
         Modelo_Tabela tabela = new Modelo_Tabela(dados, Colunas);
@@ -474,11 +474,11 @@ public class Tela_Relat_Consulta_Produto_Entrada_DL extends javax.swing.JDialog 
         this.getRootPane().setInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW, inputMap2);
         
         InputMap inputMap3 = this.getRootPane().getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW);
-        inputMap3.put(KeyStroke.getKeyStroke(KeyEvent.VK_F6, 0),"Anterior");
+        inputMap3.put(KeyStroke.getKeyStroke(KeyEvent.VK_F7, 0),"Anterior");
         this.getRootPane().setInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW, inputMap3);  
         
         InputMap inputMap4 = this.getRootPane().getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW);
-        inputMap4.put(KeyStroke.getKeyStroke(KeyEvent.VK_F7, 0),"Proximo");
+        inputMap4.put(KeyStroke.getKeyStroke(KeyEvent.VK_F9, 0),"Proximo");
         this.getRootPane().setInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW, inputMap4);  
                       
         //método para executar

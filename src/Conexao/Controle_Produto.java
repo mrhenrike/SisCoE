@@ -6,6 +6,8 @@ import Classes.Modelo_Produto;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
@@ -26,7 +28,7 @@ public class Controle_Produto {
     
     public void Inserir_Produto(Modelo_Produto ObjModeloProd){
         ObjConecta.Conectar();
-        String sql = "insert into produto (situacao, quantidade_minima, quantidade_macro, categoria_produto_id_categoria, data_cad, unidade,"
+        String sql = "insert into produto (situacao, quantidade_minima, quantidade_macro, categoria_produto_id_categoria, data_cad_produto, unidade,"
                 + "macro, solicita_lote, solicita_devolucao, identificador, valor, descricao) "
                 + "values(?,?,?,?,?,?,?,?,?,?,?,?)";
         try {
@@ -48,7 +50,12 @@ public class Controle_Produto {
                 stmt.execute();
                 stmt.close();
             }           
-                Confirma_Inserir = true;           
+                Confirma_Inserir = true;
+                //Retorna o id inserido;
+                ObjConecta.ExecutaSQL("select LAST_INSERT_ID()");
+                ObjConecta.rs.first();
+                ObjModeloProd.setId_produto(ObjConecta.rs.getInt(1));
+                
         } catch (SQLException ex){
             Confirma_Inserir=false;
             JOptionPane.showMessageDialog(null,"Erro ao cadastrar o produto no banco! \n"
@@ -105,17 +112,16 @@ public class Controle_Produto {
             ObjModeloProd.setSituacao(rs.getString("situacao"));
             ObjModeloProd.setCategoria_id_produto(rs.getInt("categoria_produto_id_categoria"));
         
-        ObjConecta.Desconecta(); 
-        
-        return ObjModeloProd;        
+        ObjConecta.Desconecta();         
+           
        }
-       
+       return ObjModeloProd;     
     }
     
     public void Atualizar_Produto(Modelo_Produto ObjModeloProd, String id){
         ObjConecta.Conectar();
         String sql = "update produto set descricao=?, quantidade_minima=?, unidade=?, macro=?, quantidade_macro=?, "
-                + "situacao=?, identificador=?, solicita_lote=?, solicita_devolucao=?, valor=?, categoria_produto_id_categoria=? "
+                + "situacao=?, identificador=?, solicita_lote=?, solicita_devolucao=?, valor=?, categoria_produto_id_categoria=?, data_ultima_alteracao_produto=? "
                 + "where id_produto="+id+"" ;
         try {
             try (PreparedStatement stmt = ObjConecta.conn.prepareStatement(sql)) {
@@ -131,6 +137,7 @@ public class Controle_Produto {
                     stmt.setString(9, ObjModeloProd.getSolicita_devolucao());
                     stmt.setDouble(10, ObjModeloProd.getPreco());
                     stmt.setInt   (11, ObjModeloProd.getCategoria_id_produto());
+                    stmt.setString(12, new SimpleDateFormat("yyyy/MM/dd").format(new Date(System.currentTimeMillis())));
                 }
                 stmt.execute();
                 stmt.close();                
@@ -209,6 +216,20 @@ public class Controle_Produto {
             JOptionPane.showMessageDialog(null,"Erro ao contar a quantidade de podutos ativos no banco! \n"
                     +ex,"Informação Do Banco De Dados",JOptionPane.INFORMATION_MESSAGE);}
         }
+    public void Contar_Produtos_Com_Estoque(JLabel jl){
+        try{
+            ObjConecta.Conectar();
+            ObjConecta.ExecutaSQL("select count(distinct id_produto) as cont from produto inner join lote_estoque "
+                    + "on produto.id_produto=lote_estoque.produto_id_produto where quantidade_estoque>0  and produto.situacao='ATIVO';");
+            ObjConecta.rs.first();
+            jl.setText(String.valueOf(ObjConecta.rs.getInt("cont")));
+            ObjConecta.Desconecta();
+        
+        }catch (SQLException ex){
+            ObjConecta.Desconecta();
+            JOptionPane.showMessageDialog(null,"Erro ao contar a quantidade de podutos ativos com estoque no banco! \n"
+                    +ex,"Informação Do Banco De Dados",JOptionPane.INFORMATION_MESSAGE);}
+        }
     public void Contar_Produtos_Filtrados(JLabel jl, String filtro){
         try{
             ObjConecta.Conectar();
@@ -220,6 +241,36 @@ public class Controle_Produto {
         }catch (SQLException ex){
             ObjConecta.Desconecta();
             JOptionPane.showMessageDialog(null,"Erro ao contar a quantidade de podutos filtrados ativos no banco! \n"
+                    +ex,"Informação Do Banco De Dados",JOptionPane.INFORMATION_MESSAGE);}
+        }
+    public void Contar_Produtos_Filtrados_Com_Estoque(JLabel jl, String filtro){
+        try{
+            ObjConecta.Conectar();
+            ObjConecta.ExecutaSQL("select count(distinct id_produto) as cont from produto inner join lote_estoque "
+                    + " on produto.id_produto=lote_estoque.produto_id_produto where produto.situacao = 'ATIVO'  and descricao like '%"+filtro+"%' "
+                    + " and quantidade_estoque>0");
+            ObjConecta.rs.first();
+            jl.setText(String.valueOf(ObjConecta.rs.getInt("cont")));
+            ObjConecta.Desconecta();
+        
+        }catch (SQLException ex){
+            ObjConecta.Desconecta();
+            JOptionPane.showMessageDialog(null,"Erro ao contar a quantidade de podutos filtrados ativos com estoque no banco! \n"
+                    +ex,"Informação Do Banco De Dados",JOptionPane.INFORMATION_MESSAGE);}
+        }
+    public void Contar_Produtos_Ativos_Com_Entrada(JLabel jl, String filtro){
+        try{
+            ObjConecta.Conectar();
+            ObjConecta.ExecutaSQL("select count(distinct id_produto) as cont from produto "
+                    + "inner join entrada_itens on produto.id_produto = entrada_itens.produto_id_produto "
+                    + "where produto.situacao='ATIVO' and produto.descricao like '%"+filtro+"%' ");
+            ObjConecta.rs.first();
+            jl.setText(String.valueOf(ObjConecta.rs.getInt("cont")));
+            ObjConecta.Desconecta();
+        
+        }catch (SQLException ex){
+            ObjConecta.Desconecta();
+            JOptionPane.showMessageDialog(null,"Erro ao contar a quantidade de podutos ativos no banco! \n"
                     +ex,"Informação Do Banco De Dados",JOptionPane.INFORMATION_MESSAGE);}
         }
 
@@ -249,11 +300,12 @@ public class Controle_Produto {
     
      public void Ativar_Produto(String id){
         ObjConecta.Conectar();
-        String sql = "update produto set situacao=? where id_produto="+id+"";
+        String sql = "update produto set situacao=?, data_ultima_alteracao_produto=? where id_produto="+id+"";
         
         try {
             try (PreparedStatement stmt = ObjConecta.conn.prepareStatement(sql)) {
                 stmt.setString(1,"ATIVO");
+                stmt.setString(2, new SimpleDateFormat("yyyy/MM/dd").format(new Date(System.currentTimeMillis())));
                 stmt.execute();
                 stmt.close();
                 Confirma_Ativo = true;
@@ -283,24 +335,66 @@ public class Controle_Produto {
         ObjConecta.Desconecta();
     }
     
-    public void Testar_Existente(JTextField jt){
+//    public void Testar_Existente(JTextField jt){
+//        try {
+//        ObjConecta.Conectar();        
+//        ObjConecta.ExecutaSQL("Select * from Produto");        
+//            ObjConecta.rs.first();            
+//            do
+//            {
+//                String descricao = ObjConecta.rs.getString("descricao");
+//                if(jt.getText().equalsIgnoreCase(descricao)){
+//                   Controle_Existente=true;
+//                }
+//            }
+//            while(ObjConecta.rs.next());
+//            } catch (SQLException ex) {
+//            Controle_Existente=false;
+//            ObjConecta.Desconecta();            
+//        }
+//        ObjConecta.Desconecta();
+//    }
+     public void Testar_Existente(JTextField jt){
         try {
-        ObjConecta.Conectar();        
-        ObjConecta.ExecutaSQL("Select * from Produto");        
-            ObjConecta.rs.first();            
-            do
-            {
-                String descricao = ObjConecta.rs.getString("descricao");
-                if(jt.getText().equalsIgnoreCase(descricao)){
-                   Controle_Existente=true;
-                }
-            }
-            while(ObjConecta.rs.next());
+            ObjConecta.Conectar();        
+            ObjConecta.ExecutaSQL("Select * from Produto where descricao = '"+jt.getText()+"'");        
+            ObjConecta.rs.first();
+            String prod = ObjConecta.rs.getString("descricao");
+            Controle_Existente=true;            
+            
             } catch (SQLException ex) {
             Controle_Existente=false;
             ObjConecta.Desconecta();            
         }
         ObjConecta.Desconecta();
+    }
+    public void Preencher_CB_Macro(JComboBox macro){
+        macro.removeAllItems();
+        macro.addItem("");
+        macro.addItem("AMP");
+        macro.addItem("CT");
+        macro.addItem("CX");
+        macro.addItem("FD");
+        macro.addItem("G");
+        macro.addItem("KG");
+        macro.addItem("L");
+        macro.addItem("M");
+        macro.addItem("ML");
+        macro.addItem("PCT");
+        macro.addItem("UN");
+    }
+    public void Preencher_CB_Unidade(JComboBox unidade){
+        unidade.removeAllItems();
+        unidade.addItem("");
+        unidade.addItem("CM");
+        unidade.addItem("G");
+        unidade.addItem("KG");
+        unidade.addItem("L");
+        unidade.addItem("M");
+        unidade.addItem("MG");
+        unidade.addItem("ML");
+        unidade.addItem("MM");
+        unidade.addItem("UN");
     }
 }
 

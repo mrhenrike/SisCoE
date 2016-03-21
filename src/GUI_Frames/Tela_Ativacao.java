@@ -1,9 +1,11 @@
 package GUI_Frames;
 
 import Classes.Modelo_Tabela;
+import Classes.Modelo_Turma;
 import Conexao.Conecta_Banco;
 import Conexao.Controle_Curso;
 import Conexao.Controle_Disciplina;
+import Conexao.Controle_Log;
 import Conexao.Controle_Produto;
 import Conexao.Controle_Turma;
 import Conexao.Controle_Usuario;
@@ -16,6 +18,7 @@ import GUI_Dialogs_Ativacao.Inf_Dados_Nao_Salvos_Ativ;
 import GUI_Dialogs_Ativacao.Inf_Dados_Salvos_Ativ;
 import GUI_Dialogs_Ativacao.Inf_Nao_Ha_Itens_Ativar;
 import GUI_Dialogs_Ativacao.Inf_Selecione_Linha_Ativar;
+import static GUI_Frames.Tela_Principal.CodLogado;
 import static GUI_Frames.Tela_Principal.PermissaoLogado;
 import Metodos.Pintar_Tabela_Padrao;
 import java.awt.Dimension;
@@ -60,6 +63,7 @@ public class Tela_Ativacao extends javax.swing.JInternalFrame {
     Controle_Curso ObjControlCurso = new Controle_Curso();
     Controle_Usuario ObjControlUser = new Controle_Usuario();
     Controle_Turma ObjControlTurma = new Controle_Turma();
+    Modelo_Turma ObjModTurma = new Modelo_Turma();
     Controle_Produto ObjControlProd = new Controle_Produto();
     Controle_Disciplina ObjControlDisciplina = new Controle_Disciplina();
     
@@ -302,7 +306,7 @@ public class Tela_Ativacao extends javax.swing.JInternalFrame {
         Obj=null;
     }//GEN-LAST:event_formInternalFrameClosed
 
-    public final void preencher_CB_Itens(){
+    public final void preencher_CB_Itens_ADM(){
         JCB_Tipo_Pesquisa.removeAllItems();
         JCB_Tipo_Pesquisa.addItem("");
         JCB_Tipo_Pesquisa.addItem("CURSO");
@@ -312,7 +316,7 @@ public class Tela_Ativacao extends javax.swing.JInternalFrame {
         JCB_Tipo_Pesquisa.addItem("USUÁRIO");
     }
     
-    public final void preencher_CB_Itens_2(){
+    public final void preencher_CB_Itens_USER(){
         JCB_Tipo_Pesquisa.removeAllItems();
         JCB_Tipo_Pesquisa.addItem("");
         JCB_Tipo_Pesquisa.addItem("CURSO");
@@ -323,9 +327,9 @@ public class Tela_Ativacao extends javax.swing.JInternalFrame {
     
     final void Controle_Acesso(){
     if(PermissaoLogado.equalsIgnoreCase("USUÁRIO")){
-            preencher_CB_Itens_2();
+            preencher_CB_Itens_USER();
         }else{
-            preencher_CB_Itens();
+            preencher_CB_Itens_ADM();
         }
     }
     
@@ -333,15 +337,18 @@ public class Tela_Ativacao extends javax.swing.JInternalFrame {
        try {
                 int Sel_Curso = JTB_Itens.getSelectedRow();
                 if (Sel_Curso >= 0) {
-                    String resultado = (String.valueOf(JTB_Itens.getValueAt(JTB_Itens.getSelectedRow(), 0)));
-                    ObjControlCurso.Ativa_Curso(resultado);
+                    String id_prod = (String.valueOf(JTB_Itens.getValueAt(JTB_Itens.getSelectedRow(), 0)));
+                    String produto = (String.valueOf(JTB_Itens.getValueAt(JTB_Itens.getSelectedRow(), 1)));
+                    ObjControlCurso.Ativa_Curso(id_prod);
                     Preencher_Tabela_Curso("select * from curso where situacao = 'INATIVO' order by nome_curso");    
                         if(ObjControlCurso.Confirma_Ativar == true){
                            Mostrar_Dados_Salvos();
                            ObjControlCurso.Confirma_Ativar = false;
+                           new Controle_Log().Registrar_Log("Ativou o curso id: "+id_prod +" - "+produto, CodLogado);
                         }else{
                             Mostrar_Dados_Nao_Salvos();
                             ObjControlCurso.Confirma_Ativar = false;
+                            new Controle_Log().Registrar_Log("erro ao ativar o curso id: "+id_prod +" - "+produto, CodLogado);
                         }       
                 } 
         } catch (HeadlessException ex) {   } 
@@ -350,15 +357,18 @@ public class Tela_Ativacao extends javax.swing.JInternalFrame {
         try {
                 int Sel_Usuario = JTB_Itens.getSelectedRow();
                 if (Sel_Usuario >= 0) {
-                    String resultado = (String.valueOf(JTB_Itens.getValueAt(JTB_Itens.getSelectedRow(), 0)));
-                    ObjControlUser.Ativar_Usuario(resultado);
+                    String id_usuario = (String.valueOf(JTB_Itens.getValueAt(JTB_Itens.getSelectedRow(), 0)));
+                    String usuario = (String.valueOf(JTB_Itens.getValueAt(JTB_Itens.getSelectedRow(), 1)));
+                    ObjControlUser.Ativar_Usuario(id_usuario);
                     Preencher_Tabela_Usuario("select * from usuario where situacao = 'INATIVO' order by nome");  
                         if(ObjControlUser.Confirma_Ativo == true){
                             Mostrar_Dados_Salvos();
                             ObjControlUser.Confirma_Ativo = false;
+                            new Controle_Log().Registrar_Log("Ativou o usuário id: "+id_usuario+" - "+usuario, CodLogado);
                         }else{
                             Mostrar_Dados_Nao_Salvos();
                             ObjControlUser.Confirma_Ativo = false;
+                            new Controle_Log().Registrar_Log("erro ao Ativar o usuário id: "+id_usuario+" - "+usuario, CodLogado);
                         }
                 } 
         } catch (HeadlessException ex) {   }
@@ -368,16 +378,22 @@ public class Tela_Ativacao extends javax.swing.JInternalFrame {
         try {
                 int Sel_Turma = JTB_Itens.getSelectedRow();
                 if (Sel_Turma >= 0) {
-                    String resultado = (String.valueOf(JTB_Itens.getValueAt(JTB_Itens.getSelectedRow(), 0)));                    
-                    ObjControlTurma.Ativa_Turma(resultado);
+                    String id_turma = (String.valueOf(JTB_Itens.getValueAt(JTB_Itens.getSelectedRow(), 0)));
+                    ObjControlTurma.Ativa_Turma(id_turma);
                     Preencher_Tabela_Turma("select* from curso inner join turma on "
                         + "turma.curso_id_curso = curso.id_curso where turma.situacao = 'INATIVO' order by curso.abrev_curso ");
+                    try {
+                        ObjControlTurma.Consulta_Turma_Concat(ObjModTurma, id_turma);
+                    } catch (SQLException ex) {}
+                    
                     if(ObjControlTurma.Confirma_Ativar_Turma == true){
-                            Mostrar_Dados_Salvos();
+                            Mostrar_Dados_Salvos();                            
                             ObjControlTurma.Confirma_Ativar_Turma = false;
+                            new Controle_Log().Registrar_Log("Ativou a turma id: "+id_turma+" - "+ObjModTurma.getPesquisa(), CodLogado);
                         }else{
                             Mostrar_Dados_Nao_Salvos();
                             ObjControlTurma.Confirma_Ativar_Turma = false;
+                            new Controle_Log().Registrar_Log("erro ao ativar a turma id: "+id_turma+" - "+ObjModTurma.getPesquisa(), CodLogado);
                         }
                 } 
         } catch (HeadlessException ex) {   }
@@ -387,15 +403,18 @@ public class Tela_Ativacao extends javax.swing.JInternalFrame {
         try {
                 int Sel_Disciplina = JTB_Itens.getSelectedRow();
                 if (Sel_Disciplina >= 0) {
-                    String resultado = (String.valueOf(JTB_Itens.getValueAt(JTB_Itens.getSelectedRow(), 0)));                    
-                    ObjControlDisciplina.Ativa_Disciplina(resultado);
+                    String id_disciplina = (String.valueOf(JTB_Itens.getValueAt(JTB_Itens.getSelectedRow(), 0)));
+                    String disciplina = (String.valueOf(JTB_Itens.getValueAt(JTB_Itens.getSelectedRow(), 1)));
+                    ObjControlDisciplina.Ativa_Disciplina(id_disciplina);
                     Preencher_Tabela_Disciplina("select* from disciplina where situacao_disciplina = 'INATIVO' order by disciplina ");
                     if(ObjControlDisciplina.Confirma_Ativar_Disciplina == true){
                             Mostrar_Dados_Salvos();
                             ObjControlDisciplina.Confirma_Ativar_Disciplina = false;
+                            new Controle_Log().Registrar_Log("Ativou a disciplina id: "+id_disciplina+" - "+disciplina, CodLogado);
                         }else{
                             Mostrar_Dados_Nao_Salvos();
                             ObjControlDisciplina.Confirma_Ativar_Disciplina = false;
+                            new Controle_Log().Registrar_Log("erro ao ativar a disciplina id: "+id_disciplina+" - "+disciplina, CodLogado);
                         }
                 } 
         } catch (HeadlessException ex) {   }
@@ -405,17 +424,20 @@ public class Tela_Ativacao extends javax.swing.JInternalFrame {
         try {
                 int Sel_Usuario = JTB_Itens.getSelectedRow();
                 if (Sel_Usuario >= 0) {
-                    String resultado = (String.valueOf(JTB_Itens.getValueAt(JTB_Itens.getSelectedRow(), 0)));
-                    ObjControlProd.Ativar_Produto(resultado);
+                    String id_produto = (String.valueOf(JTB_Itens.getValueAt(JTB_Itens.getSelectedRow(), 0)));
+                    String produto = (String.valueOf(JTB_Itens.getValueAt(JTB_Itens.getSelectedRow(), 1)));
+                    ObjControlProd.Ativar_Produto(id_produto);
                    Preencher_Tabela_Produtos("select*from produto inner join categoria_produto "
                     + "on produto.Categoria_Produto_id_categoria = categoria_produto.id_categoria where "
                      + "produto.situacao='INATIVO' order by produto.descricao"); 
                         if(ObjControlProd.Confirma_Ativo == true){
                             Mostrar_Dados_Salvos();
                             ObjControlProd.Confirma_Ativo = false;
+                            new Controle_Log().Registrar_Log("Ativou o produto id: "+id_produto+" - "+produto, CodLogado);
                         }else{
                             Mostrar_Dados_Nao_Salvos();
                             ObjControlProd.Confirma_Ativo = false;
+                            new Controle_Log().Registrar_Log("erro ao ativar o produto id: "+id_produto+" - "+produto, CodLogado);
                         }
                 } 
         } catch (HeadlessException ex) {   }

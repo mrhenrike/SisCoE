@@ -26,25 +26,38 @@ public class Pintar_Tabela implements TableCellRenderer {
         
         Color foreground, background;
         
-        Object teste = table.getValueAt(row, 5);     
-        if(isSelected){
+        Object estoque = table.getValueAt(row, 5);
+        Object minimo = table.getValueAt(row, 4);     
+        if(isSelected){//linha selecionada
             foreground = Color.WHITE;
             background = Color.LIGHT_GRAY;
-        }else if (row % 2 == 0) {
-            if ((teste.toString().equals("0.0"))) {
+        }else if (row % 2 == 0) {//linha par
+            if ((estoque.toString().equals("0.0"))) {//estoque zerado
                 foreground = Color.red; //COR DA FONTE
                 background = Color.decode("#FFFFFF"); //COR DA CÉLULA
             }else{
-                foreground = Color.black; //COR DA FONTE
-                background = Color.decode("#FFFFFF"); //COR DA CÉLULA
+                if(Double.parseDouble(String.valueOf(estoque)) < Double.parseDouble(String.valueOf(minimo))){//estoque abaixo do minimo
+                    foreground = Color.blue; //COR DA FONTE
+                    background = Color.decode("#FFFFFF"); //COR DA CÉLULA
+                }
+                else{
+                    foreground = Color.black; //COR DA FONTE
+                    background = Color.decode("#FFFFFF"); //COR DA CÉLULA
+                }
             }
-        }else {
-            if ((teste.toString().equals("0.0"))) {
+        }else {//linha impar
+            if ((estoque.toString().equals("0.0"))) {//estoque zerado
                 foreground = Color.red; //COR DA FONTE
                 background = Color.decode("#E1F2FE");
             }else{
-                foreground = Color.black; //COR DA FONTE
-                background = Color.decode("#E1F2FE");
+                if(Double.parseDouble(String.valueOf(estoque)) < Double.parseDouble(String.valueOf(minimo))){//estoque abaixo do minimo
+                    foreground = Color.green; //COR DA FONTE
+                    background = Color.decode("#E1F2FE"); //COR DA CÉLULA
+                }
+                else{
+                    foreground = Color.black; //COR DA FONTE
+                    background = Color.decode("#E1F2FE"); //COR DA CÉLULA
+                }
             }
         }
         

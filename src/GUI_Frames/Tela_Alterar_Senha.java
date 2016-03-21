@@ -3,6 +3,7 @@ package GUI_Frames;
 //@author Márison Tamiarana
 
 import Classes.Modelo_Usuario;
+import Conexao.Controle_Log;
 import Conexao.Controle_Usuario;
 import GUI_Dialogs_Altera_Senha.Conf_Sair_Sem_Salvar_AltSenha;
 import GUI_Dialogs_Altera_Senha.Conf_Salvar_AltSenha;
@@ -13,6 +14,7 @@ import GUI_Dialogs_Altera_Senha.Inf_Senha_Atual_Invalida_AltSenha;
 import GUI_Dialogs_Altera_Senha.Inf_Senhas_Diferentes_AltSenha;
 import GUI_Dialogs_Altera_Senha.Inf_Senhas_Minima_AltSenha;
 import GUI_Dialogs_Altera_Senha.Inf_Usuario_Nao_Encontrado_AltSenha;
+import static GUI_Frames.Tela_Principal.CodLogado;
 import Metodos.Formatacao;
 import java.awt.Color;
 import java.awt.Dimension;
@@ -348,40 +350,45 @@ public class Tela_Alterar_Senha extends javax.swing.JInternalFrame {
             Mostrar_Senha_Minima();
         }
         else{
-            JL_Senha.setForeground(Color.black);
-            JL_Senha_Conf.setForeground(Color.black);
-            Mostrar_Conf_Salvar();
+            try {
+                ObjControlUser.Consulta_Usuario_Senha(ObjModeloUserConsult,JTF_Nome_Us.getText());
+                if(ObjControlUser.Confirma_Busca == true){
+                    ObjControlUser.Confirma_Busca = false;
+                    if (ObjModeloUserConsult.getSenha().equals(new String(JTF_Senha_Atual.getPassword()))){
+                        JL_Senha.setForeground(Color.black);
+                        JL_Senha_Conf.setForeground(Color.black);
+                        Mostrar_Conf_Salvar();
+                    }else{
+                        Mostrar_Senha_Atual_Invalida();
+                    }                    
+                }else{
+                   Mostrar_Usuario_Nao_Encontrado();
+                }
+            } catch (SQLException ex) {
+                Logger.getLogger(Tela_Alterar_Senha.class.getName()).log(Level.SEVERE, null, ex);
+            }
         }
     }
     
-    public void Confirma_Alterar_Senha_Usario(){
+    public void Confirma_Alterar_Senha_Usario(){        
         try {
-            ObjControlUser.Consulta_Usuario_Senha(ObjModeloUserConsult,JTF_Nome_Us.getText());
-            
-            if(ObjControlUser.Confirma_Busca == true)
-            {                  
-                if (ObjModeloUserConsult.getSenha().equals(new String(JTF_Senha_Atual.getPassword()))) 
-                    {
-                        ObjModeloUserInserir.setSenha(new String(JTF_Senha_Conf.getPassword()));
-                        ObjControlUser.Alterar_Senha_Usuario(ObjModeloUserConsult, ObjModeloUserInserir);
-                        Mostrar_Dados_Salvos();
-                        Limpar_Campos();
-                        ObjControlUser.Confirma_Alterar_Senha = false;
-                    }
-                else{
-                    ObjControlUser.Confirma_Alterar_Senha = false;
-                    Mostrar_Senha_Atual_Invalida();
-                    }
+            ObjModeloUserInserir.setSenha(new String(JTF_Senha_Conf.getPassword()));
+            ObjControlUser.Alterar_Senha_Usuario(ObjModeloUserConsult, ObjModeloUserInserir);
+            if (ObjControlUser.Confirma_Alterar_Senha == true) {
+                Mostrar_Dados_Salvos();
+                //Log
+                new Controle_Log().Registrar_Log("Alterou a senha - usuario: '" + ObjModeloUserConsult.getLogin()+"'", CodLogado);
+                Limpar_Campos();
+                ObjControlUser.Confirma_Alterar_Senha = false;
+            } else {
+                Mostrar_Dados_Nao_Salvos();
+                //Log
+                new Controle_Log().Registrar_Log("Erro ao alterar a senha - usuario: '" + ObjModeloUserConsult.getLogin()+"'", CodLogado);
+                Limpar_Campos();
             }
-            else
-            {
-                Mostrar_Usuario_Nao_Encontrado();
-            }
-            
         } catch (SQLException ex) {
             Logger.getLogger(Tela_Alterar_Senha.class.getName()).log(Level.SEVERE, null, ex);
         }
-        
     }
 
     void Mostrar_Preencher_Campos(){

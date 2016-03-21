@@ -7,6 +7,8 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import javax.swing.JComboBox;
 import javax.swing.JOptionPane;
 import javax.swing.JTextField;
@@ -25,7 +27,7 @@ public class Controle_Disciplina {
     public void Inserir_Disciplina(Modelo_Disciplina ObjModDisciplina){
         try{
             ObjConecta.Conectar();
-            String sql = "insert into disciplina (disciplina, semestre, curso_id_curso, situacao_disciplina) values (?,?,?,?)";
+            String sql = "insert into disciplina (disciplina, semestre, curso_id_curso, situacao_disciplina, data_cad_disciplina) values (?,?,?,?,?)";
         
             try(PreparedStatement stmt = ObjConecta.conn.prepareStatement(sql))
             {
@@ -34,11 +36,16 @@ public class Controle_Disciplina {
                     stmt.setInt   (2, ObjModDisciplina.getSemestre());
                     stmt.setInt   (3, ObjModDisciplina.getId_curso());
                     stmt.setString(4, "ATIVO");
+                    stmt.setString(5, new SimpleDateFormat("yyyy/MM/dd").format(new Date(System.currentTimeMillis())));
                 }
                 stmt.execute();
                 stmt.close();
             }
+            ObjConecta.ExecutaSQL("select LAST_INSERT_ID()");
+            ObjConecta.rs.first();
+            ObjModDisciplina.setId_disciplina(ObjConecta.rs.getInt(1));
             ObjConecta.Desconecta();
+            
             Confirma_Inserir_Disciplina = true;
             
         } catch (SQLException ex) {
@@ -145,11 +152,12 @@ public class Controle_Disciplina {
     public void Ativa_Disciplina(String id){
          try { 
                 ObjConecta.Conectar();
-                String sql = "update disciplina set situacao_disciplina =? where id_disciplina ="+id+"";  
+                String sql = "update disciplina set situacao_disciplina =?, data_ultima_alteracao_disciplina =? where id_disciplina ="+id+"";  
                 try(PreparedStatement stmt = ObjConecta.conn.prepareStatement(sql))
                 {
                     {
                         stmt.setString(1, "ATIVO");
+                        stmt.setString(2, new SimpleDateFormat("yyyy/MM/dd").format(new Date(System.currentTimeMillis())));
                     }
                     stmt.execute();
                     stmt.close();                    
@@ -191,7 +199,8 @@ public class Controle_Disciplina {
     public void Alterar_Disciplina (Modelo_Disciplina ObjModeloDisciplina, String id){
          try { 
                 ObjConecta.Conectar();
-                String sql = "update disciplina set disciplina=?, semestre=?, situacao_disciplina=?, curso_id_curso=? where id_disciplina="+id+"";
+                String sql = "update disciplina set disciplina=?, semestre=?, situacao_disciplina=?, curso_id_curso=?, data_ultima_alteracao_disciplina=? "
+                        + "where id_disciplina="+id+"";
                 try(PreparedStatement stmt = ObjConecta.conn.prepareStatement(sql))
                 {
                     {
@@ -199,6 +208,7 @@ public class Controle_Disciplina {
                         stmt.setInt   (2, ObjModeloDisciplina.getSemestre());
                         stmt.setString(3, ObjModeloDisciplina.getSituacao());
                         stmt.setInt   (4, ObjModeloDisciplina.getId_curso());
+                        stmt.setString(5, new SimpleDateFormat("yyyy/MM/dd").format(new Date(System.currentTimeMillis())));
                     }
                     stmt.execute();
                     stmt.close();

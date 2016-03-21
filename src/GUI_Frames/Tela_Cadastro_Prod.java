@@ -6,6 +6,7 @@ import Classes.Modelo_Produto;
 import Conexao.Conecta_Banco;
 import Conexao.Controle_Categoria;
 import Conexao.Controle_Entrada_Produto;
+import Conexao.Controle_Log;
 import Conexao.Controle_Produto;
 import GUI_Dialogs_Produto.Conf_Sair_Sem_Salvar_Prod;
 import GUI_Dialogs_Produto.Conf_Salvar_Prod;
@@ -13,6 +14,7 @@ import GUI_Dialogs_Produto.Inf_Cadastro_Existente_Prod;
 import GUI_Dialogs_Produto.Inf_Dados_Nao_Salvos_Prod;
 import GUI_Dialogs_Produto.Inf_Dados_Salvos_Prod;
 import GUI_Dialogs_Produto.Inf_Preencher_Campos_Prod;
+import static GUI_Frames.Tela_Principal.CodLogado;
 import Metodos.Formatacao;
 import java.awt.Dimension;
 import java.awt.event.ActionEvent;
@@ -82,8 +84,8 @@ public class Tela_Cadastro_Prod extends javax.swing.JInternalFrame {
         JTF_Id.setDocument(ObjFormat.new Format_Geral(50));
         
         Preencher_CB_Categoria();
-        Preencher_CB_Macro();
-        Preencher_CB_Unidade();
+        ObjControlProd.Preencher_CB_Macro(JCB_Macro);
+        ObjControlProd.Preencher_CB_Unidade(JCB_Unidade);
         
         Setar_Atalho_BT();
     }
@@ -460,6 +462,8 @@ public class Tela_Cadastro_Prod extends javax.swing.JInternalFrame {
     JCB_Macro.addItem("CT");
     JCB_Macro.addItem("CX");
     JCB_Macro.addItem("FD");
+    JCB_Macro.addItem("G");
+    JCB_Macro.addItem("K");
     JCB_Macro.addItem("L");
     JCB_Macro.addItem("ML");
     JCB_Macro.addItem("PCT");
@@ -577,13 +581,15 @@ public class Tela_Cadastro_Prod extends javax.swing.JInternalFrame {
         ObjControlProd.Inserir_Produto(ObjModeloProd);
             if (ObjControlProd.Confirma_Inserir == true) {
                 Mostrar_Dados_Salvos();
+                new Controle_Log().Registrar_Log("Cadastrou novo produto id: "+ObjModeloProd.getId_produto()+" - "+ObjModeloProd.getDescricao(), CodLogado);
                 Limpar_Campos();
                 ObjControlProd.Confirma_Inserir = false;
             } else {
                 Mostrar_Dados_Nao_Salvos();
+                new Controle_Log().Registrar_Log("Erro ao cadastrar um novo produto", CodLogado);
                 ObjControlProd.Confirma_Inserir = false;
             }
-            ObjControlProd.Buscar_Ultimo_ID(ObjModeloProd);
+            //metodo para inserir o novo estoque
             ObjControlEntrada.Controla_Lote(ObjModeloProd.getId_produto());
             if(ObjControlEntrada.ControlaLote == false){
                 ObjControlEntrada.Inserir_Estoque(ObjModeloProd.getId_produto(), 0);

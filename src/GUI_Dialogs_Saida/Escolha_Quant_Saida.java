@@ -26,8 +26,8 @@ public class Escolha_Quant_Saida extends javax.swing.JDialog {
         setSize(270,200);
         setLocationRelativeTo(ObjSaida);
         JTF_Quantidade.setDocument(ObjFormat.new Format_Apenas_Numero(10));
-        ObjControlSaida.Estoque(ObjModeloSaida, ObjSaida.Id_Prod);
-        JL_Quant.setText(String.valueOf((ObjModeloSaida.getQuantidade())-ObjSaida.QuantidadeSemLote));
+        ObjControlSaida.Estoque(ObjModeloSaida, ObjSaida.id_produto);
+        JL_Quant.setText(String.valueOf((ObjModeloSaida.getQuantidade())-ObjSaida.quantidade_sem_lote));
         JL_Un.setText(ObjSaida.unidade);
     }
 
@@ -183,9 +183,9 @@ public class Escolha_Quant_Saida extends javax.swing.JDialog {
                 if(QuantSolicitada>Double.valueOf(JL_Quant.getText())){
                     ObjSaida.Mostrar_Quantidade_Maior();
                 }else{
-                    ObjSaida.Verifica_Se_Existe_Na_Lista(ObjSaida.Id_Prod);
-                        if(ObjSaida.Controla_Prod == true){
-                            ObjSaida.Controla_Prod=false;
+                    ObjSaida.Verifica_Se_Existe_Na_Lista(ObjSaida.id_produto);
+                        if(ObjSaida.controla_prod == true){
+                            ObjSaida.controla_prod=false;
                             ObjSaida.Mostrar_Conf_Alterar_Quantidade();
                             dispose(); }
                         else{

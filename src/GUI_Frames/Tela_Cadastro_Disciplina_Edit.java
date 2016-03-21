@@ -6,12 +6,14 @@ import Classes.Modelo_Curso;
 import Classes.Modelo_Disciplina;
 import Conexao.Controle_Curso;
 import Conexao.Controle_Disciplina;
+import Conexao.Controle_Log;
 import GUI_Dialogs_Curso_Turma.Conf_Sair_Sem_Salvar_Disc_Edit;
 import GUI_Dialogs_Curso_Turma.Conf_Salvar_Disc_Edit;
 import GUI_Dialogs_Curso_Turma.Inf_Cadastro_Existente_Disc_Edit;
 import GUI_Dialogs_Curso_Turma.Inf_Dados_Nao_Salvos_Disc_Edit;
 import GUI_Dialogs_Curso_Turma.Inf_Dados_Salvos_Disc_Edit;
 import GUI_Dialogs_Curso_Turma.Inf_Preencher_Campos_Disc_Edit;
+import static GUI_Frames.Tela_Principal.CodLogado;
 import Metodos.Formatacao;
 import java.awt.Dimension;
 import java.awt.event.ActionEvent;
@@ -47,6 +49,7 @@ public class Tela_Cadastro_Disciplina_Edit extends javax.swing.JInternalFrame {
     }
     
     Modelo_Disciplina ObjModDisciplina = new Modelo_Disciplina();
+    Modelo_Disciplina ObjModDisciplinaLog = new Modelo_Disciplina();
     Modelo_Curso ObjModCurso = new Modelo_Curso();
     Controle_Disciplina ObjControleDisciplina = new Controle_Disciplina();
     Controle_Curso ObjControleCurso = new Controle_Curso();
@@ -275,6 +278,7 @@ public class Tela_Cadastro_Disciplina_Edit extends javax.swing.JInternalFrame {
 
     public void Setar_Campos(Object id_Disciplina){
         ObjControleDisciplina.Consulta_Disciplina(ObjModDisciplina, id_Disciplina);
+        ObjControleDisciplina.Consulta_Disciplina(ObjModDisciplinaLog, id_Disciplina);
         JTF_Disciplina.setText(ObjModDisciplina.getDisciplina());
         JTF_Id.setText(String.valueOf(ObjModDisciplina.getId_disciplina()));
         JCB_Situacao.setSelectedItem(ObjModDisciplina.getSituacao());
@@ -317,11 +321,14 @@ public class Tela_Cadastro_Disciplina_Edit extends javax.swing.JInternalFrame {
         ObjControleDisciplina.Alterar_Disciplina(ObjModDisciplina, JTF_Id.getText());
         if(ObjControleDisciplina.Confirma_Alterar==true){
             Mostrar_Dados_Salvos();
+            Controle_Log_Registrar();
             dispose();
             Mostrar_Tela_Consulta();
             ObjControleDisciplina.Confirma_Alterar = false;
         }else{
             Mostrar_Dados_Nao_Salvos();
+            new Controle_Log().Registrar_Log("Erro ao alterar a disciplina id: "+ObjModDisciplinaLog.getId_disciplina()+" - "
+                    +ObjModDisciplinaLog.getDisciplina(), CodLogado);
             Mostrar_Tela_Consulta();
             ObjControleDisciplina.Confirma_Alterar = false;
         }
@@ -341,6 +348,42 @@ public class Tela_Cadastro_Disciplina_Edit extends javax.swing.JInternalFrame {
     public void Mostrar_Tela_Consulta(){
         Tela_Consulta_Curso_Turma obj = new Tela_Consulta_Curso_Turma();
         obj.Open_Tela();
+    }
+    
+    void Controle_Log_Registrar(){
+        boolean controle = false;//controle das alterações
+        if(!ObjModDisciplinaLog.getDisciplina().equalsIgnoreCase(JTF_Disciplina.getText())){
+            new Controle_Log().Registrar_Log("alterou a disciplina id: "+JTF_Id.getText()+" - "+ObjModDisciplinaLog.getDisciplina()
+                    +" ( descrição: de '"+ObjModDisciplinaLog.getDisciplina()
+                    +"' para '"+JTF_Disciplina.getText()+"' )", CodLogado);
+            controle = true;
+        }
+        if(!ObjModCurso.getNome_curso().equalsIgnoreCase(JCB_Curso_Disc.getSelectedItem().toString())){
+            new Controle_Log().Registrar_Log("alterou a disciplina id: "+JTF_Id.getText()+" - "+ObjModDisciplina.getDisciplina()
+                    +" ( curso: de '"+ObjModCurso.getNome_curso()
+                    +"' para '"+JCB_Curso_Disc.getSelectedItem().toString()+"' )", CodLogado);
+            controle = true;
+        }
+        if(ObjModDisciplinaLog.getSemestre() != Integer.parseInt(JCB_Semestre_Disc.getSelectedItem().toString())){
+            new Controle_Log().Registrar_Log("alterou a disciplina id: "+JTF_Id.getText()+" - "+ObjModDisciplina.getDisciplina()
+                    +" ( semestre: de '"+ObjModDisciplinaLog.getSemestre()
+                    +"' para '"+JCB_Semestre_Disc.getSelectedItem().toString()+"' )", CodLogado);
+            controle = true;
+        }
+        if(!ObjModDisciplinaLog.getSituacao().equalsIgnoreCase(JCB_Situacao.getSelectedItem().toString().trim())){
+            if(JCB_Situacao.getSelectedItem().equals("INATIVO")){
+                new Controle_Log().Registrar_Log("inativou a disciplina id: "+JTF_Id.getText()+" - "+ObjModDisciplina.getDisciplina(), CodLogado);
+                controle = true;
+            }
+            if(JCB_Situacao.getSelectedItem().equals("ATIVO")){
+                new Controle_Log().Registrar_Log("ativou a disciplina id: "+JTF_Id.getText()+" - "+ObjModDisciplina.getDisciplina(), CodLogado);
+                controle = true;
+            }
+        }
+        if(controle == false){
+            new Controle_Log().Registrar_Log("alterou a disciplina id: "+JTF_Id.getText()+" - "+ObjModDisciplinaLog.getDisciplina()
+                    +" ( salvou sem nenhuma alteração )", CodLogado);
+        }
     }
         
     

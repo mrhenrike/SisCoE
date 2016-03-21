@@ -31,7 +31,6 @@ import javax.swing.AbstractAction;
 import javax.swing.InputMap;
 import javax.swing.JComponent;
 import javax.swing.JFormattedTextField;
-import javax.swing.JOptionPane;
 import javax.swing.KeyStroke;
 
 
@@ -340,7 +339,7 @@ public class Tela_Cadastro_Usuario_Edit extends javax.swing.JInternalFrame {
         });
 
         JL_Caracteres.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
-        JL_Caracteres.setText("**Caracteres Permitidos (A-Z, 0-9)");
+        JL_Caracteres.setText("** Caracteres Permitidos (A-Z, 0-9)");
 
         JL_Campos.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
         JL_Campos.setText("* Campos Obrigatórios");
@@ -372,7 +371,7 @@ public class Tela_Cadastro_Usuario_Edit extends javax.swing.JInternalFrame {
                                     .addComponent(JL_Caracteres)
                                     .addComponent(JL_Campos)))
                             .addComponent(JL_Quant_Itens1))
-                        .addGap(0, 104, Short.MAX_VALUE)))
+                        .addGap(0, 100, Short.MAX_VALUE)))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -389,7 +388,7 @@ public class Tela_Cadastro_Usuario_Edit extends javax.swing.JInternalFrame {
                     .addComponent(JP_Dados_Us, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(JL_Quant_Itens1)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 13, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(BT_Salvar, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(BT_Editar, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -397,7 +396,7 @@ public class Tela_Cadastro_Usuario_Edit extends javax.swing.JInternalFrame {
                 .addContainerGap())
         );
 
-        setBounds(20, 20, 805, 413);
+        setBounds(20, 20, 805, 406);
     }// </editor-fold>//GEN-END:initComponents
 
     private void BT_EditarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BT_EditarActionPerformed

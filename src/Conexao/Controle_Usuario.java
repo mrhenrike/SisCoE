@@ -6,6 +6,8 @@ import Classes.Modelo_Usuario;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
@@ -15,7 +17,7 @@ import javax.swing.JTextField;
 public class Controle_Usuario {
     
     Conecta_Banco ObjConecta = new Conecta_Banco();
-    public boolean Confirma_Inserir = false;//Variavel para testar se o cadastro foi inserido com sucesso
+    public boolean confirma_inserir = false;//Variavel para testar se o cadastro foi inserido com sucesso
     public boolean Confirma_Alterar= false;//Variavel para testar se o cadastro foi alterado com sucesso
     public boolean Confirma_Alterar_Senha= false;//Variavel para testar se a senha foi alterada com sucesso
     public boolean Confirma_Excluir= false;//Variavel para testar se o cadastro foi excluido com sucesso
@@ -33,7 +35,7 @@ public class Controle_Usuario {
     public void Inserir_Usuario(Modelo_Usuario ObjUsu){
         ObjConecta.Conectar();
         
-        String sql = "insert into usuario (situacao, nome, login, senha, telefone, data_cad, sexo, permissao)"
+        String sql = "insert into usuario (situacao, nome, login, senha, telefone, data_cad_usuario, sexo, permissao)"
                 + "values(?,?,?,?,?,?,?,?)";
                 
         try {
@@ -53,10 +55,10 @@ public class Controle_Usuario {
                 stmt.close();
             }
            
-           Confirma_Inserir = true;
+           confirma_inserir = true;
            
         } catch (SQLException ex) {
-            Confirma_Inserir=false;
+            confirma_inserir=false;
             JOptionPane.showMessageDialog(null,"Erro ao cadastrar o usuario no banco! \n"
                     +ex,"Informação Do Banco De Dados",JOptionPane.INFORMATION_MESSAGE);
                     }        
@@ -66,7 +68,8 @@ public class Controle_Usuario {
     public void Alterar_Usuario(Modelo_Usuario ObjModeloUser, String id){
         ObjConecta.Conectar();
         
-        String sql = "update usuario set nome=?, login=?, senha=?, telefone=?, sexo=?, permissao=?, situacao=? where id_usuario="+id+"";
+        String sql = "update usuario set nome=?, login=?, senha=?, telefone=?, sexo=?, permissao=?, situacao=?, data_ultima_alteracao_usuario=? "
+                + " where id_usuario="+id+"";
         
         try {
             try (PreparedStatement stmt = ObjConecta.conn.prepareStatement(sql)) {
@@ -78,12 +81,12 @@ public class Controle_Usuario {
                     stmt.setString(5, ObjModeloUser.getSexo());
                     stmt.setString(6, ObjModeloUser.getPermissao());
                     stmt.setString(7, ObjModeloUser.getSituacao());
+                    stmt.setString(8, new SimpleDateFormat("yyyy/MM/dd").format(new Date(System.currentTimeMillis())));
                 }
                 stmt.execute();
                 stmt.close();
-            }
-           
-           Confirma_Alterar = true;           
+            }           
+            Confirma_Alterar = true;          
            
         } catch (SQLException ex) {
             Confirma_Alterar = false;
@@ -105,6 +108,7 @@ public class Controle_Usuario {
                 rs.first();
                 ObjModeloUser.setLogin(rs.getString("login"));
                 ObjModeloUser.setSenha(rs.getString("senha"));
+                ObjModeloUser.setId_usuario(rs.getInt("id_usuario"));
 
                 ObjConecta.Desconecta();
                 Confirma_Busca = true;
@@ -122,11 +126,13 @@ public class Controle_Usuario {
         try {
             ObjConecta.Conectar();
         
-            String sql = "update usuario set senha=? where login="+"'"+ObjModeloUser.getLogin()+"'"+" and senha="+"'"+ObjModeloUser.getSenha()+" '"+" ";
+            String sql = "update usuario set senha=?, data_ultima_alteracao_usuario=? "
+                    + " where login="+"'"+ObjModeloUser.getLogin()+"'"+" and senha="+"'"+ObjModeloUser.getSenha()+" '"+" ";
             
             try (PreparedStatement stmt = ObjConecta.conn.prepareStatement(sql)) {
                 {
                     stmt.setString(1, ObjModeloUser2.getSenha());
+                    stmt.setString(2, new SimpleDateFormat("yyyy/MM/dd").format(new Date(System.currentTimeMillis())));
                 }
                 stmt.execute();
                 stmt.close();
@@ -186,11 +192,12 @@ public class Controle_Usuario {
     
     public void Ativar_Usuario(String id){
         ObjConecta.Conectar();
-        String sql = "update usuario set situacao=? where id_usuario="+id+"";
+        String sql = "update usuario set situacao=?, data_ultima_alteracao_usuario=? where id_usuario="+id+"";
         
         try {
             try (PreparedStatement stmt = ObjConecta.conn.prepareStatement(sql)) {
                 stmt.setString(1,"ATIVO");
+                stmt.setString(2, new SimpleDateFormat("yyyy/MM/dd").format(new Date(System.currentTimeMillis())));
                 stmt.execute();
                 stmt.close();
                 Confirma_Ativo = true;
@@ -231,59 +238,45 @@ public Modelo_Usuario Consulta_Usuario(Modelo_Usuario ObjModeloUser) throws SQLE
     }
     }
 
- public void Testar_Existente(JTextField jt){
+ public void Testar_Existente(JTextField login){
         try {
-        ObjConecta.Conectar();        
-        ObjConecta.ExecutaSQL("Select * from usuario");        
-            ObjConecta.rs.first();            
-            do
-            {
-                String Login = ObjConecta.rs.getString("login");
-                if(jt.getText().equalsIgnoreCase(Login)){
-                   ControleExistente=true;
-                }
-            }
-            while(ObjConecta.rs.next());
-            } catch (SQLException ex) {
+            ObjConecta.Conectar();        
+            ObjConecta.ExecutaSQL("Select * from usuario where login = '"+login.getText()+"'");        
+            ObjConecta.rs.first(); 
+            String Login = ObjConecta.rs.getString("login");
+            ControleExistente = Login.equalsIgnoreCase(login.getText());
+            
+        } catch (SQLException ex) {
             ControleExistente=false;
             ObjConecta.Desconecta();            
         }
         ObjConecta.Desconecta();
     }
  
- public void Procura_Nome_Usuario(JLabel jl, String lg, JLabel jlcod){
-      try {
-        ObjConecta.Conectar();        
-        ObjConecta.ExecutaSQL("Select * from usuario where login='"+lg+"' and situacao='ATIVO'" );        
+    public void Procura_Nome_Usuario(JLabel jl, String lg, JLabel jlcod){
+        try {
+            ObjConecta.Conectar();        
+            ObjConecta.ExecutaSQL("Select * from usuario where login='"+lg+"' and situacao='ATIVO'" );        
             ObjConecta.rs.first();            
+
+            jl.setText(ObjConecta.rs.getString("nome"));
+            jlcod.setText(ObjConecta.rs.getString("id_usuario"));
             
-                jl.setText(ObjConecta.rs.getString("nome"));
-                jlcod.setText(ObjConecta.rs.getString("id_usuario"));
-            
-            } catch (SQLException ex) {
-                ObjConecta.Desconecta();
+        } catch (SQLException ex) {
+            ObjConecta.Desconecta();
         }
       ObjConecta.Desconecta();
     }
- public void Controle_Acesso(JTextField jt, JComboBox cb, JPasswordField jp){
+ public void Controle_Acesso(JTextField login, JComboBox permissao, JPasswordField senha){
         try {
-        ObjConecta.Conectar();        
-        ObjConecta.ExecutaSQL("Select * from usuario");        
-            ObjConecta.rs.first();            
-            do
-            {
-                String Login = ObjConecta.rs.getString("login");
-                String Permissao = ObjConecta.rs.getString("permissao");
-                String Senha = ObjConecta.rs.getString("senha");
-                String Situacao = ObjConecta.rs.getString("situacao");
-                
-                if(jt.getText().equalsIgnoreCase(Login) && cb.getSelectedItem().equals(Permissao)
-                        && new String(jp.getPassword()).equals(Senha) && Situacao.equalsIgnoreCase("ATIVO")){
-                   ControleAcesso=true;
-                }
-            }
-            while(ObjConecta.rs.next());
-            } catch (SQLException ex) {
+            ObjConecta.Conectar();        
+            ObjConecta.ExecutaSQL("Select * from usuario where permissao='"+permissao.getSelectedItem().toString()+"' "
+                    + " and login = '"+login.getText()+"' and senha = '"+new String(senha.getPassword())+"'");        
+            ObjConecta.rs.first(); 
+            String Login = ObjConecta.rs.getString("login");
+            ControleAcesso = Login.equalsIgnoreCase(login.getText());
+
+        } catch (SQLException ex) {
             ControleAcesso=false;
             ObjConecta.Desconecta();
         }
@@ -291,20 +284,12 @@ public Modelo_Usuario Consulta_Usuario(Modelo_Usuario ObjModeloUser) throws SQLE
     }
  public void Controle_Acesso_Bloqueio(String user, JPasswordField jp){
         try {
-        ObjConecta.Conectar();        
-        ObjConecta.ExecutaSQL("Select * from usuario");        
-            ObjConecta.rs.first();            
-            do
-            {
-                String Nome = ObjConecta.rs.getString("nome");
-                String Senha = ObjConecta.rs.getString("senha");
-                
-                if(user.equalsIgnoreCase(Nome) && new String(jp.getPassword()).equals(Senha)){
-                   ControleAcessoBloqueio=true;
-                }
-            }
-            while(ObjConecta.rs.next());
-            } catch (SQLException ex) {
+            ObjConecta.Conectar();        
+            ObjConecta.ExecutaSQL("Select * from usuario where nome ='"+user+"'");        
+            ObjConecta.rs.first();       
+            String Senha = ObjConecta.rs.getString("senha");
+            ControleAcessoBloqueio = new String(jp.getPassword()).equals(Senha);           
+        } catch (SQLException ex) {
             ControleAcessoBloqueio=false;
             
         }
@@ -312,7 +297,7 @@ public Modelo_Usuario Consulta_Usuario(Modelo_Usuario ObjModeloUser) throws SQLE
 //inserir o administrador do sistema
  public void Inserir_Admin(Modelo_Usuario ObjUsu){
     ObjConecta.Conectar();
-        String sql = "insert into usuario (situacao, login, senha, data_cad, permissao)"
+        String sql = "insert into usuario (situacao, login, senha, data_cad_usuario, permissao)"
                 + "values(?,?,?,?,?)";
         try {
             try (PreparedStatement stmt = ObjConecta.conn.prepareStatement(sql)) {

@@ -11,6 +11,7 @@ import Classes.Modelo_Turma;
 import Conexao.Conecta_Banco;
 import Conexao.Controle_Categoria;
 import Conexao.Controle_Entrada_Produto;
+import Conexao.Controle_Log;
 import Conexao.Controle_Lote_Estoque;
 import Conexao.Controle_Produto;
 import Conexao.Controle_Saida_Produto;
@@ -22,6 +23,7 @@ import GUI_Dialogs_Produto.Inf_Dados_Nao_Salvos_Prod_Edit;
 import GUI_Dialogs_Produto.Inf_Dados_Salvos_Prod_Edit;
 import GUI_Dialogs_Produto.Inf_Impossivel_Inativar_Prod_Edit;
 import GUI_Dialogs_Produto.Inf_Preencher_Campos_Prod_Edit;
+import static GUI_Frames.Tela_Principal.CodLogado;
 import Metodos.Formatacao;
 import Metodos.Pintar_Tabela_Padrao;
 import java.awt.Dimension;
@@ -65,7 +67,7 @@ public class Tela_Cadastro_Prod_Edit extends javax.swing.JInternalFrame {
         this.setLocation((d.width - this.getSize().width) / 2, (d.height - this.getSize().height) / 2);
     }    
     
-    public static Tela_Cadastro_Categoria_DL1 ObjCadCategoria;
+    public static Tela_Cadastro_Categoria_DL1 DLCadCategoria;
     private static Inf_Preencher_Campos_Prod_Edit ObjPreencherCampos;
     private static Inf_Dados_Salvos_Prod_Edit ObjDadosSalvos;
     private static Inf_Dados_Nao_Salvos_Prod_Edit ObjDadosNaoSalvos;
@@ -76,6 +78,7 @@ public class Tela_Cadastro_Prod_Edit extends javax.swing.JInternalFrame {
     
     Controle_Categoria ObjControlCat = new Controle_Categoria();
     Modelo_Produto ObjModeloProduto = new Modelo_Produto();
+    Modelo_Produto ObjModeloProdutoLog = new Modelo_Produto();
     Controle_Produto ObjControlProd = new Controle_Produto();
     Formatacao ObjFormat = new Formatacao();
     Conecta_Banco ObjConecta = new Conecta_Banco();
@@ -103,13 +106,11 @@ public class Tela_Cadastro_Prod_Edit extends javax.swing.JInternalFrame {
         JTF_Id.setDocument(ObjFormat.new Format_Geral(50));
                 
         Preencher_CB_Categoria();
-        Preencher_CB_Macro();
-        Preencher_CB_Unidade();
+        ObjControlProd.Preencher_CB_Macro(JCB_Macro);
+        ObjControlProd.Preencher_CB_Unidade(JCB_Unidade);
         
         BT_Salvar.setEnabled(false);
         Setar_Atalho_BT();
-        
-        
     }
 
     @SuppressWarnings("unchecked")
@@ -687,14 +688,17 @@ public class Tela_Cadastro_Prod_Edit extends javax.swing.JInternalFrame {
     }
     }//GEN-LAST:event_JTB_Consulta_ProdMouseClicked
     
-    private void Preencher_CB_Macro(){
+   private void Preencher_CB_Macro(){
     JCB_Macro.removeAllItems();
     JCB_Macro.addItem("");
     JCB_Macro.addItem("AMP");
     JCB_Macro.addItem("CT");
     JCB_Macro.addItem("CX");
     JCB_Macro.addItem("FD");
+    JCB_Macro.addItem("G");
+    JCB_Macro.addItem("KG");
     JCB_Macro.addItem("L");
+    JCB_Macro.addItem("M");
     JCB_Macro.addItem("ML");
     JCB_Macro.addItem("PCT");
     JCB_Macro.addItem("UN");
@@ -704,8 +708,10 @@ public class Tela_Cadastro_Prod_Edit extends javax.swing.JInternalFrame {
     JCB_Unidade.removeAllItems();
     JCB_Unidade.addItem("");
     JCB_Unidade.addItem("CM");
-    JCB_Unidade.addItem("G");    
+    JCB_Unidade.addItem("G");
+    JCB_Unidade.addItem("KG");
     JCB_Unidade.addItem("L");
+    JCB_Unidade.addItem("M");
     JCB_Unidade.addItem("MG");
     JCB_Unidade.addItem("ML");
     JCB_Unidade.addItem("MM");
@@ -727,7 +733,7 @@ public class Tela_Cadastro_Prod_Edit extends javax.swing.JInternalFrame {
     }
     
     public void Testar_Campos(){
-        Double estoque = Double.parseDouble(JTF_Estoque.getText());
+        Double estoque = Double.parseDouble(JTF_Estoque.getText().replace(",", "."));
         if((JTF_Descricao.getText().equalsIgnoreCase(""))
         ||(JTF_Quant_Min.getText().equalsIgnoreCase(""))
         ||(JCB_Categoria.getSelectedIndex()==0)
@@ -818,12 +824,15 @@ public class Tela_Cadastro_Prod_Edit extends javax.swing.JInternalFrame {
         ObjControlProd.Atualizar_Produto(ObjModeloProduto, JTF_Cod.getText());
             if (ObjControlProd.Confirma_Alterar == true) {
                 Mostrar_Dados_Salvos();
+                //log
+                Controle_Log_Registrar();
                 Limpar_Campos();
                 ObjControlProd.Confirma_Alterar = false;
                 Testar_Sair=false;
                 Abri_Tela_Consulta_Prod();
             } else {
                 Mostrar_Dados_Nao_Salvos();
+                new Controle_Log().Registrar_Log("Erro ao editar o produto id: "+JTF_Cod.getText()+" - "+ObjModeloProdutoLog.getDescricao(), CodLogado);
                 ObjControlProd.Confirma_Alterar = false;
             }
     }
@@ -842,16 +851,19 @@ public class Tela_Cadastro_Prod_Edit extends javax.swing.JInternalFrame {
         try {           
             //Modelo_Produto ObjModeloProduto = new Modelo_Produto();
             
-            ObjModeloProduto.setPesquisa(String.valueOf(LinhaSelecionada));
+            ObjModeloProduto.setPesquisa(String.valueOf(LinhaSelecionada));//seta na avariavel o id que foi selecionado na tabela
+            ObjModeloProdutoLog.setPesquisa(String.valueOf(LinhaSelecionada));//seta na avariavel o id que foi selecionado na tabela
             
             ObjControlLote.Consulta_Estoque_Produto(ObjModeloLote,LinhaSelecionada);//Consulta o estoque do produto
-               
+             
             ObjControlProd.Consulta_Produto_Alterar(ObjModeloProduto);
+            ObjControlProd.Consulta_Produto_Alterar(ObjModeloProdutoLog);//para ser usado no log  
             
             Preencher_Tabela_Entradas("select * from entrada inner join entrada_itens on"
               + " entrada.id_entrada=entrada_itens.entrada_id_entrada where produto_id_produto="+LinhaSelecionada+"");
                         
             ObjControlProd.Procura_Nome_Categoria(ObjModeloProduto,ObjModeloProduto.getCategoria_id_produto());
+            ObjControlProd.Procura_Nome_Categoria(ObjModeloProdutoLog,ObjModeloProdutoLog.getCategoria_id_produto());//para ser usado no log
             
             JTF_Cod.setText(String.valueOf(ObjModeloProduto.getId_produto()));
             JTF_Descricao.setText(String.valueOf(ObjModeloProduto.getDescricao()));
@@ -864,9 +876,11 @@ public class Tela_Cadastro_Prod_Edit extends javax.swing.JInternalFrame {
             JCB_Solicita_Dev.setSelectedItem(String.valueOf(ObjModeloProduto.getSolicita_devolucao()));
             JTF_Id.setText(String.valueOf(ObjModeloProduto.getIdentificacao()));
             JCB_Situacao.setSelectedItem(String.valueOf(ObjModeloProduto.getSituacao()));
-            JTF_Estoque.setText(String.valueOf(ObjModeloLote.getQuantidade_estoque()));
+            JTF_Estoque.setText(String.valueOf(ObjModeloLote.getQuantidade_estoque()).replace(".", ","));
             JTF_Preco.setText(String.valueOf(ObjModeloProduto.getPreco()).replace(".", ","));
-        } catch (SQLException ex) {
+            
+            
+            } catch (SQLException ex) {
         }
     }
     
@@ -884,7 +898,7 @@ public class Tela_Cadastro_Prod_Edit extends javax.swing.JInternalFrame {
         BT_Sair.setPressedIcon(new javax.swing.ImageIcon(getClass().getResource("/Icones/Bt Voltar Press.png"))); // NOI18N
     }
     
-       
+     //dialogs  
      void Mostrar_Preencher_Campos(){
         ObjPreencherCampos = new Inf_Preencher_Campos_Prod_Edit(this, true);
         ObjPreencherCampos.setVisible(true);
@@ -910,8 +924,8 @@ public class Tela_Cadastro_Prod_Edit extends javax.swing.JInternalFrame {
         ObjImpossivelInativar.setVisible(true);
     }       
     public void Mostrar_Cadastro_Categoria(){
-        ObjCadCategoria = new Tela_Cadastro_Categoria_DL1(this, true);
-        ObjCadCategoria.setVisible(true);
+        DLCadCategoria = new Tela_Cadastro_Categoria_DL1(this, true);
+        DLCadCategoria.setVisible(true);
     }
     void Mostrar_Cad_Existente(){
         ObjCadExiste = new Inf_Cadastro_Existente_Prod_Edit(this, true);
@@ -923,6 +937,7 @@ public class Tela_Cadastro_Prod_Edit extends javax.swing.JInternalFrame {
         obj.Open_Tela();
         dispose();
     }
+    
     public final void Preencher_Tabela_Entradas(String SQL) {
         ArrayList dados = new ArrayList();
 
@@ -1041,6 +1056,87 @@ public class Tela_Cadastro_Prod_Edit extends javax.swing.JInternalFrame {
         JTB_Consulta_Prod.setAutoResizeMode(JTB_Consulta_Prod.AUTO_RESIZE_ALL_COLUMNS);//Tabela Redimensionavel(Todas colunas)
         JTB_Consulta_Prod.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);//Seleciona uma unica linha da tabela
         JTB_Consulta_Prod.setToolTipText("Clique Duas Vezes Em Uma Linha Para Mais Informações!");
+    }
+    
+    void Controle_Log_Registrar(){
+        //descricao
+        boolean controle = false;//controlar as alterações
+        if(!ObjModeloProdutoLog.getDescricao().equalsIgnoreCase(JTF_Descricao.getText())){
+            new Controle_Log().Registrar_Log("alterou o produto id: "+JTF_Cod.getText()+" - "+ObjModeloProdutoLog.getDescricao()
+                    +" ( descrição: de '"+ObjModeloProdutoLog.getDescricao()
+                    +"' para '"+JTF_Descricao.getText()+"' )", CodLogado);
+            controle = true;
+        }
+        //identificação
+        if(!ObjModeloProdutoLog.getIdentificacao().equalsIgnoreCase(JTF_Id.getText())){
+            new Controle_Log().Registrar_Log("alterou o produto id: "+JTF_Cod.getText()+" - "+ObjModeloProduto.getDescricao()
+                    +" ( identificação: de '"+ObjModeloProdutoLog.getIdentificacao()
+                    +"' para '"+JTF_Id.getText()+"' )", CodLogado);
+            controle = true;
+        }
+        //categoria
+        if(!ObjModeloProdutoLog.getNome_categoria().equalsIgnoreCase(JCB_Categoria.getSelectedItem().toString().trim())){
+            new Controle_Log().Registrar_Log("alterou o produto id: "+JTF_Cod.getText()+" - "+ObjModeloProduto.getDescricao()
+                    +" ( categoria: de '"+ObjModeloProdutoLog.getNome_categoria()
+                    +"' para '"+JCB_Categoria.getSelectedItem().toString().trim()+"' )", CodLogado);
+            controle = true;
+        }
+        //unidade
+        if(!ObjModeloProdutoLog.getUnidade().equalsIgnoreCase(JCB_Unidade.getSelectedItem().toString().trim())){
+            new Controle_Log().Registrar_Log("alterou o produto id: "+JTF_Cod.getText()+" - "+ObjModeloProduto.getDescricao()
+                    +" ( unidade: de '"+ObjModeloProdutoLog.getUnidade()
+                    +"' para '"+JCB_Unidade.getSelectedItem().toString().trim()+"' )", CodLogado);
+            controle = true;
+        }
+        //minimo
+        if((ObjModeloProdutoLog.getQuant_minima()) != (Integer.parseInt(JTF_Quant_Min.getText()))){
+            new Controle_Log().Registrar_Log("alterou o produto id: "+JTF_Cod.getText()+" - "+ObjModeloProduto.getDescricao()
+                    +" ( quantidade mínima: de '"+ObjModeloProdutoLog.getQuant_minima()
+                    +"' para '"+JTF_Quant_Min.getText()+"' )", CodLogado);
+            controle = true;
+        }
+        //macro
+        if(!ObjModeloProdutoLog.getMacro().equalsIgnoreCase(JCB_Macro.getSelectedItem().toString().trim())){
+            new Controle_Log().Registrar_Log("alterou o produto id: "+JTF_Cod.getText()+" - "+ObjModeloProduto.getDescricao()
+                    +" ( macro: de '"+ObjModeloProdutoLog.getMacro()
+                    +"' para '"+JCB_Macro.getSelectedItem().toString().trim()+"' )", CodLogado);
+            controle = true;
+        }
+        //quantidade macro
+        if((ObjModeloProdutoLog.getQuant_macro()) != (Integer.parseInt(JTF_Quant_Macro.getText()))){
+            new Controle_Log().Registrar_Log("alterou o produto id: "+JTF_Cod.getText()+" - "+ObjModeloProduto.getDescricao()
+                    +" ( quantidade macro: de '"+ObjModeloProdutoLog.getQuant_macro()
+                    +"' para '"+JTF_Quant_Macro.getText()+"' )", CodLogado);
+            controle = true;
+        }
+        //solicita lote
+        if(!ObjModeloProdutoLog.getSolicita_lote().equalsIgnoreCase(JCB_Solicita_Lote.getSelectedItem().toString().trim())){
+            new Controle_Log().Registrar_Log("alterou o produto id: "+JTF_Cod.getText()+" - "+ObjModeloProduto.getDescricao()
+                    +" ( solicita lote: de '"+ObjModeloProdutoLog.getSolicita_lote()
+                    +"' para '"+JCB_Solicita_Lote.getSelectedItem().toString().trim()+"' )", CodLogado);
+            controle = true;
+        }
+        //solicita devolucao
+        if(!ObjModeloProdutoLog.getSolicita_devolucao().equalsIgnoreCase(JCB_Solicita_Dev.getSelectedItem().toString().trim())){
+            new Controle_Log().Registrar_Log("alterou o produto id: "+JTF_Cod.getText()+" - "+ObjModeloProduto.getDescricao()
+                    +" ( solicita devolução: de '"+ObjModeloProdutoLog.getSolicita_devolucao()
+                    +"' para '"+JCB_Solicita_Dev.getSelectedItem().toString().trim()+"' )", CodLogado);
+            controle = true;
+        }
+        if(!ObjModeloProdutoLog.getSituacao().equalsIgnoreCase(JCB_Situacao.getSelectedItem().toString().trim())){
+            if(JCB_Situacao.getSelectedItem().equals("INATIVO")){
+                new Controle_Log().Registrar_Log("inativou o produto id: "+JTF_Id.getText()+" - "+ObjModeloProduto.getDescricao(), CodLogado);
+                controle = true;
+            }
+            if(JCB_Situacao.getSelectedItem().equals("ATIVO")){
+                new Controle_Log().Registrar_Log("ativou o produto id: "+JTF_Id.getText()+" - "+ObjModeloProduto.getDescricao(), CodLogado);
+                controle = true;
+            }
+        }
+        if(controle == false){
+            new Controle_Log().Registrar_Log("alterou o produto id: "+JTF_Cod.getText()+" - "+ObjModeloProduto.getDescricao()
+                    +" ( salvou sem nenhuma alteração )", CodLogado);
+        }
     }
     
     

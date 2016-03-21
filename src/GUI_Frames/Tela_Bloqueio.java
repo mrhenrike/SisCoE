@@ -39,7 +39,7 @@ public class Tela_Bloqueio extends javax.swing.JDialog {
         setLocationRelativeTo(TP);
         setResizable(false);
         setSize(490,240);
-        Setar_Atalho_BT_OK();
+        Setar_Atalho_BT();
         JPF_LG_Senha.setDocument(ObjFormat.new Format_Geral(50));
         
         
@@ -65,7 +65,7 @@ public class Tela_Bloqueio extends javax.swing.JDialog {
         jLabel2 = new javax.swing.JLabel();
         jLabel7 = new javax.swing.JLabel();
         JPF_LG_Senha = new javax.swing.JPasswordField();
-        jButton1 = new javax.swing.JButton();
+        BT_Encerrar = new javax.swing.JButton();
         jButton2 = new javax.swing.JButton();
         jLabel8 = new javax.swing.JLabel();
 
@@ -100,17 +100,12 @@ public class Tela_Bloqueio extends javax.swing.JDialog {
         jLabel7.setText("Senha*:");
 
         JPF_LG_Senha.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        JPF_LG_Senha.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                JPF_LG_SenhaActionPerformed(evt);
-            }
-        });
 
-        jButton1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icones_Gerais/Sair 24X24.png"))); // NOI18N
-        jButton1.setToolTipText("Encerrar O Sistema");
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
+        BT_Encerrar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icones_Gerais/Sair 24X24.png"))); // NOI18N
+        BT_Encerrar.setToolTipText("Encerrar O Sistema");
+        BT_Encerrar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
+                BT_EncerrarActionPerformed(evt);
             }
         });
 
@@ -140,7 +135,7 @@ public class Tela_Bloqueio extends javax.swing.JDialog {
                             .addGroup(jPanel1Layout.createSequentialGroup()
                                 .addComponent(BT_Ok)
                                 .addGap(18, 18, 18)
-                                .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 57, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(BT_Encerrar, javax.swing.GroupLayout.PREFERRED_SIZE, 57, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                                 .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 57, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addGroup(jPanel1Layout.createSequentialGroup()
@@ -167,7 +162,7 @@ public class Tela_Bloqueio extends javax.swing.JDialog {
                         .addGap(33, 33, 33)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addComponent(BT_Ok, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jButton1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(BT_Encerrar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(jButton2, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                     .addComponent(jLabel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
@@ -194,16 +189,11 @@ public class Tela_Bloqueio extends javax.swing.JDialog {
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
-    private void JPF_LG_SenhaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_JPF_LG_SenhaActionPerformed
-        BT_Ok.requestFocus();
-    }//GEN-LAST:event_JPF_LG_SenhaActionPerformed
-
     private void BT_OkActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BT_OkActionPerformed
              ObjControlUser.Controle_Acesso_Bloqueio(TP.UserLogado, JPF_LG_Senha);
            if(ObjControlUser.ControleAcessoBloqueio==true){
                 dispose();
-                Controle_Log ObjControleLog = new Controle_Log();
-                ObjControleLog.Registrar_Log("desbloqueio do sistema",CodLogado);   
+                new Controle_Log().Registrar_Log("desbloqueio do sistema",CodLogado);   
                 ObjControlUser.ControleAcessoBloqueio=false;
            }else{
                Mostrar_Senha_Invalida();
@@ -216,9 +206,9 @@ public class Tela_Bloqueio extends javax.swing.JDialog {
         Mostrar_Logoff();
     }//GEN-LAST:event_formWindowClosing
 
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+    private void BT_EncerrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BT_EncerrarActionPerformed
         Mostrar_Logoff();
-    }//GEN-LAST:event_jButton1ActionPerformed
+    }//GEN-LAST:event_BT_EncerrarActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
         Mostrar_Logout();
@@ -237,15 +227,28 @@ public class Tela_Bloqueio extends javax.swing.JDialog {
         ObjLogout.setVisible(true);
     }
     
-    public final void Setar_Atalho_BT_OK(){
+     public final void Setar_Atalho_BT(){
+        //metodo para pegar a tecla pressionada
         InputMap inputMap = this.getRootPane().getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW);
-        inputMap.put(KeyStroke.getKeyStroke(KeyEvent.VK_ENTER, 0),"Tecla");
+        inputMap.put(KeyStroke.getKeyStroke(KeyEvent.VK_ESCAPE, 0),"Tecla Esc");
         this.getRootPane().setInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW, inputMap);
-        this.getRootPane().getActionMap().put("Tecla", new AbstractAction(){
-        private static final long serialVersionUID = 1L;
+        
+        InputMap inputMap2 = this.getRootPane().getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW);
+        inputMap2.put(KeyStroke.getKeyStroke(KeyEvent.VK_ENTER, 0),"Tecla Enter");
+        this.getRootPane().setInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW, inputMap2);
+        //método para executar
+        this.getRootPane().getActionMap().put("Tecla Enter", new AbstractAction(){
+        private static final long serialVersionUID = 2L;
         @Override
         public void actionPerformed(ActionEvent arg0) {
         BT_Ok.doClick();
+    }
+    });
+        this.getRootPane().getActionMap().put("Tecla Esc", new AbstractAction(){
+        private static final long serialVersionUID = 2L;
+        @Override
+        public void actionPerformed(ActionEvent arg0) {
+        BT_Encerrar.doClick();
     }
     });
     }
@@ -290,9 +293,9 @@ public class Tela_Bloqueio extends javax.swing.JDialog {
 //       
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton BT_Encerrar;
     private javax.swing.JButton BT_Ok;
     private javax.swing.JPasswordField JPF_LG_Senha;
-    private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel4;

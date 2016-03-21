@@ -582,15 +582,15 @@ public class Tela_Cadastro_Usuario extends javax.swing.JInternalFrame {
     public void Conf_Inserir_Usario(){
         Preencher_Obj_Usuario();
         ObjControlUser.Inserir_Usuario(ObjModeloUser);
-        if (ObjControlUser.Confirma_Inserir == true) 
+        if (ObjControlUser.confirma_inserir == true) 
             {
                 Mostrar_Dados_Salvos();
                 Limpar_Campos();
-                ObjControlUser.Confirma_Inserir = false;
+                ObjControlUser.confirma_inserir = false;
             }
             else{
                 Mostrar_Dados_Nao_Salvos();
-                ObjControlUser.Confirma_Inserir = false;
+                ObjControlUser.confirma_inserir = false;
                 }
         }
     

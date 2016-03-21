@@ -8,6 +8,7 @@ import Classes.Modelo_Turma;
 import Conexao.Conecta_Banco;
 import Conexao.Controle_Curso;
 import Conexao.Controle_Disciplina;
+import Conexao.Controle_Log;
 import Conexao.Controle_Turma;
 import GUI_Dialogs_Curso_Turma.Conf_Sair_Sem_Salvar_Curso;
 import GUI_Dialogs_Curso_Turma.Conf_Salvar_Curso;
@@ -17,6 +18,7 @@ import GUI_Dialogs_Curso_Turma.Inf_Cadastro_Existente_Curso;
 import GUI_Dialogs_Curso_Turma.Inf_Dados_Nao_Salvos_Curso;
 import GUI_Dialogs_Curso_Turma.Inf_Dados_Salvos_Curso;
 import GUI_Dialogs_Curso_Turma.Inf_Preencher_Campos_Curso;
+import static GUI_Frames.Tela_Principal.CodLogado;
 import Metodos.Formatacao;
 import java.awt.Dimension;
 import java.awt.event.ActionEvent;
@@ -833,15 +835,18 @@ public class Tela_Cadastro_Curso_Turma extends javax.swing.JInternalFrame {
         if (ObjControlCurso.Confirma_Inserir == true) 
             {
                 Mostrar_Dados_Salvos();
+                new Controle_Log().Registrar_Log("Cadastrou o curso - ID: "+ObjModeloCurso.getId_curso()
+                        +" - "+ObjModeloCurso.getNome_curso(), CodLogado);
                 Limpar_Campos_Curso();
                 ObjControlCurso.Confirma_Inserir = false;
             }
             else{
                 Mostrar_Dados_Nao_Salvos();
+                new Controle_Log().Registrar_Log("erro ao cadastrar o curso", CodLogado);
                 ObjControlCurso.Confirma_Inserir = false;
                 }
     }
-    
+     
     public void Conf_Inserir_Turma(){
         Procura_Id_Curso();
         Preencher_Objetos_Turma();
@@ -851,9 +856,17 @@ public class Tela_Cadastro_Curso_Turma extends javax.swing.JInternalFrame {
                 Mostrar_Dados_Salvos();
                 Limpar_Campos_Turma();
                 ObjControlTurma.Confirma_Inserir_Turma = false;
+                try {//metodo para trazer a turma concatenada            
+                    ObjControlTurma.Consulta_Turma_Concat(ObjModeloTurma, ObjModeloTurma.getId_turma());                    
+                } catch (SQLException ex) { }
+                //Log
+                new Controle_Log().Registrar_Log("Cadastrou a turma - ID: "+ObjModeloTurma.getId_turma()
+                            +" - "+ObjModeloTurma.getPesquisa(), CodLogado);
             }
             else{
                 Mostrar_Dados_Nao_Salvos();
+                //Log
+                new Controle_Log().Registrar_Log("erro ao cadastrar a turma", CodLogado);
                 ObjControlTurma.Confirma_Inserir_Turma = false;
                 }  
     }
@@ -865,11 +878,16 @@ public class Tela_Cadastro_Curso_Turma extends javax.swing.JInternalFrame {
         if (ObjControlDisciplina.Confirma_Inserir_Disciplina == true) 
             {
                 Mostrar_Dados_Salvos();
-                Limpar_Campos_Disciplina();
                 ObjControlDisciplina.Confirma_Inserir_Disciplina = false;
+                //metodo log
+                new Controle_Log().Registrar_Log("Cadastrou a disciplina - ID: "+ObjModeloDisciplina.getId_disciplina()
+                        +" - "+ObjModeloDisciplina.getDisciplina()+" - Curso: "+JCB_Curso_Disc.getSelectedItem().toString()
+                        + " - "+ObjModeloDisciplina.getSemestre()+"º Semestre", CodLogado);
+                Limpar_Campos_Disciplina();
             }
             else{
                 Mostrar_Dados_Nao_Salvos();
+                new Controle_Log().Registrar_Log("erro ao cadastrar a disciplina", CodLogado);
                 ObjControlDisciplina.Confirma_Inserir_Disciplina = false;
                 }  
     }

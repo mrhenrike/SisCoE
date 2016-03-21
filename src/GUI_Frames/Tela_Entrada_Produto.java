@@ -1005,6 +1005,7 @@ public class Tela_Entrada_Produto extends javax.swing.JInternalFrame {
     public void Limpar_Campos(){
       JTF_Cod.setText("");
       JTF_Descricao.setText("");
+      JTF_Un.setText("");
       JTF_Quant.setText("");
       JTF_Data_Validade.setDate(null);
       JTF_Data_Fabricado.setDate(null);

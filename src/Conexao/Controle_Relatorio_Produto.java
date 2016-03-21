@@ -131,7 +131,7 @@ public class Controle_Relatorio_Produto {
             int Cont = ObjConecta.rs.getInt("cont");
             
             ObjConecta.ExecutaSQL("select*from categoria_produto inner join produto "
-            + "on categoria_produto.id_categoria = produto.Categoria_Produto_id_categoria where produto.situacao ='Ativo' order by categoria");
+            + "on categoria_produto.id_categoria = produto.Categoria_Produto_id_categoria where produto.situacao ='Ativo' order by categoria, descricao");
             JRResultSetDataSource Relatorio = new JRResultSetDataSource(ObjConecta.rs);
             HashMap parametros = new HashMap();
             parametros.put("Usuario",UserLogado);

@@ -23,8 +23,8 @@ public class Escolha_Nova_Quant_Lote_Saida extends javax.swing.JDialog {
         setSize(270,220);
         setLocationRelativeTo(ObjSaida);
         JTF_Quantidade.setDocument(ObjFormat.new Format_Apenas_Numero(10));
-        JL_Quant.setText(String.valueOf(ObjSaida.QuantDisponivel));
-        ObjSaida.Quantidade_Solicitada_Lote(ObjSaida.NumLinha - 1, JL_QuantSolicitada);
+        JL_Quant.setText(String.valueOf(ObjSaida.quant_disponivel));
+        ObjSaida.Quantidade_Solicitada_Lote(ObjSaida.numero_linha - 1, JL_QuantSolicitada);
          JL_Un.setText(ObjSaida.unidade);
         
     }
@@ -163,7 +163,7 @@ public class Escolha_Nova_Quant_Lote_Saida extends javax.swing.JDialog {
     private void JB_OkActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_JB_OkActionPerformed
         if(!JTF_Quantidade.getText().equalsIgnoreCase("")){
             double QuantSolicitada = (Double.parseDouble(JTF_Quantidade.getText()));
-            double QuantDisponivel = ObjSaida.QuantDisponivel;
+            double QuantDisponivel = ObjSaida.quant_disponivel;
                 if(QuantSolicitada<1)
                 {
                         ObjSaida.Mostrar_Quantidade_Invalida();
@@ -172,7 +172,7 @@ public class Escolha_Nova_Quant_Lote_Saida extends javax.swing.JDialog {
                     if (QuantSolicitada > QuantDisponivel) {
                         ObjSaida.Mostrar_Quantidade_Maior();
                     } else {
-                        ObjSaida.Alterar_Quantidade_Lote_Na_Tabela(JTF_Quantidade.getText(), ObjSaida.NumLinha - 1);
+                        ObjSaida.Alterar_Quantidade_Lote_Na_Tabela(JTF_Quantidade.getText(), ObjSaida.numero_linha - 1);
                         ObjSaida.Limpar_Produto();
                         dispose();
                     }

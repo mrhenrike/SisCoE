@@ -111,7 +111,7 @@ public class Conf_Sair_Sem_Salvar_Curso_Edit extends javax.swing.JDialog {
     private void JB_SimActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_JB_SimActionPerformed
        ObjCurso.dispose();
        dispose();
-       ObjCurso.Mostrar_Tela_Consulta();
+       ObjCurso.Mostrar_Tela_Consulta_Curso();
     }//GEN-LAST:event_JB_SimActionPerformed
 
     /**

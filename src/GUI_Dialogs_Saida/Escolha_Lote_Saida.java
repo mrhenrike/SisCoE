@@ -231,10 +231,10 @@ public class Escolha_Lote_Saida extends javax.swing.JDialog {
                             ObjSaida.Mostrar_Quantidade_Maior();
                         }else{
                             ObjSaida.Verifica_Se_Existe_Lote_Na_Lista(IdProd, lote);
-                            if(ObjSaida.Controla_Lote == true){
-                                ObjSaida.Controla_Lote = false;
+                            if(ObjSaida.controla_lote == true){
+                                ObjSaida.controla_lote = false;
                                 //QuantDisponivel = (Double.parseDouble(String.valueOf(JTB_Lote.getValueAt(JTB_Lote.getSelectedRow(), 2))))+ ObjSaida.QuantRetirada;
-                                ObjSaida.QuantDisponivel = (Double.parseDouble(String.valueOf(JTB_Lote.getValueAt(JTB_Lote.getSelectedRow(), 2))))+ ObjSaida.QuantRetirada;
+                                ObjSaida.quant_disponivel = (Double.parseDouble(String.valueOf(JTB_Lote.getValueAt(JTB_Lote.getSelectedRow(), 2))))+ ObjSaida.quant_retirada;
                                 dispose();
                                 ObjSaida.Mostrar_Conf_Alterar_Quantidade_Lote();
                             }else{
@@ -279,7 +279,7 @@ public class Escolha_Lote_Saida extends javax.swing.JDialog {
                 String data_val= "";
                 if(validade != null){data_val = String.valueOf(new SimpleDateFormat("dd-MM-yyyy").format(ObjConecta.rs.getDate("data_validade_lote")));}
                 
-                if(lote.equalsIgnoreCase(ObjSaida.NumLote)){
+                if(lote.equalsIgnoreCase(ObjSaida.num_lote)){
                     quantidade_final = quantidade - ObjSaida.Quantidade;                    
                 }else{
                     quantidade_final = quantidade;

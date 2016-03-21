@@ -6,6 +6,8 @@ import Classes.Modelo_Curso;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import javax.swing.JComboBox;
 import javax.swing.JOptionPane;
 import javax.swing.JTextField;
@@ -24,19 +26,25 @@ public class Controle_Curso {
     public void Inserir_Curso(Modelo_Curso ObjModeloCurso){
         try { 
                 ObjConecta.Conectar();
-                String sql = "insert into curso (nome_curso, abrev_curso, situacao_curso)values(?,?,?)";  
+                String sql = "insert into curso (nome_curso, abrev_curso, situacao_curso, data_cad_curso)values(?,?,?,?)";  
                 try(PreparedStatement stmt = ObjConecta.conn.prepareStatement(sql))
                 {
                     {
                         stmt.setString(1, ObjModeloCurso.getNome_curso());
                         stmt.setString(2, ObjModeloCurso.getAbrev_curso());
                         stmt.setString(3, "ATIVO");
+                        stmt.setString(4, new SimpleDateFormat("yyyy/MM/dd").format(new Date(System.currentTimeMillis())));
                     }
                     stmt.execute();
                     stmt.close();
                     
                 }
                 Confirma_Inserir = true;
+                
+                ObjConecta.ExecutaSQL("select LAST_INSERT_ID()");
+                ObjConecta.rs.first();
+                ObjModeloCurso.setId_curso(ObjConecta.rs.getInt(1));
+                
                 ObjConecta.Desconecta();
             } catch (SQLException ex) {
                 ObjConecta.Desconecta();
@@ -67,11 +75,12 @@ public class Controle_Curso {
     public void Ativa_Curso(String id){
          try { 
                 ObjConecta.Conectar();
-                String sql = "update curso set situacao_curso=? where id_curso ="+id+"";  
+                String sql = "update curso set situacao_curso=?, data_ultima_alteracao_curso=? where id_curso ="+id+"";  
                 try(PreparedStatement stmt = ObjConecta.conn.prepareStatement(sql))
                 {
                     {
                         stmt.setString(1, "ATIVO");
+                        stmt.setString(2, new SimpleDateFormat("yyyy/MM/dd").format(new Date(System.currentTimeMillis())));
                     }
                     stmt.execute();
                     stmt.close();                    
@@ -149,13 +158,14 @@ public class Controle_Curso {
      public void Alterar_Curso(Modelo_Curso ObjModeloCurso, String id){
          try { 
                 ObjConecta.Conectar();
-                String sql = "update curso set nome_curso=?, abrev_curso=?, situacao_curso=? where id_curso="+id+"";
+                String sql = "update curso set nome_curso=?, abrev_curso=?, situacao_curso=?, data_ultima_alteracao_curso=? where id_curso="+id+"";
                 try(PreparedStatement stmt = ObjConecta.conn.prepareStatement(sql))
                 {
                     {
                         stmt.setString(1, ObjModeloCurso.getNome_curso());
                         stmt.setString(2, ObjModeloCurso.getAbrev_curso());
                         stmt.setString(3, ObjModeloCurso.getSituacao());
+                        stmt.setString(4, new SimpleDateFormat("yyyy/MM/dd").format(new Date(System.currentTimeMillis())));
                     }
                     stmt.execute();
                     stmt.close();

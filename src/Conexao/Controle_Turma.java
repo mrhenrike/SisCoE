@@ -7,6 +7,8 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import javax.swing.JComboBox;
 import javax.swing.JOptionPane;
 
@@ -24,8 +26,8 @@ public class Controle_Turma {
     public void Inserir_Turma(Modelo_Turma ObjModeloTurma){
         try { 
                 ObjConecta.Conectar();
-                String sql = "insert into turma (semestre, turno, ano_turma, semestre_vestibular, curso_id_curso, situacao_turma, turma)"
-                        + "values(?,?,?,?,?,?,?)";  
+                String sql = "insert into turma (semestre, turno, ano_turma, semestre_vestibular, curso_id_curso, situacao_turma, turma, data_cad_turma)"
+                        + "values(?,?,?,?,?,?,?,?)";  
                 try(PreparedStatement stmt = ObjConecta.conn.prepareStatement(sql))
                 {
                     {
@@ -36,12 +38,18 @@ public class Controle_Turma {
                         stmt.setInt   (5, ObjModeloTurma.getId_curso());
                         stmt.setString(6, "ATIVO");
                         stmt.setString(7, ObjModeloTurma.getTurma());
+                        stmt.setString(8, new SimpleDateFormat("yyyy/MM/dd").format(new Date(System.currentTimeMillis())));
                     }
                     stmt.execute();
                     stmt.close();
                     
                 }
                 Confirma_Inserir_Turma = true;
+                
+                ObjConecta.ExecutaSQL("select LAST_INSERT_ID()");
+                ObjConecta.rs.first();
+                ObjModeloTurma.setId_turma(ObjConecta.rs.getInt(1));
+                       
                 ObjConecta.Desconecta();
             } catch (SQLException ex) {
                 ObjConecta.Desconecta();
@@ -55,11 +63,12 @@ public class Controle_Turma {
     public void Ativa_Turma(String id){
          try { 
                 ObjConecta.Conectar();
-                String sql = "update turma set situacao_turma=? where id_turma ="+id+"";  
+                String sql = "update turma set situacao_turma=?, data_ultima_alteracao_turma=? where id_turma ="+id+"";  
                 try(PreparedStatement stmt = ObjConecta.conn.prepareStatement(sql))
                 {
                     {
                         stmt.setString(1, "ATIVO");
+                        stmt.setString(2, new SimpleDateFormat("yyyy/MM/dd").format(new Date(System.currentTimeMillis())));
                     }
                     stmt.execute();
                     stmt.close();                    
@@ -291,22 +300,22 @@ public class Controle_Turma {
    public void Alterar_Turma(Modelo_Turma ObjModeloTurma, String id){
          try { 
                 ObjConecta.Conectar();
-                String sql = "update turma set semestre=?, turno=?, ano_turma=?, semestre_vestibular=?, situacao_turma=?, curso_id_curso=?, turma=? "
-                        + "where id_turma= "+id+"";
+                String sql = "update turma set semestre=?, turno=?, ano_turma=?, semestre_vestibular=?, situacao_turma=?, curso_id_curso=?, turma=?, "
+                        + " data_ultima_alteracao_turma=? where id_turma= "+id+"";
                 try(PreparedStatement stmt = ObjConecta.conn.prepareStatement(sql))
                 {
                     {
-                        stmt.setInt(1, ObjModeloTurma.getSemestre());
+                        stmt.setInt   (1, ObjModeloTurma.getSemestre());
                         stmt.setString(2, ObjModeloTurma.getTurno());
                         stmt.setString(3, ObjModeloTurma.getAno_turma());
-                        stmt.setInt(4, ObjModeloTurma.getSemestre_vestibular());
+                        stmt.setInt   (4, ObjModeloTurma.getSemestre_vestibular());
                         stmt.setString(5, ObjModeloTurma.getSituacao());
-                        stmt.setInt(6, ObjModeloTurma.getId_curso());
+                        stmt.setInt   (6, ObjModeloTurma.getId_curso());
                         stmt.setString(7, ObjModeloTurma.getTurma());
+                        stmt.setString(8, new SimpleDateFormat("yyyy/MM/dd").format(new Date(System.currentTimeMillis())));
                     }
                     stmt.execute();
-                    stmt.close();
-                    
+                    stmt.close();                    
                 }
                 Confirma_Alterar = true;
                 ObjConecta.Desconecta();

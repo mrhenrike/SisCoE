@@ -6,6 +6,7 @@ import Classes.Modelo_Ajuste_Estoque;
 import Classes.Modelo_Lote_Estoque;
 import Classes.Modelo_Produto;
 import Conexao.Controle_Ajuste_Estoque;
+import Conexao.Controle_Log;
 import Conexao.Controle_Lote_Estoque;
 import Conexao.Controle_Produto;
 import Conexao.Controle_Saida_Produto;
@@ -20,6 +21,7 @@ import GUI_Dialogs_Ajuste.Inf_Preencher_Campos_Ajuste;
 import GUI_Dialogs_Ajuste.Inf_Prod_Nao_Encontrado_Ajuste;
 import GUI_Dialogs_Ajuste.Inf_Quant_Maior_Ajuste;
 import GUI_Dialogs_Ajuste.Inf_Selecione_Linha_Ajuste;
+import static GUI_Frames.Tela_Principal.CodLogado;
 import Metodos.Formatacao;
 import java.awt.Dimension;
 import java.awt.event.ActionEvent;
@@ -95,7 +97,9 @@ public class Tela_Ajuste_Estoque extends javax.swing.JInternalFrame {
         
         JTF_Pesquisa.setDocument(ObjFormat.new Format_Geral(50));
         JTF_Quantidade.setDocument(ObjFormat.new Format_Valor_Negativo(10));
+        JTF_Obs.setDocument(ObjFormat.new Format_Geral(100));
         Setar_Atalho_BT();
+        BT_Confirmar.setEnabled(false);
     }
 
     @SuppressWarnings("unchecked")
@@ -166,6 +170,11 @@ public class Tela_Ajuste_Estoque extends javax.swing.JInternalFrame {
         JTF_Pesquisa.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 JTF_PesquisaActionPerformed(evt);
+            }
+        });
+        JTF_Pesquisa.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                JTF_PesquisaKeyReleased(evt);
             }
         });
 
@@ -519,7 +528,7 @@ public class Tela_Ajuste_Estoque extends javax.swing.JInternalFrame {
                 Double.parseDouble(JTF_Quantidade.getText().replace(",", "."));//testa se é um numero válido
             }catch(Exception e){
                 ehNumero = false;
-                
+                                
             }
             
             if(ehNumero == true){
@@ -549,6 +558,20 @@ public class Tela_Ajuste_Estoque extends javax.swing.JInternalFrame {
         }
     }//GEN-LAST:event_JCB_MotivoActionPerformed
 
+    private void JTF_PesquisaKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_JTF_PesquisaKeyReleased
+        boolean ehNumero = true;
+        try{
+            Integer.parseInt(JTF_Pesquisa.getText());
+        }catch(Exception e){
+            ehNumero = false;
+            
+        }
+        if(ehNumero==false){
+            BT_Confirmar.setEnabled(false);}          
+        if(ehNumero == true){
+            BT_Confirmar.setEnabled(true);}    
+    }//GEN-LAST:event_JTF_PesquisaKeyReleased
+
     final void Preencher_CB_Motivo(){
         JCB_Motivo.removeAllItems();
         JCB_Motivo.addItem("");
@@ -568,6 +591,8 @@ public class Tela_Ajuste_Estoque extends javax.swing.JInternalFrame {
         JTF_Pesquisa.setText("");
         JL_Nova_Quant.setText("");
         JCB_Motivo.setSelectedIndex(0);
+        JTF_Obs.setText("");
+        JL_Un.setText("");
     }
     public void Setar_Campos_Produto(int id,String descricao, String unidade){
         JL_Cod_Produto.setText(String.valueOf(id));
@@ -602,6 +627,7 @@ public class Tela_Ajuste_Estoque extends javax.swing.JInternalFrame {
                     Mostrar_Escolha_Lote(resultado);
                     ObjControleSaida.Controla_Lote=false;
                     JCB_Motivo.requestFocus();
+                    BT_Confirmar.setEnabled(false);
                 }else{
                     try {
                         ObjModProd.setPesquisa(String.valueOf(resultado));
@@ -610,6 +636,7 @@ public class Tela_Ajuste_Estoque extends javax.swing.JInternalFrame {
                         ObjControleLote.Consulta_Estoque_Produto(ObjModLote, resultado);
                         Setar_Campo_Quantidade(ObjModLote.getQuantidade_estoque());
                         JCB_Motivo.requestFocus();
+                        BT_Confirmar.setEnabled(false);
                     } catch (SQLException ex) {
                         Logger.getLogger(Tela_Ajuste_Estoque.class.getName()).log(Level.SEVERE, null, ex);
                     }
@@ -675,6 +702,7 @@ public class Tela_Ajuste_Estoque extends javax.swing.JInternalFrame {
             Integer.parseInt(JTF_Pesquisa.getText());
         }catch(Exception e){
             ehNumero = false;
+            
         }
         if(ehNumero==false){
             Consulta_Produto = JTF_Pesquisa.getText().trim();
@@ -701,15 +729,22 @@ public class Tela_Ajuste_Estoque extends javax.swing.JInternalFrame {
                     
                     if(ObjControleLote.Confirma_Atualiza_Estoque == true){//se a ataulização for efetivavda
                         Mostrar_Dados_Salvos();
-                        Limpar_Campos_Produto();
                         ObjControleAjuste.Confirma_Inserir = false;
                         ObjControleLote.Confirma_Atualiza_Estoque = false;
+                        //Log no sistema
+                        new Controle_Log().Registrar_Log("Ajuste de estoque: "+JCB_Motivo.getSelectedItem().toString().trim()
+                                +" ( Numero: "+ObjModAjuste.getId_ajuste_estoque()+" - produto: "+JL_Cod_Produto.getText()+" )", CodLogado);                        
+                        Limpar_Campos_Produto();
                     }else{
                         ObjControleAjuste.Exclui_Ajuste(ObjModAjuste.getId_ajuste_estoque());//exclui a entrada caso dê erro na atualização de estoque
                         Mostrar_Dados_Nao_Salvos();
-                        Limpar_Campos_Produto();
                         ObjControleAjuste.Confirma_Inserir = false;
                         ObjControleLote.Confirma_Atualiza_Estoque = false;
+                        //Log no sistema
+                        new Controle_Log().Registrar_Log("Ajuste de estoque: "+JCB_Motivo.getSelectedItem().toString().trim()
+                                +" ( Numero: "+ObjModAjuste.getId_ajuste_estoque()+" - produto: "+JL_Cod_Produto.getText()
+                                +" - Erro no ajuste e id excluido )",CodLogado);
+                        Limpar_Campos_Produto();
                     }
                 }else{
                     Mostrar_Dados_Nao_Salvos();

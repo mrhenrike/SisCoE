@@ -2,7 +2,9 @@ package GUI_Dialogs_Categoria;
 
 // @author Márison Tamiarana
 
+import Conexao.Controle_Log;
 import GUI_Frames.Tela_Cadastro_Categoria_DL1;
+import static GUI_Frames.Tela_Principal.CodLogado;
 
 
 public class Conf_Cancelar_Categ1 extends javax.swing.JDialog {
@@ -109,6 +111,7 @@ public class Conf_Cancelar_Categ1 extends javax.swing.JDialog {
     }//GEN-LAST:event_JB_NaoActionPerformed
 
     private void JB_SimActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_JB_SimActionPerformed
+      new Controle_Log().Registrar_Log("cancelou a edição da categoria id: "+ObjCategoria.id_categoria_edit+" - "+ObjCategoria.categoria_edit, CodLogado);
       ObjCategoria.Conf_Cancelar_Alterar();
       ObjCategoria.dispose();
       dispose();
@@ -130,21 +133,10 @@ public class Conf_Cancelar_Categ1 extends javax.swing.JDialog {
                     break;
                 }
             }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(Conf_Cancelar_Categ1.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(Conf_Cancelar_Categ1.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(Conf_Cancelar_Categ1.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
+        } catch (ClassNotFoundException | InstantiationException | IllegalAccessException | javax.swing.UnsupportedLookAndFeelException ex) {
             java.util.logging.Logger.getLogger(Conf_Cancelar_Categ1.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
+        
       
 
         /* Create and display the dialog */

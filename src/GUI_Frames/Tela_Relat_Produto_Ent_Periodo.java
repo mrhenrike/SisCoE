@@ -1,16 +1,20 @@
 package GUI_Frames;
 
 import Classes.Modelo_Produto;
+import Conexao.Controle_Log;
 import Conexao.Controle_Produto;
 import Conexao.Controle_Relatorio_Produto;
 import GUI_Dialogs_Relatorios.Inf_Data_Final_Inferior_Relat_Ent_Prod;
 import GUI_Dialogs_Relatorios.Inf_Preencher_Campos_Relat_Ent_Prod;
 import GUI_Dialogs_Relatorios.Inf_Preencher_Datas_Relat_Ent_Prod;
+import GUI_Dialogs_Relatorios.Inf_Produto_Nao_Encontrado_Relat_Prod_Ent_Periodo;
+import static GUI_Frames.Tela_Principal.CodLogado;
 import Metodos.Formatacao;
 import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.KeyEvent;
 import java.beans.PropertyVetoException;
+import java.text.SimpleDateFormat;
 import javax.swing.AbstractAction;
 import javax.swing.InputMap;
 import javax.swing.JComponent;
@@ -54,6 +58,7 @@ public class Tela_Relat_Produto_Ent_Periodo extends javax.swing.JInternalFrame {
     private static Inf_Data_Final_Inferior_Relat_Ent_Prod DLDataInferior;
     private static Inf_Preencher_Campos_Relat_Ent_Prod DLPreencherCampos;
     private static Tela_Relat_Consulta_Produto_Entrada_DL DLConsultaProd;
+    private static Inf_Produto_Nao_Encontrado_Relat_Prod_Ent_Periodo DLProdutoNaoEncontrado;
 
     
     public Tela_Relat_Produto_Ent_Periodo() {
@@ -348,8 +353,12 @@ public class Tela_Relat_Produto_Ent_Periodo extends javax.swing.JInternalFrame {
                     if(ObjControleProd.Confirma_Existente == true){
                         ObjControleRelatProd.Relatorio_Produto_Entrada_Periodo(JD_Inicial, JD_Final,cod_produto);
                         ObjControleProd.Confirma_Existente = false;
+                        //Log
+                        String dti = new SimpleDateFormat("dd-MM-yyyy").format(JD_Inicial.getDate());
+                        String dtf = new SimpleDateFormat("dd-MM-yyyy").format(JD_Final.getDate());
+                        new Controle_Log().Registrar_Log("Gerou o relatório de entradas do produto id: "+JL_Id_Desc_Prod.getText()+" - por período de "+dti+" até "+dtf, CodLogado);
                     }else{
-                        JOptionPane.showMessageDialog(rootPane, "Produto não existe!");
+                        Mostrar_Produto_Nao_Encontrado();
                     }
                     }
                 }
@@ -366,7 +375,7 @@ public class Tela_Relat_Produto_Ent_Periodo extends javax.swing.JInternalFrame {
                 Setar_Campo_Cod_Produto(String.valueOf(ObjModProd.getId_produto()), ObjModProd.getDescricao());
                 ObjControleProd.Confirma_Existente = false;
             }else{
-                JOptionPane.showMessageDialog(rootPane, "Produto não existe!");
+                Mostrar_Produto_Nao_Encontrado();
             }
         }else{
             Mostrar_Preencher_Campos();
@@ -375,7 +384,7 @@ public class Tela_Relat_Produto_Ent_Periodo extends javax.swing.JInternalFrame {
     }
     
     public void Setar_Campo_Cod_Produto(String id_prod, String desc_prod){
-        JL_Id_Desc_Prod.setText(id_prod+"-"+desc_prod);
+        JL_Id_Desc_Prod.setText(id_prod+" - "+desc_prod);
         cod_produto = Integer.valueOf(id_prod);
         JTF_Pesquisa.setText("");
     }
@@ -395,6 +404,10 @@ public class Tela_Relat_Produto_Ent_Periodo extends javax.swing.JInternalFrame {
     void Mostrar_Consulta_Produto(){
         DLConsultaProd = new Tela_Relat_Consulta_Produto_Entrada_DL(this, true);
         DLConsultaProd.setVisible(true);
+    }
+    void Mostrar_Produto_Nao_Encontrado(){
+        DLProdutoNaoEncontrado = new Inf_Produto_Nao_Encontrado_Relat_Prod_Ent_Periodo(this, true);
+        DLProdutoNaoEncontrado.setVisible(true);
     }
     
     public final void Setar_Atalho_BT(){

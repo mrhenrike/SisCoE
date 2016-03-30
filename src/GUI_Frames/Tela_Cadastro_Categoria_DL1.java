@@ -55,7 +55,9 @@ public class Tela_Cadastro_Categoria_DL1 extends javax.swing.JDialog {
     private static Conf_Alterar_Categoria1 ObjConfAlterar;
     private static Conf_Cancelar_Categ1 ObjCancelarAlterar;
     private static Conf_Sair_Sem_Salvar_Categ1 ObjSairSemSalvar;
-    
+    //variaveis para log
+    public String id_categoria_edit;
+    public String categoria_edit;
     
 
     public Tela_Cadastro_Categoria_DL1(Tela_Cadastro_Prod_Edit parent, boolean modal) {
@@ -410,12 +412,14 @@ public class Tela_Cadastro_Categoria_DL1 extends javax.swing.JDialog {
                     ControleSalvar = true;
                     Habilita_Alterar();
                     Desabilita_Cadastrar();
-                    Object resultado = JTB_Categoria.getValueAt(JTB_Categoria.getSelectedRow(), 0);
-                    ObjControlCategoria.Consulta_Categoria(ObjModCategoria, resultado);
-                    ObjControlCategoria.Consulta_Categoria(ObjModCategoriaLog, resultado);
+                    Object id_categoria = JTB_Categoria.getValueAt(JTB_Categoria.getSelectedRow(), 0);
+                    Object categoria = JTB_Categoria.getValueAt(JTB_Categoria.getSelectedRow(), 1);
+                    ObjControlCategoria.Consulta_Categoria(ObjModCategoria, id_categoria);
+                    ObjControlCategoria.Consulta_Categoria(ObjModCategoriaLog, id_categoria);//log
                     Setar_Campos_Alterar();
                     BT_Cancelar.setEnabled(true);
                     BT_Editar.setEnabled(false);
+                    new Controle_Log().Registrar_Log("editou a categoria id: "+id_categoria+" - "+categoria, CodLogado);//log
                 }
         } catch (HeadlessException | SQLException ex) {
 
@@ -461,19 +465,21 @@ public class Tela_Cadastro_Categoria_DL1 extends javax.swing.JDialog {
              int Sel_Curso = JTB_Categoria.getSelectedRow();
                 if (Sel_Curso >= 0) {
                         BT_Editar.setEnabled(true);
-                        Object resultado = JTB_Categoria.getValueAt(JTB_Categoria.getSelectedRow(), 0);
-                        ObjControlCategoria.Consulta_Categoria(ObjModCategoria, resultado);
+                        Object id_categoria = JTB_Categoria.getValueAt(JTB_Categoria.getSelectedRow(), 0);
+                        Object categoria = JTB_Categoria.getValueAt(JTB_Categoria.getSelectedRow(), 1);
+                        ObjControlCategoria.Consulta_Categoria(ObjModCategoria, id_categoria);
                         Setar_Campos_Alterar();
                     if (evt.getClickCount() == 2) {
                         JTF_Categoria.setText("");
                         ControleSalvar = true;
                         Habilita_Alterar();
                         Desabilita_Cadastrar();
-                        ObjControlCategoria.Consulta_Categoria(ObjModCategoria, resultado);
-                        ObjControlCategoria.Consulta_Categoria(ObjModCategoriaLog, resultado);
+                        ObjControlCategoria.Consulta_Categoria(ObjModCategoria, id_categoria);                        
+                        ObjControlCategoria.Consulta_Categoria(ObjModCategoriaLog, id_categoria);//pegar os dados para o controle de log
                         Setar_Campos_Alterar();
                         BT_Cancelar.setEnabled(true);
                         BT_Editar.setEnabled(false);
+                        new Controle_Log().Registrar_Log("editou a categoria id: "+id_categoria+" - "+categoria, CodLogado);//log
                     }
             }
         } catch (HeadlessException | SQLException ex) {
@@ -524,7 +530,9 @@ public class Tela_Cadastro_Categoria_DL1 extends javax.swing.JDialog {
     public void Setar_Campos_Alterar(){
         JTF_Cod.setText(String.valueOf(ObjModCategoria.getId_categoria()));
         JTF_Desc_Alterar.setText(ObjModCategoria.getCategoria());
-        JCB_Situacao.setSelectedItem(ObjModCategoria.getSituacao());        
+        JCB_Situacao.setSelectedItem(ObjModCategoria.getSituacao()); 
+        id_categoria_edit = String.valueOf(ObjModCategoria.getId_categoria());
+        categoria_edit = ObjModCategoria.getCategoria();
     }
     
     public void Limpar_Campos_Alterar(){

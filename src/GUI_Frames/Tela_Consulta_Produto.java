@@ -393,14 +393,14 @@ public class Tela_Consulta_Produto extends javax.swing.JInternalFrame {
             
             if (evt.getClickCount() == 2) {
 
-                Object resultado = (JTB_Consulta_Prod.getValueAt(JTB_Consulta_Prod.getSelectedRow(), 0));
+                Object id_produto = (JTB_Consulta_Prod.getValueAt(JTB_Consulta_Prod.getSelectedRow(), 0));
+                Object produto = (JTB_Consulta_Prod.getValueAt(JTB_Consulta_Prod.getSelectedRow(), 1));
                 Tela_Cadastro_Prod_Edit obj = new Tela_Cadastro_Prod_Edit();
                 Tela_Principal.getPainel().add(obj);
                 obj.setVisible(true);
                 obj.setPosicao();
-                obj.Carregar_Dados_Produtos(resultado);
+                obj.Carregar_Dados_Produtos(id_produto);
                 obj.Obj = new Tela_Cadastro_Prod_Edit();
-                              
                 dispose();
             }
         } catch (SQLException ex) {
@@ -423,14 +423,13 @@ public class Tela_Consulta_Produto extends javax.swing.JInternalFrame {
             int linha_selecionada = JTB_Consulta_Prod.getSelectedRow();
                 if (linha_selecionada >= 0)
                 {
-                    Object resultado = (JTB_Consulta_Prod.getValueAt(JTB_Consulta_Prod.getSelectedRow(), 0));
+                    Object id_produto = (JTB_Consulta_Prod.getValueAt(JTB_Consulta_Prod.getSelectedRow(), 0));
                     Tela_Cadastro_Prod_Edit obj = new Tela_Cadastro_Prod_Edit();
                     Tela_Principal.getPainel().add(obj);
                     obj.setVisible(true);
                     obj.setPosicao();
-                    obj.Carregar_Dados_Produtos(resultado);
+                    obj.Carregar_Dados_Produtos(id_produto);
                     obj.Obj = new Tela_Cadastro_Prod_Edit();
-                    
                     dispose();                   
                 }
             } catch (SQLException ex) {
@@ -453,14 +452,13 @@ public class Tela_Consulta_Produto extends javax.swing.JInternalFrame {
                     {
                     
                     if((evt.getKeyChar()==KeyEvent.VK_ENTER)){
-                        Object resultado = (JTB_Consulta_Prod.getValueAt(JTB_Consulta_Prod.getSelectedRow(), 0));
+                        Object id_produto = (JTB_Consulta_Prod.getValueAt(JTB_Consulta_Prod.getSelectedRow(), 0));
                         Tela_Cadastro_Prod_Edit obj = new Tela_Cadastro_Prod_Edit();
                         Tela_Principal.getPainel().add(obj);
                         obj.setVisible(true);
                         obj.setPosicao();
-                        obj.Carregar_Dados_Produtos(resultado);
+                        obj.Carregar_Dados_Produtos(id_produto);
                         obj.Obj = new Tela_Cadastro_Prod_Edit();
-
                         dispose(); 
                     }
                 }

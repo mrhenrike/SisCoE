@@ -3,6 +3,7 @@ package GUI_Frames;
 import Classes.Modelo_Saida_Produto;
 import Classes.Modelo_Tabela;
 import Conexao.Conecta_Banco;
+import Conexao.Controle_Log;
 import Conexao.Controle_Saida_Produto;
 import GUI_Dialogs_Devolucao.Conf_Sair_Sem_Salvar_Dev;
 import GUI_Dialogs_Devolucao.Conf_Salvar_Dev;
@@ -12,6 +13,7 @@ import GUI_Dialogs_Devolucao.Inf_Dev_Ja_Efetivada_Dev;
 import GUI_Dialogs_Devolucao.Inf_Nao_Existe_Prod_Dev;
 import GUI_Dialogs_Devolucao.Inf_Preencher_Campos_Dev;
 import GUI_Dialogs_Devolucao.Inf_Saida_Nao_Encontrada_Dev;
+import static GUI_Frames.Tela_Principal.CodLogado;
 import Metodos.Pintar_Tabela_Padrao;
 import java.awt.Dimension;
 import java.awt.event.ActionEvent;
@@ -517,23 +519,39 @@ public class Tela_Gerar_Devolucao extends javax.swing.JInternalFrame {
     }
     //verifica se a saida necessita devolução
     public void Testar_Campos_Pesquisa(){
-        if(!JTF_Pesquisa.getText().equalsIgnoreCase("")){
-            ObjControlSaida.Consulta_Saida_Id(Integer.parseInt(JTF_Pesquisa.getText()));
-            if(ObjControlSaida.Controle_Saida == true){
-                  ObjControlSaida.Verifica_Saida_Devolucao(JTF_Pesquisa);
-                  if(ObjControlSaida.Verifica_Devolucao == true){                      
-                    Limpar_Tabela(JTB_Devolucao_Prod);
-                    Preencher_Tabela("select*from produto inner join categoria_produto "
-                    + "on produto.Categoria_Produto_id_categoria = categoria_produto.id_categoria "
-                    + "inner join saida_itens on produto.id_produto = saida_itens.produto_id_produto "
-                    + " where saida_id_saida="+JTF_Pesquisa.getText()+" and solicita_devolucao = 'SIM'");
-                    Limpar_Campos();
-                    ObjControlSaida.Consulta_Saida_Devolucao(ObjModeloSaida, Integer.parseInt(JTF_Pesquisa.getText()));
-                    Setar_Campos();
-                    BT_Salvar.setEnabled(true);
-                    ObjControlSaida.Verifica_Devolucao= false;
-                    JTF_Pesquisa.setText("");
-                }else{
+        if(!JTF_Pesquisa.getText().equalsIgnoreCase("")){//se o campo nao estiver em branco
+            ObjControlSaida.Consulta_Saida_Id(Integer.parseInt(JTF_Pesquisa.getText()));//consulta se existe pelo menos uma saída
+            if(ObjControlSaida.Controle_Saida == true){//se existir saída
+                  ObjControlSaida.Verifica_Saida_Devolucao(JTF_Pesquisa);//verifica se precisa realizar devolução
+                  if(ObjControlSaida.Verifica_Devolucao == true){//se precisar devolver 
+                    ObjControlSaida.Saida_Em_Aberto(Integer.parseInt(JTF_Pesquisa.getText()));//verifica se esta em aberto
+                        if(ObjControlSaida.Controle_Saida_Em_Aberto == true){//se estiver em aberto, so preenche com os produto que ainda nao foram devolvidos
+                          Limpar_Tabela(JTB_Devolucao_Prod);
+                            Preencher_Tabela("select*from produto inner join categoria_produto "
+                            + "on produto.Categoria_Produto_id_categoria = categoria_produto.id_categoria "
+                            + "inner join saida_itens on produto.id_produto = saida_itens.produto_id_produto "
+                            + " where saida_id_saida="+JTF_Pesquisa.getText()+" and solicita_devolucao = 'SIM' and devolvido = 'NÃO'");
+                            Limpar_Campos();
+                            ObjControlSaida.Consulta_Saida_Devolucao(ObjModeloSaida, Integer.parseInt(JTF_Pesquisa.getText()));
+                            Setar_Campos();
+                            BT_Salvar.setEnabled(true);
+                            ObjControlSaida.Verifica_Devolucao= false;
+                            JTF_Pesquisa.setText("");
+                            ObjControlSaida.Controle_Saida_Em_Aberto = false;
+                        }else{//se naão estiver em aberto, preenche normal                     
+                            Limpar_Tabela(JTB_Devolucao_Prod);
+                            Preencher_Tabela("select*from produto inner join categoria_produto "
+                            + "on produto.Categoria_Produto_id_categoria = categoria_produto.id_categoria "
+                            + "inner join saida_itens on produto.id_produto = saida_itens.produto_id_produto "
+                            + " where saida_id_saida="+JTF_Pesquisa.getText()+" and solicita_devolucao = 'SIM' ");
+                            Limpar_Campos();
+                            ObjControlSaida.Consulta_Saida_Devolucao(ObjModeloSaida, Integer.parseInt(JTF_Pesquisa.getText()));
+                            Setar_Campos();
+                            BT_Salvar.setEnabled(true);
+                            ObjControlSaida.Verifica_Devolucao= false;
+                            JTF_Pesquisa.setText("");
+                        }
+                }else{//se naõ precisar devolver
                     Mostrar_Nao_Existe_Prod_Dev();
                     ObjControlSaida.Verifica_Devolucao= false;
                     Limpar_Campos();
@@ -542,7 +560,7 @@ public class Tela_Gerar_Devolucao extends javax.swing.JInternalFrame {
                     ObjControlSaida.Efetivar_Devolucao(JTF_Pesquisa.getText(),"SEM DEVOLUÇÃO");
                     JTF_Pesquisa.setText("");
                 }
-            }else{
+            }else{//se nao existir saída
                 JTF_Pesquisa.setText("");
                 Mostrar_Saida_Nao_Encontrada();
                 Limpar_Campos();
@@ -576,7 +594,9 @@ public class Tela_Gerar_Devolucao extends javax.swing.JInternalFrame {
     public void Conf_Inserir_Devolucao(){
         Inserir_Devolucao();
         if(Confirma_Devolucao == true){
-            Mostrar_Dados_Salvos(); 
+            Mostrar_Dados_Salvos();
+            new Controle_Log().Registrar_Log("efetivou a devolução referente a saída id: "+JL_Saida_Numero.getText()
+                    +" - "+ObjModeloSaida.getTipo(), CodLogado);
             int id = Integer.parseInt(JL_Saida_Numero.getText());
             ObjControlSaida.Consulta_Saida_Devolucao(ObjModeloSaida, id);
             Limpar_Campos();
@@ -586,6 +606,8 @@ public class Tela_Gerar_Devolucao extends javax.swing.JInternalFrame {
             Confirma_Devolucao=false;
         }else{
             Mostrar_Dados_Nao_Salvos();
+            new Controle_Log().Registrar_Log("erro ao efetivar a devolução referente a saída id: "+JL_Saida_Numero.getText()
+                    +" - "+ObjModeloSaida.getTipo(), CodLogado);
         }
     
     }
@@ -605,9 +627,9 @@ public class Tela_Gerar_Devolucao extends javax.swing.JInternalFrame {
                         double Quant = Double.parseDouble(String.valueOf(JTB_Devolucao_Prod.getValueAt(Linha, 3)));//pega a quantidade na linha da tabela
                         String Validade = null;
                         String Lote = (String.valueOf(JTB_Devolucao_Prod.getValueAt(Linha, 4)));//pega o lote na linha da tabela
-                        ObjControlSaida.Efetivar_Devolucao(JL_Saida_Numero.getText(),"EFETIVADA");
                         ObjControlSaida.Confirma_Devolucao=false;
-                        ObjControlSaida.Atualiza_Estoque_Produto_Devolucao(Id_Produto, Quant, Lote,Validade);
+                        ObjControlSaida.Atualiza_Estoque_Produto_Devolucao(Id_Produto, Quant, Lote,Validade);//atualiza o estoque
+                        ObjControlSaida.Atualiza_Produto_Devolvido(Id_Produto, "SIM");//atualiza o produto para devolvido
                     }
                     else{//Com validade
                         int Id_Produto = (Integer.valueOf(String.valueOf(JTB_Devolucao_Prod.getValueAt(Linha, 0))));//Pega o id do produto na linha da tabela
@@ -615,15 +637,14 @@ public class Tela_Gerar_Devolucao extends javax.swing.JInternalFrame {
                         String Validade = (String.valueOf(new SimpleDateFormat("yyyy-MM-dd").format
                         (new SimpleDateFormat("dd-MM-yyyy").parse((String) (JTB_Devolucao_Prod.getValueAt(Linha, 5))))));//pega a trata a data de validade
                         String Lote = (String.valueOf(JTB_Devolucao_Prod.getValueAt(Linha, 4)));//pega o lote na linha da tabela
-                        
-                        ObjControlSaida.Efetivar_Devolucao(JL_Saida_Numero.getText(),"EFETIVADA");
                         ObjControlSaida.Confirma_Devolucao=false;
                         ObjControlSaida.Atualiza_Estoque_Produto_Devolucao(Id_Produto, Quant, Lote, Validade);
-                        
+                        ObjControlSaida.Atualiza_Produto_Devolvido_Lote(Id_Produto, Lote, "SIM");
                     }
-                } catch (NumberFormatException | ParseException ex){JOptionPane.showMessageDialog(rootPane, "Erro No Laço: "+ex);}
+                } catch (NumberFormatException | ParseException | Error ex){JOptionPane.showMessageDialog(rootPane, "Erro No Laço: "+ex);}
             }
             Confirma_Devolucao=true;
+            ObjControlSaida.Efetivar_Devolucao(JL_Saida_Numero.getText(),"EFETIVADA");
         } catch (Exception ex) {
             Confirma_Devolucao = false;
             JOptionPane.showMessageDialog(rootPane,"Erro na devolução de produtos!!!!! \n"+ex);

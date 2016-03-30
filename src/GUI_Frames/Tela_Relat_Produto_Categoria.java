@@ -3,8 +3,10 @@ package GUI_Frames;
 // @Márison Tamiarana
 
 import Conexao.Controle_Categoria;
+import Conexao.Controle_Log;
 import Conexao.Controle_Relatorio_Produto;
 import GUI_Dialogs_Relatorios.Inf_Preencher_Campos_Relat_Prod_Categoria;
+import static GUI_Frames.Tela_Principal.CodLogado;
 import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.KeyEvent;
@@ -182,6 +184,8 @@ public class Tela_Relat_Produto_Categoria extends javax.swing.JInternalFrame {
             dispose();
             ObjControlCategoria.Procura_Id_Categoria(JCB_Categoria.getSelectedItem().toString().trim());
             ObjRelatProd.Relatorio_Produto_Categoria_Seleciona(ObjControlCategoria.Id_Cat);
+            new Controle_Log().Registrar_Log("Gerou o relatório de produto por categoria selecionada id: "+ObjControlCategoria.Id_Cat+" - "
+                    +JCB_Categoria.getSelectedItem().toString().trim(), CodLogado);
         }              
     } 
     

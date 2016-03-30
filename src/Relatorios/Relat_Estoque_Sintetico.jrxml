@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="null" language="groovy" pageWidth="595" pageHeight="842" columnWidth="535" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="1e950074-40d3-445e-b689-a6d15c56aba8">
-	<property name="ireport.zoom" value="1.9487171000000014"/>
-	<property name="ireport.x" value="2"/>
+	<property name="ireport.zoom" value="1.7715610000000013"/>
+	<property name="ireport.x" value="0"/>
 	<property name="ireport.y" value="0"/>
 	<style name="Title" forecolor="#FFFFFF" fontName="Times New Roman" fontSize="50" isBold="false" pdfFontName="Times-Bold"/>
 	<style name="SubTitle" forecolor="#CCCCCC" fontName="Times New Roman" fontSize="18" isBold="false" pdfFontName="Times-Roman"/>
@@ -17,6 +17,12 @@
 		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
 	</parameter>
 	<parameter name="Quant_Itens" class="java.lang.Integer">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="Quant_Estoque" class="java.lang.Integer">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="Quant_Sem_Estoque" class="java.lang.Integer">
 		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
 	</parameter>
 	<queryString>
@@ -288,6 +294,34 @@ and (select sum(quantidade_estoque) from lote_estoque where produto.id_produto=l
 					<font fontName="Tahoma"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$P{Quant_Itens}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="261" y="0" width="100" height="13" uuid="f6160843-1c87-43a3-97ad-180511affb52"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Tahoma"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{Quant_Estoque}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="196" y="0" width="65" height="13" uuid="d58008d1-e4a2-482b-ab34-df8250895106"/>
+				<textElement>
+					<font fontName="Tahoma"/>
+				</textElement>
+				<text><![CDATA[Com Estoque:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="361" y="0" width="65" height="13" uuid="b6dd3ad4-1633-435e-ba99-aaf658e807ed"/>
+				<textElement>
+					<font fontName="Tahoma"/>
+				</textElement>
+				<text><![CDATA[Sem Estoque:]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="426" y="0" width="100" height="13" uuid="a7fd3db3-0234-4965-b52a-f8b9c1521ba2"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Tahoma"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{Quant_Sem_Estoque}]]></textFieldExpression>
 			</textField>
 		</band>
 	</lastPageFooter>

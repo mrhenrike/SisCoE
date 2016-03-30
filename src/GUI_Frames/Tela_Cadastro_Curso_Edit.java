@@ -58,6 +58,9 @@ public class Tela_Cadastro_Curso_Edit extends javax.swing.JInternalFrame {
     private static Conf_Salvar_Curso_Edit ObjSalvar;
     private static Conf_Sair_Sem_Salvar_Curso_Edit ObjSairSemSalvar;
     
+    public String id_curso_edit;
+    public String curso_edit;
+    
    
     public Tela_Cadastro_Curso_Edit() {
         initComponents();
@@ -255,6 +258,9 @@ public class Tela_Cadastro_Curso_Edit extends javax.swing.JInternalFrame {
         JTF_Abrev.setText(ObjModCurso.getAbrev_curso());
         JTF_Id.setText(String.valueOf(ObjModCurso.getId_curso()));
         JCB_Situacao.setSelectedItem(ObjModCurso.getSituacao());
+        
+        id_curso_edit = JTF_Id.getText();
+        curso_edit = JTF_Curso.getText();
     }
     
     public void Preencher_Objetos(){
@@ -286,7 +292,7 @@ public class Tela_Cadastro_Curso_Edit extends javax.swing.JInternalFrame {
         ObjControleCurso.Alterar_Curso(ObjModCurso, JTF_Id.getText());
         if(ObjControleCurso.Confirma_Alterar==true){
             Mostrar_Dados_Salvos();
-            Controle_Log_Registrar();
+            Controle_Log_Registrar();//log
             dispose();
             Mostrar_Tela_Consulta_Curso();
             ObjControleCurso.Confirma_Alterar = false;

@@ -4,6 +4,7 @@ package Conexao;
 
 import Classes.Modelo_Entrada_Produto;
 import Classes.Modelo_Lote_Estoque;
+import com.toedter.calendar.JDateChooser;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.text.SimpleDateFormat;
@@ -30,6 +31,7 @@ public class Controle_Entrada_Produto {
     public boolean Confirma_Excluir_Entrada;
     public boolean ControlaLote;
     public boolean Controle_Entrada;
+    public boolean Verifica_Entrada_Sem_Itens;
     public long dt;
     
     public void Inserir_Entrada(Modelo_Entrada_Produto ObjModeloEntrada, String Data){
@@ -49,6 +51,11 @@ public class Controle_Entrada_Produto {
                     
                 }
                 Confirma_Entrada = true;
+                //metodo para pegar o ultimo id inserido
+                ObjConecta.ExecutaSQL("select LAST_INSERT_ID()");//busca o id gerado
+                ObjConecta.rs.first();
+                ObjModeloEntrada.setId_entrada(ObjConecta.rs.getInt(1));//seta o ultimo id inserido
+                
             } catch (SQLException ex) {
                 Confirma_Entrada = false;
                 JOptionPane.showMessageDialog(null, "Erro ao gerar a entrada no banco! \n"
@@ -279,11 +286,7 @@ public void Controla_Lote(int id_prod){
             ObjConecta.rs.first();
             String Situacao = ObjConecta.rs.getString("solicita_lote");
             
-                if(Situacao.equalsIgnoreCase("SIM")){
-                   ControlaLote = true;
-                }else{
-                   ControlaLote = false;
-                }
+            ControlaLote = Situacao.equalsIgnoreCase("SIM");
             ObjConecta.Desconecta();
                        
         } catch (SQLException ex) {
@@ -343,8 +346,10 @@ public void Consulta_Entrada_Id(int id_entrada){
             ObjConecta.rs.first();
             int id = ObjConecta.rs.getInt("id_entrada");
             Controle_Entrada = true;
+            ObjConecta.Desconecta();
         } catch (SQLException ex) {
             Controle_Entrada = false;
+            ObjConecta.Desconecta();
         }
     }
     
@@ -379,6 +384,22 @@ public void Consulta_Entrada_Id(int id_entrada){
             ObjConecta.Desconecta();
         }
     }
+     public void Consulta_Entrada_Por_Periodo(JDateChooser dt_inicial, JDateChooser dt_final){
+         try {
+            String di = new SimpleDateFormat("yyyy-MM-dd").format(dt_inicial.getDate());
+            String df = new SimpleDateFormat("yyyy-MM-dd").format(dt_final.getDate());
+            
+            ObjConecta.Conectar();
+            ObjConecta.ExecutaSQL("select * from entrada where data_entrada between '"+di+"' and '"+df+"'");
+            ObjConecta.rs.first();
+            int id = ObjConecta.rs.getInt("id_entrada");
+            Controle_Entrada = true;
+            ObjConecta.Desconecta();
+        } catch (SQLException ex) {
+            Controle_Entrada = false;
+            ObjConecta.Desconecta();
+        }
+    }
      
     public void Efetivar_Entrada(int id, String situacao){
         ObjConecta.Conectar();
@@ -401,6 +422,19 @@ public void Consulta_Entrada_Id(int id_entrada){
         ObjConecta.Desconecta();
         
     }
+    public void Verifica_Entrada_Sem_Itens(int id_entrada){    
+        try{
+            ObjConecta.Conectar();
+            ObjConecta.ExecutaSQL("select * from entrada_itens where entrada_id_entrada = "+id_entrada+"");
+            ObjConecta.rs.first();
+            int cod = ObjConecta.rs.getInt("produto_id_produto");
+            Verifica_Entrada_Sem_Itens = true;                
+        }catch(SQLException ex){
+            ObjConecta.Desconecta();
+            Verifica_Entrada_Sem_Itens = false;
+        }
+        ObjConecta.Desconecta();  
+    }
     
     public void Excluir_Entrada(int id){
         ObjConecta.Conectar();
@@ -416,7 +450,7 @@ public void Consulta_Entrada_Id(int id_entrada){
             {
                 ObjConecta.Desconecta();
                 Confirma_Excluir_Entrada = false;
-                JOptionPane.showMessageDialog(null,"Erro ao atualizar a entrada no banco! \n"
+                JOptionPane.showMessageDialog(null,"Erro ao excluir a entrada do banco! \n"
                         +ex,"Informação Do Banco De Dados",JOptionPane.INFORMATION_MESSAGE);
             }        
         ObjConecta.Desconecta();

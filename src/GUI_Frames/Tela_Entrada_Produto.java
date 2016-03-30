@@ -6,6 +6,7 @@ import Classes.Modelo_Entrada_Produto;
 import Classes.Modelo_Produto;
 import Conexao.Conecta_Banco;
 import Conexao.Controle_Entrada_Produto;
+import Conexao.Controle_Log;
 import Conexao.Controle_Produto;
 import GUI_Dialogs_Entrada.Conf_Add_Tabela_Ent;
 import GUI_Dialogs_Entrada.Conf_Excluir_Ent;
@@ -23,13 +24,13 @@ import GUI_Dialogs_Entrada.Inf_Produto_Existente_Ent;
 import GUI_Dialogs_Entrada.Inf_Produto_Existente_Lote_Ent;
 import GUI_Dialogs_Entrada.Inf_Quant_Invalida_Ent;
 import GUI_Dialogs_Entrada.Inf_Selecione_Linha_Ent;
+import static GUI_Frames.Tela_Principal.CodLogado;
 import Metodos.Formatacao;
 import java.awt.Dimension;
 import java.awt.HeadlessException;
 import java.awt.event.ActionEvent;
 import java.awt.event.KeyEvent;
 import java.beans.PropertyVetoException;
-import java.sql.SQLException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -714,10 +715,8 @@ public class Tela_Entrada_Produto extends javax.swing.JInternalFrame {
             //Faz a Entrada
             ObjModeloEntrada.setDescricao(JTF_Descricao_Entrada.getText().trim());
             ObjControlEnt.Inserir_Entrada(ObjModeloEntrada,new SimpleDateFormat("yyyy/MM/dd").format(new Date(System.currentTimeMillis())));              
-            //Busca o ultimo Id inserido           
-            ObjConecta.ExecutaSQL("Select * from entrada");
-            ObjConecta.rs.last();
-            int Id_Entrada = ObjConecta.rs.getInt("id_entrada");
+            //seta o ultimo Id inserido           
+            int Id_Entrada = ObjModeloEntrada.getId_entrada();
             //Conta quantas linha tem para inserção
             int Quant_Linhas = JTB_Add_Itens.getRowCount();                       
             //Laço para fazer todas as inserçoes no banco de entrada de itens
@@ -726,50 +725,63 @@ public class Tela_Entrada_Produto extends javax.swing.JInternalFrame {
                     JTB_Add_Itens.addRowSelectionInterval(Linha,Linha); //seta na primeira linha da tabela
                     
                     if(JTB_Add_Itens.getValueAt(Linha, 3).equals("")){   //Produto sem validade     
-                    
-                        int Id_Produto = (Integer.parseInt((String)JTB_Add_Itens.getValueAt(Linha, 0)));//Pega o id do produto na linha da tabela
-                        double Quantidade =  (Double.parseDouble((String) JTB_Add_Itens.getValueAt(Linha, 2)));//pega a quantidade na linha da tabela
-                        String Validade = null;
-                        String Lote = (String.valueOf(JTB_Add_Itens.getValueAt(Linha, 4)));//pega o lote na linha da tabela
-                        if(JTB_Add_Itens.getValueAt(Linha, 5).equals("")){
-                            ObjControlProd.Buscar_Ultimo_Preco(ObjModeloProd, Id_Produto);}
-                        else{
-                            ObjModeloProd.setPreco(Double.parseDouble((String) JTB_Add_Itens.getValueAt(Linha, 5)));//pega o preço na linha da tabela
-                        }
-                        ObjControlEnt.Inserir_Entrada_Itens(Id_Produto,Id_Entrada,Quantidade,Lote,Validade,ObjModeloProd.getPreco());//Metodo para inserira no banco
-                        ObjControlEnt.Inseri_Atualiza_Lote_Estoque(Id_Produto, Quantidade, Lote, Validade);
-                        ObjControlProd.Atualiza_Preco_Produto(ObjModeloProd,Id_Produto);
+                        try{
+                            int Id_Produto = (Integer.parseInt((String)JTB_Add_Itens.getValueAt(Linha, 0)));//Pega o id do produto na linha da tabela
+                            double Quantidade =  (Double.parseDouble((String) JTB_Add_Itens.getValueAt(Linha, 2)));//pega a quantidade na linha da tabela
+                            String Validade = null;
+                            String Lote = (String.valueOf(JTB_Add_Itens.getValueAt(Linha, 4)));//pega o lote na linha da tabela
+                            //verifica o preço
+                            if(JTB_Add_Itens.getValueAt(Linha, 5).equals("")){
+                                ObjControlProd.Buscar_Ultimo_Preco(ObjModeloProd, Id_Produto);}
+                            else{
+                                ObjModeloProd.setPreco(Double.parseDouble((String) JTB_Add_Itens.getValueAt(Linha, 5)));//pega o preço na linha da tabela
+                            }
+                            ObjControlEnt.Inserir_Entrada_Itens(Id_Produto,Id_Entrada,Quantidade,Lote,Validade,ObjModeloProd.getPreco());//Metodo para inserir o iten no banco
+                            if(ObjControlEnt.Confirma_Entrada_Item == true){//se for inserido
+                                ObjControlEnt.Inseri_Atualiza_Lote_Estoque(Id_Produto, Quantidade, Lote, Validade);//atualiza o estoque
+                                ObjControlProd.Atualiza_Preco_Produto(ObjModeloProd,Id_Produto);//atualiza o preço
+                                ObjControlEnt.Confirma_Entrada_Item = false;
+                            }
+                        }catch(NumberFormatException | Error ex){JOptionPane.showMessageDialog(rootPane, "Erro ao inserir o iten!\n"+ex);}
                     }
                     else{//Com validade
-                        int Id_Produto = (Integer.parseInt((String)JTB_Add_Itens.getValueAt(Linha, 0)));//Pega o id do produto na linha da tabela
-                        double Quantidade =  (Double.parseDouble((String) JTB_Add_Itens.getValueAt(Linha, 2)));//pega a quantidade na linha da tabela
-                        String Validade = (String.valueOf(new SimpleDateFormat("yyyy-MM-dd").format
-                        (new SimpleDateFormat("dd-MM-yyyy").parse((String) (JTB_Add_Itens.getValueAt(Linha, 3))))));//pega a trata a data de validade
-                        String Lote = (String.valueOf(JTB_Add_Itens.getValueAt(Linha, 4)));//pega o lote na linha da tabela
-                        if(JTB_Add_Itens.getValueAt(Linha, 5).equals("")){
-                            ObjControlProd.Buscar_Ultimo_Preco(ObjModeloProd, Id_Produto);}
-                        else{
-                            ObjModeloProd.setPreco(Double.parseDouble((String) JTB_Add_Itens.getValueAt(Linha, 5)));//pega o preço na linha da tabela
-                        }
+                        try{
+                            int Id_Produto = (Integer.parseInt((String)JTB_Add_Itens.getValueAt(Linha, 0)));//Pega o id do produto na linha da tabela
+                            double Quantidade =  (Double.parseDouble((String) JTB_Add_Itens.getValueAt(Linha, 2)));//pega a quantidade na linha da tabela
+                            String Validade = (String.valueOf(new SimpleDateFormat("yyyy-MM-dd").format
+                            (new SimpleDateFormat("dd-MM-yyyy").parse((String) (JTB_Add_Itens.getValueAt(Linha, 3))))));//pega a trata a data de validade
+                            String Lote = (String.valueOf(JTB_Add_Itens.getValueAt(Linha, 4)));//pega o lote na linha da tabela
+                            //verifica o preço
+                            if(JTB_Add_Itens.getValueAt(Linha, 5).equals("")){
+                                ObjControlProd.Buscar_Ultimo_Preco(ObjModeloProd, Id_Produto);}
+                            else{
+                                ObjModeloProd.setPreco(Double.parseDouble((String) JTB_Add_Itens.getValueAt(Linha, 5)));//pega o preço na linha da tabela
+                            }
 
-                        ObjControlEnt.Inserir_Entrada_Itens(Id_Produto,Id_Entrada,Quantidade,Lote,Validade, ObjModeloProd.getPreco());//Metodo para inserira no banco
-                        ObjControlEnt.Inseri_Atualiza_Lote_Estoque(Id_Produto, Quantidade, Lote, Validade);
-                        ObjControlProd.Atualiza_Preco_Produto(ObjModeloProd,Id_Produto);
+                            ObjControlEnt.Inserir_Entrada_Itens(Id_Produto,Id_Entrada,Quantidade,Lote,Validade, ObjModeloProd.getPreco());//Metodo para inserira no banco
+                            if(ObjControlEnt.Confirma_Entrada_Item == true){//se for inserido
+                                ObjControlEnt.Inseri_Atualiza_Lote_Estoque(Id_Produto, Quantidade, Lote, Validade);//atualiza o estoque
+                                ObjControlProd.Atualiza_Preco_Produto(ObjModeloProd,Id_Produto);//atualiza o preço
+                                ObjControlEnt.Confirma_Entrada_Item = false;
+                            }
+                        }catch(NumberFormatException | ParseException | Error ex){JOptionPane.showMessageDialog(rootPane, "Erro ao inserir o iten com lote!\n"+ex);}
                     }
-                } catch (NumberFormatException | ParseException ex){
-                    ObjControlEnt.Excluir_Entrada(Id_Entrada);
+                } catch (NumberFormatException | Error ex){
                     JOptionPane.showMessageDialog(rootPane, "Erro No Laço: "+ex);}
             }
-            if(ObjControlEnt.Confirma_Entrada_Item == true){
-            ConfirmaEntrada=true;
-            ObjControlEnt.Efetivar_Entrada(Id_Entrada, "EFETIVADA");
-            ObjControlEnt.Confirma_Entrada_Item = false;
-            }else{
-                ObjControlEnt.Excluir_Entrada(Id_Entrada);
+            if(ObjControlEnt.Confirma_Entrada == true){//entrada confirmada
+                ConfirmaEntrada=true;
+                ObjControlEnt.Efetivar_Entrada(Id_Entrada, "EFETIVADA");
+                ObjControlEnt.Confirma_Entrada = false;
+            }
+            ObjControlEnt.Verifica_Entrada_Sem_Itens(Id_Entrada);//verifica se a entrada existe itens
+            if(ObjControlEnt.Verifica_Entrada_Sem_Itens == false){//se não existir
+                ObjControlEnt.Excluir_Entrada(Id_Entrada);//exclui a entrada
+                new Controle_Log().Registrar_Log("Inserida e excluída a entrada id: "+ObjModeloEntrada.getId_entrada(), CodLogado);
                 ConfirmaEntrada = false;
             }
             ObjConecta.Desconecta();
-        } catch (SQLException | HeadlessException ex) {
+        } catch (HeadlessException ex) {
             ObjConecta.Desconecta();
             ConfirmaEntrada=false;
             JOptionPane.showMessageDialog(rootPane,"Erro na entrada de produtos \n"+ex);
@@ -985,13 +997,15 @@ public class Tela_Entrada_Produto extends javax.swing.JInternalFrame {
        Inserir_Entrada();
         if (ConfirmaEntrada == true) 
             {
-                Mostrar_Dados_Salvos();                
+                Mostrar_Dados_Salvos();
+                new Controle_Log().Registrar_Log("efetivou a entrada id: "+ObjModeloEntrada.getId_entrada()+" - "+ObjModeloEntrada.getDescricao(), CodLogado);
                 Limpar_Tabela();
                 JTF_Descricao_Entrada.setText("");
                 ConfirmaEntrada = false;
             }
             else{
                 Mostrar_Dados_Nao_Salvos();
+                new Controle_Log().Registrar_Log("erro ao efetuar a entrada id: "+ObjModeloEntrada.getId_entrada()+" - "+ObjModeloEntrada.getDescricao(), CodLogado);
                 ConfirmaEntrada = false;
             }
         }
@@ -1020,7 +1034,7 @@ public class Tela_Entrada_Produto extends javax.swing.JInternalFrame {
         int mes = Integer.parseInt(new SimpleDateFormat("MM").format(d1))-1;
         int ano = Integer.parseInt(new SimpleDateFormat("yyyy").format(d1));
         GregorianCalendar c = new GregorianCalendar(ano, mes, dia);
-        c.add(Calendar.DAY_OF_MONTH, +Integer.parseInt(JTF_Quant_Dias.getText())); //diminuir datas
+        c.add(Calendar.DAY_OF_MONTH, +Integer.parseInt(JTF_Quant_Dias.getText())); //calculo das datas
         JTF_Data_Validade.setDate(c.getTime());
     }
     

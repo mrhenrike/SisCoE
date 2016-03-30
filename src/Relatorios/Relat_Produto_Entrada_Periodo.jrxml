@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="null" language="groovy" pageWidth="595" pageHeight="842" columnWidth="535" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="71c5d395-10b5-4f28-b44b-1848d454e321">
-	<property name="ireport.zoom" value="1.9487171000000014"/>
+	<property name="ireport.zoom" value="1.610510000000001"/>
 	<property name="ireport.x" value="0"/>
 	<property name="ireport.y" value="0"/>
 	<style name="Title" forecolor="#FFFFFF" fontName="Times New Roman" fontSize="50" isBold="false" pdfFontName="Times-Bold"/>
@@ -63,6 +63,9 @@ on produto.id_produto=entrada_itens.produto_id_produto where produto.id_produto 
 	<field name="descricao_entrada" class="java.lang.String">
 		<fieldDescription><![CDATA[]]></fieldDescription>
 	</field>
+	<field name="situacao_entrada" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
 	<field name="id_entrada_itens" class="java.lang.Integer">
 		<fieldDescription><![CDATA[]]></fieldDescription>
 	</field>
@@ -90,7 +93,10 @@ on produto.id_produto=entrada_itens.produto_id_produto where produto.id_produto 
 	<field name="descricao" class="java.lang.String">
 		<fieldDescription><![CDATA[]]></fieldDescription>
 	</field>
-	<field name="data_cad" class="java.sql.Date">
+	<field name="data_cad_produto" class="java.sql.Date">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="data_ultima_alteracao_produto" class="java.sql.Date">
 		<fieldDescription><![CDATA[]]></fieldDescription>
 	</field>
 	<field name="quantidade_minima" class="java.lang.Integer">
@@ -164,7 +170,7 @@ on produto.id_produto=entrada_itens.produto_id_produto where produto.id_produto 
 				<text><![CDATA[CooLab - Coordenação de Laboratórios da FCAT]]></text>
 			</staticText>
 			<textField pattern="" isBlankWhenNull="false">
-				<reportElement style="Detail" x="270" y="72" width="55" height="15" uuid="ac950276-e84b-44d0-84a9-da410f6ab6c4"/>
+				<reportElement style="Detail" x="270" y="72" width="124" height="15" uuid="ac950276-e84b-44d0-84a9-da410f6ab6c4"/>
 				<textElement verticalAlignment="Middle">
 					<font fontName="Tahoma" size="10"/>
 				</textElement>
@@ -184,20 +190,6 @@ on produto.id_produto=entrada_itens.produto_id_produto where produto.id_produto 
 				</textElement>
 				<textFieldExpression><![CDATA[$P{Usuario}]]></textFieldExpression>
 			</textField>
-			<staticText>
-				<reportElement x="325" y="72" width="34" height="15" uuid="01d57cb8-fd60-4863-9010-fc94326641d8"/>
-				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font fontName="Tahoma"/>
-				</textElement>
-				<text><![CDATA[até]]></text>
-			</staticText>
-			<textField pattern="" isBlankWhenNull="false">
-				<reportElement style="Detail" x="359" y="72" width="61" height="15" uuid="ee0f87d8-7263-42c7-9458-cc9798c8eded"/>
-				<textElement verticalAlignment="Middle">
-					<font fontName="Tahoma" size="10"/>
-				</textElement>
-				<textFieldExpression><![CDATA[$P{DTF}]]></textFieldExpression>
-			</textField>
 			<line>
 				<reportElement positionType="FixRelativeToBottom" x="0" y="102" width="555" height="1" uuid="452bc0da-9d86-44a1-912b-0bc3166112d0"/>
 				<graphicElement>
@@ -216,14 +208,14 @@ on produto.id_produto=entrada_itens.produto_id_produto where produto.id_produto 
 	<columnHeader>
 		<band height="41" splitType="Stretch">
 			<staticText>
-				<reportElement style="Column header" x="380" y="29" width="54" height="12" uuid="b3248e58-4d85-4184-b989-482f8d641c52"/>
+				<reportElement style="Column header" x="362" y="29" width="48" height="12" uuid="b3248e58-4d85-4184-b989-482f8d641c52"/>
 				<textElement verticalAlignment="Middle">
 					<font fontName="Tahoma" size="8"/>
 				</textElement>
 				<text><![CDATA[Quantidade]]></text>
 			</staticText>
 			<staticText>
-				<reportElement style="Column header" x="67" y="29" width="250" height="12" uuid="616f3d43-d626-40ec-979e-e2316740cbc2"/>
+				<reportElement style="Column header" x="56" y="29" width="250" height="12" uuid="616f3d43-d626-40ec-979e-e2316740cbc2"/>
 				<textElement verticalAlignment="Middle">
 					<font fontName="Tahoma" size="8"/>
 				</textElement>
@@ -237,7 +229,7 @@ on produto.id_produto=entrada_itens.produto_id_produto where produto.id_produto 
 				<textFieldExpression><![CDATA[$F{descricao}]]></textFieldExpression>
 			</textField>
 			<staticText>
-				<reportElement style="Column header" x="0" y="29" width="67" height="12" uuid="039394a9-aba4-4769-83b9-2da42d9df68d"/>
+				<reportElement style="Column header" x="0" y="29" width="56" height="12" uuid="039394a9-aba4-4769-83b9-2da42d9df68d"/>
 				<textElement verticalAlignment="Middle">
 					<font fontName="Tahoma" size="8"/>
 				</textElement>
@@ -251,7 +243,7 @@ on produto.id_produto=entrada_itens.produto_id_produto where produto.id_produto 
 				<text><![CDATA[Lote]]></text>
 			</staticText>
 			<staticText>
-				<reportElement style="Column header" x="317" y="29" width="63" height="12" uuid="2f38c41f-80c7-4c97-b7ea-d12ff0b93c85"/>
+				<reportElement style="Column header" x="306" y="29" width="56" height="12" uuid="2f38c41f-80c7-4c97-b7ea-d12ff0b93c85"/>
 				<textElement verticalAlignment="Middle">
 					<font fontName="Tahoma" size="8"/>
 				</textElement>
@@ -288,6 +280,13 @@ on produto.id_produto=entrada_itens.produto_id_produto where produto.id_produto 
 				</textElement>
 				<text><![CDATA[Descrição]]></text>
 			</staticText>
+			<staticText>
+				<reportElement style="Column header" x="410" y="29" width="24" height="12" uuid="730f59d2-fbda-40e7-a9b3-502e0982a81a"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Tahoma" size="8"/>
+				</textElement>
+				<text><![CDATA[Un]]></text>
+			</staticText>
 		</band>
 	</columnHeader>
 	<detail>
@@ -296,7 +295,7 @@ on produto.id_produto=entrada_itens.produto_id_produto where produto.id_produto 
 				<reportElement style="Row" mode="Opaque" x="0" y="0" width="555" height="13" uuid="dfc89812-25e6-47c8-88f2-11b337c5018c"/>
 			</frame>
 			<textField pattern="###0" isBlankWhenNull="true">
-				<reportElement style="Detail" x="380" y="0" width="54" height="14" uuid="07ac7f3b-0773-4a26-8671-7d7fd5f1b3ba"/>
+				<reportElement style="Detail" x="362" y="0" width="48" height="14" uuid="07ac7f3b-0773-4a26-8671-7d7fd5f1b3ba"/>
 				<textElement verticalAlignment="Middle">
 					<font fontName="Tahoma" size="10"/>
 				</textElement>
@@ -317,25 +316,32 @@ on produto.id_produto=entrada_itens.produto_id_produto where produto.id_produto 
 				<textFieldExpression><![CDATA[$F{data_validade}]]></textFieldExpression>
 			</textField>
 			<textField isBlankWhenNull="true">
-				<reportElement style="Detail" x="67" y="0" width="250" height="14" uuid="593f2706-17f6-4d72-b4ca-7c8a029f1adf"/>
+				<reportElement style="Detail" x="56" y="0" width="250" height="14" uuid="593f2706-17f6-4d72-b4ca-7c8a029f1adf"/>
 				<textElement verticalAlignment="Middle">
 					<font fontName="Tahoma" size="10"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{descricao_entrada}]]></textFieldExpression>
 			</textField>
 			<textField pattern="" isBlankWhenNull="false">
-				<reportElement style="Detail" x="-1" y="0" width="67" height="14" uuid="49404434-6f01-4934-8456-50e83941a130"/>
+				<reportElement style="Detail" x="-1" y="0" width="57" height="14" uuid="49404434-6f01-4934-8456-50e83941a130"/>
 				<textElement verticalAlignment="Middle">
 					<font fontName="Tahoma" size="10"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{id_entrada}]]></textFieldExpression>
 			</textField>
 			<textField pattern="dd/MM/yyyy" isBlankWhenNull="true">
-				<reportElement style="Detail" x="318" y="0" width="62" height="14" uuid="fd4568b5-c605-4bdd-b10e-fdb1eb621af8"/>
+				<reportElement style="Detail" x="306" y="0" width="56" height="14" uuid="fd4568b5-c605-4bdd-b10e-fdb1eb621af8"/>
 				<textElement verticalAlignment="Middle">
 					<font fontName="Tahoma" size="10"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{data_entrada}]]></textFieldExpression>
+			</textField>
+			<textField pattern="###0" isBlankWhenNull="true">
+				<reportElement style="Detail" x="410" y="0" width="25" height="14" uuid="be91ab42-c41e-4413-bca7-bbdec816610b"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Tahoma" size="10"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{unidade}]]></textFieldExpression>
 			</textField>
 		</band>
 	</detail>

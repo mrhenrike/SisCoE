@@ -87,7 +87,7 @@ public class Controle_Turma {
     public Modelo_Turma Consulta_Turma_Concat(Modelo_Turma ObjModeloTurma, Object id)throws SQLException{
         ObjConecta.Conectar();
         
-       String sql = "select concat(semestre,abrev_curso,turno,ano_turma,'.',semestre_vestibular) as turma "
+       String sql = "select concat(semestre,abrev_curso,turno,ano_turma,'.',semestre_vestibular,' ',turma) as turma "
                 + "from curso inner join turma on curso.id_curso = turma.curso_id_curso where turma.id_turma=" + id + "";
        
        try(PreparedStatement stm = ObjConecta.conn.prepareStatement(sql);

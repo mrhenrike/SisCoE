@@ -2,8 +2,12 @@ package GUI_Frames;
 
 // @author Márison Tamiarana
 
+import Conexao.Controle_Entrada_Produto;
+import Conexao.Controle_Log;
 import Conexao.Controle_Relatorio_Entradas;
+import GUI_Dialogs_Relatorios.Inf_Entrada_Nao_Encontrada_Relat_Ent_Num;
 import GUI_Dialogs_Relatorios.Inf_Preencher_N_Entrada_Relat_Ent;
+import static GUI_Frames.Tela_Principal.CodLogado;
 import Metodos.Formatacao;
 import java.awt.Dimension;
 import java.awt.event.ActionEvent;
@@ -41,7 +45,9 @@ public class Tela_Relat_Entrada_Num extends javax.swing.JInternalFrame {
     private static Tela_Principal TP;
     private static Inf_Preencher_N_Entrada_Relat_Ent ObjPreencherEntrada;
     private static Tela_Consulta_Entrada_Relat_Num_DL ObjConsultaEntrada;
+    private static Inf_Entrada_Nao_Encontrada_Relat_Ent_Num DLEntradaNaoEncontrada;
     Controle_Relatorio_Entradas ObjRelatEntrada = new Controle_Relatorio_Entradas();
+    Controle_Entrada_Produto ObjControleEntrada = new Controle_Entrada_Produto();
     Formatacao ObjFormat = new Formatacao();
 
     public Tela_Relat_Entrada_Num() {
@@ -220,7 +226,14 @@ public class Tela_Relat_Entrada_Num extends javax.swing.JInternalFrame {
         if(JTF_Num_Entrada.getText().equalsIgnoreCase("")){
             Mostrar_Preencher_N_Entrada();
         }else{
-            ObjRelatEntrada.Relatorio_Entrada_N_Entrada(JTF_Num_Entrada);
+            ObjControleEntrada.Consulta_Entrada_Id(Integer.parseInt(JTF_Num_Entrada.getText()));//verifica se exite a entrada
+            if(ObjControleEntrada.Controle_Entrada == true){
+                ObjRelatEntrada.Relatorio_Entrada_N_Entrada(JTF_Num_Entrada);
+                new Controle_Log().Registrar_Log("Gerou o relatório de entrada por numero id: "+JTF_Num_Entrada.getText(), CodLogado);
+                ObjControleEntrada.Controle_Entrada = false;
+            }else{
+                Mostrar_Entrada_Nao_Encontrada();
+            }
         }
     }
      
@@ -231,6 +244,10 @@ public class Tela_Relat_Entrada_Num extends javax.swing.JInternalFrame {
       void Mostrar_Consulta_Entrada(){
           ObjConsultaEntrada = new Tela_Consulta_Entrada_Relat_Num_DL(this, true);
           ObjConsultaEntrada.setVisible(true);
+      }
+      void Mostrar_Entrada_Nao_Encontrada(){
+          DLEntradaNaoEncontrada = new Inf_Entrada_Nao_Encontrada_Relat_Ent_Num(this, true);
+          DLEntradaNaoEncontrada.setVisible(true);
       }
       public void Setar_Campo_Num_Entrada(String num_entrada){
           JTF_Num_Entrada.setText(num_entrada);

@@ -3,6 +3,7 @@ package GUI_Frames;
 //@author Márison Tamiarana
 
 import Classes.Modelo_Usuario;
+import Conexao.Controle_Log;
 import Conexao.Controle_Usuario;
 import GUI_Dialogs_Usuario.Conf_Excluir_Edit;
 import GUI_Dialogs_Usuario.Conf_Sair_Sem_Salvar_Edit;
@@ -15,6 +16,7 @@ import GUI_Dialogs_Usuario.Inf_Dados_Salvos_Edit;
 import GUI_Dialogs_Usuario.Inf_Preencher_Campos_Edit;
 import GUI_Dialogs_Usuario.Inf_Senhas_Diferentes_Edit;
 import GUI_Dialogs_Usuario.Inf_Senhas_Minima_Edit;
+import static GUI_Frames.Tela_Principal.CodLogado;
 import static GUI_Frames.Tela_Principal.PermissaoLogado;
 import Metodos.Formatacao;
 import Metodos.Metodos;
@@ -60,6 +62,7 @@ public class Tela_Cadastro_Usuario_Edit extends javax.swing.JInternalFrame {
     //Instanciando objetos de outras classes para usar os metodos dessa classe
     Metodos ObjMetodo = new Metodos();
     Modelo_Usuario ObjModeloUser = new Modelo_Usuario();
+    Modelo_Usuario ObjModeloUserLog = new Modelo_Usuario();
     Controle_Usuario ObjControlUser = new Controle_Usuario();
     Formatacao ObjFormat = new Formatacao();
       
@@ -80,6 +83,9 @@ public class Tela_Cadastro_Usuario_Edit extends javax.swing.JInternalFrame {
         public boolean Confirma_Inserir2;
         public boolean Habilita;//Variavel usada para testar o botao sair
         String Usuario;
+        //variaveis para log
+        public String id_usuario_edit;
+        public String usuario_edit;
     
     public Tela_Cadastro_Usuario_Edit() {
         initComponents();
@@ -406,6 +412,7 @@ public class Tela_Cadastro_Usuario_Edit extends javax.swing.JInternalFrame {
         BT_Salvar.setEnabled(true);
         BT_Editar.setEnabled(false);
         Virar_BT_Cancelar();
+        new Controle_Log().Registrar_Log("editou o usuário id: "+ObjModeloUser.getId_usuario()+" - "+ObjModeloUser.getNome(), CodLogado);
     }//GEN-LAST:event_BT_EditarActionPerformed
 
     private void BT_SalvarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BT_SalvarActionPerformed
@@ -480,7 +487,7 @@ public class Tela_Cadastro_Usuario_Edit extends javax.swing.JInternalFrame {
             JL_Senha_Conf.setForeground(Color.red);
             Mostrar_Senhas_Diferentes();
         }
-        else if ((new String (JTF_Senha.getPassword()).length()<=4)&&(new String(JTF_Senha_Conf.getPassword())).length()<4) 
+        else if ((new String (JTF_Senha.getPassword()).length()<=4)&&(new String(JTF_Senha_Conf.getPassword())).length()<=4) 
         {
             Mostrar_Senha_Minima();
         }
@@ -595,23 +602,25 @@ public class Tela_Cadastro_Usuario_Edit extends javax.swing.JInternalFrame {
     }
 
 public void Carregar_Dados_Usuarios(Object LinhaSelecionada) throws SQLException { 
-        try {    
-            
-            Modelo_Usuario ObjModeloUsuario = new Modelo_Usuario();
-            
-            ObjModeloUsuario.setPesquisa(String.valueOf(LinhaSelecionada));
+        try {             
+            ObjModeloUser.setPesquisa(String.valueOf(LinhaSelecionada));
+            ObjModeloUserLog.setPesquisa(String.valueOf(LinhaSelecionada));
                
-            ObjControlUser.Consulta_Usuario(ObjModeloUsuario);
+            ObjControlUser.Consulta_Usuario(ObjModeloUser);
+            ObjControlUser.Consulta_Usuario(ObjModeloUserLog);
             
-            JTF_Cod.setText(String.valueOf(ObjModeloUsuario.getId_usuario()));
-            JTF_Nome.setText(String.valueOf(ObjModeloUsuario.getNome()));
-            JTF_Celular.setText(String.valueOf(ObjModeloUsuario.getTelefone()));
-            JCB_Permissão.setSelectedItem(String.valueOf(ObjModeloUsuario.getPermissao()));
-            JCB_Sexo.setSelectedItem(String.valueOf(ObjModeloUsuario.getSexo()));
-            JTF_Nome_Us.setText(String.valueOf(ObjModeloUsuario.getLogin()));
-            JTF_Senha.setText(String.valueOf(ObjModeloUsuario.getSenha()));
-            JTF_Senha_Conf.setText(String.valueOf(ObjModeloUsuario.getSenha()));
-            JCB_Situacao.setSelectedItem(String.valueOf(ObjModeloUsuario.getSituacao()));
+            JTF_Cod.setText(String.valueOf(ObjModeloUser.getId_usuario()));
+            JTF_Nome.setText(String.valueOf(ObjModeloUser.getNome()));
+            JTF_Celular.setText(String.valueOf(ObjModeloUser.getTelefone()));
+            JCB_Permissão.setSelectedItem(String.valueOf(ObjModeloUser.getPermissao()));
+            JCB_Sexo.setSelectedItem(String.valueOf(ObjModeloUser.getSexo()));
+            JTF_Nome_Us.setText(String.valueOf(ObjModeloUser.getLogin()));
+            JTF_Senha.setText(String.valueOf(ObjModeloUser.getSenha()));
+            JTF_Senha_Conf.setText(String.valueOf(ObjModeloUser.getSenha()));
+            JCB_Situacao.setSelectedItem(String.valueOf(ObjModeloUser.getSituacao()));
+            
+            id_usuario_edit = (String.valueOf(ObjModeloUser.getId_usuario()));
+            usuario_edit = (String.valueOf(ObjModeloUser.getNome()));
         } catch (SQLException ex) {
         }
     }
@@ -622,22 +631,22 @@ public void Conf_Alterar_Usario(){
         if (ObjControlUser.Confirma_Alterar == true) 
             {
                 Mostrar_Dados_Salvos();
+                Controle_Log_Registrar();//log
                 Limpar_Campos();
                 ObjControlUser.Confirma_Alterar=false;
                 try {
                     Tela_Consulta_Usuario obj = new Tela_Consulta_Usuario();
                     obj.Open_Tela();
                     dispose();
-                } catch (SQLException ex) {
-                    Logger.getLogger(Tela_Cadastro_Usuario_Edit.class.getName()).log(Level.SEVERE, null, ex);
-                }
+                } catch (SQLException ex) {}
             }
             else{
                 Mostrar_Dados_Nao_Salvos();
+                //log
+                new Controle_Log().Registrar_Log("Erro ao alterar o usuário id: "+JTF_Cod.getText()+" - "+ObjModeloUserLog.getNome(), CodLogado);
                 ObjControlUser.Confirma_Alterar=false;
                 }
     }
-
 
 
 public void Conf_Inativar_Usuario(){
@@ -676,6 +685,68 @@ public void Virar_BT_Cancelar(){
             BT_Editar.setEnabled(!false);
         }
     }
+ 
+ void Controle_Log_Registrar(){
+    boolean controle = false;//controlar as alterações
+    //nome
+    if(!ObjModeloUserLog.getNome().equalsIgnoreCase(JTF_Nome.getText())){
+        new Controle_Log().Registrar_Log("alterou o usuário id: "+JTF_Cod.getText()+" - "+ObjModeloUserLog.getNome()
+                +" ( nome: de '"+ObjModeloUserLog.getNome()
+                +"' para '"+JTF_Nome.getText()+"' )", CodLogado);
+        controle = true;
+    }
+    //sexo
+    if(!ObjModeloUserLog.getSexo().equalsIgnoreCase(JCB_Sexo.getSelectedItem().toString().trim())){
+            new Controle_Log().Registrar_Log("alterou o usuário id: "+JTF_Cod.getText()+" - "+ObjModeloUser.getNome()
+                    +" ( sexo: de '"+ObjModeloUserLog.getSexo()
+                    +"' para '"+JCB_Sexo.getSelectedItem().toString().trim()+"' )", CodLogado);
+            controle = true;
+    }
+    //permissão
+    if(!ObjModeloUserLog.getPermissao().equalsIgnoreCase(JCB_Permissão.getSelectedItem().toString().trim())){
+            new Controle_Log().Registrar_Log("alterou o usuário id: "+JTF_Cod.getText()+" - "+ObjModeloUser.getNome()
+                    +" ( permissão: de '"+ObjModeloUserLog.getPermissao()
+                    +"' para '"+JCB_Permissão.getSelectedItem().toString().trim()+"' )", CodLogado);
+            controle = true;
+    }
+    //telefone
+    if(!ObjModeloUserLog.getTelefone().equalsIgnoreCase(JTF_Celular.getText().trim())){
+        new Controle_Log().Registrar_Log("alterou o usuário id: "+JTF_Cod.getText()+" - "+ObjModeloUser.getNome()
+                +" ( telefone: de '"+ObjModeloUserLog.getTelefone()
+                +"' para '"+JTF_Celular.getText()+"' )", CodLogado);
+        controle = true;
+    }
+    //nome usuario
+    if(!ObjModeloUserLog.getLogin().equalsIgnoreCase(JTF_Nome_Us.getText())){
+        new Controle_Log().Registrar_Log("alterou o usuário id: "+JTF_Cod.getText()+" - "+ObjModeloUser.getNome()
+                +" ( nome de usuário: de '"+ObjModeloUserLog.getLogin()
+                +"' para '"+JTF_Nome_Us.getText()+"' )", CodLogado);
+        controle = true;
+    }
+    //senha
+    if(!ObjModeloUserLog.getSenha().equalsIgnoreCase(new String(JTF_Senha.getPassword()))){
+        new Controle_Log().Registrar_Log("alterou o usuário id: "+JTF_Cod.getText()+" - "+ObjModeloUser.getNome()
+                +" ( senha: de '"+ObjModeloUserLog.getSenha()
+                +"' para '"+(new String(JTF_Senha.getPassword()))+"' )", CodLogado);
+        controle = true;
+    }
+    //situação
+    if(!ObjModeloUserLog.getSituacao().equalsIgnoreCase(JCB_Situacao.getSelectedItem().toString().trim())){
+            if(JCB_Situacao.getSelectedItem().equals("INATIVO")){
+                new Controle_Log().Registrar_Log("inativou o produto id: "+JTF_Cod.getText()+" - "+ObjModeloUser.getNome(), CodLogado);
+                controle = true;
+            }
+            if(JCB_Situacao.getSelectedItem().equals("ATIVO")){
+                new Controle_Log().Registrar_Log("ativou o produto id: "+JTF_Cod.getText()+" - "+ObjModeloUser.getNome(), CodLogado);
+                controle = true;
+            }
+        }
+        //controle
+        if(controle == false){
+            new Controle_Log().Registrar_Log("alterou o produto id: "+JTF_Cod.getText()+" - "+ObjModeloUser.getNome()
+                    +" ( salvou sem nenhuma alteração )", CodLogado);
+        }
+ }
  
  public final void Setar_Atalho_BT(){
         //metodo para pegar a tecla pressionada

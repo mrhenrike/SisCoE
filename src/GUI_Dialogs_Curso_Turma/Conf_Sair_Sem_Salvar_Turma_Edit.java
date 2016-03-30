@@ -2,7 +2,9 @@ package GUI_Dialogs_Curso_Turma;
 
 // @author Márison Tamiarana
 
+import Conexao.Controle_Log;
 import GUI_Frames.Tela_Cadastro_Turma_Edit;
+import static GUI_Frames.Tela_Principal.CodLogado;
 
 
 public class Conf_Sair_Sem_Salvar_Turma_Edit extends javax.swing.JDialog {
@@ -109,6 +111,7 @@ public class Conf_Sair_Sem_Salvar_Turma_Edit extends javax.swing.JDialog {
     }//GEN-LAST:event_JB_NaoActionPerformed
 
     private void JB_SimActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_JB_SimActionPerformed
+       new Controle_Log().Registrar_Log("cancelou a edição da turma id: "+Obj.id_turma_edit+" - "+Obj.turma_edit, CodLogado);
        Obj.dispose();
        dispose();
        Obj.Mostrar_Tela_Consulta();

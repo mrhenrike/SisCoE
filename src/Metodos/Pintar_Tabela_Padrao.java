@@ -27,13 +27,13 @@ public class Pintar_Tabela_Padrao implements TableCellRenderer {
         
         if(isSelected){
             foreground = Color.WHITE;
-            background = Color.LIGHT_GRAY;
+            background = Color.GRAY;
         }else if (row % 2 == 0) {
             foreground = Color.black; //COR DA FONTE
             background = Color.decode("#FFFFFF"); //COR DA CÉLULA
         } else {
             foreground = Color.black;
-            background = Color.decode("#E1F2FE");
+            background = Color.decode("#DCDCDC");
             
         }
         

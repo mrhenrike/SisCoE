@@ -454,34 +454,7 @@ public class Tela_Cadastro_Prod extends javax.swing.JInternalFrame {
     private void formInternalFrameClosed(javax.swing.event.InternalFrameEvent evt) {//GEN-FIRST:event_formInternalFrameClosed
         Obj=null;
     }//GEN-LAST:event_formInternalFrameClosed
-    
-    private void Preencher_CB_Macro(){
-    JCB_Macro.removeAllItems();
-    JCB_Macro.addItem("");
-    JCB_Macro.addItem("AMP");
-    JCB_Macro.addItem("CT");
-    JCB_Macro.addItem("CX");
-    JCB_Macro.addItem("FD");
-    JCB_Macro.addItem("G");
-    JCB_Macro.addItem("K");
-    JCB_Macro.addItem("L");
-    JCB_Macro.addItem("ML");
-    JCB_Macro.addItem("PCT");
-    JCB_Macro.addItem("UN");
-    }
-    
-    private void Preencher_CB_Unidade(){
-    JCB_Unidade.removeAllItems();
-    JCB_Unidade.addItem("");
-    JCB_Unidade.addItem("CM");
-    JCB_Unidade.addItem("G");    
-    JCB_Unidade.addItem("L");
-    JCB_Unidade.addItem("MG");
-    JCB_Unidade.addItem("ML");
-    JCB_Unidade.addItem("MM");
-    JCB_Unidade.addItem("UN");
-    }
-    
+        
     public void Limpar_Campos(){
         JTF_Descricao.setText("");
         JTF_Quant_Macro.setText("");
@@ -581,11 +554,13 @@ public class Tela_Cadastro_Prod extends javax.swing.JInternalFrame {
         ObjControlProd.Inserir_Produto(ObjModeloProd);
             if (ObjControlProd.Confirma_Inserir == true) {
                 Mostrar_Dados_Salvos();
+                //log
                 new Controle_Log().Registrar_Log("Cadastrou novo produto id: "+ObjModeloProd.getId_produto()+" - "+ObjModeloProd.getDescricao(), CodLogado);
                 Limpar_Campos();
                 ObjControlProd.Confirma_Inserir = false;
             } else {
                 Mostrar_Dados_Nao_Salvos();
+                //log
                 new Controle_Log().Registrar_Log("Erro ao cadastrar um novo produto", CodLogado);
                 ObjControlProd.Confirma_Inserir = false;
             }

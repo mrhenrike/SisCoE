@@ -8,6 +8,8 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
@@ -267,7 +269,8 @@ public Modelo_Usuario Consulta_Usuario(Modelo_Usuario ObjModeloUser) throws SQLE
         }
       ObjConecta.Desconecta();
     }
- public void Controle_Acesso(JTextField login, JComboBox permissao, JPasswordField senha){
+    
+    public void Controle_Acesso(JTextField login, JComboBox permissao, JPasswordField senha){
         try {
             ObjConecta.Conectar();        
             ObjConecta.ExecutaSQL("Select * from usuario where permissao='"+permissao.getSelectedItem().toString()+"' "
@@ -282,7 +285,7 @@ public Modelo_Usuario Consulta_Usuario(Modelo_Usuario ObjModeloUser) throws SQLE
         }
         ObjConecta.Desconecta();
     }
- public void Controle_Acesso_Bloqueio(String user, JPasswordField jp){
+    public void Controle_Acesso_Bloqueio(String user, JPasswordField jp){
         try {
             ObjConecta.Conectar();        
             ObjConecta.ExecutaSQL("Select * from usuario where nome ='"+user+"'");        
@@ -294,8 +297,8 @@ public Modelo_Usuario Consulta_Usuario(Modelo_Usuario ObjModeloUser) throws SQLE
             
         }
     }
-//inserir o administrador do sistema
- public void Inserir_Admin(Modelo_Usuario ObjUsu){
+    //inserir o administrador do sistema
+    public void Inserir_Admin(Modelo_Usuario ObjUsu){
     ObjConecta.Conectar();
         String sql = "insert into usuario (situacao, login, senha, data_cad_usuario, permissao)"
                 + "values(?,?,?,?,?)";
@@ -318,21 +321,21 @@ public Modelo_Usuario Consulta_Usuario(Modelo_Usuario ObjModeloUser) throws SQLE
         ObjConecta.Desconecta();
     }//fim do metodo
  
- public void Primeiro_Acesso(){
-    try {
-        ObjConecta.Conectar();        
-        ObjConecta.ExecutaSQL("Select * from usuario where permissao = 'SISTEMA'");        
-        ObjConecta.rs.first();            
-        String Usuario = ObjConecta.rs.getString("login");
-        ControleExistente = true;
-        ObjConecta.Desconecta();
-    } catch (SQLException ex) {
-        ControleExistente=false; 
-        ObjConecta.Desconecta();
+    public void Primeiro_Acesso(){
+        try {
+            ObjConecta.Conectar();        
+            ObjConecta.ExecutaSQL("Select * from usuario where permissao = 'SISTEMA'");        
+            ObjConecta.rs.first();            
+            String Usuario = ObjConecta.rs.getString("login");
+            ControleExistente = true;
+            ObjConecta.Desconecta();
+        } catch (SQLException ex) {
+            ControleExistente=false; 
+            ObjConecta.Desconecta();
+        }
     }
-}
- 
- public void Acesso_Adm(String permissao){
+
+public void Acesso_Adm(String permissao){
     try {
         ObjConecta.Conectar();        
         ObjConecta.ExecutaSQL("Select * from usuario where situacao = 'ATIVO' and permissao = '"+permissao+"'");        
@@ -348,5 +351,21 @@ public Modelo_Usuario Consulta_Usuario(Modelo_Usuario ObjModeloUser) throws SQLE
         ControleAdm = false;
     }
 }
+public Modelo_Usuario Consulta_Usuario_Nome(Modelo_Usuario ObjModeloUser, int id_usuario){
+    try {  
+        ObjConecta.Conectar();        
+        String sql = "select * from usuario where id_usuario=" +id_usuario+"";
+        try (PreparedStatement stm = ObjConecta.conn.prepareStatement(sql); 
+            ResultSet rs = stm.executeQuery()) {             
+            rs.first();
+            
+            ObjModeloUser.setNome(rs.getString("nome"));
+       
+        ObjConecta.Desconecta();
+        }
+    } catch (SQLException ex) { }
+    return ObjModeloUser;
+    
+    }
  
 }

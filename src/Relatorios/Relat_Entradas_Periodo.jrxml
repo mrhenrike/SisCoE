@@ -47,6 +47,9 @@ on produto.id_produto=entrada_itens.produto_id_produto where entrada.data_entrad
 	<field name="descricao_entrada" class="java.lang.String">
 		<fieldDescription><![CDATA[]]></fieldDescription>
 	</field>
+	<field name="situacao_entrada" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
 	<field name="id_entrada_itens" class="java.lang.Integer">
 		<fieldDescription><![CDATA[]]></fieldDescription>
 	</field>
@@ -74,7 +77,10 @@ on produto.id_produto=entrada_itens.produto_id_produto where entrada.data_entrad
 	<field name="descricao" class="java.lang.String">
 		<fieldDescription><![CDATA[]]></fieldDescription>
 	</field>
-	<field name="data_cad" class="java.sql.Date">
+	<field name="data_cad_produto" class="java.sql.Date">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="data_ultima_alteracao_produto" class="java.sql.Date">
 		<fieldDescription><![CDATA[]]></fieldDescription>
 	</field>
 	<field name="quantidade_minima" class="java.lang.Integer">
@@ -245,7 +251,7 @@ on produto.id_produto=entrada_itens.produto_id_produto where entrada.data_entrad
 				<text><![CDATA[Tipo de Relatório: Período de ]]></text>
 			</staticText>
 			<textField pattern="" isBlankWhenNull="false">
-				<reportElement style="Detail" x="133" y="72" width="58" height="15" uuid="16d358d3-4298-4ed4-a182-09c67799963b"/>
+				<reportElement style="Detail" x="133" y="72" width="262" height="15" uuid="16d358d3-4298-4ed4-a182-09c67799963b"/>
 				<textElement verticalAlignment="Middle">
 					<font fontName="Tahoma" size="10"/>
 				</textElement>
@@ -257,20 +263,6 @@ on produto.id_produto=entrada_itens.produto_id_produto where entrada.data_entrad
 					<font fontName="Tahoma"/>
 				</textElement>
 				<text><![CDATA[Emitido em:]]></text>
-			</staticText>
-			<textField pattern="" isBlankWhenNull="false">
-				<reportElement style="Detail" x="225" y="72" width="67" height="15" uuid="a45ce21d-6959-47d0-842e-e2607aa33ad0"/>
-				<textElement verticalAlignment="Middle">
-					<font fontName="Tahoma" size="10"/>
-				</textElement>
-				<textFieldExpression><![CDATA[$P{DTF}]]></textFieldExpression>
-			</textField>
-			<staticText>
-				<reportElement x="191" y="72" width="34" height="15" uuid="6c94c803-f0d0-422a-8fbe-0c3a0c70b938"/>
-				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font fontName="Tahoma"/>
-				</textElement>
-				<text><![CDATA[até]]></text>
 			</staticText>
 			<staticText>
 				<reportElement x="1" y="87" width="56" height="15" uuid="b02b91e5-be87-4503-b7ac-cbf0ae561e40"/>

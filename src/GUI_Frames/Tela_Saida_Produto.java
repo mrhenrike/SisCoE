@@ -7,6 +7,7 @@ import Classes.Modelo_Turma;
 import Conexao.Conecta_Banco;
 import Conexao.Controle_Curso;
 import Conexao.Controle_Disciplina;
+import Conexao.Controle_Log;
 import Conexao.Controle_Saida_Produto;
 import Conexao.Controle_Turma;
 import GUI_Dialogs_Saida.Conf_Alterar_Quant_Lote_Saida;
@@ -29,6 +30,7 @@ import GUI_Dialogs_Saida.Inf_Quant_Invalida_Saida;
 import GUI_Dialogs_Saida.Inf_Quant_Maior_Saida;
 import GUI_Dialogs_Saida.Inf_Selecione_Linha_Excluir_Saida;
 import GUI_Dialogs_Saida.Inf_Selecione_Linha_Saida;
+import static GUI_Frames.Tela_Principal.CodLogado;
 import Metodos.Formatacao;
 import Metodos.Pintar_Tabela_Padrao;
 import java.awt.Dimension;
@@ -1115,9 +1117,7 @@ public static Tela_Saida_Produto Obj;
         //Faz a saida
         ObjControleSaida.Inserir_Saida(ObjModeloSaida,new SimpleDateFormat("yyyy/MM/dd").format(new Date(System.currentTimeMillis())));
         //Busca o ultimo Id inserido           
-        ObjConecta.ExecutaSQL("Select * from saida");
-        ObjConecta.rs.last();
-        int Id_Saida = ObjConecta.rs.getInt("id_saida");
+        int Id_Saida = ObjModeloSaida.getId_saida();
         //Conta quantas linha tem para inserção
         int Quant_Linhas = JTB_Saida_Itens.getRowCount();
         //Laço para fazer todas as inserçoes no banco de saída de itens
@@ -1126,57 +1126,86 @@ public static Tela_Saida_Produto Obj;
                     JTB_Saida_Itens.addRowSelectionInterval(Linha,Linha); //seta na primeira linha da tabela
                                         
                     if(JTB_Saida_Itens.getValueAt(Linha, 3).equals("")){   //Produto sem validade     
-                    
-                        int Id_Produto = (Integer.parseInt((String)JTB_Saida_Itens.getValueAt(Linha, 0)));//Pega o id do produto na linha da tabela
-                        double Quant = (Double.parseDouble((String) JTB_Saida_Itens.getValueAt(Linha, 2)));//pega a quantidade na linha da tabela
-                        String Validade = null;
-                        String Lote = (String.valueOf(JTB_Saida_Itens.getValueAt(Linha, 4)));//pega o lote na linha da tabela
+                        try{
+                            int Id_Produto = (Integer.parseInt((String)JTB_Saida_Itens.getValueAt(Linha, 0)));//Pega o id do produto na linha da tabela
+                            double Quant = (Double.parseDouble((String) JTB_Saida_Itens.getValueAt(Linha, 2)));//pega a quantidade na linha da tabela
+                            String Validade = null;
+                            String Lote = (String.valueOf(JTB_Saida_Itens.getValueAt(Linha, 4)));//pega o lote na linha da tabela
                         
-                        ObjControleSaida.Inserir_Saida_Itens(Id_Produto, Id_Saida, Quant, Lote, Validade);//Metodo para inserira no banco
-                        ObjControleSaida.Atualiza_Estoque_Produto(Id_Produto, Quant, Lote,Validade);
-                        //verifica se o produto solicita devolucao
-                        ObjControleSaida.Controla_Devolucao_Produto(Id_Produto);
-                        if(ObjControleSaida.Controla_Devolucao_Produto == true){
-                            ObjControleSaida.Atualiza_Devolucao(Id_Saida);
-                            ObjControleSaida.Controla_Devolucao_Produto = false;
+                            ObjControleSaida.Inserir_Saida_Itens(Id_Produto, Id_Saida, Quant, Lote, Validade);//Metodo para inserira no banco
+                            //verifica se foi inserido
+                            if(ObjControleSaida.Confirma_Iten_Inserido ==true){
+                                ObjControleSaida.Atualiza_Estoque_Produto(Id_Produto, Quant, Lote,Validade);//atualiza o estoque
+                                ObjControleSaida.Confirma_Iten_Inserido = false;
+                            }
+                            //verifica se o produto solicita devolucao
+                            ObjControleSaida.Controla_Devolucao_Produto(Id_Produto);
+                             if(ObjControleSaida.Controla_Devolucao_Produto == true){
+                                ObjControleSaida.Atualiza_Devolucao(Id_Saida);//atualiza a saida que precisa de devolução
+                                ObjControleSaida.Atualiza_Produto_Devolvido(Id_Produto, "NÃO");//atualiza o produto para não devolvido
+                                ObjControleSaida.Controla_Devolucao_Produto = false;
                         }
+                        }catch(NumberFormatException | Error ex){JOptionPane.showMessageDialog(rootPane, "Erro ao inserir o produto \n"+ex);}
                     }
                     else{//Com validade
-                        int Id_Produto = (Integer.parseInt((String)JTB_Saida_Itens.getValueAt(Linha, 0)));//Pega o id do produto na linha da tabela
-                        double Quant =  (Double.parseDouble((String) JTB_Saida_Itens.getValueAt(Linha, 2)));//pega a quantidade na linha da tabela
-                        String Validade = (String.valueOf(new SimpleDateFormat("yyyy-MM-dd").format
-                        (new SimpleDateFormat("dd-MM-yyyy").parse((String) (JTB_Saida_Itens.getValueAt(Linha, 3))))));//pega a trata a data de validade
-                        String Lote = (String.valueOf(JTB_Saida_Itens.getValueAt(Linha, 4)));//pega o lote na linha da tabela
-                        
-                        ObjControleSaida.Inserir_Saida_Itens(Id_Produto, Id_Saida, Quant, Lote, Validade);
-                        ObjControleSaida.Atualiza_Estoque_Produto(Id_Produto, Quant, Lote, Validade);
-                        //verifica se o produto solicita devolucao
-                        ObjControleSaida.Controla_Devolucao_Produto(Id_Produto);
-                        if(ObjControleSaida.Controla_Devolucao_Produto == true){
-                            ObjControleSaida.Atualiza_Devolucao(Id_Saida);
-                            ObjControleSaida.Controla_Devolucao_Produto = false;
-                        }
+                         try{
+                            int Id_Produto = (Integer.parseInt((String)JTB_Saida_Itens.getValueAt(Linha, 0)));//Pega o id do produto na linha da tabela
+                            double Quant =  (Double.parseDouble((String) JTB_Saida_Itens.getValueAt(Linha, 2)));//pega a quantidade na linha da tabela
+                            String Validade = (String.valueOf(new SimpleDateFormat("yyyy-MM-dd").format
+                            (new SimpleDateFormat("dd-MM-yyyy").parse((String) (JTB_Saida_Itens.getValueAt(Linha, 3))))));//pega a trata a data de validade
+                            String Lote = (String.valueOf(JTB_Saida_Itens.getValueAt(Linha, 4)));//pega o lote na linha da tabela
+
+                            ObjControleSaida.Inserir_Saida_Itens(Id_Produto, Id_Saida, Quant, Lote, Validade);
+                            //verifica se foi inserido
+                            if(ObjControleSaida.Confirma_Iten_Inserido ==true){
+                                ObjControleSaida.Atualiza_Estoque_Produto(Id_Produto, Quant, Lote,Validade);//atualiza o estoque
+                                ObjControleSaida.Confirma_Iten_Inserido = false;
+                            }
+                            //verifica se o produto solicita devolucao
+                            ObjControleSaida.Controla_Devolucao_Produto(Id_Produto);
+                            if(ObjControleSaida.Controla_Devolucao_Produto == true){
+                                ObjControleSaida.Atualiza_Devolucao(Id_Saida);
+                                ObjControleSaida.Atualiza_Produto_Devolvido_Lote(Id_Produto,Lote,"NÃO");
+                                ObjControleSaida.Controla_Devolucao_Produto = false;
+                            }
+                        }catch(NumberFormatException | ParseException | Error ex){JOptionPane.showMessageDialog(rootPane, "Erro ao inserir o produto com lote "+""+ex);}
                     }
-                } catch (NumberFormatException | ParseException ex){JOptionPane.showMessageDialog(rootPane, "Erro No Laço: "+ex);}
+                } catch (NumberFormatException ex){JOptionPane.showMessageDialog(rootPane, "Erro No Laço: "+ex);}
             }
             confirma_saida=true;
             ObjConecta.Desconecta();
-            ObjControleSaida.Controla_Devolucao(Id_Saida);
+            ObjControleSaida.Controla_Devolucao(Id_Saida);//verifica se a saída necessita devolução
             if(ObjControleSaida.Controla_Devolucao == false){
-                ObjControleSaida.Efetivar_Devolucao(String.valueOf(Id_Saida),"SEM DEVOLUÇÃO");
+                ObjControleSaida.Efetivar_Devolucao(String.valueOf(Id_Saida),"SEM DEVOLUÇÃO");//atualiza para sem devolução
+            }
+            //verifica se existe algum produto na saida
+            ObjControleSaida.Verifica_Saida_Sem_Itens(Id_Saida);
+            if(ObjControleSaida.Verifica_Saida_Sem_Itens == false){//se não existir
+                ObjControleSaida.Excluir_Saida(Id_Saida);//exclui a saída do banco
+                new Controle_Log().Registrar_Log("inserida e excluída a saída id: "+ObjModeloSaida.getId_saida(), CodLogado);
+                ObjControleSaida.Verifica_Saida_Sem_Itens = false;
+                confirma_saida = false;
             }
         
-        } catch (SQLException ex) {
+        } catch (Exception ex) {
             confirma_saida = false;
             ObjConecta.Desconecta();
             JOptionPane.showMessageDialog(rootPane,"Erro na saida de produtos \n"+ex);
         }   
     }
+    
     public void Conf_Inserir_Saida() {
         Inserir_Saida();
         if (confirma_saida == true) 
             {
-                Mostrar_Dados_Salvos();                
+                Mostrar_Dados_Salvos();
+                //Log
+                try {
+                    ObjControleTurma.Consulta_Turma_Concat(ObjModeloTurma, ObjModeloTurma.getId_turma());
+                } catch (SQLException ex) {}
+                new Controle_Log().Registrar_Log("Efetivou a saída id: "+ObjModeloSaida.getId_saida()+" - "+ObjModeloSaida.getTipo()
+                        +" ( Curso: "+JCB_Curso.getSelectedItem().toString()
+                        +" - Turma: "+ObjModeloTurma.getPesquisa()+" - Disciplina: "+ JCB_Disciplina.getSelectedItem().toString()+" )" , CodLogado);
                 Limpar_Tabela();
                 Limpar_Produto();
                 Limpar_descricao();
@@ -1184,6 +1213,7 @@ public static Tela_Saida_Produto Obj;
             }
             else{
                 Mostrar_Dados_Nao_Salvos();
+                new Controle_Log().Registrar_Log("erro ao efetivar a saída id: "+ObjModeloSaida.getId_saida(), CodLogado);
                 confirma_saida = false;
             }
     }

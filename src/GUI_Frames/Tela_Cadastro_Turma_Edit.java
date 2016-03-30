@@ -5,6 +5,7 @@ package GUI_Frames;
 import Classes.Modelo_Curso;
 import Classes.Modelo_Turma;
 import Conexao.Controle_Curso;
+import Conexao.Controle_Log;
 import Conexao.Controle_Turma;
 import GUI_Dialogs_Curso_Turma.Conf_Sair_Sem_Salvar_Turma_Edit;
 import GUI_Dialogs_Curso_Turma.Conf_Salvar_Turma_Edit;
@@ -12,10 +13,12 @@ import GUI_Dialogs_Curso_Turma.Inf_Cadastro_Existente_Turma_Edit;
 import GUI_Dialogs_Curso_Turma.Inf_Dados_Nao_Salvos_Turma_Edit;
 import GUI_Dialogs_Curso_Turma.Inf_Dados_Salvos_Turma_Edit;
 import GUI_Dialogs_Curso_Turma.Inf_Preencher_Campos_Turma_Edit;
+import static GUI_Frames.Tela_Principal.CodLogado;
 import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.KeyEvent;
 import java.beans.PropertyVetoException;
+import java.sql.SQLException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import javax.swing.AbstractAction;
@@ -52,6 +55,7 @@ public class Tela_Cadastro_Turma_Edit extends javax.swing.JInternalFrame {
     
         
     Modelo_Turma ObjModTurma = new Modelo_Turma();
+    Modelo_Turma ObjModTurmaLog = new Modelo_Turma();
     Modelo_Curso ObjModCurso = new Modelo_Curso();
     Controle_Turma ObjControleTurma = new Controle_Turma();
     Controle_Curso ObjControleCurso = new Controle_Curso();
@@ -63,6 +67,8 @@ public class Tela_Cadastro_Turma_Edit extends javax.swing.JInternalFrame {
     private static Conf_Salvar_Turma_Edit ObjSalvar;
     private static Conf_Sair_Sem_Salvar_Turma_Edit ObjSairSemSalvar;
     
+    public String id_turma_edit;//variavel pra receber o id
+    public String turma_edit;//variavel pra receber a turma
    
     public Tela_Cadastro_Turma_Edit() {
         initComponents();
@@ -324,6 +330,7 @@ public class Tela_Cadastro_Turma_Edit extends javax.swing.JInternalFrame {
     
     public void Setar_Campos_Turma(Object id_turma){
         ObjControleTurma.Consulta_Turma(ObjModTurma, id_turma);
+        ObjControleTurma.Consulta_Turma(ObjModTurmaLog, id_turma);//Log
         JCB_Ano.setSelectedItem(Integer.parseInt(ObjModTurma.getAno_turma()));
         JCB_Semestre.setSelectedItem(String.valueOf(ObjModTurma.getSemestre()));
         JCB_Vestibular.setSelectedItem(String.valueOf(ObjModTurma.getSemestre_vestibular()));
@@ -333,6 +340,13 @@ public class Tela_Cadastro_Turma_Edit extends javax.swing.JInternalFrame {
         ObjControleCurso.Consulta_Curso(ObjModCurso, ObjModTurma.getId_curso());
         JCB_Curso.setSelectedItem(ObjModCurso.getNome_curso());
         JCB_Turma.setSelectedItem(ObjModTurma.getTurma());
+        //trazer a turma concatenada
+        try {
+            ObjControleTurma.Consulta_Turma_Concat(ObjModTurma, JTF_Id.getText());
+        } catch (SQLException ex) {}
+        //setar nos campos
+        id_turma_edit = JTF_Id.getText();
+        turma_edit = ObjModTurma.getPesquisa();
     }
     
     public void Preencher_Objetos(){
@@ -377,6 +391,8 @@ public class Tela_Cadastro_Turma_Edit extends javax.swing.JInternalFrame {
         ObjControleTurma.Alterar_Turma(ObjModTurma, JTF_Id.getText());
         if(ObjControleTurma.Confirma_Alterar==true){
             Mostrar_Dados_Salvos();
+            //Log
+            Controle_Log_Registrar();
             dispose();
             Mostrar_Tela_Consulta();
             ObjControleTurma.Confirma_Alterar = false;
@@ -429,6 +445,75 @@ public class Tela_Cadastro_Turma_Edit extends javax.swing.JInternalFrame {
        ObjPreencherCampo = new Inf_Preencher_Campos_Turma_Edit(this, true);
        ObjPreencherCampo.setVisible(true);
    }
+   
+   void Controle_Log_Registrar(){
+        boolean controle = false;
+        //curso
+        if(!ObjModCurso.getNome_curso().equalsIgnoreCase(JCB_Curso.getSelectedItem().toString().trim())){
+            new Controle_Log().Registrar_Log("alterou a turma id: "+JTF_Id.getText()+" - "+ObjModTurma.getPesquisa()
+                    +" ( Curso: de '"+ObjModCurso.getNome_curso()
+                    +"' para '"+JCB_Curso.getSelectedItem().toString().trim()+"' )", CodLogado);
+            controle = true;
+        }
+        //vestibular
+        if( ObjModTurmaLog.getSemestre_vestibular() != Integer.parseInt(JCB_Vestibular.getSelectedItem().toString())){
+            new Controle_Log().Registrar_Log("alterou a turma id: "+JTF_Id.getText()+" - "+ObjModTurma.getPesquisa()
+                    +" ( Semestre vestibular: de '"+ObjModTurmaLog.getSemestre_vestibular()
+                    +"' para '"+JCB_Vestibular.getSelectedItem().toString().trim()+"' )", CodLogado);
+            controle = true;
+        }
+        //ano
+        if( ! ObjModTurmaLog.getAno_turma().equalsIgnoreCase(JCB_Ano.getSelectedItem().toString())){
+            new Controle_Log().Registrar_Log("alterou a turma id: "+JTF_Id.getText()+" - "+ObjModTurma.getPesquisa()
+                    +" ( ano: de '"+ObjModTurmaLog.getAno_turma()
+                    +"' para '"+JCB_Ano.getSelectedItem().toString().trim()+"' )", CodLogado);
+            controle = true;
+        }
+        //turno
+        if( ! ObjModTurmaLog.getTurno().equalsIgnoreCase(JCB_Turno.getSelectedItem().toString())){
+            new Controle_Log().Registrar_Log("alterou a turma id: "+JTF_Id.getText()+" - "+ObjModTurma.getPesquisa()
+                    +" ( turno: de '"+ObjModTurmaLog.getTurno()
+                    +"' para '"+JCB_Turno.getSelectedItem().toString().trim()+"' )", CodLogado);
+            controle = true;
+        }
+        //semestre
+        if( ObjModTurmaLog.getSemestre() != Integer.parseInt(JCB_Semestre.getSelectedItem().toString())){
+            new Controle_Log().Registrar_Log("alterou a turma id: "+JTF_Id.getText()+" - "+ObjModTurma.getPesquisa()
+                    +" ( Semestre: de '"+ObjModTurmaLog.getSemestre()
+                    +"' para '"+JCB_Semestre.getSelectedItem().toString().trim()+"' )", CodLogado);
+            controle = true;
+        }
+        //turno
+        if( ! ObjModTurmaLog.getTurno().equalsIgnoreCase(JCB_Turno.getSelectedItem().toString())){
+            new Controle_Log().Registrar_Log("alterou a turma id: "+JTF_Id.getText()+" - "+ObjModTurma.getPesquisa()
+                    +" ( turno: de '"+ObjModTurmaLog.getTurno()
+                    +"' para '"+JCB_Turno.getSelectedItem().toString().trim()+"' )", CodLogado);
+            controle = true;
+        }
+        //turma
+        if( ! ObjModTurmaLog.getTurma().equalsIgnoreCase(JCB_Turma.getSelectedItem().toString().trim())){
+            new Controle_Log().Registrar_Log("alterou a turma id: "+JTF_Id.getText()+" - "+ObjModTurma.getPesquisa()
+                    +" ( turma: de '"+ObjModTurmaLog.getTurma()
+                    +"' para '"+JCB_Turma.getSelectedItem().toString().trim()+"' )", CodLogado);
+            controle = true;
+        }
+        //situação
+        if(!ObjModTurmaLog.getSituacao().equalsIgnoreCase(JCB_Situacao.getSelectedItem().toString().trim())){
+            if(JCB_Situacao.getSelectedItem().equals("INATIVO")){
+                new Controle_Log().Registrar_Log("inativou a turma id: "+JTF_Id.getText()+" - "+ObjModTurma.getPesquisa(), CodLogado);
+                controle = true;
+            }
+            if(JCB_Situacao.getSelectedItem().equals("ATIVO")){
+                new Controle_Log().Registrar_Log("ativou a turma id: "+JTF_Id.getText()+" - "+ObjModTurma.getPesquisa(), CodLogado);
+                controle = true;
+            }
+        }
+        //controle
+        if(controle == false){
+            new Controle_Log().Registrar_Log("alterou o turma id: "+JTF_Id.getText()+" - "+ObjModTurma.getPesquisa()
+                    +" ( salvou sem nenhuma alteração )", CodLogado);
+        }
+    }
    
    public final void Setar_Atalho_BT(){
         //metodo para pegar a tecla pressionada

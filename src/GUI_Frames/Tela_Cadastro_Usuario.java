@@ -4,6 +4,7 @@ package GUI_Frames;
 
 import GUI_Dialogs_Usuario.Conf_Cancelar_Cadastro;
 import Classes.Modelo_Usuario;
+import Conexao.Controle_Log;
 import Conexao.Controle_Usuario;
 import GUI_Dialogs_Usuario.Conf_Salvar;
 import GUI_Dialogs_Usuario.Inf_Dados_Nao_Salvos;
@@ -14,6 +15,7 @@ import GUI_Dialogs_Usuario.Inf_Senhas_Minima;
 import GUI_Dialogs_Usuario.Conf_Limpar_Campos_Usuario;
 import GUI_Dialogs_Usuario.Conf_Sair_Sem_Salvar;
 import GUI_Dialogs_Usuario.Inf_Cadastro_Existente_User;
+import static GUI_Frames.Tela_Principal.CodLogado;
 import Metodos.Formatacao;
 import Metodos.Metodos;
 import java.awt.Color;
@@ -531,12 +533,28 @@ public class Tela_Cadastro_Usuario extends javax.swing.JInternalFrame {
         ObjModeloUser.setSenha(new String(JTF_Senha.getPassword()));
         ObjModeloUser.setSexo((String) JCB_Sexo.getSelectedItem());
         ObjModeloUser.setPermissao((String) JCB_Permissão.getSelectedItem());
-        ObjModeloUser.setTelefone(JTF_Celular.getText().trim());
-        
+        ObjModeloUser.setTelefone(JTF_Celular.getText().trim());        
         SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
         ObjModeloUser.setData_cad(String.valueOf(df.format(JTF_Data_Cad.getDate())));
                
     }
+    
+    public void Conf_Inserir_Usario(){
+        Preencher_Obj_Usuario();
+        ObjControlUser.Inserir_Usuario(ObjModeloUser);
+        if (ObjControlUser.confirma_inserir == true) 
+            {
+                Mostrar_Dados_Salvos();
+                new Controle_Log().Registrar_Log("cadastrou um novo usuário id: "+ObjModeloUser.getId_usuario()+" - "+ObjModeloUser.getNome(), CodLogado);
+                Limpar_Campos();
+                ObjControlUser.confirma_inserir = false;
+            }
+            else{
+                Mostrar_Dados_Nao_Salvos();
+                new Controle_Log().Registrar_Log("Erro ao cadastrar um novo usuário", CodLogado);
+                ObjControlUser.confirma_inserir = false;
+                }
+        }
     
          
     public void Mostrar_Limpar_Campos(){
@@ -579,21 +597,7 @@ public class Tela_Cadastro_Usuario extends javax.swing.JInternalFrame {
         ObjCadastroExiste = new Inf_Cadastro_Existente_User(this, true);
         ObjCadastroExiste.setVisible(true);
     }
-    public void Conf_Inserir_Usario(){
-        Preencher_Obj_Usuario();
-        ObjControlUser.Inserir_Usuario(ObjModeloUser);
-        if (ObjControlUser.confirma_inserir == true) 
-            {
-                Mostrar_Dados_Salvos();
-                Limpar_Campos();
-                ObjControlUser.confirma_inserir = false;
-            }
-            else{
-                Mostrar_Dados_Nao_Salvos();
-                ObjControlUser.confirma_inserir = false;
-                }
-        }
-    
+   
     public final void Setar_Atalho_BT(){
         //metodo para pegar a tecla pressionada
         InputMap inputMap = this.getRootPane().getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW);

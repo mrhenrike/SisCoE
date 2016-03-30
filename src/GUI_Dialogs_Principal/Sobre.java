@@ -120,7 +120,7 @@ public class Sobre extends javax.swing.JDialog {
         jLabel16.setText("Orientador (2015): Anderson Trindade Maia");
 
         jLabel17.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        jLabel17.setText("Versão: 2.4.9");
+        jLabel17.setText("Versão: 2.5.1");
 
         jLabel18.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         jLabel18.setText("Orientador (2016): Leonardo Lemos Ribeiro");

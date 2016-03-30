@@ -2,7 +2,9 @@ package GUI_Dialogs_Produto;
 
 // @author Márison Tamiarana
 
+import Conexao.Controle_Log;
 import GUI_Frames.Tela_Cadastro_Prod_Edit;
+import static GUI_Frames.Tela_Principal.CodLogado;
 
 
 public class Conf_Sair_Sem_Salvar_Prod_Edit extends javax.swing.JDialog {
@@ -14,7 +16,7 @@ public class Conf_Sair_Sem_Salvar_Prod_Edit extends javax.swing.JDialog {
         this.setModal(modal);
         initComponents();
         setResizable(false);
-        setSize(430,130);
+        setSize(430,120);
         setLocationRelativeTo(ObjProd);
     }
     
@@ -81,23 +83,21 @@ public class Conf_Sair_Sem_Salvar_Prod_Edit extends javax.swing.JDialog {
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addGap(10, 10, 10)
+                .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel3)
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(jLabel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addContainerGap())
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                         .addComponent(jLabel1)
-                        .addGap(19, 19, 19)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addComponent(JB_Nao, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(JB_Sim, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
-                        .addGap(10, 10, 10))))
+                            .addComponent(JB_Sim, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))))
+                .addGap(10, 10, 10))
             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(layout.createSequentialGroup()
                     .addGap(42, 42, 42)
                     .addComponent(jLabel2)
-                    .addContainerGap(59, Short.MAX_VALUE)))
+                    .addContainerGap(54, Short.MAX_VALUE)))
         );
 
         pack();
@@ -109,6 +109,7 @@ public class Conf_Sair_Sem_Salvar_Prod_Edit extends javax.swing.JDialog {
     }//GEN-LAST:event_JB_NaoActionPerformed
 
     private void JB_SimActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_JB_SimActionPerformed
+       new Controle_Log().Registrar_Log("cancelou a edição do produto id: "+ObjProd.id_produto_edit+" - "+ObjProd.produto_edit, CodLogado);
        ObjProd.dispose();
        ObjProd.Abri_Tela_Consulta_Prod();
        dispose();
@@ -130,34 +131,13 @@ public class Conf_Sair_Sem_Salvar_Prod_Edit extends javax.swing.JDialog {
                     break;
                 }
             }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(Conf_Sair_Sem_Salvar_Prod_Edit.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(Conf_Sair_Sem_Salvar_Prod_Edit.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(Conf_Sair_Sem_Salvar_Prod_Edit.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
+        } catch (ClassNotFoundException | InstantiationException | IllegalAccessException | javax.swing.UnsupportedLookAndFeelException ex) {
             java.util.logging.Logger.getLogger(Conf_Sair_Sem_Salvar_Prod_Edit.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
      
         /* Create and display the dialog */
         java.awt.EventQueue.invokeLater(new Runnable() {
+            @Override
             public void run() {
                 Conf_Sair_Sem_Salvar_Prod_Edit dialog = new Conf_Sair_Sem_Salvar_Prod_Edit(ObjProd, true);
                 dialog.addWindowListener(new java.awt.event.WindowAdapter() {

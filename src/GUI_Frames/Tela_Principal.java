@@ -27,6 +27,7 @@ import com.jtattoo.plaf.mcwin.McWinLookAndFeel;
 import com.jtattoo.plaf.mint.MintLookAndFeel;
 import com.jtattoo.plaf.noire.NoireLookAndFeel;
 import com.jtattoo.plaf.texture.TextureLookAndFeel;
+import java.awt.Font;
 import static java.awt.image.ImageObserver.WIDTH;
 import java.sql.SQLException;
 import java.util.Properties;
@@ -37,6 +38,7 @@ import javax.swing.JDesktopPane;
 import javax.swing.SwingUtilities;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
+import javax.swing.plaf.FontUIResource;
 import org.jvnet.substance.skin.SubstanceAutumnLookAndFeel;
 import org.jvnet.substance.skin.SubstanceEmeraldDuskLookAndFeel;
 import org.jvnet.substance.skin.SubstanceMagmaLookAndFeel;
@@ -89,7 +91,7 @@ public static Tela_Principal TP;
         //Seta imagem na tela principal
         setIconImage(new ImageIcon(getClass().getResource("/Icones_Gerais/Logo - SisCoE 2.png")).getImage());
                  
-       // this.setExtendedState(this.MAXIMIZED_BOTH);//tela principal maximizada:
+        this.setExtendedState(this.MAXIMIZED_BOTH);//tela principal maximizada:
         setLocationRelativeTo(null);//Função de abrir a tela no centro
                 
         //Metodo para mostrar a hora e a data no sistema
@@ -178,6 +180,9 @@ public static Tela_Principal TP;
         jMenu6 = new javax.swing.JMenu();
         jMenuItem16 = new javax.swing.JMenuItem();
         jMenuItem17 = new javax.swing.JMenuItem();
+        jMenu12 = new javax.swing.JMenu();
+        jMenuItem30 = new javax.swing.JMenuItem();
+        jMenuItem31 = new javax.swing.JMenuItem();
         jMenu1 = new javax.swing.JMenu();
         Serv_Entrada = new javax.swing.JMenuItem();
         Serv_Saida = new javax.swing.JMenuItem();
@@ -190,6 +195,7 @@ public static Tela_Principal TP;
         jSeparator5 = new javax.swing.JPopupMenu.Separator();
         jMenuItem5 = new javax.swing.JMenuItem();
         jMenuItem26 = new javax.swing.JMenuItem();
+        Serv_Log = new javax.swing.JMenuItem();
         MP_Ajuda = new javax.swing.JMenu();
         Aj_Sobre = new javax.swing.JMenuItem();
         jMenu7 = new javax.swing.JMenu();
@@ -786,6 +792,29 @@ public static Tela_Principal TP;
 
         jMenu2.add(jMenu6);
 
+        jMenu12.setText("Todos");
+        jMenu12.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+
+        jMenuItem30.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        jMenuItem30.setText("Paisagem");
+        jMenuItem30.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem30ActionPerformed(evt);
+            }
+        });
+        jMenu12.add(jMenuItem30);
+
+        jMenuItem31.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        jMenuItem31.setText("Retrato");
+        jMenuItem31.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem31ActionPerformed(evt);
+            }
+        });
+        jMenu12.add(jMenuItem31);
+
+        jMenu2.add(jMenu12);
+
         MP_Relatorio.add(jMenu2);
 
         Menu_Principal.add(MP_Relatorio);
@@ -886,6 +915,17 @@ public static Tela_Principal TP;
             }
         });
         jMenu1.add(jMenuItem26);
+
+        Serv_Log.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_G, java.awt.event.InputEvent.ALT_MASK));
+        Serv_Log.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        Serv_Log.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icones_Gerais/Log 24x24.png"))); // NOI18N
+        Serv_Log.setText("Visualizar Log");
+        Serv_Log.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                Serv_LogActionPerformed(evt);
+            }
+        });
+        jMenu1.add(Serv_Log);
 
         Menu_Principal.add(jMenu1);
 
@@ -1242,7 +1282,8 @@ public static Tela_Principal TP;
     }// </editor-fold>//GEN-END:initComponents
 
     private void formWindowOpened(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowOpened
-        Mostrar_Login();         
+        Mostrar_Login();
+        UIManager.put("OptionPane.messageFont", new FontUIResource(new Font("Tahoma", Font.TRUETYPE_FONT, 14)));//formata os JOptionsPanes
     }//GEN-LAST:event_formWindowOpened
 
     private void Sair_EncerrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Sair_EncerrarActionPerformed
@@ -1250,38 +1291,32 @@ public static Tela_Principal TP;
     }//GEN-LAST:event_Sair_EncerrarActionPerformed
 
     private void CD_UsuárioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_CD_UsuárioActionPerformed
-        Tela_Cadastro_Usuario obj = new Tela_Cadastro_Usuario();
-        obj.Open_Tela();
+        new Tela_Cadastro_Usuario().Open_Tela();
     }//GEN-LAST:event_CD_UsuárioActionPerformed
 
     private void BT_CD_UsuarioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BT_CD_UsuarioActionPerformed
-        Tela_Cadastro_Usuario obj = new Tela_Cadastro_Usuario();
-        obj.Open_Tela();
+        new Tela_Cadastro_Usuario().Open_Tela();
     }//GEN-LAST:event_BT_CD_UsuarioActionPerformed
 
     private void CD_ProdutoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_CD_ProdutoActionPerformed
-        Tela_Cadastro_Prod obj = new Tela_Cadastro_Prod();
-        obj.Open_Tela();         
+        new Tela_Cadastro_Prod().Open_Tela();         
     }//GEN-LAST:event_CD_ProdutoActionPerformed
 
     private void BT_CD_ProdutoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BT_CD_ProdutoActionPerformed
-      Tela_Cadastro_Prod obj = new Tela_Cadastro_Prod();
-      obj.Open_Tela();
+        new Tela_Cadastro_Prod().Open_Tela();
       
     }//GEN-LAST:event_BT_CD_ProdutoActionPerformed
 
     private void CS_UsuarioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_CS_UsuarioActionPerformed
         try {
-            Tela_Consulta_Usuario obj = new Tela_Consulta_Usuario();
-            obj.Open_Tela();
+            new Tela_Consulta_Usuario().Open_Tela();
         } catch (SQLException ex) {
             Logger.getLogger(Tela_Principal.class.getName()).log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_CS_UsuarioActionPerformed
 
     private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
-        Tela_Consulta_Produto obj = new Tela_Consulta_Produto();
-        obj.Open_Tela();
+        new Tela_Consulta_Produto().Open_Tela();
     }//GEN-LAST:event_jButton5ActionPerformed
 
     private void BT_EncerrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BT_EncerrarActionPerformed
@@ -1289,8 +1324,7 @@ public static Tela_Principal TP;
     }//GEN-LAST:event_BT_EncerrarActionPerformed
 
     private void Serv_Altera_SenhaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Serv_Altera_SenhaActionPerformed
-       Tela_Alterar_Senha obj = new Tela_Alterar_Senha();
-       obj.Open_Tela();
+       new Tela_Alterar_Senha().Open_Tela();
     }//GEN-LAST:event_Serv_Altera_SenhaActionPerformed
 
     private void formWindowClosing(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosing
@@ -1299,23 +1333,19 @@ public static Tela_Principal TP;
     }//GEN-LAST:event_formWindowClosing
 
     private void BT_Ent_ProdutoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BT_Ent_ProdutoActionPerformed
-        Tela_Entrada_Produto obj = new Tela_Entrada_Produto();
-        obj.Open_Tela();
+        new Tela_Entrada_Produto().Open_Tela();
     }//GEN-LAST:event_BT_Ent_ProdutoActionPerformed
 
     private void jButton8ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton8ActionPerformed
-        Tela_Gerar_Devolucao obj = new Tela_Gerar_Devolucao();
-        obj.Open_Tela();
+        new Tela_Gerar_Devolucao().Open_Tela();
     }//GEN-LAST:event_jButton8ActionPerformed
 
     private void Serv_EntradaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Serv_EntradaActionPerformed
-        Tela_Entrada_Produto obj = new Tela_Entrada_Produto();
-        obj.Open_Tela();
+        new Tela_Entrada_Produto().Open_Tela();
     }//GEN-LAST:event_Serv_EntradaActionPerformed
 
     private void CD_TurmaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_CD_TurmaActionPerformed
-        Tela_Cadastro_Curso_Turma obj = new Tela_Cadastro_Curso_Turma();
-        obj.Open_Tela();
+        new Tela_Cadastro_Curso_Turma().Open_Tela();
     }//GEN-LAST:event_CD_TurmaActionPerformed
 
     private void Aj_SobreActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Aj_SobreActionPerformed
@@ -1323,58 +1353,53 @@ public static Tela_Principal TP;
     }//GEN-LAST:event_Aj_SobreActionPerformed
 
     private void CS_TurmaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_CS_TurmaActionPerformed
-       Tela_Consulta_Curso_Turma obj = new Tela_Consulta_Curso_Turma();
-       obj.Open_Tela();
+       new Tela_Consulta_Curso_Turma().Open_Tela();
     }//GEN-LAST:event_CS_TurmaActionPerformed
 
     private void Serv_AtivaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Serv_AtivaActionPerformed
-        Tela_Ativacao obj = new Tela_Ativacao();
-        obj.Open_Tela();
+        new Tela_Ativacao().Open_Tela();
     }//GEN-LAST:event_Serv_AtivaActionPerformed
 
     private void CS_ProdutoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_CS_ProdutoActionPerformed
-        Tela_Consulta_Produto obj = new Tela_Consulta_Produto();
-        obj.Open_Tela();
+        new Tela_Consulta_Produto().Open_Tela();
     }//GEN-LAST:event_CS_ProdutoActionPerformed
 
     private void jButton7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton7ActionPerformed
-        Tela_Saida_Produto obj = new Tela_Saida_Produto();
-        obj.Open_Tela();
+        new Tela_Saida_Produto().Open_Tela();
     }//GEN-LAST:event_jButton7ActionPerformed
 
     private void Serv_SaidaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Serv_SaidaActionPerformed
-       Tela_Saida_Produto obj = new Tela_Saida_Produto();
-        obj.Open_Tela();
+       new Tela_Saida_Produto().Open_Tela();
     }//GEN-LAST:event_Serv_SaidaActionPerformed
 
     private void jMenuItem2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem2ActionPerformed
-        Controle_Relatorio_Produto obj = new Controle_Relatorio_Produto();
-        obj.Relatorio_Produto_Todos("","Todos os Produtos");
+        new Controle_Relatorio_Produto().Relatorio_Produto_Todos("","Todos os Produtos");
+        //Log
+        new Controle_Log().Registrar_Log("Gerou o relatório de todos os produtos", CodLogado);
     }//GEN-LAST:event_jMenuItem2ActionPerformed
 
     private void jMenuItem3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem3ActionPerformed
-        Tela_Consulta_Entrada obj = new Tela_Consulta_Entrada();
-        obj.Open_Tela();
+        new Tela_Consulta_Entrada().Open_Tela();
     }//GEN-LAST:event_jMenuItem3ActionPerformed
 
     private void jMenuItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem1ActionPerformed
-        Controle_Relatorio_Entradas ObjControlRelat = new Controle_Relatorio_Entradas();
-        ObjControlRelat.Relatorio_Entrada_Prod_Todos();
+        new Controle_Relatorio_Entradas().Relatorio_Entrada_Prod_Todos();
+        //Log
+        new Controle_Log().Registrar_Log("Gerou o relatório de todas as entradas", CodLogado);
     }//GEN-LAST:event_jMenuItem1ActionPerformed
 
     private void jMenuItem4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem4ActionPerformed
-        Controle_Relatorio_Entradas ObjControlRelat = new Controle_Relatorio_Entradas();
-        ObjControlRelat.Relatorio_Entrada_Prod_Ultimos_30_Dias();
+        new Controle_Relatorio_Entradas().Relatorio_Entrada_Prod_Ultimos_30_Dias();
+        //Log
+        new Controle_Log().Registrar_Log("Gerou o relatório de todas as entradas nos últimos 30 dias", CodLogado);
     }//GEN-LAST:event_jMenuItem4ActionPerformed
 
     private void jMenuItem8ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem8ActionPerformed
-        Tela_Relat_Entrada_Periodo obj = new Tela_Relat_Entrada_Periodo();
-        obj.Open_Tela();
+        new Tela_Relat_Entrada_Periodo().Open_Tela();
     }//GEN-LAST:event_jMenuItem8ActionPerformed
 
     private void jMenuItem9ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem9ActionPerformed
-        Tela_Relat_Entrada_Num obj = new Tela_Relat_Entrada_Num();
-        obj.Open_Tela();
+        new Tela_Relat_Entrada_Num().Open_Tela();
     }//GEN-LAST:event_jMenuItem9ActionPerformed
 
     private void jMenuItem5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem5ActionPerformed
@@ -1387,23 +1412,21 @@ public static Tela_Principal TP;
     }//GEN-LAST:event_jMenuItem5ActionPerformed
 
     private void jMenuItem10ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem10ActionPerformed
-        Controle_Relatorio_Produto obj = new Controle_Relatorio_Produto();
-        obj.Relatorio_Produto_Todos("where produto.situacao='ATIVO'","Produtos Ativos");
+        new Controle_Relatorio_Produto().Relatorio_Produto_Todos("where produto.situacao='ATIVO'","Produtos Ativos");
+        new Controle_Log().Registrar_Log("Gerou o relatório de todos os produtos ativos", CodLogado);
     }//GEN-LAST:event_jMenuItem10ActionPerformed
 
     private void jMenuItem11ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem11ActionPerformed
-        Controle_Relatorio_Produto obj = new Controle_Relatorio_Produto();
-        obj.Relatorio_Produto_Todos("where produto.situacao='INATIVO'","Produtos Inativos");
+        new Controle_Relatorio_Produto().Relatorio_Produto_Todos("where produto.situacao='INATIVO'","Produtos Inativos");
+        new Controle_Log().Registrar_Log("Gerou o relatório de todos os produtos inativos", CodLogado);
     }//GEN-LAST:event_jMenuItem11ActionPerformed
 
     private void jMenuItem12ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem12ActionPerformed
-        //Mostrar_Tela_Relat_Prod_Periodo(); 
-        Tela_Relat_Produto_Ent_Periodo obj = new Tela_Relat_Produto_Ent_Periodo();
-        obj.Open_Tela();
+        new Tela_Relat_Produto_Ent_Periodo().Open_Tela();
     }//GEN-LAST:event_jMenuItem12ActionPerformed
 
     private void Sair_BloquearActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Sair_BloquearActionPerformed
-        ObjControleLog.Registrar_Log("BLOQUEIO DO SISTEMA",CodLogado);   
+        new Controle_Log().Registrar_Log("BLOQUEIO DO SISTEMA",CodLogado);   
         Mostrar_Bloqueio();
     }//GEN-LAST:event_Sair_BloquearActionPerformed
 
@@ -1412,23 +1435,25 @@ public static Tela_Principal TP;
     }//GEN-LAST:event_Sair_LogoutActionPerformed
 
     private void jMenuItem16ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem16ActionPerformed
-        Controle_Relatorio_Produto obj = new Controle_Relatorio_Produto();
-        obj.Relatorio_Produto_Categoria_Todas();
+        new Controle_Relatorio_Produto().Relatorio_Produto_Categoria_Todas();
+        //Log
+        new Controle_Log().Registrar_Log("Gerou o relatório de produto por todas as categorias", CodLogado);
     }//GEN-LAST:event_jMenuItem16ActionPerformed
 
     private void jMenuItem17ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem17ActionPerformed
-        Tela_Relat_Produto_Categoria obj = new Tela_Relat_Produto_Categoria();
-        obj.Open_Tela();
+        new Tela_Relat_Produto_Categoria().Open_Tela();
     }//GEN-LAST:event_jMenuItem17ActionPerformed
 
     private void jMenuItem13ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem13ActionPerformed
-        Controle_Relatorio_Produto obj = new Controle_Relatorio_Produto();
-        obj.Relatorio_Produto_Estoque_Sintetico();
+        new Controle_Relatorio_Produto().Relatorio_Produto_Estoque_Sintetico();
+        //Log
+        new Controle_Log().Registrar_Log("Gerou o relatório de estoque de produto sintético", CodLogado);
     }//GEN-LAST:event_jMenuItem13ActionPerformed
 
     private void jMenuItem7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem7ActionPerformed
-        Controle_Relatorio_Produto obj = new Controle_Relatorio_Produto();
-        obj.Relatorio_Produto_Estoque_Analitico();
+        new Controle_Relatorio_Produto().Relatorio_Produto_Estoque_Analitico();
+        //Log
+        new Controle_Log().Registrar_Log("Gerou o relatório de estoque de produto analítico", CodLogado);
     }//GEN-LAST:event_jMenuItem7ActionPerformed
 
     private void jMenuItem19ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem19ActionPerformed
@@ -1436,18 +1461,15 @@ public static Tela_Principal TP;
     }//GEN-LAST:event_jMenuItem19ActionPerformed
 
     private void jMenuItem24ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem24ActionPerformed
-        Tela_Gerar_Devolucao obj = new Tela_Gerar_Devolucao();
-        obj.Open_Tela();
+        new Tela_Gerar_Devolucao().Open_Tela();
     }//GEN-LAST:event_jMenuItem24ActionPerformed
 
     private void jMenuItem25ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem25ActionPerformed
-        Tela_Consulta_Saida obj = new Tela_Consulta_Saida();
-        obj.Open_Tela();
+        new Tela_Consulta_Saida().Open_Tela();
     }//GEN-LAST:event_jMenuItem25ActionPerformed
 
     private void Serv_AjustaEstoqueActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Serv_AjustaEstoqueActionPerformed
-        Tela_Ajuste_Estoque obj = new Tela_Ajuste_Estoque();
-        obj.Open_Tela();
+        new Tela_Ajuste_Estoque().Open_Tela();
     }//GEN-LAST:event_Serv_AjustaEstoqueActionPerformed
 
     private void jMenuItem26ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem26ActionPerformed
@@ -1612,6 +1634,22 @@ public static Tela_Principal TP;
         LAF_Personalizado();
     }//GEN-LAST:event_jRadioButtonMenuItem23ActionPerformed
 
+    private void Serv_LogActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Serv_LogActionPerformed
+        new Tela_Consulta_Log().Open_Tela();
+    }//GEN-LAST:event_Serv_LogActionPerformed
+
+    private void jMenuItem30ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem30ActionPerformed
+        new Controle_Relatorio_Produto().Relatorio_Produto_Todos("","Todos os Produtos");
+        //Log
+        new Controle_Log().Registrar_Log("Gerou o relatório de todos os produtos", CodLogado);
+    }//GEN-LAST:event_jMenuItem30ActionPerformed
+
+    private void jMenuItem31ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem31ActionPerformed
+        new Controle_Relatorio_Produto().Relatorio_Produto_Todos_Retrato("","Todos os Produtos");
+        //Log
+        new Controle_Log().Registrar_Log("Gerou o relatório de todos os produtos", CodLogado);
+    }//GEN-LAST:event_jMenuItem31ActionPerformed
+
     //Metodos Para setar os dialogs
 
     public void Mostrar_DL_Logoff() {
@@ -1712,6 +1750,7 @@ public static Tela_Principal TP;
         Tela_Relat_Entrada_Periodo.Obj=null;
         Tela_Relat_Produto_Ent_Periodo.Obj=null;
         Tela_Relat_Produto_Categoria.Obj=null;
+        Tela_Consulta_Log.Obj=null;
         Mostrar_Finalizando_Iniciando();
     } catch (Exception ex) { }    
     }
@@ -1721,6 +1760,7 @@ public static Tela_Principal TP;
             CD_Usuário.setEnabled(false);
             Serv_AjustaEstoque.setEnabled(false);
             BT_CD_Usuario.setEnabled(false);
+            Serv_Log.setEnabled(false);
         }
     
     }
@@ -1863,6 +1903,7 @@ public static Tela_Principal TP;
     private javax.swing.JMenuItem Serv_Altera_Senha;
     private javax.swing.JMenuItem Serv_Ativa;
     private javax.swing.JMenuItem Serv_Entrada;
+    private javax.swing.JMenuItem Serv_Log;
     private javax.swing.JMenuItem Serv_Saida;
     private javax.swing.JButton jButton5;
     private javax.swing.JButton jButton7;
@@ -1875,6 +1916,7 @@ public static Tela_Principal TP;
     private javax.swing.JMenu jMenu1;
     private javax.swing.JMenu jMenu10;
     private javax.swing.JMenu jMenu11;
+    private javax.swing.JMenu jMenu12;
     private javax.swing.JMenu jMenu2;
     private javax.swing.JMenu jMenu3;
     private javax.swing.JMenu jMenu4;
@@ -1906,6 +1948,8 @@ public static Tela_Principal TP;
     private javax.swing.JMenuItem jMenuItem28;
     private javax.swing.JMenuItem jMenuItem29;
     private javax.swing.JMenuItem jMenuItem3;
+    private javax.swing.JMenuItem jMenuItem30;
+    private javax.swing.JMenuItem jMenuItem31;
     private javax.swing.JMenuItem jMenuItem4;
     private javax.swing.JMenuItem jMenuItem5;
     private javax.swing.JMenuItem jMenuItem6;

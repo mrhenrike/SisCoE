@@ -2,6 +2,7 @@ package Conexao;
 
 //* @author Márison Tamiarana
 
+import com.toedter.calendar.JDateChooser;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.text.SimpleDateFormat;
@@ -12,8 +13,10 @@ import javax.swing.JOptionPane;
 public class Controle_Log {
 
     Conecta_Banco ObjConecta = new Conecta_Banco();
+    public boolean controla_log;
     
     public void Registrar_Log(String acao, String id){
+        
         ObjConecta.Conectar();
         try {
         String data = new SimpleDateFormat("yyyy/MM/dd").format(new Date(System.currentTimeMillis()));
@@ -41,6 +44,21 @@ public class Controle_Log {
                     +ex,"Informação Do Banco De Dados",JOptionPane.INFORMATION_MESSAGE);
         }        
         ObjConecta.Desconecta();
+    }
+    public void Consulta_Log_Intervalo(JDateChooser jdi,JDateChooser jdf){
+        try {
+            ObjConecta.Conectar();
+            String di = new SimpleDateFormat("yyyy-MM-dd").format(jdi.getDate());
+            String df = new SimpleDateFormat("yyyy-MM-dd").format(jdf.getDate());
+            ObjConecta.ExecutaSQL("select * from log_sistema where data between '"+di+"' and '"+df+"'");
+            ObjConecta.rs.first();
+            int id = ObjConecta.rs.getInt("id_log_sistema");
+            controla_log = true;
+            ObjConecta.Desconecta();
+        } catch (SQLException ex) {
+            controla_log = false;
+            ObjConecta.Desconecta();
+        }
     }
     
 }

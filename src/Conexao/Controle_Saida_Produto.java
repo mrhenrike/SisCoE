@@ -22,12 +22,15 @@ public class Controle_Saida_Produto {
     public boolean Controla_Lote;
     public boolean Controla_Devolucao_Produto;
     public boolean Controle_Saida;
+    public boolean Controle_Saida_Em_Aberto;
     public boolean Confirma_Saida;
-    public boolean Confirma_Saida_Itens;
+    public boolean Confirma_Iten_Inserido;
     public boolean Confirma_Atualiza_Estoque;
     public boolean Confirma_Atualiza_Estoque_Lote;
+    public boolean Confirma_Excluir_Saida;
     public boolean Verifica_Produto_Devolucao;
     public boolean Verifica_Devolucao;
+    public boolean Verifica_Saida_Sem_Itens;
     public boolean Efetiva_Devolucao;
     public boolean Confirma_Devolucao;
     public boolean Atualiza_Devolucao;
@@ -90,6 +93,10 @@ public class Controle_Saida_Produto {
                     }
                     stmt.execute();
                     stmt.close();
+                    //retorna o id inserido
+                    ObjConecta.ExecutaSQL("select LAST_INSERT_ID()");
+                    ObjConecta.rs.first();
+                    ObjModeloSaida.setId_saida(ObjConecta.rs.getInt(1));
                     
                 }
                 Confirma_Saida = true;
@@ -103,8 +110,8 @@ public class Controle_Saida_Produto {
     
     public void Inserir_Saida_Itens(int Id_Prod, int Id_Saida, double Quant, String Lote, String Data_Val){
         ObjConecta.Conectar();
-        String sql = "insert into saida_itens (Produto_id_produto, saida_id_saida, quantidade, lote, validade)"
-                + "values(?,?,?,?,?)";
+        String sql = "insert into saida_itens (Produto_id_produto, saida_id_saida, quantidade, lote, validade, devolvido)"
+                + "values(?,?,?,?,?,?)";
             try {
                 try (PreparedStatement stmt = ObjConecta.conn.prepareStatement(sql)) {
                     {
@@ -113,14 +120,16 @@ public class Controle_Saida_Produto {
                         stmt.setDouble(3,  Quant);
                         stmt.setString(4,  Lote);
                         stmt.setString(5,  Data_Val);
+                        stmt.setString(6, "SEM DEVOLUÇÃO");
                     }
                     stmt.execute();
                     stmt.close();
                 }
-                Confirma_Saida_Itens = true;
+                Confirma_Iten_Inserido = true;
+                                
                 ObjConecta.Desconecta();
             } catch (SQLException ex) {
-                Confirma_Saida_Itens = false;
+                Confirma_Iten_Inserido = false;
                 JOptionPane.showMessageDialog(null,"Erro ao dar saida de itens no banco! \n"
                     +ex,"Informação Do Banco De Dados",JOptionPane.INFORMATION_MESSAGE);
                     }        
@@ -292,8 +301,10 @@ public class Controle_Saida_Produto {
             ObjConecta.rs.first();
             int id = ObjConecta.rs.getInt("id_saida");
             Controle_Saida = true;
+            ObjConecta.Desconecta();
         } catch (SQLException ex) {
             Controle_Saida = false;
+            ObjConecta.Desconecta();
         }
     }
     
@@ -304,8 +315,10 @@ public class Controle_Saida_Produto {
             ObjConecta.rs.first();
             int id = ObjConecta.rs.getInt("id_saida");
             Controle_Saida = true;
+            ObjConecta.Desconecta();
         } catch (SQLException ex) {
             Controle_Saida = false;
+            ObjConecta.Desconecta();
         }
     }
     
@@ -316,8 +329,10 @@ public class Controle_Saida_Produto {
             ObjConecta.rs.first();
             int id = ObjConecta.rs.getInt("id_saida");
             Controle_Saida = true;
+            ObjConecta.Desconecta();
         } catch (SQLException ex) {
             Controle_Saida = false;
+            ObjConecta.Desconecta();
         }
     }
      
@@ -332,8 +347,10 @@ public class Controle_Saida_Produto {
             ObjConecta.rs.first();
             int id = ObjConecta.rs.getInt("id_saida");
             Controle_Saida = true;
+            ObjConecta.Desconecta();
         } catch (SQLException ex) {
             Controle_Saida = false;
+            ObjConecta.Desconecta();
         }
     }
      
@@ -346,8 +363,10 @@ public class Controle_Saida_Produto {
             ObjConecta.rs.first();
             int id = ObjConecta.rs.getInt("id_saida");
             Controle_Saida = true;
+            ObjConecta.Desconecta();
         } catch (SQLException ex) {
             Controle_Saida = false;
+            ObjConecta.Desconecta();
         }
     }
     
@@ -566,6 +585,89 @@ public class Controle_Saida_Produto {
         }catch(SQLException ex){
             ObjConecta.Desconecta();
             Controla_Devolucao_Pendente = false;
+        }
+        ObjConecta.Desconecta();  
+    }
+    //atualiza quando o produto for devolvido
+    public void Atualiza_Produto_Devolvido_Lote(int id_prod, String lote, String situacao){
+        ObjConecta.Conectar();        
+        String sql = "update saida_itens set devolvido =? where produto_id_produto="+id_prod+" and lote="+"'"+lote+"'"+"";
+            try {
+                try (PreparedStatement stmt = ObjConecta.conn.prepareStatement(sql)) {
+                    {
+                        stmt.setString(1,situacao);
+                    }
+                    stmt.execute();
+                    stmt.close();
+                }           
+                    
+                } catch (SQLException ex) {
+                    JOptionPane.showMessageDialog(null,"Erro ao atualizar o produto com lote devolvido no banco! \n"
+                        +ex,"Informação Do Banco De Dados",JOptionPane.INFORMATION_MESSAGE);
+                        }        
+        ObjConecta.Desconecta();
+    }
+    public void Atualiza_Produto_Devolvido(int id_prod, String situacao){
+        ObjConecta.Conectar();        
+        String sql = "update saida_itens set devolvido =? where produto_id_produto="+id_prod+"";
+            try {
+                try (PreparedStatement stmt = ObjConecta.conn.prepareStatement(sql)) {
+                    {
+                        stmt.setString(1,situacao);
+                    }
+                    stmt.execute();
+                    stmt.close();
+                }           
+                    
+                } catch (SQLException ex) {
+                    JOptionPane.showMessageDialog(null,"Erro ao atualizar o produto devolvido no banco! \n"
+                        +ex,"Informação Do Banco De Dados",JOptionPane.INFORMATION_MESSAGE);
+                        }        
+        ObjConecta.Desconecta();
+    }
+    public void Verifica_Saida_Sem_Itens(int id_saida){    
+        try{
+            ObjConecta.Conectar();
+            ObjConecta.ExecutaSQL("select * from saida_itens where saida_id_saida = "+id_saida+"");
+            ObjConecta.rs.first();
+            int cod = ObjConecta.rs.getInt("produto_id_produto");
+            Verifica_Saida_Sem_Itens = true;                
+        }catch(SQLException ex){
+            ObjConecta.Desconecta();
+            Verifica_Saida_Sem_Itens = false;
+        }
+        ObjConecta.Desconecta();  
+    }
+    public void Excluir_Saida(int id){
+        ObjConecta.Conectar();
+        String sql = "delete from saida where id_saida="+id+"";
+        
+        try {
+            try (PreparedStatement stmt = ObjConecta.conn.prepareStatement(sql)) {
+                stmt.execute();
+                stmt.close();
+                Confirma_Excluir_Saida = true;
+            }
+        } catch (SQLException ex) 
+            {
+                ObjConecta.Desconecta();
+                Confirma_Excluir_Saida = false;
+                JOptionPane.showMessageDialog(null,"Erro ao excluir a saida do banco! \n"
+                        +ex,"Informação Do Banco De Dados",JOptionPane.INFORMATION_MESSAGE);
+            }        
+        ObjConecta.Desconecta();
+        
+    }
+    public void Saida_Em_Aberto(int id_saida){
+        try{
+            ObjConecta.Conectar();
+            ObjConecta.ExecutaSQL("select * from saida where situacao= 'ABERTO' and id_saida ="+id_saida);
+            ObjConecta.rs.first(); 
+            int id = ObjConecta.rs.getInt("id_saida");
+            Controle_Saida_Em_Aberto = true;        
+        }catch(SQLException ex){
+            ObjConecta.Desconecta();
+            Controle_Saida_Em_Aberto = false;      
         }
         ObjConecta.Desconecta();  
     }

@@ -2,9 +2,13 @@ package GUI_Frames;
 
 // @author Márison Tamiarana
 
+import Conexao.Controle_Entrada_Produto;
+import Conexao.Controle_Log;
 import Conexao.Controle_Relatorio_Entradas;
 import GUI_Dialogs_Relatorios.Inf_Data_Final_Inferior_Relat_Ent;
+import GUI_Dialogs_Relatorios.Inf_Entrada_Nao_Encontrada_Relat_Ent_Periodo;
 import GUI_Dialogs_Relatorios.Inf_Preencher_Datas_Relat_Ent;
+import static GUI_Frames.Tela_Principal.CodLogado;
 import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.KeyEvent;
@@ -41,11 +45,16 @@ public class Tela_Relat_Entrada_Periodo extends javax.swing.JInternalFrame {
     } 
 
     Controle_Relatorio_Entradas ObjRelatEntrada = new Controle_Relatorio_Entradas();
+    Controle_Entrada_Produto ObjControleEntrada = new Controle_Entrada_Produto();
     Tela_Principal ObjTP = new Tela_Principal();
+    
     private static Tela_Principal TP;
+    
     boolean DataMenor=false;
+    
     private static Inf_Preencher_Datas_Relat_Ent ObjPreencherDatas;
     private static Inf_Data_Final_Inferior_Relat_Ent ObjDataInferior;
+    private static Inf_Entrada_Nao_Encontrada_Relat_Ent_Periodo DLEntradaNaoEncontrada;
     
     public Tela_Relat_Entrada_Periodo() {
         initComponents();
@@ -250,9 +259,19 @@ public void Verifica_Datas(){//verifica se a data inicial é inferior a inicial
                 Mostrar_Data_Inferior();
                 DataMenor = false;
             }else{
-                ObjRelatEntrada.Relatorio_Entrada_Periodo(JD_Inicial, JD_Final);
+                ObjControleEntrada.Consulta_Entrada_Por_Periodo(JD_Inicial, JD_Final);
+                if(ObjControleEntrada.Controle_Entrada == true){
+                    ObjRelatEntrada.Relatorio_Entrada_Periodo(JD_Inicial, JD_Final);
+                    ObjControleEntrada.Controle_Entrada = false;
+                    //Log
+                    String dti = new SimpleDateFormat("dd-MM-yyyy").format(JD_Inicial.getDate());
+                    String dtf = new SimpleDateFormat("dd-MM-yyyy").format(JD_Final.getDate());
+                    new Controle_Log().Registrar_Log("Gerou o relatório de entrada por período de "+dti+" até "+dtf, CodLogado);
+                }else{
+                     Mostrar_Entrada_Nao_Encontrada();
                 }
             }
+        }
     }
     
     public void Mostrar_Preencher_Datas(){
@@ -262,6 +281,10 @@ public void Verifica_Datas(){//verifica se a data inicial é inferior a inicial
     public void Mostrar_Data_Inferior(){
         ObjDataInferior = new Inf_Data_Final_Inferior_Relat_Ent(this, true);
         ObjDataInferior.setVisible(true);
+    }
+    void Mostrar_Entrada_Nao_Encontrada(){
+        DLEntradaNaoEncontrada = new Inf_Entrada_Nao_Encontrada_Relat_Ent_Periodo(this, true);
+        DLEntradaNaoEncontrada.setVisible(true);
     }
     
      

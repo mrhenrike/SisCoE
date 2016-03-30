@@ -2,8 +2,10 @@ package GUI_Dialogs_Usuario;
 
 // @author Márison Tamiarana
 
+import Conexao.Controle_Log;
 import GUI_Frames.Tela_Cadastro_Usuario_Edit;
 import GUI_Frames.Tela_Consulta_Usuario;
+import static GUI_Frames.Tela_Principal.CodLogado;
 import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -18,7 +20,7 @@ public class Conf_Sair_Sem_Salvar_Edit extends javax.swing.JDialog {
         this.setModal(modal);
         initComponents();
         setResizable(false);
-        setSize(450,130);
+        setSize(450,120);
         setLocationRelativeTo(ObjUser);
     }
     
@@ -30,7 +32,6 @@ public class Conf_Sair_Sem_Salvar_Edit extends javax.swing.JDialog {
         jLabel1 = new javax.swing.JLabel();
         JB_Nao = new javax.swing.JButton();
         JB_Sim = new javax.swing.JButton();
-        jLabel2 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
@@ -76,32 +77,20 @@ public class Conf_Sair_Sem_Salvar_Edit extends javax.swing.JDialog {
                         .addGap(18, 18, 18)
                         .addComponent(JB_Nao, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addGroup(layout.createSequentialGroup()
-                    .addGap(48, 48, 48)
-                    .addComponent(jLabel2)
-                    .addContainerGap(366, Short.MAX_VALUE)))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addGap(10, 10, 10)
+                .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel3)
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(jLabel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addContainerGap())
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                         .addComponent(jLabel1)
-                        .addGap(19, 19, 19)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addComponent(JB_Nao, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(JB_Sim, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
-                        .addGap(10, 10, 10))))
-            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addGroup(layout.createSequentialGroup()
-                    .addGap(42, 42, 42)
-                    .addComponent(jLabel2)
-                    .addContainerGap(59, Short.MAX_VALUE)))
+                            .addComponent(JB_Sim, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))))
+                .addContainerGap())
         );
 
         pack();
@@ -113,7 +102,8 @@ public class Conf_Sair_Sem_Salvar_Edit extends javax.swing.JDialog {
     }//GEN-LAST:event_JB_NaoActionPerformed
 
     private void JB_SimActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_JB_SimActionPerformed
-       dispose();
+        new Controle_Log().Registrar_Log("Cancelou a edição do usuário id: "+ObjUser.id_usuario_edit+" - "+ObjUser.usuario_edit, CodLogado);
+        dispose();
         ObjUser.Mostrar_Dados_Nao_Salvos();
         try {
             Tela_Consulta_Usuario obj = new Tela_Consulta_Usuario();
@@ -141,20 +131,13 @@ public class Conf_Sair_Sem_Salvar_Edit extends javax.swing.JDialog {
                     break;
                 }
             }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(Conf_Sair_Sem_Salvar_Edit.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(Conf_Sair_Sem_Salvar_Edit.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(Conf_Sair_Sem_Salvar_Edit.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
+        } catch (ClassNotFoundException | InstantiationException | IllegalAccessException | javax.swing.UnsupportedLookAndFeelException ex) {
             java.util.logging.Logger.getLogger(Conf_Sair_Sem_Salvar_Edit.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
-        //</editor-fold>
-        //</editor-fold>
      
         /* Create and display the dialog */
         java.awt.EventQueue.invokeLater(new Runnable() {
+            @Override
             public void run() {
                 Conf_Sair_Sem_Salvar_Edit dialog = new Conf_Sair_Sem_Salvar_Edit(ObjUser, true);
                 dialog.addWindowListener(new java.awt.event.WindowAdapter() {
@@ -172,7 +155,6 @@ public class Conf_Sair_Sem_Salvar_Edit extends javax.swing.JDialog {
     private javax.swing.JButton JB_Nao;
     private javax.swing.JButton JB_Sim;
     private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     // End of variables declaration//GEN-END:variables
 }

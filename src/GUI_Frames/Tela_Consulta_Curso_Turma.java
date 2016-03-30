@@ -5,7 +5,9 @@ import Classes.Modelo_Tabela;
 import Classes.Modelo_Turma;
 import Conexao.Conecta_Banco;
 import Conexao.Controle_Curso;
+import Conexao.Controle_Log;
 import Conexao.Controle_Turma;
+import static GUI_Frames.Tela_Principal.CodLogado;
 import Metodos.Formatacao;
 import Metodos.Pintar_Tabela_Padrao;
 import java.awt.Dimension;
@@ -544,13 +546,14 @@ public class Tela_Consulta_Curso_Turma extends javax.swing.JInternalFrame {
                 Preencher_Tabela_Disciplina("select * from disciplina where situacao_disciplina = 'ATIVO' and curso_id_curso =" + resultado + " order by semestre");
                 if (evt.getClickCount() == 2) {
                     dispose();
+                    Object curso = JTB_Curso.getValueAt(JTB_Curso.getSelectedRow(), 1);
                     Tela_Cadastro_Curso_Edit ObjCurso = new Tela_Cadastro_Curso_Edit();
                     Tela_Principal.getPainel().add(ObjCurso);
                     ObjCurso.setVisible(true);
                     ObjCurso.setPosicao();
-                    ObjControleCurso.Consulta_Curso(ObjModCurso, resultado);
                     ObjCurso.Setar_Campos_Curso(resultado);
                     ObjCurso.Obj = new Tela_Cadastro_Curso_Edit();
+                    new Controle_Log().Registrar_Log("editou o curso id: "+resultado+" - "+curso, CodLogado);
                 }
             }
         } catch (HeadlessException ex) {
@@ -601,12 +604,20 @@ public class Tela_Consulta_Curso_Turma extends javax.swing.JInternalFrame {
                 if (evt.getClickCount() == 2) {
                     dispose();
                     Object id_turma = JTB_Turma.getValueAt(JTB_Turma.getSelectedRow(), 0);
+                    String semestre = String.valueOf(JTB_Turma.getValueAt(JTB_Turma.getSelectedRow(), 1));
+                    String abrev = String.valueOf(JTB_Turma.getValueAt(JTB_Turma.getSelectedRow(), 2));
+                    String turno = String.valueOf(JTB_Turma.getValueAt(JTB_Turma.getSelectedRow(), 3));
+                    String ano = String.valueOf(JTB_Turma.getValueAt(JTB_Turma.getSelectedRow(), 4));
+                    String vestibular = String.valueOf(JTB_Turma.getValueAt(JTB_Turma.getSelectedRow(), 5));
+                    String turma = String.valueOf(JTB_Turma.getValueAt(JTB_Turma.getSelectedRow(), 6));
+                    String concat = semestre + abrev +turno+ano+"."+vestibular+" "+turma;
                     Tela_Cadastro_Turma_Edit ObjTurma = new Tela_Cadastro_Turma_Edit();
                     Tela_Principal.getPainel().add(ObjTurma);
                     ObjTurma.setVisible(true);
                     ObjTurma.setPosicao();
                     ObjTurma.Setar_Campos_Turma(id_turma);
                     ObjTurma.Obj = new Tela_Cadastro_Turma_Edit();
+                    new Controle_Log().Registrar_Log("editou a turma id: "+id_turma+" - "+concat, CodLogado);
                 }
             }
 
@@ -639,23 +650,33 @@ public class Tela_Consulta_Curso_Turma extends javax.swing.JInternalFrame {
     private void BT_Editar_TurmaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BT_Editar_TurmaActionPerformed
         dispose();
         Object id_turma = JTB_Turma.getValueAt(JTB_Turma.getSelectedRow(), 0);
+        String semestre = String.valueOf(JTB_Turma.getValueAt(JTB_Turma.getSelectedRow(), 1));
+        String abrev = String.valueOf(JTB_Turma.getValueAt(JTB_Turma.getSelectedRow(), 2));
+        String turno = String.valueOf(JTB_Turma.getValueAt(JTB_Turma.getSelectedRow(), 3));
+        String ano = String.valueOf(JTB_Turma.getValueAt(JTB_Turma.getSelectedRow(), 4));
+        String vestibular = String.valueOf(JTB_Turma.getValueAt(JTB_Turma.getSelectedRow(), 5));
+        String turma = String.valueOf(JTB_Turma.getValueAt(JTB_Turma.getSelectedRow(), 6));
+        String concat = semestre + abrev + turno + ano + "." + vestibular + " " + turma;
         Tela_Cadastro_Turma_Edit ObjTurma = new Tela_Cadastro_Turma_Edit();
         Tela_Principal.getPainel().add(ObjTurma);
         ObjTurma.setVisible(true);
         ObjTurma.setPosicao();
         ObjTurma.Setar_Campos_Turma(id_turma);
         ObjTurma.Obj = new Tela_Cadastro_Turma_Edit();
+        new Controle_Log().Registrar_Log("editou a turma id: "+id_turma+" - "+concat, CodLogado);
     }//GEN-LAST:event_BT_Editar_TurmaActionPerformed
 
     private void BT_Editar_CursoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BT_Editar_CursoActionPerformed
         dispose();
         Object resultado = JTB_Curso.getValueAt(JTB_Curso.getSelectedRow(), 0);
+        Object curso = JTB_Curso.getValueAt(JTB_Curso.getSelectedRow(), 1);
         Tela_Cadastro_Curso_Edit ObjCurso = new Tela_Cadastro_Curso_Edit();
         Tela_Principal.getPainel().add(ObjCurso);
         ObjCurso.setVisible(true);
         ObjCurso.setPosicao();
         ObjCurso.Setar_Campos_Curso(resultado);
         ObjCurso.Obj = new Tela_Cadastro_Curso_Edit();
+        new Controle_Log().Registrar_Log("editou o curso id: "+resultado+" - "+curso, CodLogado);
     }//GEN-LAST:event_BT_Editar_CursoActionPerformed
 
     private void formInternalFrameClosed(javax.swing.event.InternalFrameEvent evt) {//GEN-FIRST:event_formInternalFrameClosed
@@ -683,12 +704,14 @@ public class Tela_Consulta_Curso_Turma extends javax.swing.JInternalFrame {
     private void BT_Editar_DisciplinaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BT_Editar_DisciplinaActionPerformed
         dispose();
         Object id_disciplina = JTB_Disciplina.getValueAt(JTB_Disciplina.getSelectedRow(), 0);
+        Object disciplina = JTB_Disciplina.getValueAt(JTB_Disciplina.getSelectedRow(), 2);
         Tela_Cadastro_Disciplina_Edit ObjDisciplina = new Tela_Cadastro_Disciplina_Edit();
         Tela_Principal.getPainel().add(ObjDisciplina);
         ObjDisciplina.setVisible(true);
         ObjDisciplina.setPosicao();
         ObjDisciplina.Setar_Campos(id_disciplina);
         ObjDisciplina.Obj = new Tela_Cadastro_Disciplina_Edit();
+        new Controle_Log().Registrar_Log("editou a disciplina id: "+id_disciplina+" - "+disciplina, CodLogado);
     }//GEN-LAST:event_BT_Editar_DisciplinaActionPerformed
 
     private void JTB_DisciplinaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_JTB_DisciplinaMouseClicked
@@ -701,12 +724,14 @@ public class Tela_Consulta_Curso_Turma extends javax.swing.JInternalFrame {
                 
                 if (evt.getClickCount() == 2) {
                     dispose();
+                    Object disciplina = JTB_Disciplina.getValueAt(JTB_Disciplina.getSelectedRow(), 2);
                     Tela_Cadastro_Disciplina_Edit ObjDisciplina = new Tela_Cadastro_Disciplina_Edit();
                     Tela_Principal.getPainel().add(ObjDisciplina);
                     ObjDisciplina.setVisible(true);
                     ObjDisciplina.setPosicao();
                     ObjDisciplina.Setar_Campos(id_disciplina);
                     ObjDisciplina.Obj = new Tela_Cadastro_Disciplina_Edit();
+                    new Controle_Log().Registrar_Log("editou a disciplina id: "+id_disciplina+" - "+disciplina, CodLogado);
                 }
             }
         } catch (HeadlessException ex) {

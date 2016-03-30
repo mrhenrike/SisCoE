@@ -19,8 +19,11 @@
 	<parameter name="Quant_Itens" class="java.lang.Integer">
 		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
 	</parameter>
+	<parameter name="Quant_Categorias" class="java.lang.Integer">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
 	<queryString>
-		<![CDATA[select*from categoria_produto inner join produto  on categoria_produto.id_categoria = produto.Categoria_Produto_id_categoria where produto.situacao ='Ativo'  order by categoria]]>
+		<![CDATA[select*from categoria_produto inner join produto  on categoria_produto.id_categoria = produto.Categoria_Produto_id_categoria where produto.situacao ='Ativo'  order by categoria, descricao]]>
 	</queryString>
 	<field name="id_categoria" class="java.lang.Integer">
 		<fieldDescription><![CDATA[]]></fieldDescription>
@@ -169,7 +172,7 @@
 					<textElement verticalAlignment="Middle">
 						<font fontName="Tahoma" size="10"/>
 					</textElement>
-					<text><![CDATA[Id Categoria]]></text>
+					<text><![CDATA[Cod Categoria]]></text>
 				</staticText>
 				<rectangle>
 					<reportElement mode="Opaque" x="2" y="13" width="15" height="15" forecolor="#CCCCCC" backcolor="#CCCCCC" uuid="865e607d-2e12-49dc-b31c-18799a7bdabe"/>
@@ -189,7 +192,7 @@
 					<textFieldExpression><![CDATA[$F{id_categoria}]]></textFieldExpression>
 				</textField>
 				<textField>
-					<reportElement x="94" y="13" width="401" height="15" uuid="ec0cd249-376f-4089-a536-5ae9896670e9"/>
+					<reportElement x="94" y="13" width="631" height="15" uuid="ec0cd249-376f-4089-a536-5ae9896670e9"/>
 					<textElement>
 						<font fontName="Tahoma" size="12"/>
 					</textElement>
@@ -208,6 +211,20 @@
 					</textElement>
 					<text><![CDATA[Última Alteração]]></text>
 				</staticText>
+				<staticText>
+					<reportElement style="Column header" x="725" y="0" width="74" height="13" uuid="38b3238d-61a8-4d59-a947-18c5564ca124"/>
+					<textElement verticalAlignment="Middle">
+						<font fontName="Tahoma" size="10"/>
+					</textElement>
+					<text><![CDATA[Data Cadastro]]></text>
+				</staticText>
+				<textField pattern="dd/MM/yyyy" isBlankWhenNull="true">
+					<reportElement style="SubTitle" x="725" y="13" width="74" height="15" forecolor="#333333" uuid="9c0c0241-aac7-4a1a-b09b-3d0578b22472"/>
+					<textElement verticalAlignment="Middle">
+						<font fontName="Tahoma" size="12" isBold="false"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{data_cad_categoria}]]></textFieldExpression>
+				</textField>
 			</band>
 		</groupHeader>
 		<groupFooter>
@@ -453,18 +470,32 @@
 				<textFieldExpression><![CDATA[" " + $V{PAGE_NUMBER}]]></textFieldExpression>
 			</textField>
 			<staticText>
-				<reportElement x="2" y="0" width="103" height="15" uuid="bb9d0805-db8f-40b9-8754-0f7069eee0de"/>
+				<reportElement x="2" y="0" width="100" height="15" uuid="bb9d0805-db8f-40b9-8754-0f7069eee0de"/>
 				<textElement verticalAlignment="Middle">
 					<font fontName="Tahoma"/>
 				</textElement>
-				<text><![CDATA[Produtos Cadastrados:]]></text>
+				<text><![CDATA[Produtos Encontrados:]]></text>
 			</staticText>
 			<textField isBlankWhenNull="true">
-				<reportElement x="105" y="0" width="81" height="14" uuid="0b8f6c55-ffee-4119-8411-ac695d049b34"/>
+				<reportElement x="102" y="0" width="39" height="14" uuid="0b8f6c55-ffee-4119-8411-ac695d049b34"/>
 				<textElement verticalAlignment="Middle">
 					<font fontName="Tahoma"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$P{Quant_Itens}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="141" y="0" width="108" height="14" uuid="265464a3-e8e1-49cb-b9f9-c8410409a8e1"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Tahoma"/>
+				</textElement>
+				<text><![CDATA[Categorias Encontradas:]]></text>
+			</staticText>
+			<textField isBlankWhenNull="true">
+				<reportElement x="249" y="0" width="62" height="14" uuid="85e7f64e-3bd4-4269-9fad-6594ab18504c"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Tahoma"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{Quant_Categorias}]]></textFieldExpression>
 			</textField>
 		</band>
 	</lastPageFooter>

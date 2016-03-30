@@ -30,7 +30,7 @@ public class Pintar_Tabela implements TableCellRenderer {
         Object minimo = table.getValueAt(row, 4);     
         if(isSelected){//linha selecionada
             foreground = Color.WHITE;
-            background = Color.LIGHT_GRAY;
+            background = Color.gray;
         }else if (row % 2 == 0) {//linha par
             if ((estoque.toString().equals("0.0"))) {//estoque zerado
                 foreground = Color.red; //COR DA FONTE
@@ -48,15 +48,15 @@ public class Pintar_Tabela implements TableCellRenderer {
         }else {//linha impar
             if ((estoque.toString().equals("0.0"))) {//estoque zerado
                 foreground = Color.red; //COR DA FONTE
-                background = Color.decode("#E1F2FE");
+                background = Color.decode("#DCDCDC");
             }else{
                 if(Double.parseDouble(String.valueOf(estoque)) < Double.parseDouble(String.valueOf(minimo))){//estoque abaixo do minimo
-                    foreground = Color.green; //COR DA FONTE
-                    background = Color.decode("#E1F2FE"); //COR DA CÉLULA
+                    foreground = Color.blue; //COR DA FONTE
+                    background = Color.decode("#DCDCDC"); //COR DA CÉLULA
                 }
                 else{
                     foreground = Color.black; //COR DA FONTE
-                    background = Color.decode("#E1F2FE"); //COR DA CÉLULA
+                    background = Color.decode("#DCDCDC"); //COR DA CÉLULA
                 }
             }
         }

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="null" language="groovy" pageWidth="595" pageHeight="842" columnWidth="535" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="d24ec591-22a9-440b-bf5f-03baf8bf3987">
-	<property name="ireport.zoom" value="1.6105100000000008"/>
+	<property name="ireport.zoom" value="1.610510000000001"/>
 	<property name="ireport.x" value="0"/>
 	<property name="ireport.y" value="0"/>
 	<style name="Title" forecolor="#FFFFFF" fontName="Times New Roman" fontSize="50" isBold="false" pdfFontName="Times-Bold"/>
@@ -19,6 +19,9 @@
 	<parameter name="Usuario" class="java.lang.String">
 		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
 	</parameter>
+	<parameter name="Total_Itens" class="java.lang.Integer">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
 	<queryString>
 		<![CDATA[select * from entrada inner join entrada_itens on entrada.id_entrada=entrada_itens.entrada_id_entrada inner join produto 
 on produto.id_produto=entrada_itens.produto_id_produto where entrada.id_entrada = $P{Num_Entrada};]]>
@@ -30,6 +33,9 @@ on produto.id_produto=entrada_itens.produto_id_produto where entrada.id_entrada 
 		<fieldDescription><![CDATA[]]></fieldDescription>
 	</field>
 	<field name="descricao_entrada" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="situacao_entrada" class="java.lang.String">
 		<fieldDescription><![CDATA[]]></fieldDescription>
 	</field>
 	<field name="id_entrada_itens" class="java.lang.Integer">
@@ -59,7 +65,10 @@ on produto.id_produto=entrada_itens.produto_id_produto where entrada.id_entrada 
 	<field name="descricao" class="java.lang.String">
 		<fieldDescription><![CDATA[]]></fieldDescription>
 	</field>
-	<field name="data_cad" class="java.sql.Date">
+	<field name="data_cad_produto" class="java.sql.Date">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="data_ultima_alteracao_produto" class="java.sql.Date">
 		<fieldDescription><![CDATA[]]></fieldDescription>
 	</field>
 	<field name="quantidade_minima" class="java.lang.Integer">
@@ -342,6 +351,51 @@ on produto.id_produto=entrada_itens.produto_id_produto where entrada.id_entrada 
 			</textField>
 		</band>
 	</pageFooter>
+	<lastPageFooter>
+		<band height="28">
+			<staticText>
+				<reportElement style="Column header" x="0" y="14" width="276" height="14" forecolor="#000000" uuid="b1b968f1-dca7-4d18-a05d-226fc46b39e5"/>
+				<textElement textAlignment="Justified" verticalAlignment="Middle">
+					<font fontName="Tahoma" size="10" isBold="false"/>
+				</textElement>
+				<text><![CDATA[Desenvolvido por SisCoE - Sistema de Controle de Estoque]]></text>
+			</staticText>
+			<textField>
+				<reportElement style="Column header" x="435" y="14" width="80" height="14" forecolor="#000000" uuid="5edb27f2-ce18-4209-b193-695df6971857"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font fontName="Tahoma" size="10" isBold="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA["Página "+$V{PAGE_NUMBER}+" de"]]></textFieldExpression>
+			</textField>
+			<textField evaluationTime="Report">
+				<reportElement style="Column header" x="515" y="14" width="40" height="14" forecolor="#000000" uuid="03b0506a-d7c0-4a44-a81c-2e2e15a86541"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Tahoma" size="10" isBold="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA[" " + $V{PAGE_NUMBER}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement style="Column header" x="0" y="0" width="68" height="14" forecolor="#000000" uuid="9ed7804f-945b-47fa-b858-a4db5c599315"/>
+				<textElement textAlignment="Justified" verticalAlignment="Middle">
+					<font fontName="Tahoma" size="10" isBold="false"/>
+				</textElement>
+				<text><![CDATA[Total de Itens:]]></text>
+			</staticText>
+			<line>
+				<reportElement positionType="FixRelativeToBottom" x="0" y="14" width="555" height="1" uuid="78e5b6d4-91e7-4ef8-9f97-0b00f4995b07"/>
+				<graphicElement>
+					<pen lineWidth="0.5" lineColor="#999999"/>
+				</graphicElement>
+			</line>
+			<textField>
+				<reportElement x="68" y="0" width="100" height="14" uuid="4c4f74a9-dd6e-485e-9fd7-9474289bd3fe"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Tahoma"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{Total_Itens}]]></textFieldExpression>
+			</textField>
+		</band>
+	</lastPageFooter>
 	<summary>
 		<band splitType="Stretch"/>
 	</summary>

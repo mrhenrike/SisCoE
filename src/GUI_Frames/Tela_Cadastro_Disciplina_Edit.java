@@ -358,18 +358,20 @@ public class Tela_Cadastro_Disciplina_Edit extends javax.swing.JInternalFrame {
                     +"' para '"+JTF_Disciplina.getText()+"' )", CodLogado);
             controle = true;
         }
+        //curso
         if(!ObjModCurso.getNome_curso().equalsIgnoreCase(JCB_Curso_Disc.getSelectedItem().toString())){
             new Controle_Log().Registrar_Log("alterou a disciplina id: "+JTF_Id.getText()+" - "+ObjModDisciplina.getDisciplina()
                     +" ( curso: de '"+ObjModCurso.getNome_curso()
                     +"' para '"+JCB_Curso_Disc.getSelectedItem().toString()+"' )", CodLogado);
             controle = true;
-        }
+        }//semestre
         if(ObjModDisciplinaLog.getSemestre() != Integer.parseInt(JCB_Semestre_Disc.getSelectedItem().toString())){
             new Controle_Log().Registrar_Log("alterou a disciplina id: "+JTF_Id.getText()+" - "+ObjModDisciplina.getDisciplina()
                     +" ( semestre: de '"+ObjModDisciplinaLog.getSemestre()
                     +"' para '"+JCB_Semestre_Disc.getSelectedItem().toString()+"' )", CodLogado);
             controle = true;
         }
+        //situação
         if(!ObjModDisciplinaLog.getSituacao().equalsIgnoreCase(JCB_Situacao.getSelectedItem().toString().trim())){
             if(JCB_Situacao.getSelectedItem().equals("INATIVO")){
                 new Controle_Log().Registrar_Log("inativou a disciplina id: "+JTF_Id.getText()+" - "+ObjModDisciplina.getDisciplina(), CodLogado);
@@ -380,6 +382,7 @@ public class Tela_Cadastro_Disciplina_Edit extends javax.swing.JInternalFrame {
                 controle = true;
             }
         }
+        //controle
         if(controle == false){
             new Controle_Log().Registrar_Log("alterou a disciplina id: "+JTF_Id.getText()+" - "+ObjModDisciplinaLog.getDisciplina()
                     +" ( salvou sem nenhuma alteração )", CodLogado);

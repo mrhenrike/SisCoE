@@ -711,8 +711,7 @@ public class Tela_Consulta_Produto extends javax.swing.JInternalFrame {
         public void actionPerformed(ActionEvent arg0) {
             BT_Consulta.doClick();
         }
-        });
-        
+        });        
         
         this.getRootPane().getActionMap().put("Limpar", new AbstractAction(){
         private static final long serialVersionUID = 1L;

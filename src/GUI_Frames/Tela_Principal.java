@@ -5,6 +5,7 @@ package GUI_Frames;
 import Conexao.Conecta_Banco;
 import Conexao.Controle_Log;
 import Conexao.Controle_Lote_Estoque;
+import Conexao.Controle_Relatorio_Curso_Turma_Disciplina;
 import Conexao.Controle_Relatorio_Entradas;
 import Conexao.Controle_Relatorio_Produto;
 import Conexao.Controle_Saida_Produto;
@@ -133,10 +134,11 @@ public static Tela_Principal TP;
         BT_CD_Produto = new javax.swing.JButton();
         BT_CD_Usuario = new javax.swing.JButton();
         BT_Ent_Produto = new javax.swing.JButton();
-        jButton7 = new javax.swing.JButton();
-        jButton5 = new javax.swing.JButton();
+        BT_Saida_Prod = new javax.swing.JButton();
+        BT_Cons_Prod = new javax.swing.JButton();
         BT_Encerrar = new javax.swing.JButton();
-        jButton8 = new javax.swing.JButton();
+        BT_Devolucao = new javax.swing.JButton();
+        BT_Alertas = new javax.swing.JButton();
         Menu_Principal = new javax.swing.JMenuBar();
         MP_Cadastrar = new javax.swing.JMenu();
         CD_Produto = new javax.swing.JMenuItem();
@@ -172,18 +174,29 @@ public static Tela_Principal TP;
         jMenuItem29 = new javax.swing.JMenuItem();
         jSeparator3 = new javax.swing.JPopupMenu.Separator();
         jMenu2 = new javax.swing.JMenu();
-        jMenuItem2 = new javax.swing.JMenuItem();
-        jMenuItem10 = new javax.swing.JMenuItem();
-        jMenuItem11 = new javax.swing.JMenuItem();
+        jMenu12 = new javax.swing.JMenu();
+        jMenuItem30 = new javax.swing.JMenuItem();
+        jMenuItem31 = new javax.swing.JMenuItem();
+        jMenu13 = new javax.swing.JMenu();
+        jMenuItem32 = new javax.swing.JMenuItem();
+        jMenuItem33 = new javax.swing.JMenuItem();
+        jMenu14 = new javax.swing.JMenu();
+        jMenuItem34 = new javax.swing.JMenuItem();
+        jMenuItem35 = new javax.swing.JMenuItem();
         jMenuItem12 = new javax.swing.JMenuItem();
         jMenuItem15 = new javax.swing.JMenuItem();
         jMenu6 = new javax.swing.JMenu();
         jMenuItem16 = new javax.swing.JMenuItem();
         jMenuItem17 = new javax.swing.JMenuItem();
-        jMenu12 = new javax.swing.JMenu();
-        jMenuItem30 = new javax.swing.JMenuItem();
-        jMenuItem31 = new javax.swing.JMenuItem();
-        jMenu1 = new javax.swing.JMenu();
+        jSeparator8 = new javax.swing.JPopupMenu.Separator();
+        Relat_Usuario = new javax.swing.JMenuItem();
+        jSeparator6 = new javax.swing.JPopupMenu.Separator();
+        jMenu15 = new javax.swing.JMenu();
+        jMenuItem10 = new javax.swing.JMenuItem();
+        jMenuItem38 = new javax.swing.JMenuItem();
+        jMenuItem11 = new javax.swing.JMenuItem();
+        Relat_Log = new javax.swing.JMenuItem();
+        MP_Serv = new javax.swing.JMenu();
         Serv_Entrada = new javax.swing.JMenuItem();
         Serv_Saida = new javax.swing.JMenuItem();
         jMenuItem24 = new javax.swing.JMenuItem();
@@ -193,9 +206,9 @@ public static Tela_Principal TP;
         Serv_Altera_Senha = new javax.swing.JMenuItem();
         Serv_Ativa = new javax.swing.JMenuItem();
         jSeparator5 = new javax.swing.JPopupMenu.Separator();
-        jMenuItem5 = new javax.swing.JMenuItem();
         jMenuItem26 = new javax.swing.JMenuItem();
         Serv_Log = new javax.swing.JMenuItem();
+        jMenuItem5 = new javax.swing.JMenuItem();
         MP_Ajuda = new javax.swing.JMenu();
         Aj_Sobre = new javax.swing.JMenuItem();
         jMenu7 = new javax.swing.JMenu();
@@ -357,7 +370,7 @@ public static Tela_Principal TP;
                         .addGap(36, 36, 36)
                         .addComponent(JL_Logo_Coolab2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addGap(32, 32, 32)
-                        .addComponent(JL_Logo_Estacio, javax.swing.GroupLayout.DEFAULT_SIZE, 254, Short.MAX_VALUE)
+                        .addComponent(JL_Logo_Estacio, javax.swing.GroupLayout.DEFAULT_SIZE, 269, Short.MAX_VALUE)
                         .addGap(16, 16, 16)
                         .addComponent(JL_Logo_Fcat)))
                 .addContainerGap())
@@ -409,21 +422,21 @@ public static Tela_Principal TP;
             }
         });
 
-        jButton7.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icones/Add Saida 2.png"))); // NOI18N
-        jButton7.setToolTipText("Clique Para Efetuar Nova Saída Ou Pressione Crt + F7");
-        jButton7.setPressedIcon(new javax.swing.ImageIcon(getClass().getResource("/Icones/Add Saida Press 2.png"))); // NOI18N
-        jButton7.addActionListener(new java.awt.event.ActionListener() {
+        BT_Saida_Prod.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icones/Add Saida 2.png"))); // NOI18N
+        BT_Saida_Prod.setToolTipText("Clique Para Efetuar Nova Saída Ou Pressione Crt + F7");
+        BT_Saida_Prod.setPressedIcon(new javax.swing.ImageIcon(getClass().getResource("/Icones/Add Saida Press 2.png"))); // NOI18N
+        BT_Saida_Prod.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton7ActionPerformed(evt);
+                BT_Saida_ProdActionPerformed(evt);
             }
         });
 
-        jButton5.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icones/CS Produto.png"))); // NOI18N
-        jButton5.setToolTipText("Clique Para Consultar Os Produtos Ou Pressione Crt + F4");
-        jButton5.setPressedIcon(new javax.swing.ImageIcon(getClass().getResource("/Icones/CS Produto Press.png"))); // NOI18N
-        jButton5.addActionListener(new java.awt.event.ActionListener() {
+        BT_Cons_Prod.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icones/CS Produto.png"))); // NOI18N
+        BT_Cons_Prod.setToolTipText("Clique Para Consultar Os Produtos Ou Pressione Crt + F4");
+        BT_Cons_Prod.setPressedIcon(new javax.swing.ImageIcon(getClass().getResource("/Icones/CS Produto Press.png"))); // NOI18N
+        BT_Cons_Prod.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton5ActionPerformed(evt);
+                BT_Cons_ProdActionPerformed(evt);
             }
         });
 
@@ -436,12 +449,21 @@ public static Tela_Principal TP;
             }
         });
 
-        jButton8.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icones/Bt Devolucao.png"))); // NOI18N
-        jButton8.setToolTipText("Clique Para Efetuar Devolução De Produto Ou Pressione Crt + F8");
-        jButton8.setPressedIcon(new javax.swing.ImageIcon(getClass().getResource("/Icones/Bt Devolucao Press.png"))); // NOI18N
-        jButton8.addActionListener(new java.awt.event.ActionListener() {
+        BT_Devolucao.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icones/Bt Devolucao.png"))); // NOI18N
+        BT_Devolucao.setToolTipText("Clique Para Efetuar Devolução De Produto Ou Pressione Crt + F8");
+        BT_Devolucao.setPressedIcon(new javax.swing.ImageIcon(getClass().getResource("/Icones/Bt Devolucao Press.png"))); // NOI18N
+        BT_Devolucao.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton8ActionPerformed(evt);
+                BT_DevolucaoActionPerformed(evt);
+            }
+        });
+
+        BT_Alertas.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icones/BT Alertas.png"))); // NOI18N
+        BT_Alertas.setToolTipText("Clique Para Verificar Os Alertas Ou Pressione Alt + G");
+        BT_Alertas.setPressedIcon(new javax.swing.ImageIcon(getClass().getResource("/Icones/BT Alertas Press.png"))); // NOI18N
+        BT_Alertas.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                BT_AlertasActionPerformed(evt);
             }
         });
 
@@ -450,34 +472,37 @@ public static Tela_Principal TP;
         JP_Acesso_RapidoLayout.setHorizontalGroup(
             JP_Acesso_RapidoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(JP_Acesso_RapidoLayout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addGroup(JP_Acesso_RapidoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                .addContainerGap()
+                .addGroup(JP_Acesso_RapidoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(BT_CD_Produto, javax.swing.GroupLayout.PREFERRED_SIZE, 160, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(BT_CD_Usuario, javax.swing.GroupLayout.PREFERRED_SIZE, 160, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jButton7, javax.swing.GroupLayout.PREFERRED_SIZE, 160, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jButton5, javax.swing.GroupLayout.PREFERRED_SIZE, 160, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jButton8, javax.swing.GroupLayout.PREFERRED_SIZE, 160, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(BT_Ent_Produto, javax.swing.GroupLayout.PREFERRED_SIZE, 160, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(BT_Saida_Prod, javax.swing.GroupLayout.PREFERRED_SIZE, 160, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(BT_Cons_Prod, javax.swing.GroupLayout.PREFERRED_SIZE, 160, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(BT_Devolucao, javax.swing.GroupLayout.PREFERRED_SIZE, 160, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(BT_Encerrar, javax.swing.GroupLayout.PREFERRED_SIZE, 160, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(BT_Ent_Produto, javax.swing.GroupLayout.PREFERRED_SIZE, 160, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap())
+                    .addComponent(BT_Alertas, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         JP_Acesso_RapidoLayout.setVerticalGroup(
             JP_Acesso_RapidoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(JP_Acesso_RapidoLayout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(BT_CD_Produto)
+                .addComponent(BT_CD_Produto, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(BT_CD_Usuario)
+                .addComponent(BT_CD_Usuario, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(BT_Ent_Produto)
+                .addComponent(BT_Ent_Produto, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jButton7)
+                .addComponent(BT_Saida_Prod, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jButton5)
+                .addComponent(BT_Cons_Prod, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jButton8)
+                .addComponent(BT_Devolucao, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(BT_Encerrar)
+                .addComponent(BT_Alertas, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(BT_Encerrar, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
@@ -619,7 +644,7 @@ public static Tela_Principal TP;
         jMenu3.add(jMenuItem4);
 
         jMenuItem8.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        jMenuItem8.setText("Período");
+        jMenuItem8.setText("Por Período");
         jMenuItem8.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jMenuItem8ActionPerformed(evt);
@@ -651,7 +676,7 @@ public static Tela_Principal TP;
         jMenu5.add(jMenuItem14);
 
         jMenuItem18.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        jMenuItem18.setText("Período");
+        jMenuItem18.setText("Por Período");
         jMenu5.add(jMenuItem18);
 
         jMenuItem19.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
@@ -724,35 +749,74 @@ public static Tela_Principal TP;
         jMenu2.setText("Produto");
         jMenu2.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
 
-        jMenuItem2.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_T, java.awt.event.InputEvent.ALT_MASK | java.awt.event.InputEvent.CTRL_MASK));
-        jMenuItem2.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        jMenuItem2.setText("Todos");
-        jMenuItem2.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jMenuItem2ActionPerformed(evt);
-            }
-        });
-        jMenu2.add(jMenuItem2);
+        jMenu12.setText("Todos");
+        jMenu12.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
 
-        jMenuItem10.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_A, java.awt.event.InputEvent.ALT_MASK | java.awt.event.InputEvent.CTRL_MASK));
-        jMenuItem10.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        jMenuItem10.setText("Ativos");
-        jMenuItem10.addActionListener(new java.awt.event.ActionListener() {
+        jMenuItem30.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        jMenuItem30.setText("Paisagem");
+        jMenuItem30.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jMenuItem10ActionPerformed(evt);
+                jMenuItem30ActionPerformed(evt);
             }
         });
-        jMenu2.add(jMenuItem10);
+        jMenu12.add(jMenuItem30);
 
-        jMenuItem11.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_I, java.awt.event.InputEvent.ALT_MASK | java.awt.event.InputEvent.CTRL_MASK));
-        jMenuItem11.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        jMenuItem11.setText("Inativos");
-        jMenuItem11.addActionListener(new java.awt.event.ActionListener() {
+        jMenuItem31.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        jMenuItem31.setText("Retrato");
+        jMenuItem31.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jMenuItem11ActionPerformed(evt);
+                jMenuItem31ActionPerformed(evt);
             }
         });
-        jMenu2.add(jMenuItem11);
+        jMenu12.add(jMenuItem31);
+
+        jMenu2.add(jMenu12);
+
+        jMenu13.setText("Ativos");
+        jMenu13.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+
+        jMenuItem32.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        jMenuItem32.setText("Paisagem");
+        jMenuItem32.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem32ActionPerformed(evt);
+            }
+        });
+        jMenu13.add(jMenuItem32);
+
+        jMenuItem33.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        jMenuItem33.setText("Retrato");
+        jMenuItem33.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem33ActionPerformed(evt);
+            }
+        });
+        jMenu13.add(jMenuItem33);
+
+        jMenu2.add(jMenu13);
+
+        jMenu14.setText("Inativos");
+        jMenu14.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+
+        jMenuItem34.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        jMenuItem34.setText("Paisagem");
+        jMenuItem34.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem34ActionPerformed(evt);
+            }
+        });
+        jMenu14.add(jMenuItem34);
+
+        jMenuItem35.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        jMenuItem35.setText("Retrato");
+        jMenuItem35.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem35ActionPerformed(evt);
+            }
+        });
+        jMenu14.add(jMenuItem35);
+
+        jMenu2.add(jMenu14);
 
         jMenuItem12.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_E, java.awt.event.InputEvent.ALT_MASK | java.awt.event.InputEvent.CTRL_MASK));
         jMenuItem12.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
@@ -792,38 +856,70 @@ public static Tela_Principal TP;
 
         jMenu2.add(jMenu6);
 
-        jMenu12.setText("Todos");
-        jMenu12.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-
-        jMenuItem30.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        jMenuItem30.setText("Paisagem");
-        jMenuItem30.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jMenuItem30ActionPerformed(evt);
-            }
-        });
-        jMenu12.add(jMenuItem30);
-
-        jMenuItem31.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        jMenuItem31.setText("Retrato");
-        jMenuItem31.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jMenuItem31ActionPerformed(evt);
-            }
-        });
-        jMenu12.add(jMenuItem31);
-
-        jMenu2.add(jMenu12);
-
         MP_Relatorio.add(jMenu2);
+        MP_Relatorio.add(jSeparator8);
+
+        Relat_Usuario.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        Relat_Usuario.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icones_Gerais/User 24x24.png"))); // NOI18N
+        Relat_Usuario.setText("Usuário");
+        Relat_Usuario.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                Relat_UsuarioActionPerformed(evt);
+            }
+        });
+        MP_Relatorio.add(Relat_Usuario);
+        MP_Relatorio.add(jSeparator6);
+
+        jMenu15.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icones_Gerais/Curso 24x24.png"))); // NOI18N
+        jMenu15.setText("Acadêmico");
+        jMenu15.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+
+        jMenuItem10.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        jMenuItem10.setText("Curso");
+        jMenuItem10.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem10ActionPerformed(evt);
+            }
+        });
+        jMenu15.add(jMenuItem10);
+
+        jMenuItem38.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        jMenuItem38.setText("Disciplina");
+        jMenuItem38.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem38ActionPerformed(evt);
+            }
+        });
+        jMenu15.add(jMenuItem38);
+
+        jMenuItem11.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        jMenuItem11.setText("Turma");
+        jMenuItem11.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem11ActionPerformed(evt);
+            }
+        });
+        jMenu15.add(jMenuItem11);
+
+        MP_Relatorio.add(jMenu15);
+
+        Relat_Log.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        Relat_Log.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icones_Gerais/Log 24x24.png"))); // NOI18N
+        Relat_Log.setText("Histórico de Log");
+        Relat_Log.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                Relat_LogActionPerformed(evt);
+            }
+        });
+        MP_Relatorio.add(Relat_Log);
 
         Menu_Principal.add(MP_Relatorio);
 
-        jMenu1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icones_Gerais/Serviço 24x24.png"))); // NOI18N
-        jMenu1.setMnemonic('v');
-        jMenu1.setText("Serviços");
-        jMenu1.setToolTipText("Módulo De Serviços (Alt + V)");
-        jMenu1.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        MP_Serv.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icones_Gerais/Serviço 24x24.png"))); // NOI18N
+        MP_Serv.setMnemonic('v');
+        MP_Serv.setText("Serviços");
+        MP_Serv.setToolTipText("Módulo De Serviços (Alt + V)");
+        MP_Serv.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
 
         Serv_Entrada.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_F6, java.awt.event.InputEvent.CTRL_MASK));
         Serv_Entrada.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
@@ -834,7 +930,7 @@ public static Tela_Principal TP;
                 Serv_EntradaActionPerformed(evt);
             }
         });
-        jMenu1.add(Serv_Entrada);
+        MP_Serv.add(Serv_Entrada);
 
         Serv_Saida.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_F7, java.awt.event.InputEvent.CTRL_MASK));
         Serv_Saida.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
@@ -845,7 +941,7 @@ public static Tela_Principal TP;
                 Serv_SaidaActionPerformed(evt);
             }
         });
-        jMenu1.add(Serv_Saida);
+        MP_Serv.add(Serv_Saida);
 
         jMenuItem24.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_F8, java.awt.event.InputEvent.CTRL_MASK));
         jMenuItem24.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
@@ -856,8 +952,8 @@ public static Tela_Principal TP;
                 jMenuItem24ActionPerformed(evt);
             }
         });
-        jMenu1.add(jMenuItem24);
-        jMenu1.add(jSeparator2);
+        MP_Serv.add(jMenuItem24);
+        MP_Serv.add(jSeparator2);
 
         Serv_AjustaEstoque.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_F9, java.awt.event.InputEvent.CTRL_MASK));
         Serv_AjustaEstoque.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
@@ -868,8 +964,8 @@ public static Tela_Principal TP;
                 Serv_AjustaEstoqueActionPerformed(evt);
             }
         });
-        jMenu1.add(Serv_AjustaEstoque);
-        jMenu1.add(jSeparator4);
+        MP_Serv.add(Serv_AjustaEstoque);
+        MP_Serv.add(jSeparator4);
 
         Serv_Altera_Senha.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_H, java.awt.event.InputEvent.ALT_MASK));
         Serv_Altera_Senha.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
@@ -880,7 +976,7 @@ public static Tela_Principal TP;
                 Serv_Altera_SenhaActionPerformed(evt);
             }
         });
-        jMenu1.add(Serv_Altera_Senha);
+        MP_Serv.add(Serv_Altera_Senha);
 
         Serv_Ativa.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_E, java.awt.event.InputEvent.ALT_MASK));
         Serv_Ativa.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
@@ -891,19 +987,8 @@ public static Tela_Principal TP;
                 Serv_AtivaActionPerformed(evt);
             }
         });
-        jMenu1.add(Serv_Ativa);
-        jMenu1.add(jSeparator5);
-
-        jMenuItem5.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_F12, java.awt.event.InputEvent.CTRL_MASK));
-        jMenuItem5.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        jMenuItem5.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icones_Gerais/Calculadora 24x24.png"))); // NOI18N
-        jMenuItem5.setText("Calculadora Do Windows");
-        jMenuItem5.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jMenuItem5ActionPerformed(evt);
-            }
-        });
-        jMenu1.add(jMenuItem5);
+        MP_Serv.add(Serv_Ativa);
+        MP_Serv.add(jSeparator5);
 
         jMenuItem26.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_F, java.awt.event.InputEvent.ALT_MASK));
         jMenuItem26.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
@@ -914,7 +999,7 @@ public static Tela_Principal TP;
                 jMenuItem26ActionPerformed(evt);
             }
         });
-        jMenu1.add(jMenuItem26);
+        MP_Serv.add(jMenuItem26);
 
         Serv_Log.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_G, java.awt.event.InputEvent.ALT_MASK));
         Serv_Log.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
@@ -925,9 +1010,20 @@ public static Tela_Principal TP;
                 Serv_LogActionPerformed(evt);
             }
         });
-        jMenu1.add(Serv_Log);
+        MP_Serv.add(Serv_Log);
 
-        Menu_Principal.add(jMenu1);
+        jMenuItem5.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_F12, java.awt.event.InputEvent.CTRL_MASK));
+        jMenuItem5.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        jMenuItem5.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icones_Gerais/Calculadora 24x24.png"))); // NOI18N
+        jMenuItem5.setText("Calculadora do Windows");
+        jMenuItem5.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem5ActionPerformed(evt);
+            }
+        });
+        MP_Serv.add(jMenuItem5);
+
+        Menu_Principal.add(MP_Serv);
 
         MP_Ajuda.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icones_Gerais/Help_24x24.png"))); // NOI18N
         MP_Ajuda.setMnemonic('a');
@@ -1258,7 +1354,7 @@ public static Tela_Principal TP;
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(JP_Data_Hora_Sistema, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(Area_Trabalho_Pricinpal, javax.swing.GroupLayout.DEFAULT_SIZE, 1132, Short.MAX_VALUE)
+                        .addComponent(Area_Trabalho_Pricinpal, javax.swing.GroupLayout.DEFAULT_SIZE, 1148, Short.MAX_VALUE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(JP_Acesso_Rapido, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap())
@@ -1268,7 +1364,7 @@ public static Tela_Principal TP;
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(Area_Trabalho_Pricinpal, javax.swing.GroupLayout.DEFAULT_SIZE, 579, Short.MAX_VALUE)
+                    .addComponent(Area_Trabalho_Pricinpal, javax.swing.GroupLayout.DEFAULT_SIZE, 596, Short.MAX_VALUE)
                     .addComponent(JP_Acesso_Rapido, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(JP_Data_Hora_Sistema, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -1277,7 +1373,7 @@ public static Tela_Principal TP;
 
         Area_Trabalho_Pricinpal.getAccessibleContext().setAccessibleName("Area De Trabalho");
 
-        setSize(new java.awt.Dimension(1366, 717));
+        setSize(new java.awt.Dimension(1366, 700));
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
@@ -1315,9 +1411,9 @@ public static Tela_Principal TP;
         }
     }//GEN-LAST:event_CS_UsuarioActionPerformed
 
-    private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
+    private void BT_Cons_ProdActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BT_Cons_ProdActionPerformed
         new Tela_Consulta_Produto().Open_Tela();
-    }//GEN-LAST:event_jButton5ActionPerformed
+    }//GEN-LAST:event_BT_Cons_ProdActionPerformed
 
     private void BT_EncerrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BT_EncerrarActionPerformed
         Mostrar_DL_Logoff();
@@ -1336,9 +1432,9 @@ public static Tela_Principal TP;
         new Tela_Entrada_Produto().Open_Tela();
     }//GEN-LAST:event_BT_Ent_ProdutoActionPerformed
 
-    private void jButton8ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton8ActionPerformed
+    private void BT_DevolucaoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BT_DevolucaoActionPerformed
         new Tela_Gerar_Devolucao().Open_Tela();
-    }//GEN-LAST:event_jButton8ActionPerformed
+    }//GEN-LAST:event_BT_DevolucaoActionPerformed
 
     private void Serv_EntradaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Serv_EntradaActionPerformed
         new Tela_Entrada_Produto().Open_Tela();
@@ -1364,19 +1460,13 @@ public static Tela_Principal TP;
         new Tela_Consulta_Produto().Open_Tela();
     }//GEN-LAST:event_CS_ProdutoActionPerformed
 
-    private void jButton7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton7ActionPerformed
+    private void BT_Saida_ProdActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BT_Saida_ProdActionPerformed
         new Tela_Saida_Produto().Open_Tela();
-    }//GEN-LAST:event_jButton7ActionPerformed
+    }//GEN-LAST:event_BT_Saida_ProdActionPerformed
 
     private void Serv_SaidaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Serv_SaidaActionPerformed
        new Tela_Saida_Produto().Open_Tela();
     }//GEN-LAST:event_Serv_SaidaActionPerformed
-
-    private void jMenuItem2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem2ActionPerformed
-        new Controle_Relatorio_Produto().Relatorio_Produto_Todos("","Todos os Produtos");
-        //Log
-        new Controle_Log().Registrar_Log("Gerou o relatório de todos os produtos", CodLogado);
-    }//GEN-LAST:event_jMenuItem2ActionPerformed
 
     private void jMenuItem3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem3ActionPerformed
         new Tela_Consulta_Entrada().Open_Tela();
@@ -1410,16 +1500,6 @@ public static Tela_Principal TP;
              System.err.println("Deu pau!");    
             }    
     }//GEN-LAST:event_jMenuItem5ActionPerformed
-
-    private void jMenuItem10ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem10ActionPerformed
-        new Controle_Relatorio_Produto().Relatorio_Produto_Todos("where produto.situacao='ATIVO'","Produtos Ativos");
-        new Controle_Log().Registrar_Log("Gerou o relatório de todos os produtos ativos", CodLogado);
-    }//GEN-LAST:event_jMenuItem10ActionPerformed
-
-    private void jMenuItem11ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem11ActionPerformed
-        new Controle_Relatorio_Produto().Relatorio_Produto_Todos("where produto.situacao='INATIVO'","Produtos Inativos");
-        new Controle_Log().Registrar_Log("Gerou o relatório de todos os produtos inativos", CodLogado);
-    }//GEN-LAST:event_jMenuItem11ActionPerformed
 
     private void jMenuItem12ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem12ActionPerformed
         new Tela_Relat_Produto_Ent_Periodo().Open_Tela();
@@ -1650,6 +1730,54 @@ public static Tela_Principal TP;
         new Controle_Log().Registrar_Log("Gerou o relatório de todos os produtos", CodLogado);
     }//GEN-LAST:event_jMenuItem31ActionPerformed
 
+    private void jMenuItem32ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem32ActionPerformed
+        new Controle_Relatorio_Produto().Relatorio_Produto_Todos("where produto.situacao='ATIVO'","Produtos Ativos");
+        new Controle_Log().Registrar_Log("Gerou o relatório de todos os produtos ativos", CodLogado);
+    }//GEN-LAST:event_jMenuItem32ActionPerformed
+
+    private void jMenuItem33ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem33ActionPerformed
+        new Controle_Relatorio_Produto().Relatorio_Produto_Todos_Retrato("where produto.situacao='ATIVO'","Produtos Ativos");
+        new Controle_Log().Registrar_Log("Gerou o relatório de todos os produtos ativos", CodLogado);
+    }//GEN-LAST:event_jMenuItem33ActionPerformed
+
+    private void jMenuItem34ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem34ActionPerformed
+        new Controle_Relatorio_Produto().Relatorio_Produto_Todos("where produto.situacao='INATIVO'","Produtos Inativos");
+        new Controle_Log().Registrar_Log("Gerou o relatório de todos os produtos inativos", CodLogado);
+    }//GEN-LAST:event_jMenuItem34ActionPerformed
+
+    private void jMenuItem35ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem35ActionPerformed
+        new Controle_Relatorio_Produto().Relatorio_Produto_Todos_Retrato("where produto.situacao='INATIVO'","Produtos Inativos");
+        new Controle_Log().Registrar_Log("Gerou o relatório de todos os produtos inativos", CodLogado);
+    }//GEN-LAST:event_jMenuItem35ActionPerformed
+
+    private void BT_AlertasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BT_AlertasActionPerformed
+        Abaixo_De_30_Dias();
+        Abaixo_Do_Minimo();
+        Devolucao_Pendente();
+        Produto_Vencido();
+    }//GEN-LAST:event_BT_AlertasActionPerformed
+
+    private void Relat_UsuarioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Relat_UsuarioActionPerformed
+        new Tela_Relat_Usuario().Open_Tela();        
+    }//GEN-LAST:event_Relat_UsuarioActionPerformed
+
+    private void jMenuItem38ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem38ActionPerformed
+        new Tela_Relat_Disciplina().Open_Tela();
+    }//GEN-LAST:event_jMenuItem38ActionPerformed
+
+    private void jMenuItem10ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem10ActionPerformed
+        new Controle_Relatorio_Curso_Turma_Disciplina().Relatorio_Cursos();
+        new Controle_Log().Registrar_Log("Gerou o relatório de todos os cursos ativos", CodLogado);
+    }//GEN-LAST:event_jMenuItem10ActionPerformed
+
+    private void jMenuItem11ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem11ActionPerformed
+        new Tela_Relat_Turma().Open_Tela();
+    }//GEN-LAST:event_jMenuItem11ActionPerformed
+
+    private void Relat_LogActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Relat_LogActionPerformed
+        new Tela_Relat_Log().Open_Tela();
+    }//GEN-LAST:event_Relat_LogActionPerformed
+
     //Metodos Para setar os dialogs
 
     public void Mostrar_DL_Logoff() {
@@ -1750,7 +1878,12 @@ public static Tela_Principal TP;
         Tela_Relat_Entrada_Periodo.Obj=null;
         Tela_Relat_Produto_Ent_Periodo.Obj=null;
         Tela_Relat_Produto_Categoria.Obj=null;
+        Tela_Relat_Usuario.Obj=null;
+        Tela_Relat_Disciplina.Obj=null;
+        Tela_Relat_Turma.Obj=null;
+        Tela_Relat_Log.Obj=null;
         Tela_Consulta_Log.Obj=null;
+        
         Mostrar_Finalizando_Iniciando();
     } catch (Exception ex) { }    
     }
@@ -1761,6 +1894,8 @@ public static Tela_Principal TP;
             Serv_AjustaEstoque.setEnabled(false);
             BT_CD_Usuario.setEnabled(false);
             Serv_Log.setEnabled(false);
+            Relat_Log.setEnabled(false);
+            Relat_Usuario.setEnabled(false);
         }
     
     }
@@ -1868,10 +2003,14 @@ public static Tela_Principal TP;
     private javax.swing.JMenuItem Aj_Sobre;
     private javax.swing.JDesktopPane Area_Trabalho_Pricinpal;
     private javax.swing.ButtonGroup BG_Menu;
+    private javax.swing.JButton BT_Alertas;
     private javax.swing.JButton BT_CD_Produto;
     private javax.swing.JButton BT_CD_Usuario;
+    private javax.swing.JButton BT_Cons_Prod;
+    private javax.swing.JButton BT_Devolucao;
     private javax.swing.JButton BT_Encerrar;
     private javax.swing.JButton BT_Ent_Produto;
+    private javax.swing.JButton BT_Saida_Prod;
     private javax.swing.JMenuItem CD_Produto;
     private javax.swing.JMenuItem CD_Turma;
     private javax.swing.JMenuItem CD_Usuário;
@@ -1895,7 +2034,10 @@ public static Tela_Principal TP;
     private javax.swing.JMenu MP_Consultar;
     private javax.swing.JMenu MP_Relatorio;
     private javax.swing.JMenu MP_Sair;
+    private javax.swing.JMenu MP_Serv;
     private javax.swing.JMenuBar Menu_Principal;
+    private javax.swing.JMenuItem Relat_Log;
+    private javax.swing.JMenuItem Relat_Usuario;
     private javax.swing.JMenuItem Sair_Bloquear;
     private javax.swing.JMenuItem Sair_Encerrar;
     private javax.swing.JMenuItem Sair_Logout;
@@ -1905,18 +2047,17 @@ public static Tela_Principal TP;
     private javax.swing.JMenuItem Serv_Entrada;
     private javax.swing.JMenuItem Serv_Log;
     private javax.swing.JMenuItem Serv_Saida;
-    private javax.swing.JButton jButton5;
-    private javax.swing.JButton jButton7;
-    private javax.swing.JButton jButton8;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
-    private javax.swing.JMenu jMenu1;
     private javax.swing.JMenu jMenu10;
     private javax.swing.JMenu jMenu11;
     private javax.swing.JMenu jMenu12;
+    private javax.swing.JMenu jMenu13;
+    private javax.swing.JMenu jMenu14;
+    private javax.swing.JMenu jMenu15;
     private javax.swing.JMenu jMenu2;
     private javax.swing.JMenu jMenu3;
     private javax.swing.JMenu jMenu4;
@@ -1936,7 +2077,6 @@ public static Tela_Principal TP;
     private javax.swing.JMenuItem jMenuItem17;
     private javax.swing.JMenuItem jMenuItem18;
     private javax.swing.JMenuItem jMenuItem19;
-    private javax.swing.JMenuItem jMenuItem2;
     private javax.swing.JMenuItem jMenuItem20;
     private javax.swing.JMenuItem jMenuItem21;
     private javax.swing.JMenuItem jMenuItem22;
@@ -1950,6 +2090,11 @@ public static Tela_Principal TP;
     private javax.swing.JMenuItem jMenuItem3;
     private javax.swing.JMenuItem jMenuItem30;
     private javax.swing.JMenuItem jMenuItem31;
+    private javax.swing.JMenuItem jMenuItem32;
+    private javax.swing.JMenuItem jMenuItem33;
+    private javax.swing.JMenuItem jMenuItem34;
+    private javax.swing.JMenuItem jMenuItem35;
+    private javax.swing.JMenuItem jMenuItem38;
     private javax.swing.JMenuItem jMenuItem4;
     private javax.swing.JMenuItem jMenuItem5;
     private javax.swing.JMenuItem jMenuItem6;
@@ -1983,6 +2128,8 @@ public static Tela_Principal TP;
     private javax.swing.JPopupMenu.Separator jSeparator3;
     private javax.swing.JPopupMenu.Separator jSeparator4;
     private javax.swing.JPopupMenu.Separator jSeparator5;
+    private javax.swing.JPopupMenu.Separator jSeparator6;
+    private javax.swing.JPopupMenu.Separator jSeparator8;
     // End of variables declaration//GEN-END:variables
 
     

@@ -64,6 +64,7 @@ public class Tela_Relat_Produto_Categoria extends javax.swing.JInternalFrame {
         BT_Consultar = new javax.swing.JButton();
         JL_Info = new javax.swing.JLabel();
 
+        setBorder(javax.swing.BorderFactory.createCompoundBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.LOWERED), javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED)));
         setIconifiable(true);
         setTitle("Produto Por Categoria Selecionada");
         setFrameIcon(new javax.swing.ImageIcon(getClass().getResource("/Icones_Gerais/Prod 24x24.png"))); // NOI18N

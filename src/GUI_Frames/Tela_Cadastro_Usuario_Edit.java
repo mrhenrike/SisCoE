@@ -733,17 +733,17 @@ public void Virar_BT_Cancelar(){
     //situação
     if(!ObjModeloUserLog.getSituacao().equalsIgnoreCase(JCB_Situacao.getSelectedItem().toString().trim())){
             if(JCB_Situacao.getSelectedItem().equals("INATIVO")){
-                new Controle_Log().Registrar_Log("inativou o produto id: "+JTF_Cod.getText()+" - "+ObjModeloUser.getNome(), CodLogado);
+                new Controle_Log().Registrar_Log("inativou o usuário id: "+JTF_Cod.getText()+" - "+ObjModeloUser.getNome(), CodLogado);
                 controle = true;
             }
             if(JCB_Situacao.getSelectedItem().equals("ATIVO")){
-                new Controle_Log().Registrar_Log("ativou o produto id: "+JTF_Cod.getText()+" - "+ObjModeloUser.getNome(), CodLogado);
+                new Controle_Log().Registrar_Log("ativou o usuário id: "+JTF_Cod.getText()+" - "+ObjModeloUser.getNome(), CodLogado);
                 controle = true;
             }
         }
         //controle
         if(controle == false){
-            new Controle_Log().Registrar_Log("alterou o produto id: "+JTF_Cod.getText()+" - "+ObjModeloUser.getNome()
+            new Controle_Log().Registrar_Log("alterou o usuário id: "+JTF_Cod.getText()+" - "+ObjModeloUser.getNome()
                     +" ( salvou sem nenhuma alteração )", CodLogado);
         }
  }

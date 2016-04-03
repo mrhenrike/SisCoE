@@ -6,6 +6,11 @@
 package GUI_Dialogs_Principal;
 
 import GUI_Frames.Tela_Principal;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import javax.swing.JMenu;
+import javax.swing.JMenuItem;
+import javax.swing.JPopupMenu;
 
 /**
  *
@@ -61,11 +66,21 @@ public class Sobre extends javax.swing.JDialog {
         setUndecorated(true);
 
         jPanel1.setBorder(javax.swing.BorderFactory.createCompoundBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.LOWERED), javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED)));
+        jPanel1.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                jPanel1MousePressed(evt);
+            }
+        });
 
         JB_Ok.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icones/Bt Ok.png"))); // NOI18N
         JB_Ok.setMnemonic('o');
         JB_Ok.setToolTipText("Ok (Alt+O)");
         JB_Ok.setPressedIcon(new javax.swing.ImageIcon(getClass().getResource("/Icones/Bt Ok Press.png"))); // NOI18N
+        JB_Ok.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                JB_OkMousePressed(evt);
+            }
+        });
         JB_Ok.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 JB_OkActionPerformed(evt);
@@ -120,7 +135,7 @@ public class Sobre extends javax.swing.JDialog {
         jLabel16.setText("Orientador (2015): Anderson Trindade Maia");
 
         jLabel17.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        jLabel17.setText("Versão: 2.5.1");
+        jLabel17.setText("Versão: 2.6.2");
 
         jLabel18.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         jLabel18.setText("Orientador (2016): Leonardo Lemos Ribeiro");
@@ -238,6 +253,55 @@ public class Sobre extends javax.swing.JDialog {
     private void JB_OkActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_JB_OkActionPerformed
         dispose();
     }//GEN-LAST:event_JB_OkActionPerformed
+
+    private void JB_OkMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_JB_OkMousePressed
+        
+    }//GEN-LAST:event_JB_OkMousePressed
+
+    private void jPanel1MousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jPanel1MousePressed
+        //cria o primeiro item do menu e atribui uma ação pra ele
+        if(evt.getButton() == evt.BUTTON3){
+            JMenu it = new JMenu("Teste");
+            
+    JMenuItem item1 = new JMenuItem("Opção 1");
+    item1.addActionListener(new ActionListener() {
+ 
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            //jTF_Texto.setText("Clicou na Opção 1");
+        }
+    });
+    it.add(item1);
+ 
+    //cria o segundo item do menu e atribui uma ação pra ele
+    JMenuItem item2 = new JMenuItem("Opção 2");
+    item2.addActionListener(new ActionListener() {
+ 
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            //jTF_Texto.setText("Clicou na Opção 2");
+        }
+    });
+ 
+    //cria o terceiro item do menu e atribui uma ação pra ele
+    JMenuItem item3 = new JMenuItem("Opção 3");
+    item3.addActionListener(new ActionListener() {
+ 
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            //jTF_Texto.setText("Clicou na Opção 3");
+        }
+    });
+ 
+    //cria o menu popup e adiciona os 3 itens
+    JPopupMenu popup = new JPopupMenu();
+    popup.add(it);
+    popup.add(item2);
+    popup.add(item3);
+ 
+    //mostra na tela
+    popup.show(jPanel1, evt.getX(), evt.getY());}
+    }//GEN-LAST:event_jPanel1MousePressed
 
     /**
      * @param args the command line arguments

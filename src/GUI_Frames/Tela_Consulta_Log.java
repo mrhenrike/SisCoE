@@ -69,14 +69,24 @@ public class Tela_Consulta_Log extends javax.swing.JInternalFrame {
     
     boolean DataMenor;//comparar datas
     
+    int intervalo= 0;//intervalo de pesquisa por pagina
+    int itens_por_pagina = 17;//itens por páginas
+    int itens_filtrados;//quantidade de itens resultantes na busca pelo filtro
+    int numero_de_pagina;//variave que vai receber a quantidade de pagina
+    int contador=1;//contador para controle da pagina     
+    
     public Tela_Consulta_Log() {
         initComponents();
         Preencher_CB_Tipo();
         Desabilita_Filtro();
         Desabilita_Periodo();
         BT_Consultar.setEnabled(false);
+        BT_Anterior.setEnabled(false);
+        BT_Proximo.setEnabled(false);
         Setar_Atalho_BT();
         JTF_Pesquisa.setDocument(ObjFormat.new Format_Geral(50));
+        JL_Pagina.setVisible(!true);
+        JL_Num_Pagina.setVisible(!true);
     }
 
     
@@ -99,8 +109,12 @@ public class Tela_Consulta_Log extends javax.swing.JInternalFrame {
         JTF_Pesquisa = new javax.swing.JTextField();
         jLabel3 = new javax.swing.JLabel();
         JL_Registros = new javax.swing.JLabel();
-        JL_Quant_Itens1 = new javax.swing.JLabel();
+        JL_Legendas = new javax.swing.JLabel();
         BT_Relatorio = new javax.swing.JButton();
+        BT_Anterior = new javax.swing.JButton();
+        BT_Proximo = new javax.swing.JButton();
+        JL_Pagina = new javax.swing.JLabel();
+        JL_Num_Pagina = new javax.swing.JLabel();
 
         setBorder(javax.swing.BorderFactory.createCompoundBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.LOWERED), javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED)));
         setIconifiable(true);
@@ -222,9 +236,12 @@ public class Tela_Consulta_Log extends javax.swing.JInternalFrame {
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
-        BT_Consultar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icones/Bt Consultar.png"))); // NOI18N
+        BT_Consultar.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        BT_Consultar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icones_Gerais/Search_24x24.png"))); // NOI18N
+        BT_Consultar.setText("(F3)");
         BT_Consultar.setToolTipText("Clique Para Pesquisar O Tipo Da Saída");
-        BT_Consultar.setPressedIcon(new javax.swing.ImageIcon(getClass().getResource("/Icones/Bt Consultar Press.png"))); // NOI18N
+        BT_Consultar.setBorder(null);
+        BT_Consultar.setContentAreaFilled(false);
         BT_Consultar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 BT_ConsultarActionPerformed(evt);
@@ -261,8 +278,8 @@ public class Tela_Consulta_Log extends javax.swing.JInternalFrame {
 
         JL_Registros.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
 
-        JL_Quant_Itens1.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
-        JL_Quant_Itens1.setText("Esc - Sair | F3 - Consultar | F11 - Relatório");
+        JL_Legendas.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        JL_Legendas.setText("Esc - Sair | F3 - Consultar | F7 - Anterior | F8 - Limpar | F9 Próximo | F11 - Relatório");
 
         BT_Relatorio.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icones/Bt Relatorio.png"))); // NOI18N
         BT_Relatorio.setMnemonic('t');
@@ -274,6 +291,44 @@ public class Tela_Consulta_Log extends javax.swing.JInternalFrame {
             }
         });
 
+        BT_Anterior.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        BT_Anterior.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icones_Gerais/Previous_24x24.png"))); // NOI18N
+        BT_Anterior.setText("(F7)");
+        BT_Anterior.setToolTipText("Página Anterir");
+        BT_Anterior.setBorder(null);
+        BT_Anterior.setContentAreaFilled(false);
+        BT_Anterior.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                BT_AnteriorActionPerformed(evt);
+            }
+        });
+
+        BT_Proximo.setBackground(new java.awt.Color(255, 255, 255));
+        BT_Proximo.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        BT_Proximo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icones_Gerais/Next_24x24.png"))); // NOI18N
+        BT_Proximo.setText("(F9)");
+        BT_Proximo.setToolTipText("Próximo Página");
+        BT_Proximo.setBorder(null);
+        BT_Proximo.setContentAreaFilled(false);
+        BT_Proximo.setOpaque(false);
+        BT_Proximo.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusGained(java.awt.event.FocusEvent evt) {
+                BT_ProximoFocusGained(evt);
+            }
+        });
+        BT_Proximo.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                BT_ProximoActionPerformed(evt);
+            }
+        });
+
+        JL_Pagina.setFont(new java.awt.Font("Tahoma", 1, 16)); // NOI18N
+        JL_Pagina.setForeground(new java.awt.Color(102, 102, 102));
+        JL_Pagina.setText("Página");
+
+        JL_Num_Pagina.setFont(new java.awt.Font("Tahoma", 1, 16)); // NOI18N
+        JL_Num_Pagina.setForeground(new java.awt.Color(102, 102, 102));
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -281,48 +336,63 @@ public class Tela_Consulta_Log extends javax.swing.JInternalFrame {
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 1062, Short.MAX_VALUE)
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(JL_Periodo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(JL_Filtro, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(BT_Consultar, javax.swing.GroupLayout.PREFERRED_SIZE, 160, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                                .addComponent(JL_Pagina)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(JL_Num_Pagina, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(BT_Consultar)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(BT_Anterior)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(BT_Proximo))))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(layout.createSequentialGroup()
                                 .addComponent(jLabel3)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(JL_Registros, javax.swing.GroupLayout.PREFERRED_SIZE, 99, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addComponent(JL_Quant_Itens1))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(JL_Legendas))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 142, Short.MAX_VALUE)
                         .addComponent(BT_Relatorio, javax.swing.GroupLayout.PREFERRED_SIZE, 160, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
-                        .addComponent(BT_Sair, javax.swing.GroupLayout.PREFERRED_SIZE, 160, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(BT_Sair, javax.swing.GroupLayout.PREFERRED_SIZE, 160, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jScrollPane1))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addContainerGap()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(JL_Periodo, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
-                            .addComponent(JL_Filtro, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(19, 19, 19)
-                        .addComponent(BT_Consultar, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 21, Short.MAX_VALUE)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 363, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(BT_Consultar, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(BT_Anterior, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(BT_Proximo, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(JL_Pagina, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(JL_Num_Pagina, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                        .addComponent(JL_Periodo, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
+                        .addComponent(JL_Filtro, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                .addGap(19, 19, 19)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 382, Short.MAX_VALUE)
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                     .addComponent(BT_Sair)
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(JL_Quant_Itens1)
+                        .addComponent(JL_Legendas)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(JL_Registros, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 17, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -331,7 +401,7 @@ public class Tela_Consulta_Log extends javax.swing.JInternalFrame {
                 .addContainerGap())
         );
 
-        setBounds(0, 0, 1090, 560);
+        setBounds(0, 0, 1100, 580);
     }// </editor-fold>//GEN-END:initComponents
 
     private void JTB_Consulta_LogMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_JTB_Consulta_LogMouseClicked
@@ -394,16 +464,19 @@ public class Tela_Consulta_Log extends javax.swing.JInternalFrame {
             Desabilita_Filtro();
             Desabilita_Periodo();
             BT_Consultar.setEnabled(false);
+            BT_Anterior.setEnabled(false);
+            BT_Proximo.setEnabled(false);
+            JL_Pagina.setVisible(false);
+            JL_Num_Pagina.setVisible(false);
+            JL_Registros.setText("");
         }
         if(JCB_Tipo_Pesquisa.getSelectedIndex()==1){
             Limpar_Tabela();
-            Habilita_Filtro();
             Desabilita_Periodo();
             BT_Consultar.setEnabled(true);            
         }
         if(JCB_Tipo_Pesquisa.getSelectedIndex()==2){
             Limpar_Tabela();
-            Habilita_Filtro();
             Habilita_Periodo();
             BT_Consultar.setEnabled(true);            
         }
@@ -414,7 +487,98 @@ public class Tela_Consulta_Log extends javax.swing.JInternalFrame {
     private void BT_RelatorioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BT_RelatorioActionPerformed
         
     }//GEN-LAST:event_BT_RelatorioActionPerformed
+
+    private void BT_AnteriorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BT_AnteriorActionPerformed
+        intervalo = intervalo - itens_por_pagina;
+        contador--;
+        if(JCB_Tipo_Pesquisa.getSelectedIndex()== 1){
+            String hoje = new SimpleDateFormat("yyyy/MM/dd").format(new Date(System.currentTimeMillis()));
+            Preencher_Tabela("select * from log_sistema where acao like '%"    
+                + JTF_Pesquisa.getText().toUpperCase() + "%' and data ='"+hoje+"'"
+                     + "limit "+intervalo+","+itens_por_pagina+"");
+        }
+        if(JCB_Tipo_Pesquisa.getSelectedIndex()== 2){
+            String di = new SimpleDateFormat("yyyy-MM-dd").format(JD_Inicial.getDate());
+            String df = new SimpleDateFormat("yyyy-MM-dd").format(JD_Final.getDate());
+            Preencher_Tabela("select * from log_sistema where acao like '%"    
+                + JTF_Pesquisa.getText().toUpperCase() + "%' and data between '"+di+"' and '"+df+"'"
+                     + "limit "+intervalo+","+itens_por_pagina+"");
+        }
+        if(contador==1){
+            BT_Anterior.setEnabled(false);
+        }
+        if(contador<numero_de_pagina){
+            BT_Proximo.setEnabled(true);
+        }
+        Setar_Pagina();
+        Setar_Linha_Tabela();
+    }//GEN-LAST:event_BT_AnteriorActionPerformed
+
+    private void BT_ProximoFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_BT_ProximoFocusGained
+        Setar_Linha_Tabela();
+    }//GEN-LAST:event_BT_ProximoFocusGained
+
+    private void BT_ProximoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BT_ProximoActionPerformed
+        intervalo = intervalo + itens_por_pagina;
+        contador++;
+        if(JCB_Tipo_Pesquisa.getSelectedIndex()== 1){
+            String hoje = new SimpleDateFormat("yyyy/MM/dd").format(new Date(System.currentTimeMillis()));
+            Preencher_Tabela("select * from log_sistema where acao like '%"    
+                + JTF_Pesquisa.getText().toUpperCase() + "%' and data ='"+hoje+"'"
+                     + "limit "+intervalo+","+itens_por_pagina+"");
+        }
+        if(JCB_Tipo_Pesquisa.getSelectedIndex()== 2){
+            String di = new SimpleDateFormat("yyyy-MM-dd").format(JD_Inicial.getDate());
+            String df = new SimpleDateFormat("yyyy-MM-dd").format(JD_Final.getDate());
+            Preencher_Tabela("select * from log_sistema where acao like '%"    
+                + JTF_Pesquisa.getText().toUpperCase() + "%' and data between '"+di+"' and '"+df+"'"
+                     + "limit "+intervalo+","+itens_por_pagina+"");
+        }
+        if(contador<=numero_de_pagina){
+            BT_Anterior.setEnabled(true);
+        }
+        if(contador==numero_de_pagina){
+            BT_Proximo.setEnabled(false);
+        }
+        Setar_Pagina();
+        Setar_Linha_Tabela();
+    }//GEN-LAST:event_BT_ProximoActionPerformed
       
+    final void Setar_Pagina(){//seta o numero de paginas        
+        JL_Pagina.setEnabled(true);        
+        JL_Num_Pagina.setEnabled(true);
+        JL_Num_Pagina.setText(String.valueOf(contador)+" de "+String.valueOf(numero_de_pagina));
+        JL_Num_Pagina.setVisible(true);
+        JL_Pagina.setVisible(true);
+    }
+    
+    final void Inicia_Pagina_Botoes(){//inicia o numero de paginas e o botao proximo
+        numero_de_pagina = (itens_filtrados / itens_por_pagina);
+        if(itens_filtrados % itens_por_pagina != 0){
+            numero_de_pagina = numero_de_pagina +1;
+        }
+        if(itens_filtrados<=itens_por_pagina){
+            BT_Proximo.setEnabled(false);
+        }else{
+            BT_Proximo.setEnabled(true);
+        }
+    }
+    
+    final void Setar_Linha_Tabela(){//seta a selecao na primeira linha da tabela
+        int cont = JTB_Consulta_Log.getRowCount();
+        if(cont>0){            
+            JTB_Consulta_Log.setRowSelectionInterval(0, 0);
+            JTB_Consulta_Log.requestFocus();
+            
+        }
+    }
+    
+    final void Metodo_Geral(){//aglomerar metodos        
+        itens_filtrados = Integer.valueOf(JL_Registros.getText());        
+        BT_Anterior.setEnabled(false);
+        Inicia_Pagina_Botoes();
+        Setar_Pagina();
+    }
     public void Pesquisar() {
 
         JTF_Pesquisa.getDocument().addDocumentListener(new DocumentListener() {
@@ -437,16 +601,24 @@ public class Tela_Consulta_Log extends javax.swing.JInternalFrame {
     }
     
     public void Filtrar() {
-        if(JCB_Tipo_Pesquisa.getSelectedIndex()== 1){
+        intervalo = 0;
+        contador = 1;
+        if(JCB_Tipo_Pesquisa.getSelectedIndex() == 1){
             String hoje = new SimpleDateFormat("yyyy/MM/dd").format(new Date(System.currentTimeMillis()));
             Preencher_Tabela("select * from log_sistema where acao like '%"    
-                + JTF_Pesquisa.getText().toUpperCase() + "%' and data ='"+hoje+"'");
+                + JTF_Pesquisa.getText().toUpperCase() + "%' and data ='"+hoje+"'"
+                     + "limit "+intervalo+","+itens_por_pagina+"");
+            ObjControleLog.Contar_Log_Hoje(JL_Registros,JTF_Pesquisa);
+            Metodo_Geral();
         }
-        if(JCB_Tipo_Pesquisa.getSelectedIndex()== 2){
+        if(JCB_Tipo_Pesquisa.getSelectedIndex() == 2){
             String di = new SimpleDateFormat("yyyy-MM-dd").format(JD_Inicial.getDate());
             String df = new SimpleDateFormat("yyyy-MM-dd").format(JD_Final.getDate());
             Preencher_Tabela("select * from log_sistema where acao like '%"    
-                + JTF_Pesquisa.getText().toUpperCase() + "%' and data between '"+di+"' and '"+df+"'");
+                + JTF_Pesquisa.getText().toUpperCase() + "%' and data between '"+di+"' and '"+df+"'"
+                     + "limit "+intervalo+","+itens_por_pagina+"");
+            ObjControleLog.Contar_Log_Periodo(JL_Registros,di ,df ,JTF_Pesquisa);
+            Metodo_Geral();
         }
     }
     public void Verifica_Datas(){//verifica se a data inicial é inferior a inicial
@@ -501,12 +673,20 @@ public class Tela_Consulta_Log extends javax.swing.JInternalFrame {
     void Testar_Campos(){
         if(JCB_Tipo_Pesquisa.getSelectedIndex()==0){
             BT_Consultar.setEnabled(false);
+            Desabilita_Filtro();
         }
         if(JCB_Tipo_Pesquisa.getSelectedIndex()==1){
+            intervalo = 0;
+            contador = 1;
+            Limpar_Tabela();
             String hoje = new SimpleDateFormat("yyyy/MM/dd").format(new Date(System.currentTimeMillis()));
             Preencher_Tabela("select * from log_sistema where acao like '%"    
-                    + JTF_Pesquisa.getText().toUpperCase() + "%' and data ='"+hoje+"'");
-            JL_Registros.setText(String.valueOf(JTB_Consulta_Log.getRowCount()));
+                    + JTF_Pesquisa.getText().toUpperCase() + "%' and data ='"+hoje+"'"
+                    + "limit "+intervalo+","+itens_por_pagina+"");
+            ObjControleLog.Contar_Log_Hoje(JL_Registros,JTF_Pesquisa);
+            Habilita_Filtro();
+            Metodo_Geral();        
+            Setar_Linha_Tabela();
         }
         if(JCB_Tipo_Pesquisa.getSelectedIndex()==2){
             BT_Consultar.setEnabled(true);
@@ -521,11 +701,19 @@ public class Tela_Consulta_Log extends javax.swing.JInternalFrame {
                     try {
                         ObjControleLog.Consulta_Log_Intervalo(JD_Inicial, JD_Final);
                         if (ObjControleLog.controla_log == true) {
+                            intervalo = 0;
+                            contador = 1;
+                            Limpar_Tabela();
                             String di = new SimpleDateFormat("yyyy-MM-dd").format(JD_Inicial.getDate());
                             String df = new SimpleDateFormat("yyyy-MM-dd").format(JD_Final.getDate());
-                            Preencher_Tabela("select * from log_sistema where data between '" + di + "' and '" + df + "'");
+                            Preencher_Tabela("select * from log_sistema where acao like '%"    
+                            + JTF_Pesquisa.getText().toUpperCase() + "%' and data between '"+di+"' and '"+df+"'"
+                            + "limit "+intervalo+","+itens_por_pagina+"");
                             ObjControleLog.controla_log = false;
-                            JL_Registros.setText(String.valueOf(JTB_Consulta_Log.getRowCount()));
+                            Habilita_Filtro();
+                            ObjControleLog.Contar_Log_Periodo(JL_Registros,di ,df ,JTF_Pesquisa);
+                            Metodo_Geral();        
+                            Setar_Linha_Tabela();
                         } else {
                             Mostrar_Log_Nao_Encontrado();
                         }
@@ -608,6 +796,18 @@ public class Tela_Consulta_Log extends javax.swing.JInternalFrame {
         InputMap inputMap4 = this.getRootPane().getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW);
         inputMap4.put(KeyStroke.getKeyStroke(KeyEvent.VK_F3, 0),"Consultar");
         this.getRootPane().setInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW, inputMap4);
+        
+        InputMap inputMap5 = this.getRootPane().getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW);
+        inputMap5.put(KeyStroke.getKeyStroke(KeyEvent.VK_F7, 0),"Anterior");
+        this.getRootPane().setInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW, inputMap5);  
+        
+        InputMap inputMap6 = this.getRootPane().getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW);
+        inputMap6.put(KeyStroke.getKeyStroke(KeyEvent.VK_F9, 0),"Proximo");
+        this.getRootPane().setInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW, inputMap6);  
+        
+        InputMap inputMap7 = this.getRootPane().getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW);
+        inputMap7.put(KeyStroke.getKeyStroke(KeyEvent.VK_F8, 0),"Limpar");
+        this.getRootPane().setInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW, inputMap7);
                 
         //método para executar
          this.getRootPane().getActionMap().put("Consultar", new AbstractAction(){
@@ -631,18 +831,43 @@ public class Tela_Consulta_Log extends javax.swing.JInternalFrame {
         BT_Relatorio.doClick();
         }
         }); 
+        this.getRootPane().getActionMap().put("Proximo", new AbstractAction(){
+        private static final long serialVersionUID = 1L;
+        @Override
+        public void actionPerformed(ActionEvent arg0) {
+        BT_Proximo.doClick();
+        }
+        });
+        this.getRootPane().getActionMap().put("Anterior", new AbstractAction(){
+        private static final long serialVersionUID = 1L;
+        @Override
+        public void actionPerformed(ActionEvent arg0) {
+        BT_Anterior.doClick();
+        }
+        });
+        this.getRootPane().getActionMap().put("Limpar", new AbstractAction(){
+        private static final long serialVersionUID = 1L;
+        @Override
+        public void actionPerformed(ActionEvent arg0) {
+            JTF_Pesquisa.setText("");
+        }
+        });
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton BT_Anterior;
     private javax.swing.JButton BT_Consultar;
+    private javax.swing.JButton BT_Proximo;
     private javax.swing.JButton BT_Relatorio;
     private javax.swing.JButton BT_Sair;
     private javax.swing.JComboBox JCB_Tipo_Pesquisa;
     private com.toedter.calendar.JDateChooser JD_Final;
     private com.toedter.calendar.JDateChooser JD_Inicial;
     private javax.swing.JPanel JL_Filtro;
+    private javax.swing.JLabel JL_Legendas;
+    private javax.swing.JLabel JL_Num_Pagina;
+    private javax.swing.JLabel JL_Pagina;
     private javax.swing.JPanel JL_Periodo;
-    private javax.swing.JLabel JL_Quant_Itens1;
     private javax.swing.JLabel JL_Registros;
     private javax.swing.JTable JTB_Consulta_Log;
     private javax.swing.JTextField JTF_Pesquisa;

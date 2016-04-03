@@ -1,0 +1,526 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="null" language="groovy" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="d564500b-9ebd-4167-88f9-8cd96a7581ab">
+	<property name="ireport.zoom" value="2.143588810000006"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<style name="Title" forecolor="#FFFFFF" fontName="Times New Roman" fontSize="50" isBold="false" pdfFontName="Times-Bold"/>
+	<style name="SubTitle" forecolor="#CCCCCC" fontName="Times New Roman" fontSize="18" isBold="false" pdfFontName="Times-Roman"/>
+	<style name="Column header" forecolor="#666666" fontName="Times New Roman" fontSize="14" isBold="true" pdfFontName="Times-Roman"/>
+	<style name="Detail" mode="Transparent" fontName="Times New Roman" pdfFontName="Times-Roman"/>
+	<style name="Row" mode="Transparent" fontName="Times New Roman" pdfFontName="Times-Roman">
+		<conditionalStyle>
+			<conditionExpression><![CDATA[$V{REPORT_COUNT}%2 == 0]]></conditionExpression>
+			<style mode="Opaque" backcolor="#F0EFEF"/>
+		</conditionalStyle>
+	</style>
+	<parameter name="Usuario" class="java.lang.String">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="Quant_Itens" class="java.lang.Integer">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="Quant_Turmas" class="java.lang.Integer">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="Tipo_Relatorio" class="java.lang.String">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<queryString>
+		<![CDATA[select * from curso inner join turma on curso.id_curso = turma.curso_id_curso order by nome_curso,semestre;]]>
+	</queryString>
+	<field name="id_curso" class="java.lang.Integer">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="nome_curso" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="abrev_curso" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="situacao_curso" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="data_cad_curso" class="java.sql.Date">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="data_ultima_alteracao_curso" class="java.sql.Date">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="id_turma" class="java.lang.Integer">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="semestre" class="java.lang.Integer">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="turno" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="ano_turma" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="semestre_vestibular" class="java.lang.Integer">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="situacao_turma" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="turma" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="data_cad_turma" class="java.sql.Date">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="data_ultima_alteracao_turma" class="java.sql.Date">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="Curso_id_curso" class="java.lang.Integer">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<group name="Id-Curso">
+		<groupExpression><![CDATA[$F{id_curso}]]></groupExpression>
+		<groupHeader>
+			<band height="41">
+				<staticText>
+					<reportElement style="Column header" x="17" y="1" width="77" height="13" uuid="1855f7df-fc34-4c8c-bf9e-954a600af43d"/>
+					<textElement verticalAlignment="Middle">
+						<font fontName="Tahoma" size="10"/>
+					</textElement>
+					<text><![CDATA[Cod Curso]]></text>
+				</staticText>
+				<rectangle>
+					<reportElement mode="Opaque" x="2" y="14" width="15" height="15" forecolor="#CCCCCC" backcolor="#CCCCCC" uuid="865e607d-2e12-49dc-b31c-18799a7bdabe"/>
+				</rectangle>
+				<staticText>
+					<reportElement style="Column header" x="94" y="1" width="66" height="13" uuid="4b79925a-161a-48d6-acc6-c003854770c1"/>
+					<textElement verticalAlignment="Middle">
+						<font fontName="Tahoma" size="10"/>
+					</textElement>
+					<text><![CDATA[Curso]]></text>
+				</staticText>
+				<textField isBlankWhenNull="true">
+					<reportElement style="SubTitle" x="30" y="14" width="64" height="15" forecolor="#333333" uuid="0bc65916-c29b-4869-975a-91f2c4a02674"/>
+					<textElement verticalAlignment="Middle">
+						<font fontName="Tahoma" size="12" isBold="false"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{id_curso}]]></textFieldExpression>
+				</textField>
+				<textField>
+					<reportElement x="94" y="14" width="184" height="15" uuid="ec0cd249-376f-4089-a536-5ae9896670e9"/>
+					<textElement>
+						<font fontName="Tahoma" size="12"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{nome_curso}]]></textFieldExpression>
+				</textField>
+				<line>
+					<reportElement positionType="FixRelativeToBottom" x="2" y="30" width="549" height="1" uuid="6b344fb3-63b2-49d2-bdcb-7a63f12d4034"/>
+					<graphicElement>
+						<pen lineWidth="0.5" lineColor="#999999"/>
+					</graphicElement>
+				</line>
+				<staticText>
+					<reportElement style="Column header" x="506" y="1" width="45" height="14" uuid="1ff435fe-14af-4335-9ba4-a6d70e7f06be"/>
+					<textElement verticalAlignment="Middle">
+						<font fontName="Tahoma" size="10"/>
+					</textElement>
+					<text><![CDATA[Situação]]></text>
+				</staticText>
+				<staticText>
+					<reportElement style="Column header" x="358" y="1" width="86" height="14" uuid="66840d8f-8faa-4d4d-873d-6af89eed77a9"/>
+					<textElement verticalAlignment="Middle">
+						<font fontName="Tahoma" size="10"/>
+					</textElement>
+					<text><![CDATA[Última Alteração]]></text>
+				</staticText>
+				<textField pattern="dd/MM/yyyy" isBlankWhenNull="true">
+					<reportElement x="358" y="14" width="86" height="15" uuid="45f1b322-c229-4170-8e34-d8f90a816611"/>
+					<textElement verticalAlignment="Middle">
+						<font fontName="Tahoma" size="12"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{data_ultima_alteracao_curso}]]></textFieldExpression>
+				</textField>
+				<staticText>
+					<reportElement style="Column header" x="444" y="1" width="62" height="14" uuid="cb380909-3708-41b8-97bf-b9914d51600f"/>
+					<textElement verticalAlignment="Middle">
+						<font fontName="Tahoma" size="10"/>
+					</textElement>
+					<text><![CDATA[Abreviatura]]></text>
+				</staticText>
+				<textField>
+					<reportElement style="Detail" x="444" y="14" width="62" height="15" uuid="d698a8c4-bd2e-4222-ac48-6d06051b7b74"/>
+					<textElement verticalAlignment="Middle">
+						<font fontName="Tahoma" size="12"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{abrev_curso}]]></textFieldExpression>
+				</textField>
+				<textField>
+					<reportElement style="Detail" x="506" y="14" width="45" height="15" uuid="dd748834-fbed-4538-a6a6-7c04ede50619"/>
+					<textElement verticalAlignment="Middle">
+						<font fontName="Tahoma" size="12"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{situacao_curso}]]></textFieldExpression>
+				</textField>
+				<textField pattern="dd/MM/yyyy" isBlankWhenNull="true">
+					<reportElement x="278" y="14" width="80" height="15" uuid="3c55f5b2-ade5-42aa-b545-73e299af4a49"/>
+					<textElement verticalAlignment="Middle">
+						<font fontName="Tahoma" size="12"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{data_cad_curso}]]></textFieldExpression>
+				</textField>
+				<staticText>
+					<reportElement style="Column header" x="278" y="1" width="80" height="14" uuid="2da090ac-571b-4225-9579-090d031e78ed"/>
+					<textElement verticalAlignment="Middle">
+						<font fontName="Tahoma" size="10"/>
+					</textElement>
+					<text><![CDATA[Data Cadastro]]></text>
+				</staticText>
+				<staticText>
+					<reportElement style="Column header" x="382" y="31" width="62" height="10" forecolor="#000000" uuid="d373dbdd-bdce-4e69-b0a2-376c193e3098"/>
+					<textElement verticalAlignment="Middle">
+						<font fontName="Tahoma" size="8" isBold="false"/>
+					</textElement>
+					<text><![CDATA[Data Cadastro]]></text>
+				</staticText>
+				<staticText>
+					<reportElement style="Column header" x="2" y="31" width="50" height="10" forecolor="#000000" uuid="38327ba0-9c25-4ef7-a724-e101240334aa"/>
+					<textElement verticalAlignment="Middle">
+						<font fontName="Tahoma" size="8" isBold="false"/>
+					</textElement>
+					<text><![CDATA[Cod Turma]]></text>
+				</staticText>
+				<staticText>
+					<reportElement style="Column header" x="52" y="31" width="38" height="10" forecolor="#000000" uuid="e0440b79-41ae-4e48-921c-606d820da52f"/>
+					<textElement verticalAlignment="Middle">
+						<font fontName="Tahoma" size="8" isBold="false"/>
+					</textElement>
+					<text><![CDATA[Semestre]]></text>
+				</staticText>
+				<staticText>
+					<reportElement style="Column header" x="506" y="31" width="46" height="10" forecolor="#000000" uuid="97594af0-4b14-42cb-9d3b-01877a544663"/>
+					<textElement verticalAlignment="Middle">
+						<font fontName="Tahoma" size="8" isBold="false"/>
+					</textElement>
+					<text><![CDATA[Situação]]></text>
+				</staticText>
+				<staticText>
+					<reportElement style="Column header" x="200" y="31" width="44" height="10" forecolor="#000000" uuid="a01de905-fa4c-4245-80b7-c6de352c6388"/>
+					<textElement verticalAlignment="Middle">
+						<font fontName="Tahoma" size="8" isBold="false"/>
+					</textElement>
+					<text><![CDATA[Abreviatura]]></text>
+				</staticText>
+				<staticText>
+					<reportElement style="Column header" x="444" y="31" width="62" height="10" forecolor="#000000" uuid="2963028a-d975-474e-a2b4-7a3a14c5a658"/>
+					<textElement verticalAlignment="Middle">
+						<font fontName="Tahoma" size="8" isBold="false"/>
+					</textElement>
+					<text><![CDATA[Última Alteração]]></text>
+				</staticText>
+				<staticText>
+					<reportElement style="Column header" x="355" y="31" width="27" height="10" forecolor="#000000" uuid="6ad5ce2b-e202-4a66-9f1a-64e44c136130"/>
+					<textElement verticalAlignment="Middle">
+						<font fontName="Tahoma" size="8" isBold="false"/>
+					</textElement>
+					<text><![CDATA[Turma]]></text>
+				</staticText>
+				<staticText>
+					<reportElement style="Column header" x="313" y="30" width="42" height="10" forecolor="#000000" uuid="456e2990-08e6-42c7-b883-5db4158c6c86"/>
+					<textElement verticalAlignment="Middle">
+						<font fontName="Tahoma" size="8" isBold="false"/>
+					</textElement>
+					<text><![CDATA[Vestibular]]></text>
+				</staticText>
+				<staticText>
+					<reportElement style="Column header" x="244" y="31" width="34" height="10" forecolor="#000000" uuid="e5011f83-362c-4c2c-96f4-c5fa387bf073"/>
+					<textElement verticalAlignment="Middle">
+						<font fontName="Tahoma" size="8" isBold="false"/>
+					</textElement>
+					<text><![CDATA[Turno]]></text>
+				</staticText>
+				<staticText>
+					<reportElement style="Column header" x="90" y="31" width="110" height="10" forecolor="#000000" uuid="cecec73b-7b2e-4d5d-8429-9ee6dae50595"/>
+					<textElement verticalAlignment="Middle">
+						<font fontName="Tahoma" size="8" isBold="false"/>
+					</textElement>
+					<text><![CDATA[Curso]]></text>
+				</staticText>
+				<staticText>
+					<reportElement style="Column header" x="278" y="31" width="35" height="10" forecolor="#000000" uuid="fb18db6a-7f42-4878-b214-7f508d3469cd"/>
+					<textElement verticalAlignment="Middle">
+						<font fontName="Tahoma" size="8" isBold="false"/>
+					</textElement>
+					<text><![CDATA[Ano]]></text>
+				</staticText>
+			</band>
+		</groupHeader>
+		<groupFooter>
+			<band height="4">
+				<line>
+					<reportElement positionType="FixRelativeToBottom" x="2" y="3" width="550" height="1" uuid="61dcd8a6-d6a9-4ee7-8f3f-24c5bef7ed95"/>
+					<graphicElement>
+						<pen lineWidth="0.5" lineColor="#999999"/>
+					</graphicElement>
+				</line>
+			</band>
+		</groupFooter>
+	</group>
+	<group name="Id_Turma">
+		<groupExpression><![CDATA[$F{id_turma}]]></groupExpression>
+	</group>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="103" splitType="Stretch">
+			<staticText>
+				<reportElement x="-1" y="35" width="312" height="18" uuid="a38de211-d78d-4290-bf17-c810720df09a"/>
+				<textElement>
+					<font fontName="Tahoma" size="14"/>
+				</textElement>
+				<text><![CDATA[CooLab - Coordenação de Laboratórios da FCAT]]></text>
+			</staticText>
+			<textField pattern="dd &apos;de&apos; MMMMM &apos;de&apos; yyyy &apos;às&apos; HH:mm:ss">
+				<reportElement x="99" y="53" width="212" height="16" uuid="e32247cb-d170-4da5-8edc-57e7ede06188"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Tahoma"/>
+				</textElement>
+				<textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="-1" y="85" width="57" height="16" uuid="7fe68b99-0f09-4593-9162-d6790c3da5db"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Tahoma"/>
+				</textElement>
+				<text><![CDATA[Emitido Por: ]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="Column header" x="160" y="0" width="240" height="35" forecolor="#000000" uuid="0623cde5-a390-4ff2-aa50-856bb3d64dd1"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Tahoma" size="24" isBold="false"/>
+				</textElement>
+				<text><![CDATA[Relatório de Curso]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="-1" y="53" width="100" height="16" uuid="b76defbd-7976-401e-b5ab-6ce47cbb523c"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Tahoma"/>
+				</textElement>
+				<text><![CDATA[Relatório Emitido Em:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="-1" y="69" width="82" height="16" uuid="eaa14f05-de9e-4256-b23d-5cdb029fedae"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Tahoma"/>
+				</textElement>
+				<text><![CDATA[Tipo de Relatório:]]></text>
+			</staticText>
+			<image>
+				<reportElement x="462" y="0" width="89" height="102" uuid="9c2142fd-edf9-44d8-bb98-820642ca8fa6"/>
+				<imageExpression><![CDATA["C:\\Program Files (x86)\\SisCoE\\Logo - SisCoE 2.png"]]></imageExpression>
+			</image>
+			<line>
+				<reportElement positionType="FixRelativeToBottom" x="2" y="102" width="549" height="1" uuid="3201a184-ce79-43e8-bf22-d87bdcd9b24a"/>
+				<graphicElement>
+					<pen lineWidth="0.5" lineColor="#999999"/>
+				</graphicElement>
+			</line>
+			<textField>
+				<reportElement x="56" y="85" width="255" height="16" uuid="08618e17-4a92-4360-b3ce-02296d9fcd3a"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Tahoma"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{Usuario}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="81" y="69" width="100" height="16" uuid="fc907586-18c5-4b32-ab48-9ae1cd137a4f"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Tahoma"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{Tipo_Relatorio}]]></textFieldExpression>
+			</textField>
+		</band>
+	</title>
+	<pageHeader>
+		<band splitType="Stretch"/>
+	</pageHeader>
+	<detail>
+		<band height="11" splitType="Stretch">
+			<frame>
+				<reportElement style="Row" mode="Opaque" x="0" y="0" width="551" height="11" uuid="33818e78-9038-4493-9536-5ed82f616b52"/>
+				<textField isBlankWhenNull="true">
+					<reportElement style="SubTitle" x="2" y="0" width="50" height="11" forecolor="#333333" uuid="cf763057-319b-4773-97ed-72fc7137ec3d"/>
+					<textElement verticalAlignment="Middle">
+						<font fontName="Tahoma" size="8" isBold="false"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{id_turma}]]></textFieldExpression>
+				</textField>
+				<textField isBlankWhenNull="true">
+					<reportElement style="SubTitle" x="200" y="0" width="44" height="11" forecolor="#333333" uuid="4694bbec-ddf9-4940-837c-aa487fda91a0"/>
+					<textElement verticalAlignment="Middle">
+						<font fontName="Tahoma" size="8" isBold="false"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{abrev_curso}]]></textFieldExpression>
+				</textField>
+				<textField isBlankWhenNull="true">
+					<reportElement style="SubTitle" x="313" y="0" width="42" height="11" forecolor="#333333" uuid="872c6aec-1346-424e-84c7-7819d6ecbd8d"/>
+					<textElement verticalAlignment="Middle">
+						<font fontName="Tahoma" size="8" isBold="false"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{semestre_vestibular}]]></textFieldExpression>
+				</textField>
+				<textField isBlankWhenNull="true">
+					<reportElement style="SubTitle" x="355" y="0" width="27" height="11" forecolor="#333333" uuid="2eb2d088-eabf-4428-b9ca-682deb5d528b"/>
+					<textElement verticalAlignment="Middle">
+						<font fontName="Tahoma" size="8" isBold="false"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{turma}]]></textFieldExpression>
+				</textField>
+				<textField pattern="dd/MM/yyyy" isBlankWhenNull="true">
+					<reportElement style="SubTitle" x="382" y="0" width="62" height="11" forecolor="#333333" uuid="4a1283f2-a2a4-4037-8569-487910656041"/>
+					<textElement verticalAlignment="Middle">
+						<font fontName="Tahoma" size="8" isBold="false"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{data_cad_turma}]]></textFieldExpression>
+				</textField>
+				<textField pattern="dd/MM/yyyy" isBlankWhenNull="true">
+					<reportElement style="SubTitle" x="445" y="0" width="61" height="11" forecolor="#333333" uuid="4914d65a-1d09-44a2-97a8-64ea5645f480"/>
+					<textElement verticalAlignment="Middle">
+						<font fontName="Tahoma" size="8" isBold="false"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{data_ultima_alteracao_curso}]]></textFieldExpression>
+				</textField>
+				<textField pattern="" isBlankWhenNull="true">
+					<reportElement style="SubTitle" x="506" y="0" width="45" height="11" forecolor="#333333" uuid="c1217b51-c7e6-42fd-bd1f-f37e1ae69bca"/>
+					<textElement verticalAlignment="Middle">
+						<font fontName="Tahoma" size="8" isBold="false"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{situacao_turma}]]></textFieldExpression>
+				</textField>
+				<textField pattern="" isBlankWhenNull="true">
+					<reportElement style="SubTitle" x="52" y="0" width="38" height="11" forecolor="#333333" uuid="d4b0413a-894e-41f9-9ff0-09e42beb8730"/>
+					<textElement verticalAlignment="Middle">
+						<font fontName="Tahoma" size="8" isBold="false"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{semestre}]]></textFieldExpression>
+				</textField>
+				<textField pattern="" isBlankWhenNull="true">
+					<reportElement style="SubTitle" x="91" y="0" width="109" height="11" forecolor="#333333" uuid="d138ea7b-c728-4ce9-9676-b94a69be5103"/>
+					<textElement verticalAlignment="Middle">
+						<font fontName="Tahoma" size="8" isBold="false"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{nome_curso}]]></textFieldExpression>
+				</textField>
+				<textField isBlankWhenNull="true">
+					<reportElement style="SubTitle" x="278" y="0" width="35" height="11" forecolor="#333333" uuid="e35ab352-ded5-4d09-b7f0-3d5aa7949a55"/>
+					<textElement verticalAlignment="Middle">
+						<font fontName="Tahoma" size="8" isBold="false"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{ano_turma}]]></textFieldExpression>
+				</textField>
+				<textField isBlankWhenNull="true">
+					<reportElement style="SubTitle" x="244" y="0" width="34" height="11" forecolor="#333333" uuid="ae5c0b9c-120e-470c-8ad1-b7dca4b4b5af"/>
+					<textElement verticalAlignment="Middle">
+						<font fontName="Tahoma" size="8" isBold="false"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{turno}]]></textFieldExpression>
+				</textField>
+			</frame>
+		</band>
+	</detail>
+	<columnFooter>
+		<band height="4" splitType="Stretch">
+			<line>
+				<reportElement positionType="FixRelativeToBottom" x="2" y="3" width="549" height="1" uuid="e2e3476b-bfc4-40b5-8f33-66670a6b713d"/>
+				<graphicElement>
+					<pen lineWidth="0.5" lineColor="#999999"/>
+				</graphicElement>
+			</line>
+		</band>
+	</columnFooter>
+	<pageFooter>
+		<band height="13" splitType="Stretch">
+			<staticText>
+				<reportElement style="Column header" x="2" y="0" width="276" height="13" forecolor="#000000" uuid="89548d1c-050c-4f46-8581-837e78e71b32"/>
+				<textElement textAlignment="Justified" verticalAlignment="Middle">
+					<font fontName="Tahoma" size="10" isBold="false"/>
+				</textElement>
+				<text><![CDATA[Desenvolvido por SisCoE - Sistema de Controle de Estoque]]></text>
+			</staticText>
+			<textField evaluationTime="Report">
+				<reportElement style="Column header" x="511" y="0" width="40" height="13" forecolor="#000000" uuid="20fad7e7-8ffb-4e07-a2a7-38e66ddb3469"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Tahoma" size="10" isBold="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA[" " + $V{PAGE_NUMBER}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement style="Column header" x="431" y="0" width="80" height="13" forecolor="#000000" uuid="ade2c701-276b-4f8e-859e-6d1cc2950646"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font fontName="Tahoma" size="10" isBold="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA["Página "+$V{PAGE_NUMBER}+" de"]]></textFieldExpression>
+			</textField>
+		</band>
+	</pageFooter>
+	<lastPageFooter>
+		<band height="29">
+			<line>
+				<reportElement positionType="FixRelativeToBottom" x="2" y="14" width="549" height="1" uuid="a12c705d-04a3-438d-b1fc-958c9809a7d4"/>
+				<graphicElement>
+					<pen lineWidth="0.5" lineColor="#999999"/>
+				</graphicElement>
+			</line>
+			<staticText>
+				<reportElement style="Column header" x="2" y="15" width="270" height="14" forecolor="#000000" uuid="9cbbcc3a-12da-42a5-b9b8-bf7d1b3f6370"/>
+				<textElement textAlignment="Justified" verticalAlignment="Middle">
+					<font fontName="Tahoma" size="10" isBold="false"/>
+				</textElement>
+				<text><![CDATA[Desenvolvido por SisCoE - Sistema de Controle de Estoque]]></text>
+			</staticText>
+			<textField>
+				<reportElement style="Column header" x="431" y="15" width="80" height="14" forecolor="#000000" uuid="b925928d-f701-4228-87d8-033d088d1617"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font fontName="Tahoma" size="10" isBold="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA["Página "+$V{PAGE_NUMBER}+" de"]]></textFieldExpression>
+			</textField>
+			<textField evaluationTime="Report">
+				<reportElement style="Column header" x="511" y="15" width="40" height="14" forecolor="#000000" uuid="ff2d81b5-8de1-4906-b370-5d7f1e3c72ce"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Tahoma" size="10" isBold="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA[" " + $V{PAGE_NUMBER}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="2" y="0" width="92" height="15" uuid="bb9d0805-db8f-40b9-8754-0f7069eee0de"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Tahoma"/>
+				</textElement>
+				<text><![CDATA[Cursos Encontrados:]]></text>
+			</staticText>
+			<textField isBlankWhenNull="true">
+				<reportElement x="94" y="0" width="35" height="15" uuid="0b8f6c55-ffee-4119-8411-ac695d049b34"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Tahoma"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{Quant_Itens}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="129" y="0" width="95" height="14" uuid="265464a3-e8e1-49cb-b9f9-c8410409a8e1"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Tahoma"/>
+				</textElement>
+				<text><![CDATA[Turmas Encontradas:]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="224" y="0" width="41" height="14" uuid="21b7a86d-12d1-469a-9224-97f5573acd14"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Tahoma"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{Quant_Turmas}]]></textFieldExpression>
+			</textField>
+		</band>
+	</lastPageFooter>
+	<summary>
+		<band splitType="Stretch"/>
+	</summary>
+</jasperReport>

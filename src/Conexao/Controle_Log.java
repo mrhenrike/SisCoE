@@ -7,7 +7,10 @@ import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import javax.swing.JComboBox;
+import javax.swing.JLabel;
 import javax.swing.JOptionPane;
+import javax.swing.JTextField;
 
 
 public class Controle_Log {
@@ -60,5 +63,34 @@ public class Controle_Log {
             ObjConecta.Desconecta();
         }
     }
+     public void Contar_Log_Hoje(JLabel jl, JTextField tf){
+        try{
+            ObjConecta.Conectar();
+            String hoje = new SimpleDateFormat("yyyy/MM/dd").format(new Date(System.currentTimeMillis()));
+            ObjConecta.ExecutaSQL("select count(id_log_sistema) as cont from log_sistema where acao like '%"    
+                    + tf.getText().toUpperCase() + "%' and data ='"+hoje+"'");
+            ObjConecta.rs.first();
+            jl.setText(String.valueOf(ObjConecta.rs.getInt("cont")));
+            ObjConecta.Desconecta();
+        
+        }catch (SQLException ex){
+            ObjConecta.Desconecta();
+            JOptionPane.showMessageDialog(null,"Erro ao contar a quantidade de log no banco! \n"
+                    +ex,"Informação Do Banco De Dados",JOptionPane.INFORMATION_MESSAGE);}
+        }
+     public void Contar_Log_Periodo(JLabel jl, String di, String df, JTextField tf){
+        try{
+            ObjConecta.Conectar();
+            ObjConecta.ExecutaSQL("select count(id_log_sistema) as cont from log_sistema where acao like '%"    
+                     + tf.getText().toUpperCase() + "%' and data between '"+di+"' and '"+df+"'");
+            ObjConecta.rs.first();
+            jl.setText(String.valueOf(ObjConecta.rs.getInt("cont")));
+            ObjConecta.Desconecta();
+        
+        }catch (SQLException ex){
+            ObjConecta.Desconecta();
+            JOptionPane.showMessageDialog(null,"Erro ao contar a quantidade de log por periodo no banco! \n"
+                    +ex,"Informação Do Banco De Dados",JOptionPane.INFORMATION_MESSAGE);}
+        }
     
 }

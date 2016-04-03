@@ -182,5 +182,20 @@ public class Controle_Curso {
         ObjConecta.Desconecta();
     
     }
+     
+      public void Preencher_CB_Curso_Sem_Remove(JComboBox jb) {
+        try {
+            ObjConecta.Conectar();
+            ObjConecta.ExecutaSQL2("select * from curso where situacao_curso= 'ATIVO' order by nome_curso");
+            ObjConecta.rs.first();
+            do {
+                jb.addItem(ObjConecta.rs.getString("nome_curso"));                
+            } while (ObjConecta.rs.next());
+            ObjConecta.Desconecta();
+        } catch (SQLException ex) {
+            ObjConecta.Desconecta();
+            //JOptionPane.showMessageDialog(null, "Erro Ao Preencher O ComboBox Curso!");
+        }
+    }
     
 }

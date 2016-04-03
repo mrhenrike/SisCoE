@@ -216,6 +216,7 @@ public class Controle_Produto {
             JOptionPane.showMessageDialog(null,"Erro ao contar a quantidade de podutos ativos no banco! \n"
                     +ex,"Informação Do Banco De Dados",JOptionPane.INFORMATION_MESSAGE);}
         }
+    
     public void Contar_Produtos_Com_Estoque(JLabel jl){
         try{
             ObjConecta.Conectar();

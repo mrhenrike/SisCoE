@@ -3,18 +3,24 @@ package Conexao;
 //@author Márison Tamiarana
 
 import Classes.Modelo_Usuario;
+import static GUI_Frames.Tela_Principal.UserLogado;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+import java.util.HashMap;
+import javax.swing.ImageIcon;
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPasswordField;
 import javax.swing.JTextField;
+import net.sf.jasperreports.engine.JRException;
+import net.sf.jasperreports.engine.JRResultSetDataSource;
+import net.sf.jasperreports.engine.JasperFillManager;
+import net.sf.jasperreports.engine.JasperPrint;
+import net.sf.jasperreports.view.JasperViewer;
  
 public class Controle_Usuario {
     
@@ -366,6 +372,38 @@ public Modelo_Usuario Consulta_Usuario_Nome(Modelo_Usuario ObjModeloUser, int id
     } catch (SQLException ex) { }
     return ObjModeloUser;
     
+    }
+
+///////////////////////////Relatório/////////////////////////////////////////////
+public void Relatorio_Usuario(String sql, String relat){
+    try {
+            ObjConecta.Conectar();
+            ObjConecta.ExecutaSQL("select count(id_usuario) as cont from usuario where permissao !='SISTEMA' "+sql+"");
+            ObjConecta.rs.first();
+            int Cont = ObjConecta.rs.getInt("cont");
+            
+            ObjConecta.ExecutaSQL("select * from usuario where permissao !='SISTEMA' "+sql+" order by nome");
+            JRResultSetDataSource Relatorio = new JRResultSetDataSource(ObjConecta.rs);
+            HashMap parametros = new HashMap();
+            parametros.put("Usuario",UserLogado);
+            parametros.put("Quant_Itens",Cont);
+            parametros.put("Tipo_Relatorio", relat);
+            String C = "C:\\Program Files (x86)\\SisCoE/Relat_Usuario.jasper";
+            //String C = "/Relatorios/Relat_Produtos_Todos.jasper";
+            JasperPrint JPrint = JasperFillManager.fillReport(C,parametros, Relatorio);
+            JasperViewer JView = new JasperViewer(JPrint, false);
+            JView.setVisible(true);
+            //Colocar titulo na janela
+            JView.setTitle("Relatório De Usuário");
+            //Colocar icone na janela
+            JView.setIconImage(new ImageIcon(getClass().getResource("/Icones_Gerais/Serviço 24x24.png")).getImage());
+            //mandar direto para a impressora;
+            //true - abrir caixa de opção de impressora -- false manda direto para a padrao
+            //JasperPrintManager.printReport(JPrint, true);
+            ObjConecta.Desconecta();
+        } catch (JRException | SQLException ex) {
+            JOptionPane.showMessageDialog(null,"Erro: "+ex);
+        }
     }
  
 }

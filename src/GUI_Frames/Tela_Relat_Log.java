@@ -362,7 +362,6 @@ public class Tela_Relat_Log extends javax.swing.JInternalFrame {
                             String dti = new SimpleDateFormat("dd/MM/yyyy").format(JD_Inicial.getDate());
                             String dtf = new SimpleDateFormat("dd/MM/yyyy").format(JD_Final.getDate());
                             ObjControleLog.controla_log = false;
-                            new Controle_Relatorio_Log().Relatorio_Log_Periodo(di, df, dti, dtf, JTF_Filtro);
                             //log
                             if (JTF_Filtro.getText().equalsIgnoreCase("")) {
                                 log = "Registro de log referente ao período de "+dti+" até "+dtf;
@@ -370,6 +369,7 @@ public class Tela_Relat_Log extends javax.swing.JInternalFrame {
                                 log = "Registro de log com filtro '"+JTF_Filtro.getText()+"' referente ao período de "+dti+" até "+dtf;
                             }                            
                             new Controle_Log().Registrar_Log("Gerou o relatório de " + log, CodLogado);
+                            new Controle_Relatorio_Log().Relatorio_Log_Periodo(di, df, dti, dtf, JTF_Filtro);
                         } else {
                             Mostrar_Log_Nao_Encontrado();
                         }

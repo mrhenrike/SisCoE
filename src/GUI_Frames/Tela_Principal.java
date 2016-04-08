@@ -146,10 +146,12 @@ public static Tela_Principal TP;
         CD_Turma = new javax.swing.JMenuItem();
         MP_Consultar = new javax.swing.JMenu();
         CS_Produto = new javax.swing.JMenuItem();
-        CS_Usuario = new javax.swing.JMenuItem();
         CS_Turma = new javax.swing.JMenuItem();
         jMenuItem3 = new javax.swing.JMenuItem();
         jMenuItem25 = new javax.swing.JMenuItem();
+        jSeparator7 = new javax.swing.JPopupMenu.Separator();
+        CS_Usuario = new javax.swing.JMenuItem();
+        CS_Log = new javax.swing.JMenuItem();
         MP_Relatorio = new javax.swing.JMenu();
         jMenu3 = new javax.swing.JMenu();
         jMenuItem1 = new javax.swing.JMenuItem();
@@ -207,10 +209,7 @@ public static Tela_Principal TP;
         Serv_Ativa = new javax.swing.JMenuItem();
         jSeparator5 = new javax.swing.JPopupMenu.Separator();
         jMenuItem26 = new javax.swing.JMenuItem();
-        Serv_Log = new javax.swing.JMenuItem();
         jMenuItem5 = new javax.swing.JMenuItem();
-        MP_Ajuda = new javax.swing.JMenu();
-        Aj_Sobre = new javax.swing.JMenuItem();
         jMenu7 = new javax.swing.JMenu();
         jRadioButtonMenuItem13 = new javax.swing.JRadioButtonMenuItem();
         jRadioButtonMenuItem14 = new javax.swing.JRadioButtonMenuItem();
@@ -243,6 +242,8 @@ public static Tela_Principal TP;
         Sair_Logout = new javax.swing.JMenuItem();
         Sair_Bloquear = new javax.swing.JMenuItem();
         Sair_Encerrar = new javax.swing.JMenuItem();
+        MP_Ajuda = new javax.swing.JMenu();
+        Aj_Sobre = new javax.swing.JMenuItem();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("COOLAB - Coordenação de Laboratórios da FCAT");
@@ -567,17 +568,6 @@ public static Tela_Principal TP;
         });
         MP_Consultar.add(CS_Produto);
 
-        CS_Usuario.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_F5, java.awt.event.InputEvent.CTRL_MASK));
-        CS_Usuario.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        CS_Usuario.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icones_Gerais/User 24x24.png"))); // NOI18N
-        CS_Usuario.setText("Usuário");
-        CS_Usuario.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                CS_UsuarioActionPerformed(evt);
-            }
-        });
-        MP_Consultar.add(CS_Usuario);
-
         CS_Turma.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_U, java.awt.event.InputEvent.ALT_MASK));
         CS_Turma.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         CS_Turma.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icones_Gerais/Curso 24x24.png"))); // NOI18N
@@ -610,6 +600,29 @@ public static Tela_Principal TP;
             }
         });
         MP_Consultar.add(jMenuItem25);
+        MP_Consultar.add(jSeparator7);
+
+        CS_Usuario.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_F5, java.awt.event.InputEvent.CTRL_MASK));
+        CS_Usuario.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        CS_Usuario.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icones_Gerais/User 24x24.png"))); // NOI18N
+        CS_Usuario.setText("Usuário");
+        CS_Usuario.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                CS_UsuarioActionPerformed(evt);
+            }
+        });
+        MP_Consultar.add(CS_Usuario);
+
+        CS_Log.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_G, java.awt.event.InputEvent.ALT_MASK));
+        CS_Log.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        CS_Log.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icones_Gerais/Log 24x24.png"))); // NOI18N
+        CS_Log.setText("Log do Sistema");
+        CS_Log.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                CS_LogActionPerformed(evt);
+            }
+        });
+        MP_Consultar.add(CS_Log);
 
         Menu_Principal.add(MP_Consultar);
 
@@ -905,7 +918,7 @@ public static Tela_Principal TP;
 
         Relat_Log.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         Relat_Log.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icones_Gerais/Log 24x24.png"))); // NOI18N
-        Relat_Log.setText("Histórico de Log");
+        Relat_Log.setText("Log do Sistema");
         Relat_Log.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 Relat_LogActionPerformed(evt);
@@ -1001,17 +1014,6 @@ public static Tela_Principal TP;
         });
         MP_Serv.add(jMenuItem26);
 
-        Serv_Log.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_G, java.awt.event.InputEvent.ALT_MASK));
-        Serv_Log.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        Serv_Log.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icones_Gerais/Log 24x24.png"))); // NOI18N
-        Serv_Log.setText("Visualizar Log");
-        Serv_Log.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                Serv_LogActionPerformed(evt);
-            }
-        });
-        MP_Serv.add(Serv_Log);
-
         jMenuItem5.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_F12, java.awt.event.InputEvent.CTRL_MASK));
         jMenuItem5.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         jMenuItem5.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icones_Gerais/Calculadora 24x24.png"))); // NOI18N
@@ -1024,25 +1026,6 @@ public static Tela_Principal TP;
         MP_Serv.add(jMenuItem5);
 
         Menu_Principal.add(MP_Serv);
-
-        MP_Ajuda.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icones_Gerais/Help_24x24.png"))); // NOI18N
-        MP_Ajuda.setMnemonic('a');
-        MP_Ajuda.setText("Ajuda");
-        MP_Ajuda.setToolTipText("Módulo Ajuda E Informação (Alt + A)");
-        MP_Ajuda.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
-
-        Aj_Sobre.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_F1, 0));
-        Aj_Sobre.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        Aj_Sobre.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icones_Gerais/Information_24x24.png"))); // NOI18N
-        Aj_Sobre.setText("Sobre");
-        Aj_Sobre.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                Aj_SobreActionPerformed(evt);
-            }
-        });
-        MP_Ajuda.add(Aj_Sobre);
-
-        Menu_Principal.add(MP_Ajuda);
 
         jMenu7.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icones_Gerais/background.png"))); // NOI18N
         jMenu7.setMnemonic('p');
@@ -1343,6 +1326,25 @@ public static Tela_Principal TP;
 
         Menu_Principal.add(MP_Sair);
 
+        MP_Ajuda.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icones_Gerais/Help_24x24.png"))); // NOI18N
+        MP_Ajuda.setMnemonic('a');
+        MP_Ajuda.setText("Ajuda");
+        MP_Ajuda.setToolTipText("Módulo Ajuda E Informação (Alt + A)");
+        MP_Ajuda.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+
+        Aj_Sobre.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_F1, 0));
+        Aj_Sobre.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        Aj_Sobre.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icones_Gerais/Information_24x24.png"))); // NOI18N
+        Aj_Sobre.setText("Sobre");
+        Aj_Sobre.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                Aj_SobreActionPerformed(evt);
+            }
+        });
+        MP_Ajuda.add(Aj_Sobre);
+
+        Menu_Principal.add(MP_Ajuda);
+
         setJMenuBar(Menu_Principal);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -1420,11 +1422,11 @@ public static Tela_Principal TP;
     }//GEN-LAST:event_BT_EncerrarActionPerformed
 
     private void Serv_Altera_SenhaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Serv_Altera_SenhaActionPerformed
-       new Tela_Alterar_Senha().Open_Tela();
+        new Tela_Alterar_Senha().Open_Tela();
     }//GEN-LAST:event_Serv_Altera_SenhaActionPerformed
 
     private void formWindowClosing(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosing
-      Mostrar_DL_Logoff();
+        Mostrar_DL_Logoff();
            
     }//GEN-LAST:event_formWindowClosing
 
@@ -1714,9 +1716,9 @@ public static Tela_Principal TP;
         LAF_Personalizado();
     }//GEN-LAST:event_jRadioButtonMenuItem23ActionPerformed
 
-    private void Serv_LogActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Serv_LogActionPerformed
+    private void CS_LogActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_CS_LogActionPerformed
         new Tela_Consulta_Log().Open_Tela();
-    }//GEN-LAST:event_Serv_LogActionPerformed
+    }//GEN-LAST:event_CS_LogActionPerformed
 
     private void jMenuItem30ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem30ActionPerformed
         new Controle_Relatorio_Produto().Relatorio_Produto_Todos("","Todos os Produtos");
@@ -1893,7 +1895,7 @@ public static Tela_Principal TP;
             CD_Usuário.setEnabled(false);
             Serv_AjustaEstoque.setEnabled(false);
             BT_CD_Usuario.setEnabled(false);
-            Serv_Log.setEnabled(false);
+            CS_Log.setEnabled(false);
             Relat_Log.setEnabled(false);
             Relat_Usuario.setEnabled(false);
         }
@@ -2014,6 +2016,7 @@ public static Tela_Principal TP;
     private javax.swing.JMenuItem CD_Produto;
     private javax.swing.JMenuItem CD_Turma;
     private javax.swing.JMenuItem CD_Usuário;
+    private javax.swing.JMenuItem CS_Log;
     private javax.swing.JMenuItem CS_Produto;
     private javax.swing.JMenuItem CS_Turma;
     private javax.swing.JMenuItem CS_Usuario;
@@ -2045,7 +2048,6 @@ public static Tela_Principal TP;
     private javax.swing.JMenuItem Serv_Altera_Senha;
     private javax.swing.JMenuItem Serv_Ativa;
     private javax.swing.JMenuItem Serv_Entrada;
-    private javax.swing.JMenuItem Serv_Log;
     private javax.swing.JMenuItem Serv_Saida;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
@@ -2129,6 +2131,7 @@ public static Tela_Principal TP;
     private javax.swing.JPopupMenu.Separator jSeparator4;
     private javax.swing.JPopupMenu.Separator jSeparator5;
     private javax.swing.JPopupMenu.Separator jSeparator6;
+    private javax.swing.JPopupMenu.Separator jSeparator7;
     private javax.swing.JPopupMenu.Separator jSeparator8;
     // End of variables declaration//GEN-END:variables
 

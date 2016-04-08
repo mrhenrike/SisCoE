@@ -14,7 +14,7 @@ public class Inf_Preencher_Lote_Validade_Ent extends javax.swing.JDialog {
         this.setModal(modal);
         initComponents();
         setResizable(false);
-        setSize(370,130);
+        setSize(370,120);
         setLocationRelativeTo(ObjEntradaProd);
     }
     
@@ -111,24 +111,14 @@ public class Inf_Preencher_Lote_Validade_Ent extends javax.swing.JDialog {
                     break;
                 }
             }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(Inf_Preencher_Lote_Validade_Ent.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(Inf_Preencher_Lote_Validade_Ent.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(Inf_Preencher_Lote_Validade_Ent.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
+        } catch (ClassNotFoundException | InstantiationException | IllegalAccessException | javax.swing.UnsupportedLookAndFeelException ex) {
             java.util.logging.Logger.getLogger(Inf_Preencher_Lote_Validade_Ent.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-    
  
 
         /* Create and display the dialog */
         java.awt.EventQueue.invokeLater(new Runnable() {
+            @Override
             public void run() {
                 Inf_Preencher_Lote_Validade_Ent dialog = new Inf_Preencher_Lote_Validade_Ent(ObjEntradaProd, true);
                 dialog.addWindowListener(new java.awt.event.WindowAdapter() {

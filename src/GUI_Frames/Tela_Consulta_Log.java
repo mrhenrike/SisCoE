@@ -4,10 +4,12 @@ import Classes.Modelo_Tabela;
 import Classes.Modelo_Usuario;
 import Conexao.Conecta_Banco;
 import Conexao.Controle_Log;
+import Conexao.Controle_Relatorio_Log;
 import Conexao.Controle_Usuario;
 import GUI_Dialogs_Log.Inf_Data_Final_Inferior_Cons_Log;
 import GUI_Dialogs_Log.Inf_Log_Nao_Encontrado;
 import GUI_Dialogs_Log.Inf_Preencher_Datas_Cons_Log;
+import static GUI_Frames.Tela_Principal.CodLogado;
 import Metodos.Formatacao;
 import Metodos.Pintar_Tabela_Padrao;
 import java.awt.Dimension;
@@ -29,7 +31,6 @@ import javax.swing.UIManager;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 import javax.swing.plaf.FontUIResource;
-
 
 // @author Márison Tamiarana
 
@@ -83,6 +84,7 @@ public class Tela_Consulta_Log extends javax.swing.JInternalFrame {
         BT_Consultar.setEnabled(false);
         BT_Anterior.setEnabled(false);
         BT_Proximo.setEnabled(false);
+        BT_Relatorio.setEnabled(false);
         Setar_Atalho_BT();
         JTF_Pesquisa.setDocument(ObjFormat.new Format_Geral(50));
         JL_Pagina.setVisible(!true);
@@ -118,7 +120,7 @@ public class Tela_Consulta_Log extends javax.swing.JInternalFrame {
 
         setBorder(javax.swing.BorderFactory.createCompoundBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.LOWERED), javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED)));
         setIconifiable(true);
-        setTitle("Consulta Log");
+        setTitle("Consulta Log Do Sistema");
         setFrameIcon(new javax.swing.ImageIcon(getClass().getResource("/Icones_Gerais/Log 24x24.png"))); // NOI18N
         addInternalFrameListener(new javax.swing.event.InternalFrameListener() {
             public void internalFrameActivated(javax.swing.event.InternalFrameEvent evt) {
@@ -310,7 +312,6 @@ public class Tela_Consulta_Log extends javax.swing.JInternalFrame {
         BT_Proximo.setToolTipText("Próximo Página");
         BT_Proximo.setBorder(null);
         BT_Proximo.setContentAreaFilled(false);
-        BT_Proximo.setOpaque(false);
         BT_Proximo.addFocusListener(new java.awt.event.FocusAdapter() {
             public void focusGained(java.awt.event.FocusEvent evt) {
                 BT_ProximoFocusGained(evt);
@@ -469,23 +470,26 @@ public class Tela_Consulta_Log extends javax.swing.JInternalFrame {
             JL_Pagina.setVisible(false);
             JL_Num_Pagina.setVisible(false);
             JL_Registros.setText("");
+            BT_Relatorio.setEnabled(!true);
         }
         if(JCB_Tipo_Pesquisa.getSelectedIndex()==1){
             Limpar_Tabela();
             Desabilita_Periodo();
-            BT_Consultar.setEnabled(true);            
+            BT_Consultar.setEnabled(true);
+            BT_Relatorio.setEnabled(!true);
         }
         if(JCB_Tipo_Pesquisa.getSelectedIndex()==2){
             Limpar_Tabela();
             Habilita_Periodo();
-            BT_Consultar.setEnabled(true);            
+            BT_Consultar.setEnabled(true);
+            BT_Relatorio.setEnabled(!true);
         }
 
     
     }//GEN-LAST:event_JCB_Tipo_PesquisaActionPerformed
 
     private void BT_RelatorioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BT_RelatorioActionPerformed
-        
+        Testar_Campos_Relatorio();
     }//GEN-LAST:event_BT_RelatorioActionPerformed
 
     private void BT_AnteriorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BT_AnteriorActionPerformed
@@ -674,6 +678,7 @@ public class Tela_Consulta_Log extends javax.swing.JInternalFrame {
         if(JCB_Tipo_Pesquisa.getSelectedIndex()==0){
             BT_Consultar.setEnabled(false);
             Desabilita_Filtro();
+            BT_Relatorio.setEnabled(!true);
         }
         if(JCB_Tipo_Pesquisa.getSelectedIndex()==1){
             intervalo = 0;
@@ -687,6 +692,7 @@ public class Tela_Consulta_Log extends javax.swing.JInternalFrame {
             Habilita_Filtro();
             Metodo_Geral();        
             Setar_Linha_Tabela();
+            BT_Relatorio.setEnabled(true);
         }
         if(JCB_Tipo_Pesquisa.getSelectedIndex()==2){
             BT_Consultar.setEnabled(true);
@@ -714,8 +720,10 @@ public class Tela_Consulta_Log extends javax.swing.JInternalFrame {
                             ObjControleLog.Contar_Log_Periodo(JL_Registros,di ,df ,JTF_Pesquisa);
                             Metodo_Geral();        
                             Setar_Linha_Tabela();
+                            BT_Relatorio.setEnabled(true);
                         } else {
                             Mostrar_Log_Nao_Encontrado();
+                            BT_Relatorio.setEnabled(!true);
                         }
                     } catch (Exception ex) {
                     }
@@ -724,6 +732,38 @@ public class Tela_Consulta_Log extends javax.swing.JInternalFrame {
         }
 
     }
+    
+    void Testar_Campos_Relatorio(){
+        String log;        
+        if(JCB_Tipo_Pesquisa.getSelectedIndex()==1){            
+            String hoje = new SimpleDateFormat("yyyy/MM/dd").format(new Date(System.currentTimeMillis()));
+            String hoje2 = new SimpleDateFormat("dd/MM/yyyy").format(new Date(System.currentTimeMillis()));
+            new Controle_Relatorio_Log().Relatorio_Log_Hoje(hoje, JTF_Pesquisa);
+            if(JTF_Pesquisa.getText().equalsIgnoreCase("")){
+                log = "Registro de log referente a hoje - data: "+hoje2;
+            }else{
+                log = "Registro de log com filtro '"+JTF_Pesquisa.getText()+"' referente a hoje - data: "+hoje2;
+            }
+            new Controle_Log().Registrar_Log("Gerou o relatório de " + log, CodLogado);
+        }
+        if(JCB_Tipo_Pesquisa.getSelectedIndex()==2){                           
+            String di = new SimpleDateFormat("yyyy-MM-dd").format(JD_Inicial.getDate());
+            String df = new SimpleDateFormat("yyyy-MM-dd").format(JD_Final.getDate());
+            String dti = new SimpleDateFormat("dd/MM/yyyy").format(JD_Inicial.getDate());
+            String dtf = new SimpleDateFormat("dd/MM/yyyy").format(JD_Final.getDate());
+            ObjControleLog.controla_log = false;
+            new Controle_Relatorio_Log().Relatorio_Log_Periodo(di, df, dti, dtf, JTF_Pesquisa);
+            //log
+            if (JTF_Pesquisa.getText().equalsIgnoreCase("")) {
+                log = "Registro de log referente ao período de " + dti + " até " + dtf;
+            } else {
+                log = "Registro de log com filtro '" + JTF_Pesquisa.getText() + "' referente ao período de " + dti + " até " + dtf;
+            }
+            new Controle_Log().Registrar_Log("Gerou o relatório de " + log, CodLogado);
+        }
+
+    }
+            
     
     public final void Preencher_Tabela(String SQL) {
         ArrayList dados = new ArrayList();

@@ -18,6 +18,7 @@ import GUI_Dialogs_Entrada.Inf_Data_Fabricacao_Maior_Ent;
 import GUI_Dialogs_Entrada.Inf_Nao_Existe_Linha_Ent;
 import GUI_Dialogs_Entrada.Inf_Nao_Ha_Itens_Salvar_Ent;
 import GUI_Dialogs_Entrada.Inf_Preencher_Campos_Ent;
+import GUI_Dialogs_Entrada.Inf_Preencher_Fabricacao;
 import GUI_Dialogs_Entrada.Inf_Preencher_Lote_Validade_Ent;
 import GUI_Dialogs_Entrada.Inf_Prod_Vencido_Ent;
 import GUI_Dialogs_Entrada.Inf_Produto_Existente_Ent;
@@ -76,6 +77,7 @@ public class Tela_Entrada_Produto extends javax.swing.JInternalFrame {
     Formatacao ObjFormat = new Formatacao();
        
     private static Inf_Preencher_Campos_Ent ObjPreencherCampos;
+    private static Inf_Preencher_Fabricacao ObjPreencherFabricacao;
     private static Inf_Preencher_Lote_Validade_Ent ObjPreencherLote;
     private static Inf_Dados_Salvos_Ent ObjDadosSalvos;
     private static Inf_Dados_Nao_Salvos_Ent ObjDadosNaoSalvos;
@@ -161,7 +163,7 @@ public class Tela_Entrada_Produto extends javax.swing.JInternalFrame {
         jLabel9 = new javax.swing.JLabel();
         JTF_Descricao_Entrada = new javax.swing.JTextField();
         JL_Campos = new javax.swing.JLabel();
-        JTF_Quant_Item = new javax.swing.JLabel();
+        JL_Quant_Item = new javax.swing.JLabel();
         JL_Quant_Itens1 = new javax.swing.JLabel();
 
         setBorder(javax.swing.BorderFactory.createCompoundBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.LOWERED), javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED)));
@@ -272,14 +274,9 @@ public class Tela_Entrada_Produto extends javax.swing.JInternalFrame {
         jLabel3.setText("Quantidade*:");
 
         JTF_Quant.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        JTF_Quant.addFocusListener(new java.awt.event.FocusAdapter() {
-            public void focusGained(java.awt.event.FocusEvent evt) {
-                JTF_QuantFocusGained(evt);
-            }
-        });
 
         jLabel4.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        jLabel4.setText("Data Fabricação*:");
+        jLabel4.setText("Data Fabricação:");
 
         JTF_Data_Validade.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         JTF_Data_Validade.addFocusListener(new java.awt.event.FocusAdapter() {
@@ -309,14 +306,6 @@ public class Tela_Entrada_Produto extends javax.swing.JInternalFrame {
         });
 
         JTF_Quant_Dias.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        JTF_Quant_Dias.addFocusListener(new java.awt.event.FocusAdapter() {
-            public void focusGained(java.awt.event.FocusEvent evt) {
-                JTF_Quant_DiasFocusGained(evt);
-            }
-            public void focusLost(java.awt.event.FocusEvent evt) {
-                JTF_Quant_DiasFocusLost(evt);
-            }
-        });
         JTF_Quant_Dias.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 JTF_Quant_DiasActionPerformed(evt);
@@ -504,8 +493,8 @@ public class Tela_Entrada_Produto extends javax.swing.JInternalFrame {
         JL_Campos.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
         JL_Campos.setText("* Campos Obrigatórios");
 
-        JTF_Quant_Item.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
-        JTF_Quant_Item.setText("0");
+        JL_Quant_Item.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        JL_Quant_Item.setText("0");
 
         JL_Quant_Itens1.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         JL_Quant_Itens1.setText("Esc - Sair | F3 - Consultar | F4 - Adicionar | F9 - Excluir Linha | F10 - Salvar");
@@ -522,7 +511,7 @@ public class Tela_Entrada_Produto extends javax.swing.JInternalFrame {
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                         .addComponent(jLabel6)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(JTF_Quant_Item, javax.swing.GroupLayout.PREFERRED_SIZE, 68, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(JL_Quant_Item, javax.swing.GroupLayout.PREFERRED_SIZE, 68, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(BT_Salvar)
                         .addGap(18, 18, 18)
@@ -555,7 +544,7 @@ public class Tela_Entrada_Produto extends javax.swing.JInternalFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                         .addComponent(jLabel6)
-                        .addComponent(JTF_Quant_Item))
+                        .addComponent(JL_Quant_Item))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                         .addComponent(BT_Sair, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addComponent(BT_Salvar, javax.swing.GroupLayout.PREFERRED_SIZE, 52, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -572,11 +561,13 @@ public class Tela_Entrada_Produto extends javax.swing.JInternalFrame {
 
     private void BT_AdicionarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BT_AdicionarActionPerformed
         Preencher_Validade();
-        if(JTF_Cod.getText().equalsIgnoreCase(""))
-        {        
-        }else
-        {
-        Testar_Campos();
+        if(JTF_Cod.getText().equalsIgnoreCase("")){        
+        }else{
+            if(JRB_Quant_Dias.isSelected() && JTF_Data_Fabricado.getDate()==null && !JTF_Quant_Dias.getText().equalsIgnoreCase("") ){
+                Mostrar_Preencher_Data_Fabricacao();
+            }else{
+                Testar_Campos();
+            }
         }
     }//GEN-LAST:event_BT_AdicionarActionPerformed
 
@@ -584,8 +575,10 @@ public class Tela_Entrada_Produto extends javax.swing.JInternalFrame {
         Pesquisa = JTF_Descricao.getText().trim();
         Limpar_Campos();
         Mostrar_Consulta_Prod();
-        JTF_Quant.requestFocus();
-        
+        if(!JTF_Cod.getText().equalsIgnoreCase("")){
+            Habilita_Lote();
+            JTF_Quant.requestFocus();
+        }
     }//GEN-LAST:event_BT_ProcurarActionPerformed
 
     private void JTF_DescricaoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_JTF_DescricaoActionPerformed
@@ -599,81 +592,52 @@ public class Tela_Entrada_Produto extends javax.swing.JInternalFrame {
         JTF_Descricao.requestFocus();
     }//GEN-LAST:event_formInternalFrameOpened
 
-    private void JTF_QuantFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_JTF_QuantFocusGained
-        try{
-            if(JTF_Cod.getText().equalsIgnoreCase(""))
-            {
-                JTF_Descricao.setEnabled(true);
-            }else{
-                ObjControlEnt.Controla_Lote(Integer.parseInt(JTF_Cod.getText()));
-                if (ObjControlEnt.ControlaLote == true) {
-                    JTF_Lote.setEnabled(true);
-                    JTF_Data_Validade.setEnabled(!true);
-                    JTF_Data_Fabricado.setEnabled(true);
-                    JTF_Quant_Dias.setEnabled(true);
-                    JRB_Data.setEnabled(true);
-                    JRB_Quant_Dias.setEnabled(true);
-                    JRB_Quant_Dias.setSelected(true);
-                } else {
-                    JTF_Lote.setEnabled(false);
-                    JTF_Data_Validade.setEnabled(false);
-                    JTF_Data_Fabricado.setEnabled(false);
-                    JTF_Quant_Dias.setEnabled(false);
-                    JRB_Data.setEnabled(false);
-                    JRB_Quant_Dias.setEnabled(false);
-                }
-            }
-        }catch(NumberFormatException e){}      
-    }//GEN-LAST:event_JTF_QuantFocusGained
-
     private void BT_ExcluirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BT_ExcluirActionPerformed
         Remove_Item();
     }//GEN-LAST:event_BT_ExcluirActionPerformed
-
-    private void JTF_Quant_DiasFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_JTF_Quant_DiasFocusGained
-        
-    }//GEN-LAST:event_JTF_Quant_DiasFocusGained
 
     private void JRB_Quant_DiasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_JRB_Quant_DiasActionPerformed
         JTF_Quant_Dias.setEnabled(true);
         JTF_Data_Validade.setEnabled(false);
         JTF_Quant_Dias.setText("");
+        JTF_Data_Validade.setDate(null);
     }//GEN-LAST:event_JRB_Quant_DiasActionPerformed
 
     private void JRB_DataActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_JRB_DataActionPerformed
         JTF_Quant_Dias.setEnabled(!true);
+        JTF_Quant_Dias.setText("");
         JTF_Data_Validade.setEnabled(!false);
         JTF_Data_Validade.setDate(null);
     }//GEN-LAST:event_JRB_DataActionPerformed
 
     private void JTF_Quant_DiasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_JTF_Quant_DiasActionPerformed
-        Setar_Data();
-        JTF_Lote.requestFocus();
+        if(JTF_Data_Fabricado.getDate()!=null){
+            Setar_Data();
+            JTF_Lote.requestFocus();
+        }else{
+            Mostrar_Preencher_Data_Fabricacao();
+        }
+        
     }//GEN-LAST:event_JTF_Quant_DiasActionPerformed
-
-    private void JTF_Quant_DiasFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_JTF_Quant_DiasFocusLost
-        if(!JTF_Quant_Dias.getText().equalsIgnoreCase("") && JTF_Data_Fabricado.getDate()!=null){
-        Setar_Data();}
-    }//GEN-LAST:event_JTF_Quant_DiasFocusLost
 
     private void JTF_Data_ValidadeFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_JTF_Data_ValidadeFocusLost
         if(JTF_Data_Validade.getDate()!= null && JTF_Data_Fabricado.getDate()!=null){
-        Setar_Dias();}
+            Setar_Dias();}
         
     }//GEN-LAST:event_JTF_Data_ValidadeFocusLost
 
     private void JTF_LoteFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_JTF_LoteFocusGained
-      if(JRB_Data.isSelected()){          
-                if(JTF_Data_Validade.getDate()!= null && JTF_Data_Fabricado.getDate()!=null){
+        if(JRB_Data.isSelected()){          
+            if(JTF_Data_Validade.getDate()!= null && JTF_Data_Fabricado.getDate()!=null){
                     Preencher_Validade();
-            }
-            if(JRB_Quant_Dias.isSelected()){
-                if(!JTF_Quant_Dias.getText().equalsIgnoreCase("") && JTF_Data_Fabricado.getDate()!=null){
-                    Preencher_Validade();
-                }
-                
             }
         }
+        if(JRB_Quant_Dias.isSelected()){            
+            if(!JTF_Quant_Dias.getText().equalsIgnoreCase("") && JTF_Data_Fabricado.getDate()!=null){
+                    Preencher_Validade();
+                }
+        }
+       
     }//GEN-LAST:event_JTF_LoteFocusGained
 
     private void BT_SalvarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BT_SalvarActionPerformed
@@ -802,7 +766,7 @@ public class Tela_Entrada_Produto extends javax.swing.JInternalFrame {
             tb.addRow(new String[]{cod,descricao,quant,data,lote,preco});
             JTB_Add_Itens.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
        
-            JTF_Quant_Item.setText(String.valueOf(JTB_Add_Itens.getRowCount()));
+            JL_Quant_Item.setText(String.valueOf(JTB_Add_Itens.getRowCount()));
        }else
        {
             String cod = JTF_Cod.getText().trim();
@@ -817,7 +781,7 @@ public class Tela_Entrada_Produto extends javax.swing.JInternalFrame {
             tb.addRow(new String[]{cod,descricao,quant,data,lote,preco});
             JTB_Add_Itens.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
        
-            JTF_Quant_Item.setText(String.valueOf(JTB_Add_Itens.getRowCount()));
+            JL_Quant_Item.setText(String.valueOf(JTB_Add_Itens.getRowCount()));
        }
    } 
     
@@ -858,12 +822,10 @@ public class Tela_Entrada_Produto extends javax.swing.JInternalFrame {
                 {
                     Mostrar_Preencher_Campos();
                 }
-                else{                                       
+                else{                        
                     if((JTF_Lote.getText().equalsIgnoreCase(""))
-                        ||(JTF_Data_Validade.getDate() == null)
-                        ||(JTF_Data_Fabricado.getDate() == null)
-                        ||(JTF_Quant_Dias.getText().equalsIgnoreCase(""))){
-                        Mostrar_Preencher_Lote_Validade();
+                        ||(JTF_Data_Validade.getDate() == null)){
+                        Mostrar_Preencher_Lote_Validade();                        
                     }else{
                         Verifica_Se_Existe_Lote();
                         if(VerificaExistenteLote == true){
@@ -878,16 +840,36 @@ public class Tela_Entrada_Produto extends javax.swing.JInternalFrame {
                                     Mostrar_Produto_Vencido();
                                     DataMenor=false;
                                 }else{
-                                    Verifica_Fabricacao();
+                                    if(JRB_Quant_Dias.isSelected() && JTF_Data_Fabricado.getDate()!=null){
+                                        Verifica_Fabricacao();
                                         if(FabricacaoMaior == true){
                                             Mostrar_Data_Fabricacao_Maior();
-                                            FabricacaoMaior = false;}
-                                    else{
-                                        Verifica_Validade_30_Dias();
-                                            if(Menos30Dias == true){
+                                            FabricacaoMaior = false;
+                                            JTF_Lote.requestFocus();
+                                        }else {
+                                            Verifica_Validade_30_Dias();
+                                            if (Menos30Dias == true) {
                                                 Mostrar_Add_Na_Tabela();
-                                                Menos30Dias = false;}
-                                            else{
+                                                Menos30Dias = false;
+                                            } else {
+                                                Add_Tabela();
+                                                Limpar_Campos();
+                                                JTF_Descricao.requestFocus();
+                                                JTF_Descricao.setEnabled(true);
+                                                JTF_Lote.setEnabled(false);
+                                                JTF_Quant_Dias.setEnabled(false);
+                                                JTF_Data_Validade.setEnabled(false);
+                                                JRB_Data.setEnabled(false);
+                                                JRB_Quant_Dias.setEnabled(false);
+                                                JTF_Data_Fabricado.setEnabled(false);
+                                            }   
+                                        }
+                                    }else{
+                                        Verifica_Validade_30_Dias();
+                                        if (Menos30Dias == true) {
+                                            Mostrar_Add_Na_Tabela();
+                                            Menos30Dias = false;
+                                        } else {
                                             Add_Tabela();
                                             Limpar_Campos();
                                             JTF_Descricao.requestFocus();
@@ -981,7 +963,7 @@ public class Tela_Entrada_Produto extends javax.swing.JInternalFrame {
     public void Excluir_Linha(){
         (( DefaultTableModel)JTB_Add_Itens.getModel()).removeRow(JTB_Add_Itens.getSelectedRow());
         int cont = JTB_Add_Itens.getRowCount();
-        JTF_Quant_Item.setText(String.valueOf(cont));
+        JL_Quant_Item.setText(String.valueOf(cont));
     }
     
     public void Sair_Sem_Salvar(){
@@ -1038,8 +1020,7 @@ public class Tela_Entrada_Produto extends javax.swing.JInternalFrame {
         JTF_Data_Validade.setDate(c.getTime());
     }
     
-    public void Setar_Dias(){
-        
+    public void Setar_Dias(){        
         Date d1 = JTF_Data_Fabricado.getDate();
         Date d2 = JTF_Data_Validade.getDate();
         long dt = (((d2.getTime() - d1.getTime()) + 3600000) / 86400000L);//Quantidade de dias entra as datas
@@ -1057,13 +1038,14 @@ public class Tela_Entrada_Produto extends javax.swing.JInternalFrame {
                     Date dt1 = JTF_Data_Fabricado.getDate();
                     Date dt2 = JTF_Data_Validade.getDate();
                     if(dt1.before(dt2)){
-                            Setar_Dias();}
+                        Setar_Dias();
+                    }
                 }
             }         
             if(JRB_Quant_Dias.isSelected()){
                 if(!JTF_Quant_Dias.getText().equalsIgnoreCase("") && JTF_Data_Fabricado.getDate()!=null){
                     Setar_Data();
-                }else{}
+                }
             }
     }
     public void Verifica_Validade(){
@@ -1100,7 +1082,27 @@ public class Tela_Entrada_Produto extends javax.swing.JInternalFrame {
     public final void Limpar_Tabela() {
         (( DefaultTableModel)JTB_Add_Itens.getModel()).setNumRows(0);
         int cont = JTB_Add_Itens.getRowCount();
-        JTF_Quant_Item.setText(String.valueOf(cont));
+        JL_Quant_Item.setText(String.valueOf(cont));
+    }
+    
+    public void Habilita_Lote(){
+        ObjControlEnt.Controla_Lote(Integer.parseInt(JTF_Cod.getText()));
+            if (ObjControlEnt.ControlaLote == true) {
+            JTF_Lote.setEnabled(true);
+            JTF_Data_Validade.setEnabled(!true);
+            JTF_Data_Fabricado.setEnabled(true);
+            JTF_Quant_Dias.setEnabled(true);
+            JRB_Data.setEnabled(true);
+            JRB_Quant_Dias.setEnabled(true);
+            JRB_Quant_Dias.setSelected(true);
+        } else {
+            JTF_Lote.setEnabled(false);
+            JTF_Data_Validade.setEnabled(false);
+            JTF_Data_Fabricado.setEnabled(false);
+            JTF_Quant_Dias.setEnabled(false);
+            JRB_Data.setEnabled(false);
+            JRB_Quant_Dias.setEnabled(false);
+        }
     }
     
     public void Mostrar_Consulta_Prod(){        
@@ -1171,6 +1173,10 @@ public class Tela_Entrada_Produto extends javax.swing.JInternalFrame {
         ObjDataFabMaior = new Inf_Data_Fabricacao_Maior_Ent(this, true);
         ObjDataFabMaior.setVisible(true);
     }
+    void Mostrar_Preencher_Data_Fabricacao(){
+        ObjPreencherFabricacao = new Inf_Preencher_Fabricacao(this, true);
+        ObjPreencherFabricacao.setVisible(true);
+    }
     
     public final void Setar_Atalho_BT(){
         //metodo para pegar a tecla pressionada
@@ -1240,6 +1246,7 @@ public class Tela_Entrada_Produto extends javax.swing.JInternalFrame {
     private javax.swing.JButton BT_Salvar;
     private javax.swing.ButtonGroup JBG_Validade;
     private javax.swing.JLabel JL_Campos;
+    private javax.swing.JLabel JL_Quant_Item;
     private javax.swing.JLabel JL_Quant_Itens1;
     private javax.swing.JPanel JP_Dados_Entrada;
     private javax.swing.JPanel JP_Descricao_Entrada;
@@ -1255,7 +1262,6 @@ public class Tela_Entrada_Produto extends javax.swing.JInternalFrame {
     private javax.swing.JFormattedTextField JTF_Preco;
     private javax.swing.JTextField JTF_Quant;
     private javax.swing.JTextField JTF_Quant_Dias;
-    private javax.swing.JLabel JTF_Quant_Item;
     private javax.swing.JTextField JTF_Un;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;

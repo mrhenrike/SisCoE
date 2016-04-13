@@ -21,6 +21,8 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.AbstractAction;
 import javax.swing.InputMap;
 import javax.swing.JComponent;
@@ -400,9 +402,17 @@ public class Tela_Consulta_Entrada extends javax.swing.JInternalFrame {
             if (evt.getClickCount() == 2) {
                 Object Descricao = JTB_Entradas.getValueAt(JTB_Entradas.getSelectedRow(), 2);
                 Object Data = JTB_Entradas.getValueAt(JTB_Entradas.getSelectedRow(), 1);
-                Object Num_Entrada = JTB_Entradas.getValueAt(JTB_Entradas.getSelectedRow(), 0);
+                Object Num_Entrada = JTB_Entradas.getValueAt(JTB_Entradas.getSelectedRow(), 0); 
+                String Situacao = null;
+                try {
+                    ObjConecta.Conectar();
+                    ObjConecta.ExecutaSQL("select * from entrada where id_entrada="+Num_Entrada);
+                    ObjConecta.rs.first();
+                     Situacao= ObjConecta.rs.getString("Situacao_entrada");
+                } catch (SQLException ex) { }
                 JOptionPane.showMessageDialog(rootPane,"Entrada: "+ Num_Entrada+"   Data:"+Data+
-                        "\nDescrição: "+Descricao,"Descrição Da Entrada",JOptionPane.INFORMATION_MESSAGE);
+                        "\nDescrição: "+Descricao + "\nSituação: "+ Situacao,
+                        "Descrição Da Entrada", JOptionPane.INFORMATION_MESSAGE);
             }
         } catch (HeadlessException ex) {
     }
@@ -502,6 +512,19 @@ public class Tela_Consulta_Entrada extends javax.swing.JInternalFrame {
             Controle=0;
             BT_Relatorio.setEnabled(false);
          }
+        if(JCB_Tipo_Pesquisa.getSelectedIndex()==5){
+            BT_Consultar.setEnabled(!false);
+            JD_Final.setEnabled(false);
+            JD_Inicial.setEnabled(false);
+            JD_Final.setDate(null);
+            JD_Inicial.setDate(null);
+            Limpar_Tabela_Entrada();
+            Limpar_Tabela_Entrada_Itens();
+            JTF_Num_Entrada.setEnabled(false);
+            JTF_Num_Entrada.setText("");
+            Controle=0;
+            BT_Relatorio.setEnabled(false);
+         }
     }//GEN-LAST:event_JCB_Tipo_PesquisaActionPerformed
 
     private void JTF_Num_EntradaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_JTF_Num_EntradaActionPerformed
@@ -514,6 +537,7 @@ public class Tela_Consulta_Entrada extends javax.swing.JInternalFrame {
         if(Controle==2){ObjRelatEntrada.Relatorio_Entrada_Prod_Ultimos_30_Dias();}
         if(Controle==3){ObjRelatEntrada.Relatorio_Entrada_Periodo(JD_Inicial, JD_Final);}
         if(Controle==4){ObjRelatEntrada.Relatorio_Entrada_N_Entrada(JTF_Num_Entrada);}
+        if(Controle==5){ObjRelatEntrada.Relatorio_Entrada_Alterada("EFETIVADA COM ALTERAÇÃO");}
     }//GEN-LAST:event_BT_RelatorioActionPerformed
 
     private void JTB_EntradasKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_JTB_EntradasKeyReleased
@@ -533,7 +557,7 @@ public class Tela_Consulta_Entrada extends javax.swing.JInternalFrame {
         if(JCB_Tipo_Pesquisa.getSelectedIndex()==1){
             ObjControleEntrada.Consulta_Entrada_Todas();
             if(ObjControleEntrada.Controle_Entrada == true){
-                Preencher_Tabela_Entrada("select * from entrada");
+                Preencher_Tabela_Entrada("select * from entrada order by id_entrada desc");
                 Controle=1;
                 BT_Relatorio.setEnabled(!false);
                     ObjControleEntrada.Controle_Entrada=false;
@@ -555,7 +579,7 @@ public class Tela_Consulta_Entrada extends javax.swing.JInternalFrame {
                     c.add(Calendar.MONTH, -1); //diminuir datas - inicio para 30 dias;
                     String df = new SimpleDateFormat("yyyy-MM-dd").format(Calendar.getInstance().getTime());
                     String di = new SimpleDateFormat("yyyy-MM-dd").format(c.getTime());
-                    Preencher_Tabela_Entrada("select * from entrada where data_entrada between '"+di+"' and '"+df+"'");
+                    Preencher_Tabela_Entrada("select * from entrada where data_entrada between '"+di+"' and '"+df+"' order by id_entrada desc");
                     Controle = 2;
                     BT_Relatorio.setEnabled(!false);
                 }catch(Exception  ex){}
@@ -584,7 +608,7 @@ public class Tela_Consulta_Entrada extends javax.swing.JInternalFrame {
                         try{
                             String di = new SimpleDateFormat("yyyy-MM-dd").format(JD_Inicial.getDate());
                             String df = new SimpleDateFormat("yyyy-MM-dd").format(JD_Final.getDate());
-                            Preencher_Tabela_Entrada("select * from entrada where data_entrada between '"+di+"' and '"+df+"'");
+                            Preencher_Tabela_Entrada("select * from entrada where data_entrada between '"+di+"' and '"+df+"' order by id_entrada desc");
                             Controle = 3;
                             BT_Relatorio.setEnabled(!false);
                             }catch(Exception ex){}
@@ -608,7 +632,7 @@ public class Tela_Consulta_Entrada extends javax.swing.JInternalFrame {
              }else{
                 ObjControleEntrada.Consulta_Entrada_Id(Integer.parseInt(JTF_Num_Entrada.getText()));
                 if(ObjControleEntrada.Controle_Entrada == true){
-                    Preencher_Tabela_Entrada("select * from entrada where id_entrada="+JTF_Num_Entrada.getText().trim()+"");
+                    Preencher_Tabela_Entrada("select * from entrada where id_entrada="+JTF_Num_Entrada.getText().trim()+" order by id_entrada desc");
                  Controle=4;
                  BT_Relatorio.setEnabled(!false);
                     ObjControleEntrada.Controle_Entrada=false;
@@ -621,7 +645,23 @@ public class Tela_Consulta_Entrada extends javax.swing.JInternalFrame {
                 }
             }
         }
+        if(JCB_Tipo_Pesquisa.getSelectedIndex()==5){
+            ObjControleEntrada.Consulta_Entrada_Todas();
+            if(ObjControleEntrada.Controle_Entrada == true){
+                Preencher_Tabela_Entrada("select * from entrada where situacao_entrada = 'EFETIVADA COM ALTERAÇÃO' order by id_entrada desc");
+                Controle=5;
+                BT_Relatorio.setEnabled(!false);
+                ObjControleEntrada.Controle_Entrada=false;
+            }else{
+                Mostra_Nao_Existe_Entrada();
+                Limpar_Tabela_Entrada();
+                Limpar_Tabela_Entrada_Itens();
+                Controle=0;
+                BT_Relatorio.setEnabled(false);
+            }
+        }
     }
+    
     public void Verifica_Datas(){//verifica se a data inicial é inferior a inicial
         long dt1 = JD_Inicial.getDate().getTime();
         long dt2 = JD_Final.getDate().getTime();
@@ -644,6 +684,7 @@ public class Tela_Consulta_Entrada extends javax.swing.JInternalFrame {
         JCB_Tipo_Pesquisa.addItem("ÚLTIMOS 30 DIAS");
         JCB_Tipo_Pesquisa.addItem("POR PERÍODO");
         JCB_Tipo_Pesquisa.addItem("NÚMERO DA ENTRADA");
+        JCB_Tipo_Pesquisa.addItem("ALTERADAS");
     }
     
     public final void Preencher_Tabela_Entrada(String SQL) {
@@ -681,7 +722,7 @@ public class Tela_Consulta_Entrada extends javax.swing.JInternalFrame {
     public final void Preencher_Tabela_Itens_Entrada(String SQL) {
         ArrayList dados = new ArrayList();
 
-        String[] Colunas = new String[]{"Código", "Descrição","Quantidade","Un","Lote","Validade", "Preço"};//Seta os indices da tabela
+        String[] Colunas = new String[]{"Código", "Descrição","Quantidade","Un","Lote","Validade", "Preço","Inclusão"};//Seta os indices da tabela
         ObjConecta_2.Conectar();
         ObjConecta_2.ExecutaSQL(SQL);
         try {
@@ -690,12 +731,16 @@ public class Tela_Consulta_Entrada extends javax.swing.JInternalFrame {
             do {
                 String lote = ObjConecta_2.rs.getString("lote");
                 Date validade = ObjConecta_2.rs.getDate("data_validade");
+                Date inclusao = ObjConecta_2.rs.getDate("data_entrada_produto");
                 String data_val= "";
+                String data_incusao= "";
                 if((lote == null)||(lote.equalsIgnoreCase("null"))) {lote = "";}
                 if(validade != null){data_val = String.valueOf(new SimpleDateFormat("dd-MM-yyyy").format(ObjConecta_2.rs.getDate("data_validade")));}
+                if(inclusao != null){data_incusao = String.valueOf(new SimpleDateFormat("dd-MM-yyyy").format(ObjConecta_2.rs.getDate("data_entrada_produto")));}
                 
                 dados.add(new Object[]{ObjConecta_2.rs.getInt("produto_id_produto"),ObjConecta_2.rs.getString("produto.descricao"),
-                ObjConecta_2.rs.getDouble("quantidade"),ObjConecta_2.rs.getString("unidade"), lote, data_val, ObjConecta_2.rs.getDouble("preco")});
+                ObjConecta_2.rs.getDouble("quantidade"),ObjConecta_2.rs.getString("unidade"), lote, data_val,
+                 ObjConecta_2.rs.getDouble("preco"),data_incusao});
             } while (ObjConecta_2.rs.next());
             ObjConecta_2.Desconecta();
         } catch (SQLException ex) {
@@ -706,7 +751,7 @@ public class Tela_Consulta_Entrada extends javax.swing.JInternalFrame {
         JTB_Itens_Entrada.setDefaultRenderer(Object.class, new Pintar_Tabela_Padrao());
         JTB_Itens_Entrada.getColumnModel().getColumn(0).setPreferredWidth(100);//Tamanho da coluna
         JTB_Itens_Entrada.getColumnModel().getColumn(0).setResizable(false);//Redimensionavel
-        JTB_Itens_Entrada.getColumnModel().getColumn(1).setPreferredWidth(400);
+        JTB_Itens_Entrada.getColumnModel().getColumn(1).setPreferredWidth(500);
         JTB_Itens_Entrada.getColumnModel().getColumn(1).setResizable(false);
         JTB_Itens_Entrada.getColumnModel().getColumn(2).setPreferredWidth(100);
         JTB_Itens_Entrada.getColumnModel().getColumn(2).setResizable(false);
@@ -718,6 +763,8 @@ public class Tela_Consulta_Entrada extends javax.swing.JInternalFrame {
         JTB_Itens_Entrada.getColumnModel().getColumn(5).setResizable(false);
         JTB_Itens_Entrada.getColumnModel().getColumn(6).setPreferredWidth(100);
         JTB_Itens_Entrada.getColumnModel().getColumn(6).setResizable(false);
+        JTB_Itens_Entrada.getColumnModel().getColumn(7).setPreferredWidth(100);
+        JTB_Itens_Entrada.getColumnModel().getColumn(7).setResizable(false);
         JTB_Itens_Entrada.getTableHeader().setReorderingAllowed(false);//Reordenar alocação
         JTB_Itens_Entrada.setAutoResizeMode(JTB_Itens_Entrada.AUTO_RESIZE_ALL_COLUMNS);//Tabela Redimensionavel(todas colunas)
         JTB_Itens_Entrada.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);//Seleciona uma unica linha da tabela

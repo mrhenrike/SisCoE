@@ -35,7 +35,7 @@ public class Controle_Relatorio_Produto {
             parametros.put("Usuario",UserLogado);
             parametros.put("Quant_Itens",Cont);
             parametros.put("Tipo_Relatorio", relat);
-            String C = "C:\\Program Files (x86)\\SisCoE/Relat_Produto_Geral.jasper";
+            String C = "C:\\Program Files (x86)\\SisCoE\\Relat_Produto_Geral.jasper";
             //String C = "/Relatorios/Relat_Produtos_Todos.jasper";
             JasperPrint JPrint = JasperFillManager.fillReport(C,parametros, Relatorio);
             JasperViewer JView = new JasperViewer(JPrint, false);
@@ -203,7 +203,7 @@ public class Controle_Relatorio_Produto {
             HashMap parametros = new HashMap();
             parametros.put("Usuario",UserLogado);
             parametros.put("Quant_Itens",Cont);
-            JasperPrint JPrint = JasperFillManager.fillReport("C:\\Program Files (x86)\\SisCoE/Relat_Produtos_Categoria_Seleciona.jasper",parametros, Relatorio);
+            JasperPrint JPrint = JasperFillManager.fillReport("C:\\Program Files (x86)\\SisCoE\\Relat_Produtos_Categoria_Seleciona.jasper",parametros, Relatorio);
             JasperViewer JView = new JasperViewer(JPrint, false);
             JView.setVisible(true);
             //Colocar titulo na janela

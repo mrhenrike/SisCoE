@@ -14,7 +14,10 @@ public class Modelo_Entrada_Produto {
     private String pesquisa;
     private String Data_entrada;
     private String Descricao;
-    private int media;//armazenar a media das entradas
+    private String Observacao;
+    private String Situacao;
+    private double media;//armazenar a media das entradas
+    private double total;//armazenar a total das entradas
 
     public int getId_entrada() {
         return id_entrada;
@@ -22,6 +25,14 @@ public class Modelo_Entrada_Produto {
 
     public void setId_entrada(int id_entrada) {
         this.id_entrada = id_entrada;
+    }
+
+    public int getId_entrada_item() {
+        return id_entrada_item;
+    }
+
+    public void setId_entrada_item(int id_entrada_item) {
+        this.id_entrada_item = id_entrada_item;
     }
 
     public int getProduto_id_produto() {
@@ -48,6 +59,14 @@ public class Modelo_Entrada_Produto {
         this.quantidade = quantidade;
     }
 
+    public double getPreco() {
+        return preco;
+    }
+
+    public void setPreco(double preco) {
+        this.preco = preco;
+    }
+
     public String getValidade() {
         return validade;
     }
@@ -72,36 +91,12 @@ public class Modelo_Entrada_Produto {
         this.pesquisa = pesquisa;
     }
 
-    public int getId_entrada_item() {
-        return id_entrada_item;
-    }
-
-    public void setId_entrada_item(int id_entrada_item) {
-        this.id_entrada_item = id_entrada_item;
-    }
-
     public String getData_entrada() {
         return Data_entrada;
     }
 
     public void setData_entrada(String Data_entrada) {
         this.Data_entrada = Data_entrada;
-    }
-
-    public int getMedia() {
-        return media;
-    }
-
-    public void setMedia(int media) {
-        this.media = media;
-    }
-
-    public double getPreco() {
-        return preco;
-    }
-
-    public void setPreco(double preco) {
-        this.preco = preco;
     }
 
     public String getDescricao() {
@@ -111,5 +106,38 @@ public class Modelo_Entrada_Produto {
     public void setDescricao(String Descricao) {
         this.Descricao = Descricao;
     }
-    
+
+    public String getObservacao() {
+        return Observacao;
+    }
+
+    public void setObservacao(String Observacao) {
+        this.Observacao = Observacao;
+    }
+
+    public String getSituacao() {
+        return Situacao;
+    }
+
+    public void setSituacao(String Situacao) {
+        this.Situacao = Situacao;
+    }
+
+    public double getMedia() {
+        return media;
+    }
+
+    public void setMedia(double media) {
+        this.media = media;
+    }
+
+    public double getTotal() {
+        return total;
+    }
+
+    public void setTotal(double total) {
+        this.total = total;
+    }
+
+   
 }

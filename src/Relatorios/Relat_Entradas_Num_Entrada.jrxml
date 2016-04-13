@@ -299,7 +299,7 @@ on produto.id_produto=entrada_itens.produto_id_produto where entrada.id_entrada 
 					</textElement>
 					<textFieldExpression><![CDATA[$F{data_validade}]]></textFieldExpression>
 				</textField>
-				<textField>
+				<textField isStretchWithOverflow="true" isBlankWhenNull="true">
 					<reportElement style="Detail" x="67" y="1" width="276" height="10" uuid="a6841691-20f5-4754-b8ab-d0c8823618f9"/>
 					<textElement verticalAlignment="Middle">
 						<font fontName="Tahoma" size="8"/>

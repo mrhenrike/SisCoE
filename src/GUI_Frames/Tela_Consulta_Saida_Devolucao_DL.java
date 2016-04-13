@@ -331,7 +331,7 @@ public class Tela_Consulta_Saida_Devolucao_DL extends javax.swing.JDialog {
         if(JCB_Tipo_Pesquisa.getSelectedIndex()==1){
             ObjControlSaida.Consulta_Saida_Todas();
                 if(ObjControlSaida.Controle_Saida == true){
-                    Preencher_Tabela_Saida("select * from saida");
+                    Preencher_Tabela_Saida("select * from saida order by id_saida desc");
                     BT_Adicionar.setEnabled(!false);
                     ObjControlSaida.Controle_Saida=false;
                 }else{
@@ -353,7 +353,7 @@ public class Tela_Consulta_Saida_Devolucao_DL extends javax.swing.JDialog {
                             c.add(Calendar.MONTH, -1); //diminuir datas - inicio para 30 dias;
                             String df = new SimpleDateFormat("yyyy-MM-dd").format(Calendar.getInstance().getTime());
                             String di = new SimpleDateFormat("yyyy-MM-dd").format(c.getTime());
-                            Preencher_Tabela_Saida("select * from saida where data_saida between '"+di+"' and '"+df+"'");
+                            Preencher_Tabela_Saida("select * from saida where data_saida between '"+di+"' and '"+df+"' order by id_saida desc");
                             BT_Adicionar.setEnabled(!false);
                             ObjControlSaida.Controle_Saida=false;
                         }else{
@@ -386,7 +386,7 @@ public class Tela_Consulta_Saida_Devolucao_DL extends javax.swing.JDialog {
                             if(ObjControlSaida.Controle_Saida == true){
                                 String di = new SimpleDateFormat("yyyy-MM-dd").format(JD_Inicial.getDate());
                                 String df = new SimpleDateFormat("yyyy-MM-dd").format(JD_Final.getDate());
-                                Preencher_Tabela_Saida("select * from saida where data_saida between '"+di+"' and '"+df+"'");
+                                Preencher_Tabela_Saida("select * from saida where data_saida between '"+di+"' and '"+df+"' order by id_saida desc");
                                 BT_Adicionar.setEnabled(!false);
                                 ObjControlSaida.Controle_Saida=false;
                             }else{
@@ -406,7 +406,7 @@ public class Tela_Consulta_Saida_Devolucao_DL extends javax.swing.JDialog {
         if(JCB_Tipo_Pesquisa.getSelectedIndex()==4){
             ObjControlSaida.Consulta_Saida_Aberto();
                 if(ObjControlSaida.Controle_Saida == true){
-                    Preencher_Tabela_Saida("select * from saida where situacao = 'ABERTO'");
+                    Preencher_Tabela_Saida("select * from saida where situacao = 'ABERTO' order by id_saida desc");
                     BT_Adicionar.setEnabled(!false);
                     ObjControlSaida.Controle_Saida=false;
                 }else{

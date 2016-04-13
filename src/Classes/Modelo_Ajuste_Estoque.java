@@ -12,6 +12,8 @@ public class Modelo_Ajuste_Estoque {
     private String observacao;
     private String data_ajuste;
     private double quantidade;
+    private double media;
+    private double total;
 
     public int getId_ajuste_estoque() {
         return id_ajuste_estoque;
@@ -81,5 +83,33 @@ public class Modelo_Ajuste_Estoque {
      */
     public void setData_ajuste(String data_ajuste) {
         this.data_ajuste = data_ajuste;
+    }
+
+    /**
+     * @return the media
+     */
+    public double getMedia() {
+        return media;
+    }
+
+    /**
+     * @param media the media to set
+     */
+    public void setMedia(double media) {
+        this.media = media;
+    }
+
+    /**
+     * @return the total
+     */
+    public double getTotal() {
+        return total;
+    }
+
+    /**
+     * @param total the total to set
+     */
+    public void setTotal(double total) {
+        this.total = total;
     }
 }

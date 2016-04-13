@@ -50,6 +50,7 @@ public class Controle_Relatorio_Entradas {
                 parametros.put("Usuario",ObjTP.UserLogado);//Se precisar passar algum parametro, tipo usuario logado
                 parametros.put("Quant_Iten", ContItens);
                 parametros.put("Quant_Entrada", ContEntradas);
+                parametros.put("Tipo_Relatorio","Todas as Entradas - Último Ano");
                 //Aqui fica o diretorio do arquivo
                 JasperPrint JPrint = JasperFillManager.fillReport("C:\\Program Files (x86)\\SisCoE/Relat_Entradas_Todos.jasper",parametros, Relatorio);
                 JasperViewer JView = new JasperViewer(JPrint, false);
@@ -152,33 +153,76 @@ public class Controle_Relatorio_Entradas {
     }
     
     public void Relatorio_Entrada_N_Entrada(JTextField jt){
-    try {
-                    ObjConecta.Conectar();
-                    //conta a quanttidade de itens
-                    ObjConecta.ExecutaSQL("select count(distinct produto_id_produto) as cont from entrada inner join entrada_itens on entrada.id_entrada=entrada_itens.entrada_id_entrada "
-                            + "inner join produto on produto.id_produto=entrada_itens.produto_id_produto where entrada.id_entrada='"+jt.getText().trim()+"'");
-                    ObjConecta.rs.first();
-                    int cont = ObjConecta.rs.getInt("cont");
-                    
-                    ObjConecta.ExecutaSQL("select * from entrada inner join entrada_itens on entrada.id_entrada=entrada_itens.entrada_id_entrada inner join produto"
-                        + " on produto.id_produto=entrada_itens.produto_id_produto where entrada.id_entrada='"+jt.getText().trim()+"'");
-                    JRResultSetDataSource Relatorio = new JRResultSetDataSource(ObjConecta.rs);
-                    HashMap parametros = new HashMap();
-                    parametros.put("Usuario",ObjTP.UserLogado);
-                    parametros.put("Num_Entrada",jt.getText().trim());
-                    parametros.put("Total_Itens", cont);
-                    JasperPrint JPrint = JasperFillManager.fillReport("C:\\Program Files (x86)\\SisCoE/Relat_Entradas_Num_Entrada.jasper",parametros, Relatorio);
-                    JasperViewer JView = new JasperViewer(JPrint, false);
-                    JView.setVisible(true);
-                    //Colocar titulo na janela
-                    JView.setTitle("Relatório De Entrada");
-                    //Colocar icone na janela
-                    JView.setIconImage(new ImageIcon(getClass().getResource("/Icones_Gerais/Serviço 24x24.png")).getImage());
-                    ObjConecta.Desconecta();
-                } catch (SQLException | JRException ex) {
-                    ObjConecta.Desconecta();
-                    JOptionPane.showMessageDialog(null,"Erro ao gerar o relatório: "+ex);
-                }
+        try {
+            ObjConecta.Conectar();
+            //conta a quanttidade de itens
+            ObjConecta.ExecutaSQL("select count(distinct produto_id_produto) as cont from entrada inner join entrada_itens on entrada.id_entrada=entrada_itens.entrada_id_entrada "
+                    + "inner join produto on produto.id_produto=entrada_itens.produto_id_produto where entrada.id_entrada='" + jt.getText().trim() + "'");
+            ObjConecta.rs.first();
+            int cont = ObjConecta.rs.getInt("cont");
+
+            ObjConecta.ExecutaSQL("select * from entrada inner join entrada_itens on entrada.id_entrada=entrada_itens.entrada_id_entrada inner join produto"
+                    + " on produto.id_produto=entrada_itens.produto_id_produto where entrada.id_entrada='" + jt.getText().trim() + "'");
+            JRResultSetDataSource Relatorio = new JRResultSetDataSource(ObjConecta.rs);
+            HashMap parametros = new HashMap();
+            parametros.put("Usuario", ObjTP.UserLogado);
+            parametros.put("Num_Entrada", jt.getText().trim());
+            parametros.put("Total_Itens", cont);
+            JasperPrint JPrint = JasperFillManager.fillReport("C:\\Program Files (x86)\\SisCoE/Relat_Entradas_Num_Entrada.jasper", parametros, Relatorio);
+            JasperViewer JView = new JasperViewer(JPrint, false);
+            JView.setVisible(true);
+            //Colocar titulo na janela
+            JView.setTitle("Relatório De Entrada");
+            //Colocar icone na janela
+            JView.setIconImage(new ImageIcon(getClass().getResource("/Icones_Gerais/Serviço 24x24.png")).getImage());
+            ObjConecta.Desconecta();
+        } catch (SQLException | JRException ex) {
+            ObjConecta.Desconecta();
+            JOptionPane.showMessageDialog(null, "Erro ao gerar o relatório: " + ex);
+        }
+    }
+    
+    public void Relatorio_Entrada_Alterada(String situacao){
+        try {
+            Calendar c = Calendar.getInstance();
+            c.add(Calendar.YEAR, -1); //diminuir datas - um ano
+            String df = new SimpleDateFormat("yyyy-MM-dd").format(Calendar.getInstance().getTime());
+            String di = new SimpleDateFormat("yyyy-MM-dd").format(c.getTime());
+
+            ObjConecta.Conectar();//abre a conexão
+            //Conta os itens;
+            ObjConecta.ExecutaSQL("select count(id_entrada) as cont from entrada inner join entrada_itens on entrada.id_entrada=entrada_itens.entrada_id_entrada "
+                    + " inner join produto on produto.id_produto=entrada_itens.produto_id_produto where entrada.data_entrada between '" + di + "' and '" + df + "' "
+                    + " and entrada.situacao_entrada = '"+situacao+"'");
+            ObjConecta.rs.first();
+            int ContItens = ObjConecta.rs.getInt("cont");
+
+            //conta a quantidade de entradas
+            ObjConecta.ExecutaSQL("select count(id_entrada) as cont from entrada where entrada.data_entrada between '" + di + "' and '" + df + "'"
+                    + " and entrada.situacao_entrada = '"+situacao+"'");
+            ObjConecta.rs.first();
+            int ContEntradas = ObjConecta.rs.getInt("cont");
+
+            ObjConecta.ExecutaSQL("select * from entrada inner join entrada_itens on entrada.id_entrada=entrada_itens.entrada_id_entrada "
+                    + " inner join produto on produto.id_produto=entrada_itens.produto_id_produto where entrada.data_entrada between '" + di + "' and '" + df + "'"
+                    + " and entrada.situacao_entrada = '"+situacao+"'");
+            JRResultSetDataSource Relatorio = new JRResultSetDataSource(ObjConecta.rs);
+            HashMap parametros = new HashMap();//instancia um hashMap para passar os parametros;
+            parametros.put("Usuario", ObjTP.UserLogado);//Se precisar passar algum parametro, tipo usuario logado
+            parametros.put("Quant_Iten", ContItens);
+            parametros.put("Quant_Entrada", ContEntradas);
+            parametros.put("Tipo_Relatorio","Todas as Entradas Alteradas - Último Ano");
+            //Aqui fica o diretorio do arquivo
+            JasperPrint JPrint = JasperFillManager.fillReport("C:\\Program Files (x86)\\SisCoE/Relat_Entradas_Todos.jasper", parametros, Relatorio);
+            JasperViewer JView = new JasperViewer(JPrint, false);
+            JView.setVisible(true);//Seta visivel                
+            JView.setTitle("Relatório De Entrada");//Colocar titulo na janela
+            JView.setIconImage(new ImageIcon(getClass().getResource("/Icones_Gerais/Serviço 24x24.png")).getImage()); //Colocar icone na janela
+            ObjConecta.Desconecta();//fecjha a conexão
+        } catch (SQLException | JRException ex) {
+            ObjConecta.Desconecta();
+            JOptionPane.showMessageDialog(null, "Erro ao gerar o relatório: " + ex);
+        }
     }
     
     public void Relatorio_Inicialzar(){

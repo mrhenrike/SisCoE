@@ -42,6 +42,12 @@ public class Controle_Lote_Estoque {
  
     public void Verificar_Abaixo_Do_Minimo(){
         try {
+            //verifica se existe algum produto
+            ObjConecta.Conectar();
+            ObjConecta.ExecutaSQL("select * from produto");
+            ObjConecta.rs.first();
+            int cod = ObjConecta.rs.getInt("id_produto");
+            //faz o teste
             ObjConecta.Conectar();
             ObjConecta.ExecutaSQL("select distinct produto.id_produto, produto.descricao,  unidade, quantidade_minima, "
                     + "(select sum(quantidade_estoque) from lote_estoque where produto.id_produto=lote_estoque.produto_id_produto) as estoque "
@@ -51,11 +57,18 @@ public class Controle_Lote_Estoque {
             Abaixo_Do_Minimo=true;
         } catch (SQLException ex) {
             Abaixo_Do_Minimo =false;
+            ObjConecta.Desconecta(); 
         }ObjConecta.Desconecta(); 
     }
     
     public void Verifica_Validade_30_Dias(){
         try {
+            //verifica se existe algum produto
+            ObjConecta.Conectar();
+            ObjConecta.ExecutaSQL("select * from produto");
+            ObjConecta.rs.first();
+            int cod = ObjConecta.rs.getInt("id_produto");
+            //faz o teste
             Calendar c = Calendar.getInstance();
             c.add(Calendar.MONTH, +1); //Aumenta um mes na data
             String df = new SimpleDateFormat("yyyy-MM-dd").format(c.getTime());
@@ -68,11 +81,17 @@ public class Controle_Lote_Estoque {
             Menos_De_30_Dias = true;
         } catch (SQLException ex) {
             Menos_De_30_Dias=false;
+            ObjConecta.Desconecta(); 
         }ObjConecta.Desconecta(); 
     }
     
     public void Verifica_Produto_Vencido(){
-        try {            
+        try {
+            ObjConecta.Conectar();
+            ObjConecta.ExecutaSQL("select * from produto");
+            ObjConecta.rs.first();
+            int cod = ObjConecta.rs.getInt("id_produto");
+            
             String da = new SimpleDateFormat("yyyy-MM-dd").format(Calendar.getInstance().getTime());
             ObjConecta.Conectar();
             ObjConecta.ExecutaSQL("select * from lote_estoque inner join produto on produto.id_produto=lote_estoque.produto_id_produto "
@@ -195,6 +214,22 @@ public void Atualiza_Estoque(Modelo_Lote_Estoque ObjModLote, int id_prod, double
                         +ex,"Informação Do Banco De Dados",JOptionPane.INFORMATION_MESSAGE);
             }
         return ObjModeloLote;
+    }
+    
+    public void Produto_Vencido(){
+        try {
+            ObjConecta.Conectar();
+            ObjConecta.ExecutaSQL("select * from produto");
+            ObjConecta.rs.first();
+            int cod = ObjConecta.rs.getInt("id_produto");
+            Controle_Lote_Estoque obj = new Controle_Lote_Estoque();
+            obj.Verifica_Produto_Vencido();
+            if(obj.Produto_Vencido ==true){
+                obj.Produto_Vencido =false;
+            }
+        } catch (SQLException ex) {
+           
+        }ObjConecta.Desconecta();
     }
     
 }

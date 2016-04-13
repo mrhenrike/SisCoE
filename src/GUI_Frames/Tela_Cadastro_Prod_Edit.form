@@ -60,6 +60,7 @@
                   <Component id="JP_Controle" alignment="0" max="32767" attributes="0"/>
                   <Component id="JP_Descricao" alignment="0" max="32767" attributes="0"/>
                   <Group type="102" alignment="1" attributes="0">
+                      <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
                       <Component id="BT_Salvar" min="-2" pref="160" max="-2" attributes="0"/>
                       <EmptySpace min="-2" pref="18" max="-2" attributes="0"/>
                       <Component id="BT_Cadastrar" min="-2" pref="160" max="-2" attributes="0"/>
@@ -70,14 +71,9 @@
                   </Group>
                   <Component id="jPanel1" alignment="1" max="32767" attributes="0"/>
                   <Group type="102" attributes="0">
-                      <Group type="103" groupAlignment="0" attributes="0">
-                          <Group type="102" alignment="0" attributes="0">
-                              <EmptySpace min="-2" pref="649" max="-2" attributes="0"/>
-                              <Component id="JL_Campos" min="-2" max="-2" attributes="0"/>
-                          </Group>
-                          <Component id="JL_Quant_Itens1" alignment="0" min="-2" max="-2" attributes="0"/>
-                      </Group>
-                      <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
+                      <Component id="JL_Quant_Itens1" min="-2" max="-2" attributes="0"/>
+                      <EmptySpace max="32767" attributes="0"/>
+                      <Component id="JL_Campos" min="-2" max="-2" attributes="0"/>
                   </Group>
               </Group>
               <EmptySpace max="-2" attributes="0"/>
@@ -91,12 +87,13 @@
               <Component id="JP_Descricao" min="-2" max="-2" attributes="0"/>
               <EmptySpace type="unrelated" max="-2" attributes="0"/>
               <Component id="JP_Controle" min="-2" max="-2" attributes="0"/>
-              <EmptySpace min="-2" pref="2" max="-2" attributes="0"/>
-              <Component id="JL_Campos" min="-2" max="-2" attributes="0"/>
-              <EmptySpace max="32767" attributes="0"/>
-              <Component id="jPanel1" min="-2" max="-2" attributes="0"/>
               <EmptySpace max="-2" attributes="0"/>
-              <Component id="JL_Quant_Itens1" min="-2" max="-2" attributes="0"/>
+              <Component id="jPanel1" max="32767" attributes="0"/>
+              <EmptySpace max="-2" attributes="0"/>
+              <Group type="103" groupAlignment="3" attributes="0">
+                  <Component id="JL_Quant_Itens1" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="JL_Campos" alignment="3" min="-2" max="-2" attributes="0"/>
+              </Group>
               <EmptySpace max="-2" attributes="0"/>
               <Group type="103" groupAlignment="0" max="-2" attributes="0">
                   <Component id="BT_Cadastrar" alignment="1" max="32767" attributes="0"/>
@@ -597,7 +594,7 @@
       <Properties>
         <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
           <Border info="org.netbeans.modules.form.compat2.border.TitledBorderInfo">
-            <TitledBorder title="Movimenta&#xe7;&#xe3;o">
+            <TitledBorder title="Movimenta&#xe7;&#xe3;o Nos &#xda;ltimos 3 Meses">
               <Border PropertyName="innerBorder" info="org.netbeans.modules.form.compat2.border.CompoundBorderInfo">
                 <CompoundBorder>
                   <Border PropertyName="outside" info="org.netbeans.modules.form.compat2.border.BevelBorderInfo">
@@ -618,28 +615,32 @@
         <DimensionLayout dim="0">
           <Group type="103" groupAlignment="0" attributes="0">
               <Group type="102" attributes="0">
-                  <EmptySpace min="-2" max="-2" attributes="0"/>
+                  <EmptySpace max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="0" attributes="0">
-                      <Component id="JL_Ultimo" alignment="0" max="32767" attributes="0"/>
-                      <Component id="jLabel8" min="-2" max="-2" attributes="0"/>
-                      <Component id="JTF_Ultimo" alignment="0" min="-2" pref="94" max="-2" attributes="0"/>
-                      <Component id="JCB_Tipo_Pesquisa" alignment="0" min="-2" pref="94" max="-2" attributes="0"/>
-                      <Component id="JTF_Media" alignment="0" min="-2" pref="94" max="-2" attributes="0"/>
-                      <Component id="JL_Media" alignment="0" min="-2" max="-2" attributes="0"/>
+                      <Component id="JL_Ultimo" alignment="0" pref="102" max="32767" attributes="0"/>
+                      <Group type="102" attributes="0">
+                          <Group type="103" groupAlignment="0" attributes="0">
+                              <Component id="JTF_Ultimo" alignment="0" min="-2" pref="94" max="-2" attributes="0"/>
+                              <Component id="JCB_Tipo_Pesquisa" alignment="0" min="-2" pref="94" max="-2" attributes="0"/>
+                              <Component id="JTF_Media" alignment="0" min="-2" pref="94" max="-2" attributes="0"/>
+                              <Component id="JL_Media" alignment="0" min="-2" max="-2" attributes="0"/>
+                              <Component id="JTF_Total" alignment="0" min="-2" pref="94" max="-2" attributes="0"/>
+                              <Component id="JL_Total" alignment="0" min="-2" max="-2" attributes="0"/>
+                          </Group>
+                          <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
+                      </Group>
                   </Group>
-                  <EmptySpace min="-2" max="-2" attributes="0"/>
-                  <Component id="jScrollPane1" pref="641" max="32767" attributes="0"/>
+                  <EmptySpace max="-2" attributes="0"/>
+                  <Component id="jScrollPane1" pref="644" max="32767" attributes="0"/>
                   <EmptySpace min="-2" pref="1" max="-2" attributes="0"/>
               </Group>
           </Group>
         </DimensionLayout>
         <DimensionLayout dim="1">
           <Group type="103" groupAlignment="0" attributes="0">
-              <Component id="jScrollPane1" alignment="1" pref="0" max="32767" attributes="0"/>
-              <Group type="102" alignment="0" attributes="0">
-                  <EmptySpace max="32767" attributes="0"/>
-                  <Component id="jLabel8" min="-2" max="-2" attributes="0"/>
-                  <EmptySpace max="-2" attributes="0"/>
+              <Component id="jScrollPane1" pref="0" max="32767" attributes="0"/>
+              <Group type="102" attributes="0">
+                  <EmptySpace min="-2" max="-2" attributes="0"/>
                   <Component id="JCB_Tipo_Pesquisa" min="-2" max="-2" attributes="0"/>
                   <EmptySpace max="-2" attributes="0"/>
                   <Component id="JL_Ultimo" min="-2" max="-2" attributes="0"/>
@@ -649,7 +650,11 @@
                   <Component id="JL_Media" min="-2" max="-2" attributes="0"/>
                   <EmptySpace max="-2" attributes="0"/>
                   <Component id="JTF_Media" min="-2" max="-2" attributes="0"/>
-                  <EmptySpace min="-2" pref="17" max="-2" attributes="0"/>
+                  <EmptySpace max="-2" attributes="0"/>
+                  <Component id="JL_Total" min="-2" max="-2" attributes="0"/>
+                  <EmptySpace max="-2" attributes="0"/>
+                  <Component id="JTF_Total" min="-2" max="-2" attributes="0"/>
+                  <EmptySpace min="0" pref="5" max="32767" attributes="0"/>
               </Group>
           </Group>
         </DimensionLayout>
@@ -684,23 +689,16 @@
         <Component class="javax.swing.JComboBox" name="JCB_Tipo_Pesquisa">
           <Properties>
             <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
-              <StringArray count="2">
+              <StringArray count="3">
                 <StringItem index="0" value="ENTRADA"/>
                 <StringItem index="1" value="SA&#xcd;DA"/>
+                <StringItem index="2" value="AJUSTE"/>
               </StringArray>
             </Property>
           </Properties>
           <Events>
             <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="JCB_Tipo_PesquisaActionPerformed"/>
           </Events>
-        </Component>
-        <Component class="javax.swing.JLabel" name="jLabel8">
-          <Properties>
-            <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
-              <Font name="Tahoma" size="14" style="0"/>
-            </Property>
-            <Property name="text" type="java.lang.String" value="Tipo:"/>
-          </Properties>
         </Component>
         <Component class="javax.swing.JLabel" name="JL_Ultimo">
           <Properties>
@@ -722,10 +720,25 @@
             <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
               <Font name="Tahoma" size="14" style="0"/>
             </Property>
-            <Property name="text" type="java.lang.String" value="Ultimos 3 Meses:"/>
+            <Property name="text" type="java.lang.String" value="M&#xe9;dia 3 Meses:"/>
           </Properties>
         </Component>
         <Component class="javax.swing.JTextField" name="JTF_Media">
+          <Properties>
+            <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+              <Font name="Tahoma" size="14" style="0"/>
+            </Property>
+          </Properties>
+        </Component>
+        <Component class="javax.swing.JLabel" name="JL_Total">
+          <Properties>
+            <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+              <Font name="Tahoma" size="14" style="0"/>
+            </Property>
+            <Property name="text" type="java.lang.String" value="Total 3 Meses:"/>
+          </Properties>
+        </Component>
+        <Component class="javax.swing.JTextField" name="JTF_Total">
           <Properties>
             <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
               <Font name="Tahoma" size="14" style="0"/>

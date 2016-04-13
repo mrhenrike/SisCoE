@@ -29,7 +29,7 @@ public class Controle_Relatorio_Log {
             int Cont = ObjConecta.rs.getInt("cont");
             //consulta
             ObjConecta.ExecutaSQL("select * from log_sistema inner join usuario on usuario_id_usuario = id_usuario "
-                    + " where acao like '%"+ filtro.getText().toUpperCase() + "%' and data ='"+hoje+"' order by id_log_sistema");            
+                    + " where acao like '%"+ filtro.getText().toUpperCase() + "%' and data ='"+hoje+"' order by id_log_sistema desc");            
             JRResultSetDataSource Relatorio = new JRResultSetDataSource(ObjConecta.rs);
             HashMap parametros = new HashMap();
             parametros.put("Usuario",UserLogado);
@@ -63,7 +63,7 @@ public class Controle_Relatorio_Log {
             int Cont = ObjConecta.rs.getInt("cont");
             //consulta
             ObjConecta.ExecutaSQL("select * from log_sistema inner join usuario on usuario_id_usuario = id_usuario "
-                    + " where acao like '%"+ filtro.getText().toUpperCase() + "%' and data between '"+di+"' and '"+df+"' order by id_log_sistema");            
+                    + " where acao like '%"+ filtro.getText().toUpperCase() + "%' and data between '"+di+"' and '"+df+"' order by id_log_sistema desc");            
             JRResultSetDataSource Relatorio = new JRResultSetDataSource(ObjConecta.rs);
             HashMap parametros = new HashMap();
             parametros.put("Usuario",UserLogado);

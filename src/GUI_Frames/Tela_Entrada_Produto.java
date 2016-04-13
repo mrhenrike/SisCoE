@@ -111,8 +111,9 @@ public class Tela_Entrada_Produto extends javax.swing.JInternalFrame {
        
         JTF_Cod.setEnabled(false);
         JTF_Un.setEnabled(false);
-        JTF_Descricao_Entrada.setDocument(ObjFormat.new Format_Geral(100));
+        JTF_Descricao_Entrada.setDocument(ObjFormat.new Format_Geral(500));
         JTF_Descricao.setDocument(ObjFormat.new Format_Geral(100));
+        JTF_Obs_Entrada.setDocument(ObjFormat.new Format_Geral(500));
         JTF_Quant.setDocument(ObjFormat.new Format_Valor(10));
         JTF_Lote.setDocument(ObjFormat.new Format_Geral(50));
         JTF_Descricao.requestFocus();
@@ -162,6 +163,8 @@ public class Tela_Entrada_Produto extends javax.swing.JInternalFrame {
         JP_Descricao_Entrada = new javax.swing.JPanel();
         jLabel9 = new javax.swing.JLabel();
         JTF_Descricao_Entrada = new javax.swing.JTextField();
+        jLabel10 = new javax.swing.JLabel();
+        JTF_Obs_Entrada = new javax.swing.JTextField();
         JL_Campos = new javax.swing.JLabel();
         JL_Quant_Item = new javax.swing.JLabel();
         JL_Quant_Itens1 = new javax.swing.JLabel();
@@ -215,7 +218,7 @@ public class Tela_Entrada_Produto extends javax.swing.JInternalFrame {
                 java.lang.Integer.class, java.lang.Object.class, java.lang.Object.class, java.lang.Object.class, java.lang.Object.class, java.lang.Object.class
             };
             boolean[] canEdit = new boolean [] {
-                false, false, true, false, false, true
+                false, false, true, true, true, true
             };
 
             public Class getColumnClass(int columnIndex) {
@@ -470,15 +473,29 @@ public class Tela_Entrada_Produto extends javax.swing.JInternalFrame {
             }
         });
 
+        jLabel10.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        jLabel10.setText("Obs:");
+
+        JTF_Obs_Entrada.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        JTF_Obs_Entrada.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                JTF_Obs_EntradaActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout JP_Descricao_EntradaLayout = new javax.swing.GroupLayout(JP_Descricao_Entrada);
         JP_Descricao_Entrada.setLayout(JP_Descricao_EntradaLayout);
         JP_Descricao_EntradaLayout.setHorizontalGroup(
             JP_Descricao_EntradaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(JP_Descricao_EntradaLayout.createSequentialGroup()
                 .addGap(18, 18, 18)
-                .addComponent(jLabel9)
+                .addGroup(JP_Descricao_EntradaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(jLabel9)
+                    .addComponent(jLabel10))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(JTF_Descricao_Entrada, javax.swing.GroupLayout.DEFAULT_SIZE, 686, Short.MAX_VALUE)
+                .addGroup(JP_Descricao_EntradaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(JTF_Obs_Entrada)
+                    .addComponent(JTF_Descricao_Entrada, javax.swing.GroupLayout.DEFAULT_SIZE, 686, Short.MAX_VALUE))
                 .addContainerGap())
         );
         JP_Descricao_EntradaLayout.setVerticalGroup(
@@ -487,6 +504,10 @@ public class Tela_Entrada_Produto extends javax.swing.JInternalFrame {
                 .addGroup(JP_Descricao_EntradaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel9)
                     .addComponent(JTF_Descricao_Entrada, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
+                .addGroup(JP_Descricao_EntradaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel10)
+                    .addComponent(JTF_Obs_Entrada, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap())
         );
 
@@ -519,12 +540,10 @@ public class Tela_Entrada_Produto extends javax.swing.JInternalFrame {
                         .addGap(18, 18, 18)
                         .addComponent(BT_Sair, javax.swing.GroupLayout.PREFERRED_SIZE, 160, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addComponent(JP_Descricao_Entrada, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addGap(0, 0, Short.MAX_VALUE)
-                        .addComponent(JL_Campos))
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(JL_Quant_Itens1)
-                        .addGap(0, 0, Short.MAX_VALUE)))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(JL_Campos)))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -534,25 +553,27 @@ public class Tela_Entrada_Produto extends javax.swing.JInternalFrame {
                 .addComponent(JP_Descricao_Entrada, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(JP_Dados_Entrada, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 0, 0)
-                .addComponent(JL_Campos)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(JL_Quant_Itens1)
-                .addGap(5, 5, 5)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(jLabel6)
-                        .addComponent(JL_Quant_Item))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addComponent(BT_Sair, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(BT_Salvar, javax.swing.GroupLayout.PREFERRED_SIZE, 52, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(BT_Excluir, javax.swing.GroupLayout.PREFERRED_SIZE, 51, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 191, Short.MAX_VALUE)
+                .addGap(11, 11, 11)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(JL_Campos)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(BT_Sair))
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(JL_Quant_Itens1)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                .addComponent(jLabel6)
+                                .addComponent(JL_Quant_Item))
+                            .addComponent(BT_Excluir, javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(BT_Salvar, javax.swing.GroupLayout.Alignment.TRAILING))))
                 .addContainerGap())
         );
 
-        setBounds(20, 20, 840, 560);
+        setBounds(20, 20, 840, 580);
     }// </editor-fold>//GEN-END:initComponents
 
     private void BT_SairActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BT_SairActionPerformed
@@ -673,11 +694,16 @@ public class Tela_Entrada_Produto extends javax.swing.JInternalFrame {
         JTF_Descricao.requestFocus();
     }//GEN-LAST:event_JTF_Descricao_EntradaActionPerformed
 
+    private void JTF_Obs_EntradaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_JTF_Obs_EntradaActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_JTF_Obs_EntradaActionPerformed
+
      public void Inserir_Entrada(){       
         try {
             ObjConecta.Conectar();//Abre a conexão            
             //Faz a Entrada
-            ObjModeloEntrada.setDescricao(JTF_Descricao_Entrada.getText().trim());
+            ObjModeloEntrada.setDescricao(JTF_Descricao_Entrada.getText().trim());//preenche o variavel descricao
+            ObjModeloEntrada.setObservacao(JTF_Obs_Entrada.getText().trim());//preenche a variavel observação
             ObjControlEnt.Inserir_Entrada(ObjModeloEntrada,new SimpleDateFormat("yyyy/MM/dd").format(new Date(System.currentTimeMillis())));              
             //seta o ultimo Id inserido           
             int Id_Entrada = ObjModeloEntrada.getId_entrada();
@@ -735,7 +761,7 @@ public class Tela_Entrada_Produto extends javax.swing.JInternalFrame {
             }
             if(ObjControlEnt.Confirma_Entrada == true){//entrada confirmada
                 ConfirmaEntrada=true;
-                ObjControlEnt.Efetivar_Entrada(Id_Entrada, "EFETIVADA");
+                ObjControlEnt.Atualiza_Situacao_Entrada(Id_Entrada, "EFETIVADA");
                 ObjControlEnt.Confirma_Entrada = false;
             }
             ObjControlEnt.Verifica_Entrada_Sem_Itens(Id_Entrada);//verifica se a entrada existe itens
@@ -982,7 +1008,8 @@ public class Tela_Entrada_Produto extends javax.swing.JInternalFrame {
                 Mostrar_Dados_Salvos();
                 new Controle_Log().Registrar_Log("efetivou a entrada id: "+ObjModeloEntrada.getId_entrada()+" - "+ObjModeloEntrada.getDescricao(), CodLogado);
                 Limpar_Tabela();
-                JTF_Descricao_Entrada.setText("");
+                JTF_Descricao_Entrada.setText("");                
+                JTF_Obs_Entrada.setText("");
                 ConfirmaEntrada = false;
             }
             else{
@@ -1259,11 +1286,13 @@ public class Tela_Entrada_Produto extends javax.swing.JInternalFrame {
     private javax.swing.JTextField JTF_Descricao;
     private javax.swing.JTextField JTF_Descricao_Entrada;
     private javax.swing.JTextField JTF_Lote;
+    private javax.swing.JTextField JTF_Obs_Entrada;
     private javax.swing.JFormattedTextField JTF_Preco;
     private javax.swing.JTextField JTF_Quant;
     private javax.swing.JTextField JTF_Quant_Dias;
     private javax.swing.JTextField JTF_Un;
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;

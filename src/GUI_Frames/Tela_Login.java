@@ -3,15 +3,12 @@ package GUI_Frames;
 //@author Márison Tamiarana
 
 import Conexao.Conecta_Banco;
-import Conexao.Controle_Lote_Estoque;
-import Conexao.Controle_Saida_Produto;
 import Conexao.Controle_Usuario;
 import GUI_Dialogs_Principal.Inf_Senha_Usuario_Invalido;
 import GUI_Dialogs_Principal.Logoff_Login;
 import Metodos.Formatacao;
 import java.awt.event.ActionEvent;
 import java.awt.event.KeyEvent;
-import java.sql.SQLException;
 import javax.swing.AbstractAction;
 import javax.swing.InputMap;
 import javax.swing.JComponent;
@@ -231,10 +228,11 @@ public class Tela_Login extends javax.swing.JDialog {
                 dispose();
                 TP.Setar_Usuario(JTF_LG_Usuario.getText(), JCB_LG_Permissão.getSelectedItem().toString());
                 TP.Controle_De_Acesso();
-                Abaixo_Do_Minimo();
-                Abaixo_De_30_Dias();
-                Produto_Vencido();
-                Devolucao_Pendente();
+                TP.Mostrar_Mensagem();
+//                TP.Abaixo_De_30_Dias();
+//                TP.Abaixo_Do_Minimo();
+//                TP.Devolucao_Pendente();
+//                TP.Produto_Vencido();
                 ObjControlUser.ControleAcesso=false;
            }else{
                Mostrar_Usuario_Invalido();
@@ -251,66 +249,6 @@ public class Tela_Login extends javax.swing.JDialog {
         Mostrar_Logoff();
     }//GEN-LAST:event_formWindowClosing
 
-    public void Abaixo_Do_Minimo(){
-        try {
-            ObjConecta.Conectar();
-            ObjConecta.ExecutaSQL("select * from produto");
-            ObjConecta.rs.first();
-            int cod = ObjConecta.rs.getInt("id_produto");            
-            Controle_Lote_Estoque obj = new Controle_Lote_Estoque();
-            obj.Verificar_Abaixo_Do_Minimo();
-            if(obj.Abaixo_Do_Minimo == true){
-                TP.Mostrar_Abaixo_Do_Minimo();
-                obj.Abaixo_Do_Minimo=false;
-            }
-        } catch (SQLException ex) {
-            
-        }ObjConecta.Desconecta();
-    }
-    
-    public void Abaixo_De_30_Dias(){
-        try {
-            ObjConecta.Conectar();
-            ObjConecta.ExecutaSQL("select * from produto");
-            ObjConecta.rs.first();
-            int cod = ObjConecta.rs.getInt("id_produto");
-            Controle_Lote_Estoque obj = new Controle_Lote_Estoque();
-            obj.Verifica_Validade_30_Dias();
-            if(obj.Menos_De_30_Dias ==true){
-                TP.Mostrar_Validade();
-                obj.Menos_De_30_Dias=false;
-            }
-        } catch (SQLException ex) {
-           
-        }ObjConecta.Desconecta();
-    }
-    
-    public void Produto_Vencido(){
-        try {
-            ObjConecta.Conectar();
-            ObjConecta.ExecutaSQL("select * from produto");
-            ObjConecta.rs.first();
-            int cod = ObjConecta.rs.getInt("id_produto");
-            Controle_Lote_Estoque obj = new Controle_Lote_Estoque();
-            obj.Verifica_Produto_Vencido();
-            if(obj.Produto_Vencido ==true){
-                TP.Mostrar_Prod_Vencido();
-                obj.Produto_Vencido =false;
-            }
-        } catch (SQLException ex) {
-           
-        }ObjConecta.Desconecta();
-    }
-    
-    public void Devolucao_Pendente(){
-        Controle_Saida_Produto obj = new Controle_Saida_Produto();
-        obj.Devolucao_Pendente();
-        if(obj.Controla_Devolucao_Pendente ==true){
-            TP.Mostrar_Dev_Pendente();
-            obj.Controla_Devolucao_Pendente =false;
-        }
-    }
-    
     void Mostrar_Usuario_Invalido(){
         ObjUserInvalido = new Inf_Senha_Usuario_Invalido(this, true);
         ObjUserInvalido.setVisible(true);

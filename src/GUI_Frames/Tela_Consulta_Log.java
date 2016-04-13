@@ -498,14 +498,14 @@ public class Tela_Consulta_Log extends javax.swing.JInternalFrame {
         if(JCB_Tipo_Pesquisa.getSelectedIndex()== 1){
             String hoje = new SimpleDateFormat("yyyy/MM/dd").format(new Date(System.currentTimeMillis()));
             Preencher_Tabela("select * from log_sistema where acao like '%"    
-                + JTF_Pesquisa.getText().toUpperCase() + "%' and data ='"+hoje+"'"
+                + JTF_Pesquisa.getText().toUpperCase() + "%' and data ='"+hoje+"' order by id_log_sistema desc "
                      + "limit "+intervalo+","+itens_por_pagina+"");
         }
         if(JCB_Tipo_Pesquisa.getSelectedIndex()== 2){
             String di = new SimpleDateFormat("yyyy-MM-dd").format(JD_Inicial.getDate());
             String df = new SimpleDateFormat("yyyy-MM-dd").format(JD_Final.getDate());
             Preencher_Tabela("select * from log_sistema where acao like '%"    
-                + JTF_Pesquisa.getText().toUpperCase() + "%' and data between '"+di+"' and '"+df+"'"
+                + JTF_Pesquisa.getText().toUpperCase() + "%' and data between '"+di+"' and '"+df+"' order by id_log_sistema desc "
                      + "limit "+intervalo+","+itens_por_pagina+"");
         }
         if(contador==1){
@@ -528,14 +528,14 @@ public class Tela_Consulta_Log extends javax.swing.JInternalFrame {
         if(JCB_Tipo_Pesquisa.getSelectedIndex()== 1){
             String hoje = new SimpleDateFormat("yyyy/MM/dd").format(new Date(System.currentTimeMillis()));
             Preencher_Tabela("select * from log_sistema where acao like '%"    
-                + JTF_Pesquisa.getText().toUpperCase() + "%' and data ='"+hoje+"'"
+                + JTF_Pesquisa.getText().toUpperCase() + "%' and data ='"+hoje+"' order by id_log_sistema desc "
                      + "limit "+intervalo+","+itens_por_pagina+"");
         }
         if(JCB_Tipo_Pesquisa.getSelectedIndex()== 2){
             String di = new SimpleDateFormat("yyyy-MM-dd").format(JD_Inicial.getDate());
             String df = new SimpleDateFormat("yyyy-MM-dd").format(JD_Final.getDate());
             Preencher_Tabela("select * from log_sistema where acao like '%"    
-                + JTF_Pesquisa.getText().toUpperCase() + "%' and data between '"+di+"' and '"+df+"'"
+                + JTF_Pesquisa.getText().toUpperCase() + "%' and data between '"+di+"' and '"+df+"' order by id_log_sistema desc "
                      + "limit "+intervalo+","+itens_por_pagina+"");
         }
         if(contador<=numero_de_pagina){
@@ -610,7 +610,7 @@ public class Tela_Consulta_Log extends javax.swing.JInternalFrame {
         if(JCB_Tipo_Pesquisa.getSelectedIndex() == 1){
             String hoje = new SimpleDateFormat("yyyy/MM/dd").format(new Date(System.currentTimeMillis()));
             Preencher_Tabela("select * from log_sistema where acao like '%"    
-                + JTF_Pesquisa.getText().toUpperCase() + "%' and data ='"+hoje+"'"
+                + JTF_Pesquisa.getText().toUpperCase() + "%' and data ='"+hoje+"' order by id_log_sistema desc "
                      + "limit "+intervalo+","+itens_por_pagina+"");
             ObjControleLog.Contar_Log_Hoje(JL_Registros,JTF_Pesquisa);
             Metodo_Geral();
@@ -619,8 +619,8 @@ public class Tela_Consulta_Log extends javax.swing.JInternalFrame {
             String di = new SimpleDateFormat("yyyy-MM-dd").format(JD_Inicial.getDate());
             String df = new SimpleDateFormat("yyyy-MM-dd").format(JD_Final.getDate());
             Preencher_Tabela("select * from log_sistema where acao like '%"    
-                + JTF_Pesquisa.getText().toUpperCase() + "%' and data between '"+di+"' and '"+df+"'"
-                     + "limit "+intervalo+","+itens_por_pagina+"");
+                + JTF_Pesquisa.getText().toUpperCase() + "%' and data between '"+di+"' and '"+df+"' order by id_log_sistema desc "
+                     + "limit "+intervalo+","+itens_por_pagina+" ");
             ObjControleLog.Contar_Log_Periodo(JL_Registros,di ,df ,JTF_Pesquisa);
             Metodo_Geral();
         }
@@ -686,7 +686,7 @@ public class Tela_Consulta_Log extends javax.swing.JInternalFrame {
             Limpar_Tabela();
             String hoje = new SimpleDateFormat("yyyy/MM/dd").format(new Date(System.currentTimeMillis()));
             Preencher_Tabela("select * from log_sistema where acao like '%"    
-                    + JTF_Pesquisa.getText().toUpperCase() + "%' and data ='"+hoje+"'"
+                    + JTF_Pesquisa.getText().toUpperCase() + "%' and data ='"+hoje+"' order by id_log_sistema desc "
                     + "limit "+intervalo+","+itens_por_pagina+"");
             ObjControleLog.Contar_Log_Hoje(JL_Registros,JTF_Pesquisa);
             Habilita_Filtro();
@@ -713,7 +713,7 @@ public class Tela_Consulta_Log extends javax.swing.JInternalFrame {
                             String di = new SimpleDateFormat("yyyy-MM-dd").format(JD_Inicial.getDate());
                             String df = new SimpleDateFormat("yyyy-MM-dd").format(JD_Final.getDate());
                             Preencher_Tabela("select * from log_sistema where acao like '%"    
-                            + JTF_Pesquisa.getText().toUpperCase() + "%' and data between '"+di+"' and '"+df+"'"
+                            + JTF_Pesquisa.getText().toUpperCase() + "%' and data between '"+di+"' and '"+df+"' order by id_log_sistema desc "
                             + "limit "+intervalo+","+itens_por_pagina+"");
                             ObjControleLog.controla_log = false;
                             Habilita_Filtro();

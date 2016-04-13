@@ -24,7 +24,8 @@ public class Modelo_Saida_Produto {
     private int turma_semestre;
     private int vestibular;
     private int disciplina_semestre;
-    private int media;//armazenar a media das entradas
+    private double media;//armazenar a media das saidas
+    private double total;//armazenar o total das saidas
 
     public int getId_saida() {
         return id_saida;
@@ -122,11 +123,11 @@ public class Modelo_Saida_Produto {
         this.observacao = observacao;
     }
 
-    public int getMedia() {
+    public double getMedia() {
         return media;
     }
 
-    public void setMedia(int media) {
+    public void setMedia(double media) {
         this.media = media;
     }
 
@@ -192,6 +193,14 @@ public class Modelo_Saida_Produto {
 
     public void setSituacao(String situacao) {
         this.situacao = situacao;
+    }
+
+    public double getTotal() {
+        return total;
+    }
+
+    public void setTotal(double total) {
+        this.total = total;
     }
 
    }

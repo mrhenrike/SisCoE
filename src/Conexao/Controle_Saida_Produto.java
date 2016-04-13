@@ -218,7 +218,7 @@ public class Controle_Saida_Produto {
             String data_inicio = new SimpleDateFormat("yyyy-MM-dd").format(c.getTime());
             
             obj.ExecutaSQL("select * from saida inner join saida_itens on"
-              + " saida.id_saida=saida_itens.saida_id_saida where produto_id_produto="+id+"");
+              + " saida.id_saida=saida_itens.saida_id_saida where produto_id_produto="+id+" and situacao !='CANCELADA'");
             //primeira saida
             obj.rs.first();
             Date dt1 = obj.rs.getDate("data_saida");
@@ -232,21 +232,23 @@ public class Controle_Saida_Produto {
                 ObjConecta.Conectar();
                 ObjConecta.ExecutaSQL("select sum(quantidade) as media from saida inner join saida_itens on "
                         + "saida.id_saida=saida_itens.saida_id_saida "
-                        + "where saida.data_saida between "+"'"+data_inicio+"'"+" and "+"'"+data_atual+"'"+" and produto_id_produto=" + id + "");
+                        + "where saida.data_saida between "+"'"+data_inicio+"'"+" and "+"'"+data_atual+"'"+" and produto_id_produto=" + id + " "
+                        + " and situacao !='CANCELADA'");
                 ObjConecta.rs.first();
-                int soma = ObjConecta.rs.getInt("media");//recebe o total
+                float soma = ObjConecta.rs.getInt("media");//recebe o total
+                ObjModeloSaidaProd.setTotal(soma);
                 if(dt_inicio.before(dt1)){               
                     if (dt <= 30) {
-                        int resultado = soma;
+                        float resultado = soma;
                         ObjModeloSaidaProd.setMedia(resultado); }
                     if (dt > 30 && dt <= 60) {
-                        int resultado = soma / 2;
+                        float resultado = soma / 2;
                         ObjModeloSaidaProd.setMedia(resultado); }
                     if (dt > 60) {
-                        int resultado = soma / 3;
+                        float resultado = soma / 3;
                         ObjModeloSaidaProd.setMedia(resultado); }           
                 }else{
-                    int resultado = soma / 3;
+                    float resultado = soma / 3;
                     ObjModeloSaidaProd.setMedia(resultado); }              
                 ObjConecta.Desconecta();
             } catch (SQLException ex) {
@@ -258,7 +260,27 @@ public class Controle_Saida_Produto {
         return ObjModeloSaidaProd;
     }
     
-    // Controle para devolução
+    public Modelo_Saida_Produto Consulta_Ultima_Saida(Modelo_Saida_Produto ObjModeloSaidaProd, String id){
+        try {
+            ObjConecta.Conectar();
+                        
+            ObjConecta.ExecutaSQL("select * from saida inner join saida_itens on"
+              + " saida.id_saida=saida_itens.saida_id_saida where produto_id_produto="+id+" and situacao !='CANCELADA'");
+            //ultima saida
+            ObjConecta.rs.last();
+            Date dt2 = ObjConecta.rs.getDate("data_saida");
+            ObjModeloSaidaProd.setData_saida(new SimpleDateFormat("dd-MM-yyyy").format(dt2.getTime()));
+            ObjConecta.Desconecta();
+           
+        } catch (SQLException ex) {
+            ObjConecta.Desconecta();                
+            JOptionPane.showMessageDialog(null,"Erro ao consultar a ultima saida do produto no banco! \n"
+                +ex,"Informação Do Banco De Dados",JOptionPane.INFORMATION_MESSAGE);
+        }
+        return ObjModeloSaidaProd;
+    }
+    
+    ///////////////////////////////// Controle para devolução
     
     public Modelo_Saida_Produto Consulta_Saida_Devolucao(Modelo_Saida_Produto ObjModeloSaida, int id_saida){
         try {
@@ -360,6 +382,20 @@ public class Controle_Saida_Produto {
             String di = new SimpleDateFormat("yyyy-MM-dd").format(jdi.getDate());
             String df = new SimpleDateFormat("yyyy-MM-dd").format(jdf.getDate());
             ObjConecta.ExecutaSQL("select * from saida where data_saida between '"+di+"' and '"+df+"'");
+            ObjConecta.rs.first();
+            int id = ObjConecta.rs.getInt("id_saida");
+            Controle_Saida = true;
+            ObjConecta.Desconecta();
+        } catch (SQLException ex) {
+            Controle_Saida = false;
+            ObjConecta.Desconecta();
+        }
+    }
+     public void Consulta_Iten_Saida(int id_prod){
+        try {
+            ObjConecta.Conectar();
+            ObjConecta.ExecutaSQL("select * from saida inner join saida_itens on"
+              + " saida.id_saida=saida_itens.saida_id_saida where produto_id_produto="+id_prod+"");
             ObjConecta.rs.first();
             int id = ObjConecta.rs.getInt("id_saida");
             Controle_Saida = true;

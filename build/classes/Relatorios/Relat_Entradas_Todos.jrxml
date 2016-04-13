@@ -34,6 +34,9 @@
 	<parameter name="Quant_Entrada" class="java.lang.Integer">
 		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
 	</parameter>
+	<parameter name="Tipo_Relatorio" class="java.lang.String">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
 	<queryString>
 		<![CDATA[select * from entrada inner join entrada_itens on entrada.id_entrada=entrada_itens.entrada_id_entrada inner join produto 
 on produto.id_produto=entrada_itens.produto_id_produto]]>
@@ -268,12 +271,19 @@ on produto.id_produto=entrada_itens.produto_id_produto]]>
 				</graphicElement>
 			</line>
 			<staticText>
-				<reportElement x="1" y="72" width="312" height="15" uuid="2c383f28-a961-42b1-9e66-206604b25430"/>
+				<reportElement x="1" y="72" width="82" height="15" uuid="2c383f28-a961-42b1-9e66-206604b25430"/>
 				<textElement verticalAlignment="Middle">
 					<font fontName="Tahoma"/>
 				</textElement>
-				<text><![CDATA[Tipo de Relatório: Todas as Entradas - Último Ano]]></text>
+				<text><![CDATA[Tipo de Relatório:]]></text>
 			</staticText>
+			<textField>
+				<reportElement x="83" y="72" width="312" height="15" uuid="dba72e3d-fe59-49a4-b67e-377d848756b2"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Tahoma"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{Tipo_Relatorio}]]></textFieldExpression>
+			</textField>
 		</band>
 	</title>
 	<pageHeader>

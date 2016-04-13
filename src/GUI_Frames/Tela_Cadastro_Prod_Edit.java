@@ -2,6 +2,7 @@ package GUI_Frames;
 
 // @author Márison Tamiarana
 
+import Classes.Modelo_Ajuste_Estoque;
 import Classes.Modelo_Entrada_Produto;
 import Classes.Modelo_Lote_Estoque;
 import Classes.Modelo_Produto;
@@ -9,6 +10,7 @@ import Classes.Modelo_Saida_Produto;
 import Classes.Modelo_Tabela;
 import Classes.Modelo_Turma;
 import Conexao.Conecta_Banco;
+import Conexao.Controle_Ajuste_Estoque;
 import Conexao.Controle_Categoria;
 import Conexao.Controle_Entrada_Produto;
 import Conexao.Controle_Log;
@@ -91,6 +93,8 @@ public class Tela_Cadastro_Prod_Edit extends javax.swing.JInternalFrame {
     Controle_Entrada_Produto ObjControlEntradaProd = new Controle_Entrada_Produto();
     Controle_Saida_Produto ObjControlSaida = new Controle_Saida_Produto();
     Modelo_Saida_Produto ObjModeloSaida = new Modelo_Saida_Produto();
+    Controle_Ajuste_Estoque ObjControleAjuste = new Controle_Ajuste_Estoque();
+    Modelo_Ajuste_Estoque ObjModAjuste = new Modelo_Ajuste_Estoque();
     //variavel para log
     public String id_produto_edit;
     public String produto_edit;
@@ -155,11 +159,12 @@ public class Tela_Cadastro_Prod_Edit extends javax.swing.JInternalFrame {
         jScrollPane1 = new javax.swing.JScrollPane();
         JTB_Consulta_Prod = new javax.swing.JTable();
         JCB_Tipo_Pesquisa = new javax.swing.JComboBox();
-        jLabel8 = new javax.swing.JLabel();
         JL_Ultimo = new javax.swing.JLabel();
         JTF_Ultimo = new javax.swing.JTextField();
         JL_Media = new javax.swing.JLabel();
         JTF_Media = new javax.swing.JTextField();
+        JL_Total = new javax.swing.JLabel();
+        JTF_Total = new javax.swing.JTextField();
         BT_Salvar = new javax.swing.JButton();
         JL_Quant_Itens1 = new javax.swing.JLabel();
 
@@ -430,7 +435,7 @@ public class Tela_Cadastro_Prod_Edit extends javax.swing.JInternalFrame {
             }
         });
 
-        jPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createCompoundBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.LOWERED), javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED)), "Movimentação", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 0, 12))); // NOI18N
+        jPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createCompoundBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.LOWERED), javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED)), "Movimentação Nos Últimos 3 Meses", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 0, 12))); // NOI18N
 
         JTB_Consulta_Prod.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         JTB_Consulta_Prod.setModel(new javax.swing.table.DefaultTableModel(
@@ -450,15 +455,12 @@ public class Tela_Cadastro_Prod_Edit extends javax.swing.JInternalFrame {
         });
         jScrollPane1.setViewportView(JTB_Consulta_Prod);
 
-        JCB_Tipo_Pesquisa.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "ENTRADA", "SAÍDA" }));
+        JCB_Tipo_Pesquisa.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "ENTRADA", "SAÍDA", "AJUSTE" }));
         JCB_Tipo_Pesquisa.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 JCB_Tipo_PesquisaActionPerformed(evt);
             }
         });
-
-        jLabel8.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        jLabel8.setText("Tipo:");
 
         JL_Ultimo.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         JL_Ultimo.setText("Ultima Entrada:");
@@ -466,9 +468,14 @@ public class Tela_Cadastro_Prod_Edit extends javax.swing.JInternalFrame {
         JTF_Ultimo.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
 
         JL_Media.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        JL_Media.setText("Ultimos 3 Meses:");
+        JL_Media.setText("Média 3 Meses:");
 
         JTF_Media.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+
+        JL_Total.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        JL_Total.setText("Total 3 Meses:");
+
+        JTF_Total.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -477,23 +484,25 @@ public class Tela_Cadastro_Prod_Edit extends javax.swing.JInternalFrame {
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(JL_Ultimo, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jLabel8)
-                    .addComponent(JTF_Ultimo, javax.swing.GroupLayout.PREFERRED_SIZE, 94, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(JCB_Tipo_Pesquisa, javax.swing.GroupLayout.PREFERRED_SIZE, 94, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(JTF_Media, javax.swing.GroupLayout.PREFERRED_SIZE, 94, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(JL_Media))
+                    .addComponent(JL_Ultimo, javax.swing.GroupLayout.DEFAULT_SIZE, 102, Short.MAX_VALUE)
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(JTF_Ultimo, javax.swing.GroupLayout.PREFERRED_SIZE, 94, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(JCB_Tipo_Pesquisa, javax.swing.GroupLayout.PREFERRED_SIZE, 94, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(JTF_Media, javax.swing.GroupLayout.PREFERRED_SIZE, 94, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(JL_Media)
+                            .addComponent(JTF_Total, javax.swing.GroupLayout.PREFERRED_SIZE, 94, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(JL_Total))
+                        .addGap(0, 0, Short.MAX_VALUE)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 641, Short.MAX_VALUE)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 644, Short.MAX_VALUE)
                 .addGap(1, 1, 1))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
+            .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jLabel8)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addContainerGap()
                 .addComponent(JCB_Tipo_Pesquisa, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(JL_Ultimo)
@@ -503,7 +512,11 @@ public class Tela_Cadastro_Prod_Edit extends javax.swing.JInternalFrame {
                 .addComponent(JL_Media)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(JTF_Media, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(17, 17, 17))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(JL_Total)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(JTF_Total, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 5, Short.MAX_VALUE))
         );
 
         BT_Salvar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icones/Bt Salvar.png"))); // NOI18N
@@ -529,6 +542,7 @@ public class Tela_Cadastro_Prod_Edit extends javax.swing.JInternalFrame {
                     .addComponent(JP_Controle, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(JP_Descricao, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addGap(0, 0, Short.MAX_VALUE)
                         .addComponent(BT_Salvar, javax.swing.GroupLayout.PREFERRED_SIZE, 160, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
                         .addComponent(BT_Cadastrar, javax.swing.GroupLayout.PREFERRED_SIZE, 160, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -538,12 +552,9 @@ public class Tela_Cadastro_Prod_Edit extends javax.swing.JInternalFrame {
                         .addComponent(BT_Sair, javax.swing.GroupLayout.PREFERRED_SIZE, 160, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addComponent(jPanel1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(layout.createSequentialGroup()
-                                .addGap(649, 649, 649)
-                                .addComponent(JL_Campos))
-                            .addComponent(JL_Quant_Itens1))
-                        .addGap(0, 0, Short.MAX_VALUE)))
+                        .addComponent(JL_Quant_Itens1)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(JL_Campos)))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -553,12 +564,12 @@ public class Tela_Cadastro_Prod_Edit extends javax.swing.JInternalFrame {
                 .addComponent(JP_Descricao, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(JP_Controle, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(2, 2, 2)
-                .addComponent(JL_Campos)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(JL_Quant_Itens1)
+                .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(JL_Quant_Itens1)
+                    .addComponent(JL_Campos))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(BT_Cadastrar, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -615,20 +626,49 @@ public class Tela_Cadastro_Prod_Edit extends javax.swing.JInternalFrame {
         Calendar c = Calendar.getInstance();
         c.add(Calendar.MONTH, -3); //diminuir datas - inicio para 90 dias;
         String data_atual = new SimpleDateFormat("yyyy-MM-dd").format(Calendar.getInstance().getTime());
-        String data_inicio = new SimpleDateFormat("yyyy-MM-dd").format(c.getTime());
-        
+        String data_inicio = new SimpleDateFormat("yyyy-MM-dd").format(c.getTime());        
         
         if(JCB_Tipo_Pesquisa.getSelectedItem()=="SAÍDA")
-        {   JTF_Ultimo.setText("");JL_Ultimo.setText("Ultima Saída");JTF_Media.setText("");
+        {   JTF_Ultimo.setText("");JL_Ultimo.setText("Ultima Saída");JTF_Media.setText("");JTF_Total.setText("");
             Preencher_Tabela_Saidas("select * from saida inner join saida_itens on saida.id_saida=saida_itens.saida_id_saida "
                     + "where saida_itens.produto_id_produto="+JTF_Cod.getText().trim()+" "
-                    + "and saida.data_saida between '"+data_inicio+"' and '"+data_atual+"';");
+                    + "and saida.data_saida between '"+data_inicio+"' and '"+data_atual+"' and situacao !='CANCELADA' "
+                    + "order by id_saida desc");
+            //ultima saida
+            ObjControlSaida.Consulta_Iten_Saida(Integer.parseInt(JTF_Cod.getText().trim()));
+            if(ObjControlSaida.Controle_Saida == true){
+                ObjControlSaida.Consulta_Ultima_Saida(ObjModeloSaida, JTF_Cod.getText());
+                JTF_Ultimo.setText(String.valueOf(ObjModeloSaida.getData_saida()));
+                ObjControlSaida.Controle_Saida = false;
+            }
         }
         if(JCB_Tipo_Pesquisa.getSelectedItem()=="ENTRADA")
-        {   JTF_Ultimo.setText("");JL_Ultimo.setText("Ultima Entrada");JTF_Media.setText("");
+        {   JTF_Ultimo.setText("");JL_Ultimo.setText("Ultima Entrada");JTF_Media.setText("");JTF_Total.setText("");
             Preencher_Tabela_Entradas("select * from entrada inner join entrada_itens on"
                 + " entrada.id_entrada=entrada_itens.entrada_id_entrada where produto_id_produto="+JTF_Cod.getText().trim()+" "
-                    + "and entrada.data_entrada between '"+data_inicio+"' and '"+data_atual+"';");
+                    + "and entrada.data_entrada between '"+data_inicio+"' and '"+data_atual+"' and situacao_entrada !='CANCELADA'"
+                    + " order by id_entrada desc");
+            //ultima entrada
+            ObjControlEntradaProd.Consulta_Iten_Entrada(Integer.parseInt(JTF_Cod.getText().trim()));
+            if(ObjControlEntradaProd.Controle_Entrada == true){
+                ObjControlEntradaProd.Consulta_Ultima_Entrada(ObjModeloEntradaProd, JTF_Cod.getText());
+                JTF_Ultimo.setText(String.valueOf(ObjModeloEntradaProd.getData_entrada()));
+                ObjControlEntradaProd.Controle_Entrada = false;
+            }
+        }
+        if(JCB_Tipo_Pesquisa.getSelectedItem()=="AJUSTE")
+        {   JTF_Ultimo.setText("");JL_Ultimo.setText("Ultimo Ajuste");JTF_Media.setText("");JTF_Total.setText("");
+            Preencher_Tabela_Ajuste("select * from ajuste_estoque inner join lote_estoque "
+                        + " on ajuste_estoque.lote_estoque_id_lote = lote_estoque.id_lote where ajuste_estoque.produto_id_produto="+JTF_Cod.getText().trim()+" "
+                        + " and ajuste_estoque.data_ajuste between "+"'"+data_inicio+"'"+" and "+"'"+data_atual+"'"+" "
+                        + " order by id_ajuste_estoque desc");
+            //ultima ajuste
+            ObjControleAjuste.Consulta_Iten_Ajuste(Integer.parseInt(JTF_Cod.getText().trim()));
+            if(ObjControleAjuste.Controle_Ajuste == true){
+                ObjControleAjuste.Consulta_Ultimo_Ajuste(ObjModAjuste, JTF_Cod.getText());
+                JTF_Ultimo.setText(String.valueOf(ObjModAjuste.getData_ajuste()));
+                ObjControleAjuste.Controle_Ajuste = false;
+            }
         }
     }//GEN-LAST:event_JCB_Tipo_PesquisaActionPerformed
 
@@ -683,6 +723,13 @@ public class Tela_Cadastro_Prod_Edit extends javax.swing.JInternalFrame {
                         ObjConecta.Desconecta();  
                     }
                     
+                }
+                if(JCB_Tipo_Pesquisa.getSelectedIndex()==2){
+                    Object Descricao = JTB_Consulta_Prod.getValueAt(JTB_Consulta_Prod.getSelectedRow(), 2);
+                    Object Data = JTB_Consulta_Prod.getValueAt(JTB_Consulta_Prod.getSelectedRow(), 1);
+                    Object Num_Entrada = JTB_Consulta_Prod.getValueAt(JTB_Consulta_Prod.getSelectedRow(), 0);
+                    JOptionPane.showMessageDialog(rootPane,"Número Do Ajuste: "+ Num_Entrada+"   Data: "+Data+
+                        "\nMotivo: "+Descricao,"Descrição Do Ajuste",JOptionPane.INFORMATION_MESSAGE);
                 }
             }
         } catch (HeadlessException ex) {
@@ -773,6 +820,7 @@ public class Tela_Cadastro_Prod_Edit extends javax.swing.JInternalFrame {
         JCB_Solicita_Lote.setEnabled(false);
         JCB_Unidade.setEnabled(false);
         JCB_Situacao.setEnabled(false);
+        JTF_Total.setEnabled(false);
     }
     
     public void Habilitar_Campos(){
@@ -830,8 +878,14 @@ public class Tela_Cadastro_Prod_Edit extends javax.swing.JInternalFrame {
             ObjControlProd.Consulta_Produto_Alterar(ObjModeloProduto);
             ObjControlProd.Consulta_Produto_Alterar(ObjModeloProdutoLog);//para ser usado no log  
             
+            Calendar c = Calendar.getInstance();
+            c.add(Calendar.MONTH, -3); //diminuir datas - inicio para 90 dias;
+            String data_atual = new SimpleDateFormat("yyyy-MM-dd").format(Calendar.getInstance().getTime());
+            String data_inicio = new SimpleDateFormat("yyyy-MM-dd").format(c.getTime());
             Preencher_Tabela_Entradas("select * from entrada inner join entrada_itens on"
-              + " entrada.id_entrada=entrada_itens.entrada_id_entrada where produto_id_produto="+LinhaSelecionada+"");
+                + " entrada.id_entrada=entrada_itens.entrada_id_entrada where produto_id_produto="+LinhaSelecionada+" "
+                    + "and entrada.data_entrada between '"+data_inicio+"' and '"+data_atual+"' and situacao_entrada !='CANCELADA'"
+                    + " order by id_entrada desc");
                         
             ObjControlProd.Procura_Nome_Categoria(ObjModeloProduto,ObjModeloProduto.getCategoria_id_produto());
             ObjControlProd.Procura_Nome_Categoria(ObjModeloProdutoLog,ObjModeloProdutoLog.getCategoria_id_produto());//para ser usado no log
@@ -853,6 +907,14 @@ public class Tela_Cadastro_Prod_Edit extends javax.swing.JInternalFrame {
             id_produto_edit = (String.valueOf(ObjModeloProduto.getId_produto()));
             produto_edit = (String.valueOf(ObjModeloProduto.getDescricao()));
             
+            //ultima entrada
+            JL_Ultimo.setText("Ultima Entrada:");
+            ObjControlEntradaProd.Consulta_Iten_Entrada(Integer.parseInt(String.valueOf(LinhaSelecionada)));
+            if(ObjControlEntradaProd.Controle_Entrada == true){
+                ObjControlEntradaProd.Consulta_Ultima_Entrada(ObjModeloEntradaProd, JTF_Cod.getText());
+                JTF_Ultimo.setText(String.valueOf(ObjModeloEntradaProd.getData_entrada()));
+                ObjControlEntradaProd.Controle_Entrada = false;
+            }
             } catch (SQLException ex) {
         }
     }
@@ -919,7 +981,7 @@ public class Tela_Cadastro_Prod_Edit extends javax.swing.JInternalFrame {
         ObjConecta2.ExecutaSQL(SQL);
         try {
             ObjConecta2.rs.first();
-           
+            
             do {
                 String lote = ObjConecta2.rs.getString("lote");
                 Date validade = ObjConecta2.rs.getDate("data_validade");
@@ -933,18 +995,24 @@ public class Tela_Cadastro_Prod_Edit extends javax.swing.JInternalFrame {
             } while (ObjConecta2.rs.next());
             //data da ultima entrada
             ObjConecta2.rs.last();
-            JL_Ultimo.setText("Ultima Entrada:");
-            JTF_Ultimo.setText(String.valueOf(new SimpleDateFormat("dd-MM-yyyy").format(ObjConecta2.rs.getDate("data_entrada"))));
+            //JTF_Ultimo.setText(String.valueOf(new SimpleDateFormat("dd-MM-yyyy").format(ObjConecta2.rs.getDate("data_entrada"))));
             //Média das entradas
             ObjControlEntradaProd.Media_Prod_Mes_Entrada(ObjModeloEntradaProd,ObjConecta2.rs.getInt("produto_id_produto"));
-            JTF_Media.setText(String.valueOf(ObjModeloEntradaProd.getMedia()));
+            JTF_Media.setText(String.valueOf(ObjModeloEntradaProd.getMedia()).replace(".", ","));
+            JTF_Total.setText(String.valueOf(ObjModeloEntradaProd.getTotal()).replace(".", ","));
             //Setar a label media
             if (ObjControlEntradaProd.dt <= 30) {
-                JL_Media.setText("Ultimo Mês");}
+                JL_Media.setText("Média Mês");
+                JL_Total.setText("Total Mês");
+            }
             if (ObjControlEntradaProd.dt > 30 && ObjControlEntradaProd.dt <= 60) {
-                JL_Media.setText("Ultimos 2 Meses");}
+                JL_Media.setText("Média 2 Meses");
+                JL_Total.setText("Total 2 Meses");
+            }
             if (ObjControlEntradaProd.dt > 60) {
-                JL_Media.setText("Ultimos 3 Meses"); }   
+                JL_Media.setText("Média 3 Meses");
+                JL_Total.setText("Total 3 Meses");
+            }   
             ObjConecta2.Desconecta();
         } catch (SQLException ex) {
         }
@@ -998,14 +1066,21 @@ public class Tela_Cadastro_Prod_Edit extends javax.swing.JInternalFrame {
             JL_Ultimo.setText("Ultima Saída:");
             JTF_Ultimo.setText(String.valueOf(new SimpleDateFormat("dd-MM-yyyy").format(ObjConecta2.rs.getDate("data_saida"))));
             ObjControlSaida.Media_Prod_Mes_Saida(ObjModeloSaida,ObjConecta2.rs.getInt("produto_id_produto"));
-            JTF_Media.setText(String.valueOf(ObjModeloSaida.getMedia()));
-            //Setar a label media
+            JTF_Media.setText(String.valueOf(ObjModeloSaida.getMedia()).replace(".", ","));
+            JTF_Total.setText(String.valueOf(ObjModeloSaida.getTotal()).replace(".", ","));
+            //Setar a label media e total
             if (ObjControlSaida.dt <= 30) {
-                JL_Media.setText("Ultimo Mês");}
+                JL_Media.setText("Média Mês");
+                JL_Total.setText("Total Mês");
+            }
             if (ObjControlSaida.dt > 30 && ObjControlSaida.dt <= 60) {
-                JL_Media.setText("Ultimos 2 Meses");}
+                JL_Media.setText("Média 2 Meses");
+                JL_Total.setText("Total 2 Meses");
+            }
             if (ObjControlSaida.dt > 60) {
-                JL_Media.setText("Ultimos 3 Meses"); }   
+                JL_Media.setText("Média 3 Meses");
+                JL_Total.setText("Total 3 Meses");
+            }   
             ObjConecta2.Desconecta();
         } catch (SQLException ex) {
         }
@@ -1025,6 +1100,71 @@ public class Tela_Cadastro_Prod_Edit extends javax.swing.JInternalFrame {
         JTB_Consulta_Prod.getColumnModel().getColumn(5).setResizable(false);
         JTB_Consulta_Prod.getColumnModel().getColumn(6).setPreferredWidth(150);
         JTB_Consulta_Prod.getColumnModel().getColumn(6).setResizable(false);
+        JTB_Consulta_Prod.getTableHeader().setReorderingAllowed(false);//Reordenar alocação
+        JTB_Consulta_Prod.setAutoResizeMode(JTB_Consulta_Prod.AUTO_RESIZE_ALL_COLUMNS);//Tabela Redimensionavel(Todas colunas)
+        JTB_Consulta_Prod.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);//Seleciona uma unica linha da tabela
+        JTB_Consulta_Prod.setToolTipText("Clique Duas Vezes Em Uma Linha Para Mais Informações!");
+    }
+    
+    public final void Preencher_Tabela_Ajuste(String SQL) {
+        ArrayList dados = new ArrayList();
+
+        String[] Colunas = new String[]{"Nº Ajuste", "Data Ajuste","Motivo","Quantidade", "Lote","Validade"};//Seta os indices da tabela
+        ObjConecta2.Conectar();
+        ObjConecta2.ExecutaSQL(SQL);
+        try {
+            ObjConecta2.rs.first();
+           
+            do {
+                String lote = ObjConecta2.rs.getString("numero_lote");
+                Date validade = ObjConecta2.rs.getDate("data_validade_lote");
+                String data_val= "";
+                String descricao = ObjConecta2.rs.getString("motivo")+" - "+ObjConecta2.rs.getString("observacao");
+                if((lote == null)||(lote.equalsIgnoreCase("null"))) {lote = "";}
+                if(validade != null){data_val = String.valueOf(new SimpleDateFormat("dd-MM-yyyy").format(ObjConecta2.rs.getDate("data_validade_lote")));}
+                
+                dados.add(new Object[]{ObjConecta2.rs.getInt("id_ajuste_estoque"),
+                new SimpleDateFormat("dd-MM-yyyy").format(ObjConecta2.rs.getDate("data_ajuste")),descricao,
+                ObjConecta2.rs.getDouble("quantidade"), lote, data_val });
+            
+            } while (ObjConecta2.rs.next());
+            ObjConecta2.rs.last();
+            JL_Ultimo.setText("Ultima Ajuste:");
+            JTF_Ultimo.setText(String.valueOf(new SimpleDateFormat("dd-MM-yyyy").format(ObjConecta2.rs.getDate("data_ajuste"))));
+            
+            ObjControleAjuste.Media_Prod_Mes_Ajuste(ObjModAjuste,ObjConecta2.rs.getInt("produto_id_produto"));
+            JTF_Media.setText(String.valueOf(ObjModAjuste.getMedia()).replace(".", ","));
+            JTF_Total.setText(String.valueOf(ObjModAjuste.getTotal()).replace(".", ","));
+            //Setar a label media e total
+            if (ObjControleAjuste.dt <= 30) {
+                JL_Media.setText("Média Mês");
+                JL_Total.setText("Total Mês");
+            }
+            if (ObjControleAjuste.dt > 30 && ObjControleAjuste.dt <= 60) {
+                JL_Media.setText("Média 2 Meses");
+                JL_Total.setText("Total 2 Meses");
+            }
+            if (ObjControleAjuste.dt > 60) {
+                JL_Media.setText("Média 3 Meses");
+                JL_Total.setText("Total 3 Meses");
+            }   
+            ObjConecta2.Desconecta();
+        } catch (SQLException ex) {
+        }
+        Modelo_Tabela tabela = new Modelo_Tabela(dados, Colunas);
+        JTB_Consulta_Prod.setModel(tabela);
+        JTB_Consulta_Prod.getColumnModel().getColumn(0).setPreferredWidth(100);//Tamanho da coluna
+        JTB_Consulta_Prod.getColumnModel().getColumn(0).setResizable(false);//Redimensionavel
+        JTB_Consulta_Prod.getColumnModel().getColumn(1).setPreferredWidth(100);
+        JTB_Consulta_Prod.getColumnModel().getColumn(1).setResizable(false);
+        JTB_Consulta_Prod.getColumnModel().getColumn(2).setPreferredWidth(250);
+        JTB_Consulta_Prod.getColumnModel().getColumn(2).setResizable(false);
+        JTB_Consulta_Prod.getColumnModel().getColumn(3).setPreferredWidth(100);
+        JTB_Consulta_Prod.getColumnModel().getColumn(3).setResizable(false);
+        JTB_Consulta_Prod.getColumnModel().getColumn(4).setPreferredWidth(100);
+        JTB_Consulta_Prod.getColumnModel().getColumn(4).setResizable(false);
+        JTB_Consulta_Prod.getColumnModel().getColumn(5).setPreferredWidth(100);
+        JTB_Consulta_Prod.getColumnModel().getColumn(5).setResizable(false);
         JTB_Consulta_Prod.getTableHeader().setReorderingAllowed(false);//Reordenar alocação
         JTB_Consulta_Prod.setAutoResizeMode(JTB_Consulta_Prod.AUTO_RESIZE_ALL_COLUMNS);//Tabela Redimensionavel(Todas colunas)
         JTB_Consulta_Prod.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);//Seleciona uma unica linha da tabela
@@ -1180,6 +1320,7 @@ public class Tela_Cadastro_Prod_Edit extends javax.swing.JInternalFrame {
     private javax.swing.JLabel JL_Campos;
     private javax.swing.JLabel JL_Media;
     private javax.swing.JLabel JL_Quant_Itens1;
+    private javax.swing.JLabel JL_Total;
     private javax.swing.JLabel JL_Ultimo;
     private javax.swing.JPanel JP_Controle;
     private javax.swing.JPanel JP_Descricao;
@@ -1192,6 +1333,7 @@ public class Tela_Cadastro_Prod_Edit extends javax.swing.JInternalFrame {
     private javax.swing.JFormattedTextField JTF_Preco;
     private javax.swing.JTextField JTF_Quant_Macro;
     private javax.swing.JTextField JTF_Quant_Min;
+    private javax.swing.JTextField JTF_Total;
     private javax.swing.JTextField JTF_Ultimo;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
@@ -1205,7 +1347,6 @@ public class Tela_Cadastro_Prod_Edit extends javax.swing.JInternalFrame {
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
-    private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel jLabel9;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;

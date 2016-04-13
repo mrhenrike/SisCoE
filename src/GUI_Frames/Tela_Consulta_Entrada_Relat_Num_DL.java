@@ -356,7 +356,7 @@ public class Tela_Consulta_Entrada_Relat_Num_DL extends javax.swing.JDialog {
                 String di = new SimpleDateFormat("yyyy-MM-dd").format(c.getTime());
                 Preencher_Tabela("select * from entrada where "
                         + " descricao_entrada like '%" + JTF_Pesquisa.getText().toUpperCase() + "%' "
-                        + " and data_entrada between '"+di+"' and '"+df+"'");
+                        + " and data_entrada between '"+di+"' and '"+df+"' order by id_entrada desc");
                 ObjControleEntrada.Controle_Entrada = false;
             }else{
                 Limpar_Tabela_Entrada();

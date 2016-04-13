@@ -13,6 +13,8 @@ import Conexao.Controle_Usuario;
 import GUI_Dialogs_Principal.Inf_Abaixo_Do_Minimo_TP;
 import GUI_Dialogs_Principal.Inf_Cad_Usuario_TP;
 import GUI_Dialogs_Principal.Inf_Dev_Pendente_TP;
+import GUI_Dialogs_Principal.Inf_Escolher_Entrada_TP;
+import GUI_Dialogs_Principal.Inf_Mensagens;
 import GUI_Dialogs_Principal.Inf_Prod_Vencido_TP;
 import GUI_Dialogs_Principal.Inf_Vencimento_TP;
 import GUI_Dialogs_Principal.Logoff;
@@ -74,11 +76,17 @@ public static Tela_Principal TP;
     private static Inf_Cad_Usuario_TP DLCadUsuario;
     private static Tela_Bloqueio DLBloqueio;
     private static Logout_User_TP DLLogout;
+    private static Inf_Mensagens DLMensagem;
+    private static Inf_Escolher_Entrada_TP DLEscolherEntrada;
     
     public static String UserLogado;
     public static String PermissaoLogado;
     public static String CodLogado;
     
+    public static boolean Abaixo_30 = false;
+    public static boolean Vencido = false;
+    public static boolean Abaixo_Minimo = false;
+    public static boolean Devolucao_Pendente = false;
         
     //Instanciando objetos de outras classes para usar os metodos dessa classe
     Metodos ObjMetodo = new Metodos(); 
@@ -199,7 +207,10 @@ public static Tela_Principal TP;
         jMenuItem11 = new javax.swing.JMenuItem();
         Relat_Log = new javax.swing.JMenuItem();
         MP_Serv = new javax.swing.JMenu();
+        jMenu1 = new javax.swing.JMenu();
         Serv_Entrada = new javax.swing.JMenuItem();
+        Serv_Entrada1 = new javax.swing.JMenuItem();
+        Serv_Cancela_Entrada = new javax.swing.JMenuItem();
         Serv_Saida = new javax.swing.JMenuItem();
         jMenuItem24 = new javax.swing.JMenuItem();
         jSeparator2 = new javax.swing.JPopupMenu.Separator();
@@ -415,7 +426,7 @@ public static Tela_Principal TP;
         });
 
         BT_Ent_Produto.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icones/Add Entrada.png"))); // NOI18N
-        BT_Ent_Produto.setToolTipText("Clique Para Efetuar Nova Entrada Ou Pressione Crt + F6");
+        BT_Ent_Produto.setToolTipText("Clique Para Esclher O Tipo De Entrada Ou Pressione Crt + F6 (Nova Entrada) Ou Crt+F10 (Continuar Entrada)");
         BT_Ent_Produto.setPressedIcon(new javax.swing.ImageIcon(getClass().getResource("/Icones/Add Entrada Press.png"))); // NOI18N
         BT_Ent_Produto.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -934,16 +945,44 @@ public static Tela_Principal TP;
         MP_Serv.setToolTipText("Módulo De Serviços (Alt + V)");
         MP_Serv.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
 
+        jMenu1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icones_Gerais/Entrada Mercadoria 24x24.png"))); // NOI18N
+        jMenu1.setText("Entrada de Produto");
+        jMenu1.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+
         Serv_Entrada.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_F6, java.awt.event.InputEvent.CTRL_MASK));
         Serv_Entrada.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        Serv_Entrada.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icones_Gerais/Entrada Mercadoria 24x24.png"))); // NOI18N
-        Serv_Entrada.setText("Entrada de Produto");
+        Serv_Entrada.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icones_Gerais/Add Prod 24x24.png"))); // NOI18N
+        Serv_Entrada.setText("Nova Entrada");
         Serv_Entrada.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 Serv_EntradaActionPerformed(evt);
             }
         });
-        MP_Serv.add(Serv_Entrada);
+        jMenu1.add(Serv_Entrada);
+
+        Serv_Entrada1.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_F10, java.awt.event.InputEvent.CTRL_MASK));
+        Serv_Entrada1.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        Serv_Entrada1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icones_Gerais/Edit 22 x 22.png"))); // NOI18N
+        Serv_Entrada1.setText("Continuar Entrada");
+        Serv_Entrada1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                Serv_Entrada1ActionPerformed(evt);
+            }
+        });
+        jMenu1.add(Serv_Entrada1);
+
+        Serv_Cancela_Entrada.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_N, java.awt.event.InputEvent.ALT_MASK));
+        Serv_Cancela_Entrada.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        Serv_Cancela_Entrada.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icones_Gerais/Remove_24x24.png"))); // NOI18N
+        Serv_Cancela_Entrada.setText("Cancelar Entrada");
+        Serv_Cancela_Entrada.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                Serv_Cancela_EntradaActionPerformed(evt);
+            }
+        });
+        jMenu1.add(Serv_Cancela_Entrada);
+
+        MP_Serv.add(jMenu1);
 
         Serv_Saida.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_F7, java.awt.event.InputEvent.CTRL_MASK));
         Serv_Saida.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
@@ -1356,7 +1395,7 @@ public static Tela_Principal TP;
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(JP_Data_Hora_Sistema, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(Area_Trabalho_Pricinpal, javax.swing.GroupLayout.DEFAULT_SIZE, 1148, Short.MAX_VALUE)
+                        .addComponent(Area_Trabalho_Pricinpal, javax.swing.GroupLayout.DEFAULT_SIZE, 1132, Short.MAX_VALUE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(JP_Acesso_Rapido, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap())
@@ -1366,7 +1405,7 @@ public static Tela_Principal TP;
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(Area_Trabalho_Pricinpal, javax.swing.GroupLayout.DEFAULT_SIZE, 596, Short.MAX_VALUE)
+                    .addComponent(Area_Trabalho_Pricinpal, javax.swing.GroupLayout.DEFAULT_SIZE, 587, Short.MAX_VALUE)
                     .addComponent(JP_Acesso_Rapido, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(JP_Data_Hora_Sistema, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -1431,7 +1470,7 @@ public static Tela_Principal TP;
     }//GEN-LAST:event_formWindowClosing
 
     private void BT_Ent_ProdutoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BT_Ent_ProdutoActionPerformed
-        new Tela_Entrada_Produto().Open_Tela();
+        Mostrar_Seleciona_Entrada();
     }//GEN-LAST:event_BT_Ent_ProdutoActionPerformed
 
     private void BT_DevolucaoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BT_DevolucaoActionPerformed
@@ -1555,10 +1594,11 @@ public static Tela_Principal TP;
     }//GEN-LAST:event_Serv_AjustaEstoqueActionPerformed
 
     private void jMenuItem26ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem26ActionPerformed
-        Abaixo_De_30_Dias();
-        Abaixo_Do_Minimo();
-        Devolucao_Pendente();
-        Produto_Vencido();
+//        Abaixo_De_30_Dias();
+//        Abaixo_Do_Minimo();
+//        Devolucao_Pendente();
+//        Produto_Vencido();
+        Mostrar_Mensagem();
     }//GEN-LAST:event_jMenuItem26ActionPerformed
 
     private void jRadioButtonMenuItem2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jRadioButtonMenuItem2ActionPerformed
@@ -1753,10 +1793,11 @@ public static Tela_Principal TP;
     }//GEN-LAST:event_jMenuItem35ActionPerformed
 
     private void BT_AlertasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BT_AlertasActionPerformed
-        Abaixo_De_30_Dias();
-        Abaixo_Do_Minimo();
-        Devolucao_Pendente();
-        Produto_Vencido();
+//        Abaixo_De_30_Dias();
+//        Abaixo_Do_Minimo();
+//        Devolucao_Pendente();
+//        Produto_Vencido();
+        Mostrar_Mensagem();
     }//GEN-LAST:event_BT_AlertasActionPerformed
 
     private void Relat_UsuarioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Relat_UsuarioActionPerformed
@@ -1779,6 +1820,14 @@ public static Tela_Principal TP;
     private void Relat_LogActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Relat_LogActionPerformed
         new Tela_Relat_Log().Open_Tela();
     }//GEN-LAST:event_Relat_LogActionPerformed
+
+    private void Serv_Entrada1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Serv_Entrada1ActionPerformed
+        new Tela_Entrada_Produto_Cont().Open_Tela();
+    }//GEN-LAST:event_Serv_Entrada1ActionPerformed
+
+    private void Serv_Cancela_EntradaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Serv_Cancela_EntradaActionPerformed
+        new Tela_Cancelar_Entrada_Produto().Open_Tela();
+    }//GEN-LAST:event_Serv_Cancela_EntradaActionPerformed
 
     //Metodos Para setar os dialogs
 
@@ -1830,6 +1879,14 @@ public static Tela_Principal TP;
         DLDevPendente = new Inf_Dev_Pendente_TP(this, true);
         DLDevPendente.setVisible(true);
     }
+    public void Mostrar_Mensagem(){
+        DLMensagem = new Inf_Mensagens(this, true);
+        DLMensagem.setVisible(true);
+    }
+    void Mostrar_Seleciona_Entrada(){
+        DLEscolherEntrada = new Inf_Escolher_Entrada_TP(this, true);
+        DLEscolherEntrada.setVisible(true);
+    }
     
     public void Setar_Usuario(String Usuario, String Permissao) {
         ObjControleUser.Acesso_Adm("SISTEMA");
@@ -1874,6 +1931,7 @@ public static Tela_Principal TP;
         Tela_Consulta_Produto.Obj=null;
         Tela_Consulta_Usuario.Obj=null;
         Tela_Entrada_Produto.Obj=null;
+        Tela_Entrada_Produto_Cont.Obj=null;
         Tela_Saida_Produto.Obj=null;
         Tela_Gerar_Devolucao.Obj=null;
         Tela_Relat_Entrada_Num.Obj=null;
@@ -1885,6 +1943,7 @@ public static Tela_Principal TP;
         Tela_Relat_Turma.Obj=null;
         Tela_Relat_Log.Obj=null;
         Tela_Consulta_Log.Obj=null;
+        Tela_Cancelar_Entrada_Produto.Obj=null;
         
         Mostrar_Finalizando_Iniciando();
     } catch (Exception ex) { }    
@@ -1898,59 +1957,44 @@ public static Tela_Principal TP;
             CS_Log.setEnabled(false);
             Relat_Log.setEnabled(false);
             Relat_Usuario.setEnabled(false);
+            Serv_Cancela_Entrada.setEnabled(false);
         }
     
     }
     
     public void Abaixo_Do_Minimo(){
-        try {
-            ObjConecta.Conectar();
-            ObjConecta.ExecutaSQL("select * from produto");
-            ObjConecta.rs.first();
-            int cod = ObjConecta.rs.getInt("id_produto");            
+        try {            
             Controle_Lote_Estoque obj = new Controle_Lote_Estoque();
             obj.Verificar_Abaixo_Do_Minimo();
             if(obj.Abaixo_Do_Minimo == true){
                 Mostrar_Abaixo_Do_Minimo();
                 obj.Abaixo_Do_Minimo=false;
             }
-        } catch (SQLException ex) {
-            
-        }ObjConecta.Desconecta();
+        } catch (Exception ex) {
+            Abaixo_Minimo = false;
+        }
     }
     
     public void Abaixo_De_30_Dias(){
         try {
-            ObjConecta.Conectar();
-            ObjConecta.ExecutaSQL("select * from produto");
-            ObjConecta.rs.first();
-            int cod = ObjConecta.rs.getInt("id_produto");
             Controle_Lote_Estoque obj = new Controle_Lote_Estoque();
             obj.Verifica_Validade_30_Dias();
             if(obj.Menos_De_30_Dias ==true){
-                TP.Mostrar_Validade();
+                Mostrar_Validade();
                 obj.Menos_De_30_Dias=false;
             }
-        } catch (SQLException ex) {
-           
-        }ObjConecta.Desconecta();
+        } catch (Exception ex) {}
     }
     
     public void Produto_Vencido(){
         try {
-            ObjConecta.Conectar();
-            ObjConecta.ExecutaSQL("select * from produto");
-            ObjConecta.rs.first();
-            int cod = ObjConecta.rs.getInt("id_produto");
             Controle_Lote_Estoque obj = new Controle_Lote_Estoque();
             obj.Verifica_Produto_Vencido();
             if(obj.Produto_Vencido ==true){
                 Mostrar_Prod_Vencido();
                 obj.Produto_Vencido =false;
             }
-        } catch (SQLException ex) {
-           
-        }ObjConecta.Desconecta();
+        } catch (Exception ex) {}
     }
     
     public void Devolucao_Pendente(){
@@ -1959,6 +2003,34 @@ public static Tela_Principal TP;
         if(obj.Controla_Devolucao_Pendente ==true){
             Mostrar_Dev_Pendente();
             obj.Controla_Devolucao_Pendente =false;
+        }
+    }
+    
+    public void Verifica_Informacao(){
+        //Minimo
+        Controle_Lote_Estoque obj = new Controle_Lote_Estoque();
+        obj.Verificar_Abaixo_Do_Minimo();
+        if(obj.Abaixo_Do_Minimo == true){
+            Abaixo_Minimo = true;
+            obj.Abaixo_Do_Minimo=false;
+        }
+        //30 dias
+        obj.Verifica_Validade_30_Dias();
+        if(obj.Menos_De_30_Dias ==true){
+            Abaixo_30 = true;
+            obj.Menos_De_30_Dias=false;
+            }
+        //vencido
+        obj.Verifica_Produto_Vencido();
+        if(obj.Produto_Vencido ==true){
+            Vencido = true;
+            obj.Produto_Vencido =false;
+        }
+        Controle_Saida_Produto obj2 = new Controle_Saida_Produto();
+        obj2.Devolucao_Pendente();
+        if(obj2.Controla_Devolucao_Pendente ==true){
+            Devolucao_Pendente = true;
+            obj2.Controla_Devolucao_Pendente =false;
         }
     }
     
@@ -2047,13 +2119,16 @@ public static Tela_Principal TP;
     private javax.swing.JMenuItem Serv_AjustaEstoque;
     private javax.swing.JMenuItem Serv_Altera_Senha;
     private javax.swing.JMenuItem Serv_Ativa;
+    private javax.swing.JMenuItem Serv_Cancela_Entrada;
     private javax.swing.JMenuItem Serv_Entrada;
+    private javax.swing.JMenuItem Serv_Entrada1;
     private javax.swing.JMenuItem Serv_Saida;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
+    private javax.swing.JMenu jMenu1;
     private javax.swing.JMenu jMenu10;
     private javax.swing.JMenu jMenu11;
     private javax.swing.JMenu jMenu12;

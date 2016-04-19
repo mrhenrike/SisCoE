@@ -58,6 +58,7 @@ public class Tela_Relat_Entrada_Periodo extends javax.swing.JInternalFrame {
     
     public Tela_Relat_Entrada_Periodo() {
         initComponents();
+       Preencher_CB_Tipo();
         Setar_Atalho_BT();
     }
         
@@ -71,14 +72,16 @@ public class Tela_Relat_Entrada_Periodo extends javax.swing.JInternalFrame {
         JD_Final = new com.toedter.calendar.JDateChooser();
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
+        jSeparator1 = new javax.swing.JSeparator();
+        jLabel3 = new javax.swing.JLabel();
+        JCB_Tipo = new javax.swing.JComboBox();
+        JL_Info = new javax.swing.JLabel();
         BT_Relatorio = new javax.swing.JButton();
         BT_Sair = new javax.swing.JButton();
-        jSeparator1 = new javax.swing.JSeparator();
-        JL_Info = new javax.swing.JLabel();
 
         setBorder(javax.swing.BorderFactory.createCompoundBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.LOWERED), javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED)));
         setIconifiable(true);
-        setTitle("Entrada Por Período");
+        setTitle("12 - Entrada Por Período");
         setFrameIcon(new javax.swing.ImageIcon(getClass().getResource("/Icones_Gerais/Relatorio - Entrada 24x24.png"))); // NOI18N
         addInternalFrameListener(new javax.swing.event.InternalFrameListener() {
             public void internalFrameActivated(javax.swing.event.InternalFrameEvent evt) {
@@ -120,6 +123,62 @@ public class Tela_Relat_Entrada_Periodo extends javax.swing.JInternalFrame {
         jLabel2.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         jLabel2.setText("Até:");
 
+        jLabel3.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        jLabel3.setText("Tipo:");
+
+        JCB_Tipo.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+
+        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
+        jPanel1.setLayout(jPanel1Layout);
+        jPanel1Layout.setHorizontalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGap(13, 13, 13)
+                        .addComponent(jLabel1)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(JD_Inicial, javax.swing.GroupLayout.PREFERRED_SIZE, 125, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(jLabel2)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(JD_Final, javax.swing.GroupLayout.PREFERRED_SIZE, 125, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(0, 0, Short.MAX_VALUE))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(jLabel3)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(JCB_Tipo, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                .addContainerGap())
+            .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(jPanel1Layout.createSequentialGroup()
+                    .addGap(11, 11, 11)
+                    .addComponent(jSeparator1)
+                    .addGap(11, 11, 11)))
+        );
+        jPanel1Layout.setVerticalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel3)
+                    .addComponent(JCB_Tipo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(30, 30, 30)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(jLabel1)
+                    .addComponent(JD_Inicial, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel2)
+                    .addComponent(JD_Final, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap())
+            .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(jPanel1Layout.createSequentialGroup()
+                    .addGap(38, 38, 38)
+                    .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addContainerGap(44, Short.MAX_VALUE)))
+        );
+
+        JL_Info.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        JL_Info.setText("Esc - Sair | F2 - Consultar");
+
         BT_Relatorio.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icones/Bt Consultar.png"))); // NOI18N
         BT_Relatorio.setMnemonic('n');
         BT_Relatorio.setToolTipText("Clique Para Consultar Ou Pressione Alt + N");
@@ -140,57 +199,6 @@ public class Tela_Relat_Entrada_Periodo extends javax.swing.JInternalFrame {
             }
         });
 
-        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
-        jPanel1.setLayout(jPanel1Layout);
-        jPanel1Layout.setHorizontalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(13, 13, 13)
-                        .addComponent(jLabel1)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(JD_Inicial, javax.swing.GroupLayout.PREFERRED_SIZE, 125, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
-                        .addComponent(jLabel2)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(JD_Final, javax.swing.GroupLayout.PREFERRED_SIZE, 125, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addContainerGap()
-                        .addComponent(BT_Relatorio, javax.swing.GroupLayout.PREFERRED_SIZE, 160, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
-                        .addComponent(BT_Sair, javax.swing.GroupLayout.PREFERRED_SIZE, 160, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-            .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addGroup(jPanel1Layout.createSequentialGroup()
-                    .addGap(11, 11, 11)
-                    .addComponent(jSeparator1)
-                    .addGap(11, 11, 11)))
-        );
-        jPanel1Layout.setVerticalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jLabel1)
-                    .addComponent(JD_Inicial, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel2)
-                    .addComponent(JD_Final, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(BT_Relatorio, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(BT_Sair, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-            .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addGroup(jPanel1Layout.createSequentialGroup()
-                    .addGap(38, 38, 38)
-                    .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addContainerGap(60, Short.MAX_VALUE)))
-        );
-
-        JL_Info.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
-        JL_Info.setText("Esc - Sair | F2 - Consultar");
-
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -198,8 +206,15 @@ public class Tela_Relat_Entrada_Periodo extends javax.swing.JInternalFrame {
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(JL_Info))
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(BT_Relatorio, javax.swing.GroupLayout.PREFERRED_SIZE, 160, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(BT_Sair, javax.swing.GroupLayout.PREFERRED_SIZE, 160, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(JL_Info))
+                        .addGap(0, 0, Short.MAX_VALUE)))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
@@ -209,6 +224,10 @@ public class Tela_Relat_Entrada_Periodo extends javax.swing.JInternalFrame {
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(JL_Info)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(BT_Relatorio, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(BT_Sair, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
@@ -234,7 +253,15 @@ public class Tela_Relat_Entrada_Periodo extends javax.swing.JInternalFrame {
     private void JD_FinalMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_JD_FinalMouseClicked
         BT_Relatorio.requestFocus();
     }//GEN-LAST:event_JD_FinalMouseClicked
-public void Verifica_Datas(){//verifica se a data inicial é inferior a inicial
+
+    final void Preencher_CB_Tipo(){
+        JCB_Tipo.removeAllItems();
+        JCB_Tipo.addItem("TODAS");
+        JCB_Tipo.addItem("EFETIVADAS");
+        JCB_Tipo.addItem("ALTERADAS");
+        JCB_Tipo.addItem("CANCELADAS");
+    }
+    public void Verifica_Datas(){//verifica se a data inicial é inferior a inicial
         Date dt1 = JD_Inicial.getDate();
         Date dt2 = JD_Final.getDate();
 
@@ -259,16 +286,55 @@ public void Verifica_Datas(){//verifica se a data inicial é inferior a inicial
                 Mostrar_Data_Inferior();
                 DataMenor = false;
             }else{
-                ObjControleEntrada.Consulta_Entrada_Por_Periodo(JD_Inicial, JD_Final);
-                if(ObjControleEntrada.Controle_Entrada == true){
-                    ObjRelatEntrada.Relatorio_Entrada_Periodo(JD_Inicial, JD_Final);
-                    ObjControleEntrada.Controle_Entrada = false;
-                    //Log
-                    String dti = new SimpleDateFormat("dd-MM-yyyy").format(JD_Inicial.getDate());
-                    String dtf = new SimpleDateFormat("dd-MM-yyyy").format(JD_Final.getDate());
-                    new Controle_Log().Registrar_Log("Gerou o relatório de entrada por período de "+dti+" até "+dtf, CodLogado);
-                }else{
-                     Mostrar_Entrada_Nao_Encontrada();
+                if(JCB_Tipo.getSelectedIndex()==0){
+                    ObjControleEntrada.Consulta_Entrada_Por_Periodo(JD_Inicial, JD_Final);
+                    if(ObjControleEntrada.Controle_Entrada == true){
+                        ObjRelatEntrada.Relatorio_Entrada_Periodo_Todas("Todas Entrada - Período de ", JD_Inicial, JD_Final);
+                        ObjControleEntrada.Controle_Entrada = false;
+                        //Log
+                        String dti = new SimpleDateFormat("dd-MM-yyyy").format(JD_Inicial.getDate());
+                        String dtf = new SimpleDateFormat("dd-MM-yyyy").format(JD_Final.getDate());
+                        new Controle_Log().Registrar_Log("Gerou o relatório de todas as entradas por período de "+dti+" até "+dtf, CodLogado);
+                    }else{
+                         Mostrar_Entrada_Nao_Encontrada();
+                    }
+                }                
+                if(JCB_Tipo.getSelectedIndex()==1){
+                    ObjControleEntrada.Consulta_Entrada_Alteradas_Por_Periodo(JD_Inicial, JD_Final,"EFETIVADA");
+                    if (ObjControleEntrada.Controle_Entrada == true) {
+                        ObjControleEntrada.Controle_Entrada = false;
+                        ObjRelatEntrada.Relatorio_Entrada_Alterada_Periodo("EFETIVADA","Entradas Alteradas - Período de ", JD_Inicial, JD_Final);
+                        //log
+                        String dti = new SimpleDateFormat("dd-MM-yyyy").format(JD_Inicial.getDate());
+                        String dtf = new SimpleDateFormat("dd-MM-yyyy").format(JD_Final.getDate());
+                        new Controle_Log().Registrar_Log("Gerou o relatório de entradas efetivadas por período de "+dti+" até "+dtf, CodLogado);
+                    }else{
+                         Mostrar_Entrada_Nao_Encontrada();
+                    }
+                }
+                if(JCB_Tipo.getSelectedIndex()==2){
+                    ObjControleEntrada.Consulta_Entrada_Alteradas_Por_Periodo(JD_Inicial, JD_Final,"EFETIVADA COM ALTERAÇÃO");
+                    if (ObjControleEntrada.Controle_Entrada == true) {
+                        ObjControleEntrada.Controle_Entrada = false;
+                        ObjRelatEntrada.Relatorio_Entrada_Alterada_Periodo("EFETIVADA COM ALTERAÇÃO","Entradas Alteradas - Período de ", JD_Inicial,JD_Final);
+                        String dti = new SimpleDateFormat("dd-MM-yyyy").format(JD_Inicial.getDate());
+                        String dtf = new SimpleDateFormat("dd-MM-yyyy").format(JD_Final.getDate());
+                        new Controle_Log().Registrar_Log("Gerou o relatório de entradas alteradas por período de "+dti+" até "+dtf, CodLogado);
+                    }else{
+                         Mostrar_Entrada_Nao_Encontrada();
+                    }
+                }
+                if(JCB_Tipo.getSelectedIndex()==3){
+                    ObjControleEntrada.Consulta_Entrada_Alteradas_Por_Periodo(JD_Inicial, JD_Final,"CANCELADA");
+                    if (ObjControleEntrada.Controle_Entrada == true) {
+                        ObjControleEntrada.Controle_Entrada = false;
+                        ObjRelatEntrada.Relatorio_Entrada_Alterada_Periodo("CANCELADA","Entradas Canceladas - Período de ", JD_Inicial,JD_Final);
+                        String dti = new SimpleDateFormat("dd-MM-yyyy").format(JD_Inicial.getDate());
+                        String dtf = new SimpleDateFormat("dd-MM-yyyy").format(JD_Final.getDate());
+                        new Controle_Log().Registrar_Log("Gerou o relatório de entradas canceladas por período de "+dti+" até "+dtf, CodLogado);
+                    }else{
+                         Mostrar_Entrada_Nao_Encontrada();
+                    }
                 }
             }
         }
@@ -319,11 +385,13 @@ public void Verifica_Datas(){//verifica se a data inicial é inferior a inicial
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton BT_Relatorio;
     private javax.swing.JButton BT_Sair;
+    private javax.swing.JComboBox JCB_Tipo;
     private com.toedter.calendar.JDateChooser JD_Final;
     private com.toedter.calendar.JDateChooser JD_Inicial;
     private javax.swing.JLabel JL_Info;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JSeparator jSeparator1;
     // End of variables declaration//GEN-END:variables

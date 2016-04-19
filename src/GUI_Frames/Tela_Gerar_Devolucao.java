@@ -557,7 +557,7 @@ public class Tela_Gerar_Devolucao extends javax.swing.JInternalFrame {
                     Limpar_Campos();
                     Limpar_Tabela(JTB_Devolucao_Prod);
                     BT_Salvar.setEnabled(false);
-                    ObjControlSaida.Efetivar_Devolucao(JTF_Pesquisa.getText(),"SEM DEVOLUÇÃO");
+                    ObjControlSaida.Efetivar_Situacao(JTF_Pesquisa.getText(),"SEM DEVOLUÇÃO");
                     JTF_Pesquisa.setText("");
                 }
             }else{//se nao existir saída
@@ -644,7 +644,7 @@ public class Tela_Gerar_Devolucao extends javax.swing.JInternalFrame {
                 } catch (NumberFormatException | ParseException | Error ex){JOptionPane.showMessageDialog(rootPane, "Erro No Laço: "+ex);}
             }
             Confirma_Devolucao=true;
-            ObjControlSaida.Efetivar_Devolucao(JL_Saida_Numero.getText(),"EFETIVADA");
+            ObjControlSaida.Efetivar_Situacao(JL_Saida_Numero.getText(),"EFETIVADA");
         } catch (Exception ex) {
             Confirma_Devolucao = false;
             JOptionPane.showMessageDialog(rootPane,"Erro na devolução de produtos!!!!! \n"+ex);

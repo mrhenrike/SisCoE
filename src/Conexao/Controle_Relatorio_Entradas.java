@@ -44,7 +44,8 @@ public class Controle_Relatorio_Entradas {
                 int ContEntradas = ObjConecta.rs.getInt("cont");
 
                 ObjConecta.ExecutaSQL("select * from entrada inner join entrada_itens on entrada.id_entrada=entrada_itens.entrada_id_entrada "
-                    + "inner join produto on produto.id_produto=entrada_itens.produto_id_produto where entrada.data_entrada between '" + di + "' and '" + df + "'");
+                    + "inner join produto on produto.id_produto=entrada_itens.produto_id_produto where entrada.data_entrada between '" + di + "' and '" + df + "' "
+                        + " order by id_entrada desc");
                 JRResultSetDataSource Relatorio = new JRResultSetDataSource(ObjConecta.rs);               
                 HashMap parametros = new HashMap();//instancia um hashMap para passar os parametros;
                 parametros.put("Usuario",ObjTP.UserLogado);//Se precisar passar algum parametro, tipo usuario logado
@@ -83,17 +84,17 @@ public class Controle_Relatorio_Entradas {
                 int ContEntradas = ObjConecta.rs.getInt("cont");
                 
                 ObjConecta.ExecutaSQL("select * from entrada inner join entrada_itens on entrada.id_entrada=entrada_itens.entrada_id_entrada "
-                    + "inner join produto on produto.id_produto=entrada_itens.produto_id_produto where entrada.data_entrada between '"+di+"' and '"+df+"'");
+                    + "inner join produto on produto.id_produto=entrada_itens.produto_id_produto where entrada.data_entrada between '"+di+"' and '"+df+"' "
+                        + " order by id_entrada desc");
                 JRResultSetDataSource Relatorio = new JRResultSetDataSource(ObjConecta.rs);
                 //passar parametros para o relátorio
                 HashMap parametros = new HashMap();
-                parametros.put("Data_Inicial",di);
-                parametros.put("Data_Final", df);
                 parametros.put("Usuario",ObjTP.UserLogado);
                 parametros.put("Quant_Iten", ContItens);
                 parametros.put("Quant_Entrada", ContEntradas);
+                parametros.put("Tipo_Relatorio","Todas as Entradas - Último 30 Dias");
 
-                JasperPrint JPrint = JasperFillManager.fillReport("C:\\Program Files (x86)\\SisCoE/Relat_Entradas_Ultimos_30_Dias.jasper", parametros, Relatorio);
+                JasperPrint JPrint = JasperFillManager.fillReport("C:\\Program Files (x86)\\SisCoE/Relat_Entradas_Todos.jasper", parametros, Relatorio);
                 JasperViewer JView = new JasperViewer(JPrint, false);
                 JView.setVisible(true);
                 //Colocar titulo na janela
@@ -182,7 +183,7 @@ public class Controle_Relatorio_Entradas {
         }
     }
     
-    public void Relatorio_Entrada_Alterada(String situacao){
+    public void Relatorio_Entrada_Alterada(String situacao, String tipo_relatorio){
         try {
             Calendar c = Calendar.getInstance();
             c.add(Calendar.YEAR, -1); //diminuir datas - um ano
@@ -205,13 +206,98 @@ public class Controle_Relatorio_Entradas {
 
             ObjConecta.ExecutaSQL("select * from entrada inner join entrada_itens on entrada.id_entrada=entrada_itens.entrada_id_entrada "
                     + " inner join produto on produto.id_produto=entrada_itens.produto_id_produto where entrada.data_entrada between '" + di + "' and '" + df + "'"
-                    + " and entrada.situacao_entrada = '"+situacao+"'");
+                    + " and entrada.situacao_entrada = '"+situacao+"' order by id_entrada desc");
             JRResultSetDataSource Relatorio = new JRResultSetDataSource(ObjConecta.rs);
             HashMap parametros = new HashMap();//instancia um hashMap para passar os parametros;
             parametros.put("Usuario", ObjTP.UserLogado);//Se precisar passar algum parametro, tipo usuario logado
             parametros.put("Quant_Iten", ContItens);
             parametros.put("Quant_Entrada", ContEntradas);
-            parametros.put("Tipo_Relatorio","Todas as Entradas Alteradas - Último Ano");
+            parametros.put("Tipo_Relatorio",tipo_relatorio);
+            //Aqui fica o diretorio do arquivo
+            JasperPrint JPrint = JasperFillManager.fillReport("C:\\Program Files (x86)\\SisCoE/Relat_Entradas_Todos.jasper", parametros, Relatorio);
+            JasperViewer JView = new JasperViewer(JPrint, false);
+            JView.setVisible(true);//Seta visivel                
+            JView.setTitle("Relatório De Entrada");//Colocar titulo na janela
+            JView.setIconImage(new ImageIcon(getClass().getResource("/Icones_Gerais/Serviço 24x24.png")).getImage()); //Colocar icone na janela
+            ObjConecta.Desconecta();//fecjha a conexão
+        } catch (SQLException | JRException ex) {
+            ObjConecta.Desconecta();
+            JOptionPane.showMessageDialog(null, "Erro ao gerar o relatório: " + ex);
+        }
+    }
+    public void Relatorio_Entrada_Alterada_Periodo(String situacao, String tipo_relatorio, JDateChooser dinicial,JDateChooser dfinal){
+        try {
+            String di = new SimpleDateFormat("yyyy-MM-dd").format(dinicial.getDate());
+            String dti = new SimpleDateFormat("dd-MM-yyyy").format(dinicial.getDate());
+            String df = new SimpleDateFormat("yyyy-MM-dd").format(dfinal.getDate());
+            String dtf = new SimpleDateFormat("dd-MM-yyyy").format(dfinal.getDate());
+            String periodo = dti+" até "+dtf;
+
+            ObjConecta.Conectar();//abre a conexão
+            //Conta os itens;
+            ObjConecta.ExecutaSQL("select count(id_entrada) as cont from entrada inner join entrada_itens on entrada.id_entrada=entrada_itens.entrada_id_entrada "
+                    + " inner join produto on produto.id_produto=entrada_itens.produto_id_produto where entrada.data_entrada between '" + di + "' and '" + df + "' "
+                    + " and entrada.situacao_entrada = '"+situacao+"'");
+            ObjConecta.rs.first();
+            int ContItens = ObjConecta.rs.getInt("cont");
+
+            //conta a quantidade de entradas
+            ObjConecta.ExecutaSQL("select count(id_entrada) as cont from entrada where entrada.data_entrada between '" + di + "' and '" + df + "'"
+                    + " and entrada.situacao_entrada = '"+situacao+"'");
+            ObjConecta.rs.first();
+            int ContEntradas = ObjConecta.rs.getInt("cont");
+
+            ObjConecta.ExecutaSQL("select * from entrada inner join entrada_itens on entrada.id_entrada=entrada_itens.entrada_id_entrada "
+                    + " inner join produto on produto.id_produto=entrada_itens.produto_id_produto where entrada.data_entrada between '" + di + "' and '" + df + "'"
+                    + " and entrada.situacao_entrada = '"+situacao+"' order by id_entrada desc");
+            JRResultSetDataSource Relatorio = new JRResultSetDataSource(ObjConecta.rs);
+            HashMap parametros = new HashMap();//instancia um hashMap para passar os parametros;
+            parametros.put("Usuario", ObjTP.UserLogado);//Se precisar passar algum parametro, tipo usuario logado
+            parametros.put("Quant_Iten", ContItens);
+            parametros.put("Quant_Entrada", ContEntradas);
+            parametros.put("Tipo_Relatorio",tipo_relatorio+periodo);
+            //Aqui fica o diretorio do arquivo
+            JasperPrint JPrint = JasperFillManager.fillReport("C:\\Program Files (x86)\\SisCoE/Relat_Entradas_Todos.jasper", parametros, Relatorio);
+            JasperViewer JView = new JasperViewer(JPrint, false);
+            JView.setVisible(true);//Seta visivel                
+            JView.setTitle("Relatório De Entrada");//Colocar titulo na janela
+            JView.setIconImage(new ImageIcon(getClass().getResource("/Icones_Gerais/Serviço 24x24.png")).getImage()); //Colocar icone na janela
+            ObjConecta.Desconecta();//fecjha a conexão
+        } catch (SQLException | JRException ex) {
+            ObjConecta.Desconecta();
+            JOptionPane.showMessageDialog(null, "Erro ao gerar o relatório: " + ex);
+        }
+    }
+    
+    public void Relatorio_Entrada_Periodo_Todas(String tipo_relatorio, JDateChooser dinicial,JDateChooser dfinal){
+        try {
+            String di = new SimpleDateFormat("yyyy-MM-dd").format(dinicial.getDate());
+            String dti = new SimpleDateFormat("dd-MM-yyyy").format(dinicial.getDate());
+            String df = new SimpleDateFormat("yyyy-MM-dd").format(dfinal.getDate());
+            String dtf = new SimpleDateFormat("dd-MM-yyyy").format(dfinal.getDate());
+            String periodo = dti+" até "+dtf;
+
+            ObjConecta.Conectar();//abre a conexão
+            //Conta os itens;
+            ObjConecta.ExecutaSQL("select count(id_entrada) as cont from entrada inner join entrada_itens on entrada.id_entrada=entrada_itens.entrada_id_entrada "
+                    + " inner join produto on produto.id_produto=entrada_itens.produto_id_produto where entrada.data_entrada between '" + di + "' and '" + df + "' ");
+            ObjConecta.rs.first();
+            int ContItens = ObjConecta.rs.getInt("cont");
+
+            //conta a quantidade de entradas
+            ObjConecta.ExecutaSQL("select count(id_entrada) as cont from entrada where entrada.data_entrada between '" + di + "' and '" + df + "'");
+            ObjConecta.rs.first();
+            int ContEntradas = ObjConecta.rs.getInt("cont");
+
+            ObjConecta.ExecutaSQL("select * from entrada inner join entrada_itens on entrada.id_entrada=entrada_itens.entrada_id_entrada "
+                    + " inner join produto on produto.id_produto=entrada_itens.produto_id_produto where entrada.data_entrada between '" + di + "' and '" + df + "'"
+                    + " order by id_entrada desc");
+            JRResultSetDataSource Relatorio = new JRResultSetDataSource(ObjConecta.rs);
+            HashMap parametros = new HashMap();//instancia um hashMap para passar os parametros;
+            parametros.put("Usuario", ObjTP.UserLogado);//Se precisar passar algum parametro, tipo usuario logado
+            parametros.put("Quant_Iten", ContItens);
+            parametros.put("Quant_Entrada", ContEntradas);
+            parametros.put("Tipo_Relatorio",tipo_relatorio+periodo);
             //Aqui fica o diretorio do arquivo
             JasperPrint JPrint = JasperFillManager.fillReport("C:\\Program Files (x86)\\SisCoE/Relat_Entradas_Todos.jasper", parametros, Relatorio);
             JasperViewer JView = new JasperViewer(JPrint, false);

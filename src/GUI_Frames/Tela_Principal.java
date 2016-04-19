@@ -16,10 +16,13 @@ import GUI_Dialogs_Principal.Inf_Dev_Pendente_TP;
 import GUI_Dialogs_Principal.Inf_Escolher_Entrada_TP;
 import GUI_Dialogs_Principal.Inf_Mensagens;
 import GUI_Dialogs_Principal.Inf_Prod_Vencido_TP;
+import GUI_Dialogs_Principal.Inf_Rotina_Nao_Encontrada_TP;
+import GUI_Dialogs_Principal.Inf_Sem_Permissao_TP;
 import GUI_Dialogs_Principal.Inf_Vencimento_TP;
 import GUI_Dialogs_Principal.Logoff;
 import GUI_Dialogs_Principal.Logout_User_TP;
 import GUI_Dialogs_Principal.Sobre;
+import Metodos.Formatacao;
 import Metodos.Metodos;
 import com.jtattoo.plaf.acryl.AcrylLookAndFeel;
 import com.jtattoo.plaf.aluminium.AluminiumLookAndFeel;
@@ -38,6 +41,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.ImageIcon;
 import javax.swing.JDesktopPane;
+import javax.swing.JOptionPane;
 import javax.swing.SwingUtilities;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
@@ -78,6 +82,8 @@ public static Tela_Principal TP;
     private static Logout_User_TP DLLogout;
     private static Inf_Mensagens DLMensagem;
     private static Inf_Escolher_Entrada_TP DLEscolherEntrada;
+    private static Inf_Rotina_Nao_Encontrada_TP DLRotinaNaoEncontrada;
+    private static Inf_Sem_Permissao_TP DLSemPermissao;
     
     public static String UserLogado;
     public static String PermissaoLogado;
@@ -93,6 +99,7 @@ public static Tela_Principal TP;
     Conecta_Banco ObjConecta = new Conecta_Banco();
     Controle_Usuario ObjControleUser = new Controle_Usuario();
     Controle_Log ObjControleLog = new Controle_Log();
+    Formatacao ObjFormat = new Formatacao();
     
      
     public Tela_Principal() {
@@ -107,10 +114,13 @@ public static Tela_Principal TP;
         Metodos.start(JL_Hora,"HH:mm:ss");//Metodo Static nao precisa usar objeto.
         Metodos.start(JL_Data, "EEEE',' dd' de 'MMMM' de 'yyyy");
         
+        
         JL_Cod.setVisible(false);
         jLabel1.setVisible(false);
         jLabel2.setVisible(false);
         JRB_Padrao.setSelected(true);
+        JTF_Rotina.setDocument(ObjFormat.new Format_Apenas_Numero(5));
+        JL_Start.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icones_Gerais/stop.png")));
     }
     
     
@@ -132,6 +142,10 @@ public static Tela_Principal TP;
         JL_Cod = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
         jLabel5 = new javax.swing.JLabel();
+        JL_Cont = new javax.swing.JLabel();
+        jLabel6 = new javax.swing.JLabel();
+        JTF_Rotina = new javax.swing.JTextField();
+        JL_Start = new javax.swing.JLabel();
         Area_Trabalho_Pricinpal = new javax.swing.JDesktopPane();
         JL_Logo_Fcat = new javax.swing.JLabel();
         JL_Logo_Estacio = new javax.swing.JLabel();
@@ -211,7 +225,9 @@ public static Tela_Principal TP;
         Serv_Entrada = new javax.swing.JMenuItem();
         Serv_Entrada1 = new javax.swing.JMenuItem();
         Serv_Cancela_Entrada = new javax.swing.JMenuItem();
-        Serv_Saida = new javax.swing.JMenuItem();
+        jMenu16 = new javax.swing.JMenu();
+        Serv_Entrada2 = new javax.swing.JMenuItem();
+        Serv_Cancela_Entrada1 = new javax.swing.JMenuItem();
         jMenuItem24 = new javax.swing.JMenuItem();
         jSeparator2 = new javax.swing.JPopupMenu.Separator();
         Serv_AjustaEstoque = new javax.swing.JMenuItem();
@@ -261,6 +277,13 @@ public static Tela_Principal TP;
         setFont(new java.awt.Font("Arial", 0, 10)); // NOI18N
         setMinimumSize(new java.awt.Dimension(1366, 768));
         setName("Menu Principal"); // NOI18N
+        addWindowFocusListener(new java.awt.event.WindowFocusListener() {
+            public void windowGainedFocus(java.awt.event.WindowEvent evt) {
+                formWindowGainedFocus(evt);
+            }
+            public void windowLostFocus(java.awt.event.WindowEvent evt) {
+            }
+        });
         addWindowListener(new java.awt.event.WindowAdapter() {
             public void windowClosing(java.awt.event.WindowEvent evt) {
                 formWindowClosing(evt);
@@ -270,7 +293,7 @@ public static Tela_Principal TP;
             }
         });
 
-        JP_Data_Hora_Sistema.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.LOWERED));
+        JP_Data_Hora_Sistema.setBorder(javax.swing.BorderFactory.createCompoundBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.LOWERED), javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED)));
 
         jLabel1.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icones_Gerais/User 22x22.png"))); // NOI18N
@@ -281,7 +304,7 @@ public static Tela_Principal TP;
         JL_Data.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
 
         JL_Hora.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
-        JL_Hora.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
+        JL_Hora.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
 
         jLabel2.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         jLabel2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icones_Gerais/Permissao 22 x 22.png"))); // NOI18N
@@ -299,22 +322,47 @@ public static Tela_Principal TP;
         jLabel5.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         jLabel5.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icones_Gerais/Calendario 22x22.png"))); // NOI18N
 
+        JL_Cont.setBackground(new java.awt.Color(255, 255, 255));
+        JL_Cont.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        JL_Cont.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+
+        jLabel6.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        jLabel6.setText("Rotina:");
+
+        JTF_Rotina.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        JTF_Rotina.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                JTF_RotinaActionPerformed(evt);
+            }
+        });
+
+        JL_Start.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        JL_Start.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icones_Gerais/player_play.png"))); // NOI18N
+
         javax.swing.GroupLayout JP_Data_Hora_SistemaLayout = new javax.swing.GroupLayout(JP_Data_Hora_Sistema);
         JP_Data_Hora_Sistema.setLayout(JP_Data_Hora_SistemaLayout);
         JP_Data_Hora_SistemaLayout.setHorizontalGroup(
             JP_Data_Hora_SistemaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(JP_Data_Hora_SistemaLayout.createSequentialGroup()
                 .addContainerGap()
+                .addComponent(jLabel6)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(JTF_Rotina, javax.swing.GroupLayout.PREFERRED_SIZE, 82, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jLabel2)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(JL_Permissao, javax.swing.GroupLayout.PREFERRED_SIZE, 133, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addComponent(jLabel1)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(JL_Usuario, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGap(18, 18, 18)
+                .addComponent(JL_Start)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(JL_Usuario, javax.swing.GroupLayout.PREFERRED_SIZE, 326, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(JL_Cont, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(JL_Cod, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGap(18, 18, 18)
                 .addComponent(jLabel5)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(JL_Data, javax.swing.GroupLayout.PREFERRED_SIZE, 272, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -327,20 +375,24 @@ public static Tela_Principal TP;
         JP_Data_Hora_SistemaLayout.setVerticalGroup(
             JP_Data_Hora_SistemaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(JP_Data_Hora_SistemaLayout.createSequentialGroup()
-                .addGap(2, 2, 2)
                 .addGroup(JP_Data_Hora_SistemaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel3, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGroup(JP_Data_Hora_SistemaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                        .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, JP_Data_Hora_SistemaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addComponent(JL_Permissao, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(JL_Hora, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(JL_Data, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(JL_Usuario, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(JL_Cod, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(JTF_Rotina)
+                    .addComponent(jLabel6, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addGroup(JP_Data_Hora_SistemaLayout.createSequentialGroup()
+                        .addGroup(JP_Data_Hora_SistemaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(jLabel5, javax.swing.GroupLayout.DEFAULT_SIZE, 25, Short.MAX_VALUE)
+                            .addComponent(jLabel3, javax.swing.GroupLayout.DEFAULT_SIZE, 25, Short.MAX_VALUE)
+                            .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, 25, Short.MAX_VALUE)
+                            .addComponent(jLabel2, javax.swing.GroupLayout.DEFAULT_SIZE, 25, Short.MAX_VALUE)
+                            .addComponent(JL_Usuario, javax.swing.GroupLayout.DEFAULT_SIZE, 25, Short.MAX_VALUE)
+                            .addComponent(JL_Permissao, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(JL_Data, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(JL_Cod, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(JL_Cont, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(JL_Start, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addGap(0, 0, Short.MAX_VALUE))
+                    .addComponent(JL_Hora, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap())
         );
 
         Area_Trabalho_Pricinpal.setBackground(new java.awt.Color(255, 255, 255));
@@ -382,7 +434,7 @@ public static Tela_Principal TP;
                         .addGap(36, 36, 36)
                         .addComponent(JL_Logo_Coolab2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addGap(32, 32, 32)
-                        .addComponent(JL_Logo_Estacio, javax.swing.GroupLayout.DEFAULT_SIZE, 269, Short.MAX_VALUE)
+                        .addComponent(JL_Logo_Estacio, javax.swing.GroupLayout.DEFAULT_SIZE, 254, Short.MAX_VALUE)
                         .addGap(16, 16, 16)
                         .addComponent(JL_Logo_Fcat)))
                 .addContainerGap())
@@ -397,7 +449,7 @@ public static Tela_Principal TP;
                     .addComponent(JL_Logo_Estacio)
                     .addComponent(JL_Logo_ADS)
                     .addComponent(JL_Logo_Coolab2))
-                .addGap(36, 36, 36))
+                .addGap(39, 39, 39))
         );
         Area_Trabalho_Pricinpal.setLayer(JL_Logo_Fcat, javax.swing.JLayeredPane.DEFAULT_LAYER);
         Area_Trabalho_Pricinpal.setLayer(JL_Logo_Estacio, javax.swing.JLayeredPane.DEFAULT_LAYER);
@@ -984,16 +1036,33 @@ public static Tela_Principal TP;
 
         MP_Serv.add(jMenu1);
 
-        Serv_Saida.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_F7, java.awt.event.InputEvent.CTRL_MASK));
-        Serv_Saida.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        Serv_Saida.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icones_Gerais/Saida Mercadoria 24x24.png"))); // NOI18N
-        Serv_Saida.setText("Saida de Produto");
-        Serv_Saida.addActionListener(new java.awt.event.ActionListener() {
+        jMenu16.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icones_Gerais/Entrada Mercadoria 24x24.png"))); // NOI18N
+        jMenu16.setText("Saída de Produto");
+        jMenu16.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+
+        Serv_Entrada2.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_F7, java.awt.event.InputEvent.CTRL_MASK));
+        Serv_Entrada2.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        Serv_Entrada2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icones_Gerais/Add Prod 24x24.png"))); // NOI18N
+        Serv_Entrada2.setText("Nova Saída");
+        Serv_Entrada2.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                Serv_SaidaActionPerformed(evt);
+                Serv_Entrada2ActionPerformed(evt);
             }
         });
-        MP_Serv.add(Serv_Saida);
+        jMenu16.add(Serv_Entrada2);
+
+        Serv_Cancela_Entrada1.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_F11, java.awt.event.InputEvent.CTRL_MASK));
+        Serv_Cancela_Entrada1.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        Serv_Cancela_Entrada1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icones_Gerais/Remove_24x24.png"))); // NOI18N
+        Serv_Cancela_Entrada1.setText("Cancelar Saída");
+        Serv_Cancela_Entrada1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                Serv_Cancela_Entrada1ActionPerformed(evt);
+            }
+        });
+        jMenu16.add(Serv_Cancela_Entrada1);
+
+        MP_Serv.add(jMenu16);
 
         jMenuItem24.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_F8, java.awt.event.InputEvent.CTRL_MASK));
         jMenuItem24.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
@@ -1414,7 +1483,7 @@ public static Tela_Principal TP;
 
         Area_Trabalho_Pricinpal.getAccessibleContext().setAccessibleName("Area De Trabalho");
 
-        setSize(new java.awt.Dimension(1366, 700));
+        setSize(new java.awt.Dimension(1366, 722));
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
@@ -1504,10 +1573,6 @@ public static Tela_Principal TP;
     private void BT_Saida_ProdActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BT_Saida_ProdActionPerformed
         new Tela_Saida_Produto().Open_Tela();
     }//GEN-LAST:event_BT_Saida_ProdActionPerformed
-
-    private void Serv_SaidaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Serv_SaidaActionPerformed
-       new Tela_Saida_Produto().Open_Tela();
-    }//GEN-LAST:event_Serv_SaidaActionPerformed
 
     private void jMenuItem3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem3ActionPerformed
         new Tela_Consulta_Entrada().Open_Tela();
@@ -1829,6 +1894,445 @@ public static Tela_Principal TP;
         new Tela_Cancelar_Entrada_Produto().Open_Tela();
     }//GEN-LAST:event_Serv_Cancela_EntradaActionPerformed
 
+    private void JTF_RotinaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_JTF_RotinaActionPerformed
+        if(PermissaoLogado.equalsIgnoreCase("USUÁRIO")){
+            Rotina_User();
+        }else{
+            Rotina_Adm();
+        }
+    }//GEN-LAST:event_JTF_RotinaActionPerformed
+
+    private void formWindowGainedFocus(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowGainedFocus
+        JTF_Rotina.requestFocus();
+    }//GEN-LAST:event_formWindowGainedFocus
+
+    private void Serv_Entrada2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Serv_Entrada2ActionPerformed
+        new Tela_Saida_Produto().Open_Tela();
+    }//GEN-LAST:event_Serv_Entrada2ActionPerformed
+
+    private void Serv_Cancela_Entrada1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Serv_Cancela_Entrada1ActionPerformed
+        new Tela_Cancelar_Saida().Open_Tela();
+    }//GEN-LAST:event_Serv_Cancela_Entrada1ActionPerformed
+
+    void Rotina_Adm(){
+        if(JTF_Rotina.getText().equalsIgnoreCase("")){
+        }
+        else{
+            int cod = Integer.parseInt(JTF_Rotina.getText());
+            switch(cod){
+                case 1:
+                    new Tela_Cadastro_Prod().Open_Tela();        
+                    break;
+                case 2:
+                    new Tela_Cadastro_Usuario().Open_Tela();
+                    break;
+                case 3:
+                    new Tela_Cadastro_Curso_Turma().Open_Tela();
+                    break;
+                case 4:
+                    new Tela_Consulta_Produto().Open_Tela();
+                    break;
+                case 5:
+                    new Tela_Consulta_Curso_Turma().Open_Tela();
+                    break;
+                case 6:
+                    new Tela_Consulta_Entrada().Open_Tela();
+                    break;
+                case 7:
+                    new Tela_Consulta_Saida().Open_Tela();
+                    break;
+                case 8:
+                    try {
+                        new Tela_Consulta_Usuario().Open_Tela();
+                    } catch (SQLException ex) {}
+                    break;
+                case 9:                    
+                    new Tela_Consulta_Log().Open_Tela();
+                    break;
+                case 10:
+                    new Controle_Relatorio_Entradas().Relatorio_Entrada_Prod_Todos();
+                    //Log
+                    new Controle_Log().Registrar_Log("Gerou o relatório de todas as entradas", CodLogado);
+                    break;
+                case 11:
+                    new Controle_Relatorio_Entradas().Relatorio_Entrada_Prod_Ultimos_30_Dias();
+                //Log
+                new Controle_Log().Registrar_Log("Gerou o relatório de todas as entradas nos últimos 30 dias", CodLogado);
+                    break;
+                case 12:
+                    new Tela_Relat_Entrada_Periodo().Open_Tela();
+                    break;
+                case 13:
+                    new Tela_Relat_Entrada_Num().Open_Tela();
+                    break;
+                case 14:
+                    
+                    break;
+                case 15:
+                    
+                    break;    
+                case 16:
+                    
+                    break;    
+                case 17:
+                    
+                    break;    
+                case 18:
+                    
+                    break;    
+                case 19:
+                    
+                    break;    
+                case 20:
+                    
+                    break;    
+                case 21:
+                    new Controle_Relatorio_Produto().Relatorio_Produto_Estoque_Analitico();
+                    //Log
+                    new Controle_Log().Registrar_Log("Gerou o relatório de estoque de produto analítico", CodLogado);
+                    break;
+                case 22:
+                    new Controle_Relatorio_Produto().Relatorio_Produto_Estoque_Sintetico();
+                    //Log
+                    new Controle_Log().Registrar_Log("Gerou o relatório de estoque de produto sintético", CodLogado);
+                    break;
+                case 23:
+
+                    break;
+                case 24:
+
+                    break;
+                case 25:
+
+                    break;
+                case 26:
+
+                    break;
+                case 27:
+                    new Controle_Relatorio_Produto().Relatorio_Produto_Todos("","Todos os Produtos");
+                    //Log
+                    new Controle_Log().Registrar_Log("Gerou o relatório de todos os produtos", CodLogado);
+                    break;
+                case 28:
+                    new Controle_Relatorio_Produto().Relatorio_Produto_Todos_Retrato("","Todos os Produtos");
+                    //Log
+                    new Controle_Log().Registrar_Log("Gerou o relatório de todos os produtos", CodLogado);  
+                    break;
+                case 29:
+                    new Controle_Relatorio_Produto().Relatorio_Produto_Todos("where produto.situacao='ATIVO'","Produtos Ativos");
+                    new Controle_Log().Registrar_Log("Gerou o relatório de todos os produtos ativos", CodLogado);
+                    break;
+                case 30:
+                    new Controle_Relatorio_Produto().Relatorio_Produto_Todos_Retrato("where produto.situacao='ATIVO'","Produtos Ativos");
+                    new Controle_Log().Registrar_Log("Gerou o relatório de todos os produtos ativos", CodLogado);
+                    break;
+                case 31:
+                    new Controle_Relatorio_Produto().Relatorio_Produto_Todos("where produto.situacao='INATIVO'","Produtos Inativos");
+                    new Controle_Log().Registrar_Log("Gerou o relatório de todos os produtos inativos", CodLogado);
+                    break;
+                case 32:
+                    new Controle_Relatorio_Produto().Relatorio_Produto_Todos_Retrato("where produto.situacao='INATIVO'","Produtos Inativos");
+                    new Controle_Log().Registrar_Log("Gerou o relatório de todos os produtos inativos", CodLogado);
+                    break;
+                case 33:
+                    new Tela_Relat_Produto_Ent_Periodo().Open_Tela();
+                    break;
+                case 34:
+
+                    break;
+                case 35:
+                    new Controle_Relatorio_Produto().Relatorio_Produto_Categoria_Todas();
+                    //Log
+                    new Controle_Log().Registrar_Log("Gerou o relatório de produto por todas as categorias", CodLogado);
+                    break;
+                case 36:
+                    new Tela_Relat_Produto_Categoria().Open_Tela();
+                    break;
+                case 37:
+                    new Tela_Relat_Usuario().Open_Tela();    
+                    break;
+                case 38:
+                    new Controle_Relatorio_Curso_Turma_Disciplina().Relatorio_Cursos();
+                    new Controle_Log().Registrar_Log("Gerou o relatório de todos os cursos ativos", CodLogado);
+                    break;                                                
+                case 39:
+                    new Tela_Relat_Disciplina().Open_Tela();
+                    break;
+                case 40:
+                    new Tela_Relat_Turma().Open_Tela();
+                    break;
+                case 41:
+                    new Tela_Relat_Log().Open_Tela();
+                    break;    
+                case 42:
+                    new Tela_Entrada_Produto().Open_Tela();
+                    break;    
+                case 43:
+                    new Tela_Entrada_Produto_Cont().Open_Tela();
+                    break;    
+                case 44:
+                    new Tela_Cancelar_Entrada_Produto().Open_Tela();
+                    break;    
+                case 45:
+                    new Tela_Saida_Produto().Open_Tela();
+                    break;    
+                case 46:
+
+                    break;    
+                case 47:
+                    new Tela_Gerar_Devolucao().Open_Tela();
+                    break;    
+                case 48:
+                    new Tela_Ajuste_Estoque().Open_Tela();
+                    break;    
+                case 49:
+                    new Tela_Alterar_Senha().Open_Tela();
+                    break;
+                case 50:
+                    new Tela_Ativacao().Open_Tela();
+                    break;
+                case 51:
+                    Mostrar_Mensagem();
+                    break;
+                case 52:
+                    try{    
+                        Runtime.getRuntime().exec("calc"); //assim    
+                        //Runtime.getRuntime().exec("C:\\Windows\\System32\\calc.exe"); //e assim    
+                    }catch(Exception erro){    
+                        System.err.println("Deu pau!");    
+                    }  
+                    break;
+                case 53:
+                     Mostrar_Logout();
+                    break;
+                case 54:
+                    new Controle_Log().Registrar_Log("BLOQUEIO DO SISTEMA",CodLogado);   
+                    Mostrar_Bloqueio();
+                    break;
+                case 55:
+                    Mostrar_DL_Logoff();
+                    break;
+                case 56:
+                    Mostrar_Sobre();
+                    break;                
+                default:
+                    Mostrar_Rotina_Nao_Encontrada();
+                    break;  
+                    
+            }
+        JTF_Rotina.setText("");
+        }
+    }
+    void Rotina_User(){
+        
+        if(JTF_Rotina.getText().equalsIgnoreCase("")){
+        }
+        else{
+            int cod = Integer.parseInt(JTF_Rotina.getText());
+            switch(cod){
+                case 1:
+                    new Tela_Cadastro_Prod().Open_Tela();        
+                    break;
+                case 2:
+                    Mostrar_Sem_Permissao();
+                    break;
+                case 3:
+                    new Tela_Cadastro_Curso_Turma().Open_Tela();
+                    break;
+                case 4:
+                    new Tela_Consulta_Produto().Open_Tela();
+                    break;
+                case 5:
+                    new Tela_Consulta_Curso_Turma().Open_Tela();
+                    break;
+                case 6:
+                    new Tela_Consulta_Entrada().Open_Tela();
+                    break;
+                case 7:
+                    new Tela_Consulta_Saida().Open_Tela();
+                    break;
+                case 8:
+                    try {
+                        new Tela_Consulta_Usuario().Open_Tela();
+                    } catch (SQLException ex) {}
+                    break;
+                case 9:                    
+                    Mostrar_Sem_Permissao();
+                    break;
+                case 10:
+                    new Controle_Relatorio_Entradas().Relatorio_Entrada_Prod_Todos();
+                    //Log
+                    new Controle_Log().Registrar_Log("Gerou o relatório de todas as entradas", CodLogado);
+                    break;
+                case 11:
+                    new Controle_Relatorio_Entradas().Relatorio_Entrada_Prod_Ultimos_30_Dias();
+                //Log
+                new Controle_Log().Registrar_Log("Gerou o relatório de todas as entradas nos últimos 30 dias", CodLogado);
+                    break;
+                case 12:
+                    new Tela_Relat_Entrada_Periodo().Open_Tela();
+                    break;
+                case 13:
+                    new Tela_Relat_Entrada_Num().Open_Tela();
+                    break;
+                case 14:
+                    
+                    break;
+                case 15:
+                    
+                    break;    
+                case 16:
+                    
+                    break;    
+                case 17:
+                    
+                    break;    
+                case 18:
+                    
+                    break;    
+                case 19:
+                    
+                    break;    
+                case 20:
+                    
+                    break;    
+                case 21:
+                    new Controle_Relatorio_Produto().Relatorio_Produto_Estoque_Analitico();
+                    //Log
+                    new Controle_Log().Registrar_Log("Gerou o relatório de estoque de produto analítico", CodLogado);
+                    break;
+                case 22:
+                    new Controle_Relatorio_Produto().Relatorio_Produto_Estoque_Sintetico();
+                    //Log
+                    new Controle_Log().Registrar_Log("Gerou o relatório de estoque de produto sintético", CodLogado);
+                    break;
+                case 23:
+
+                    break;
+                case 24:
+
+                    break;
+                case 25:
+
+                    break;
+                case 26:
+
+                    break;
+                case 27:
+                    new Controle_Relatorio_Produto().Relatorio_Produto_Todos("","Todos os Produtos");
+                    //Log
+                    new Controle_Log().Registrar_Log("Gerou o relatório de todos os produtos", CodLogado);
+                    break;
+                case 28:
+                    new Controle_Relatorio_Produto().Relatorio_Produto_Todos_Retrato("","Todos os Produtos");
+                    //Log
+                    new Controle_Log().Registrar_Log("Gerou o relatório de todos os produtos", CodLogado);  
+                    break;
+                case 29:
+                    new Controle_Relatorio_Produto().Relatorio_Produto_Todos("where produto.situacao='ATIVO'","Produtos Ativos");
+                    new Controle_Log().Registrar_Log("Gerou o relatório de todos os produtos ativos", CodLogado);
+                    break;
+                case 30:
+                    new Controle_Relatorio_Produto().Relatorio_Produto_Todos_Retrato("where produto.situacao='ATIVO'","Produtos Ativos");
+                    new Controle_Log().Registrar_Log("Gerou o relatório de todos os produtos ativos", CodLogado);
+                    break;
+                case 31:
+                    new Controle_Relatorio_Produto().Relatorio_Produto_Todos("where produto.situacao='INATIVO'","Produtos Inativos");
+                    new Controle_Log().Registrar_Log("Gerou o relatório de todos os produtos inativos", CodLogado);
+                    break;
+                case 32:
+                    new Controle_Relatorio_Produto().Relatorio_Produto_Todos_Retrato("where produto.situacao='INATIVO'","Produtos Inativos");
+                    new Controle_Log().Registrar_Log("Gerou o relatório de todos os produtos inativos", CodLogado);
+                    break;
+                case 33:
+                    new Tela_Relat_Produto_Ent_Periodo().Open_Tela();
+                    break;
+                case 34:
+
+                    break;
+                case 35:
+                    new Controle_Relatorio_Produto().Relatorio_Produto_Categoria_Todas();
+                    //Log
+                    new Controle_Log().Registrar_Log("Gerou o relatório de produto por todas as categorias", CodLogado);
+                    break;
+                case 36:
+                    new Tela_Relat_Produto_Categoria().Open_Tela();
+                    break;
+                case 37:
+                    Mostrar_Sem_Permissao();
+                    break;
+                case 38:
+                    new Controle_Relatorio_Curso_Turma_Disciplina().Relatorio_Cursos();
+                    new Controle_Log().Registrar_Log("Gerou o relatório de todos os cursos ativos", CodLogado);
+                    break;                                                
+                case 39:
+                    new Tela_Relat_Disciplina().Open_Tela();
+                    break;
+                case 40:
+                    new Tela_Relat_Turma().Open_Tela();
+                    break;
+                case 41:
+                    Mostrar_Sem_Permissao();
+                    break;    
+                case 42:
+                    new Tela_Entrada_Produto().Open_Tela();
+                    break;    
+                case 43:
+                    new Tela_Entrada_Produto_Cont().Open_Tela();
+                    break;    
+                case 44:
+                    new Tela_Cancelar_Entrada_Produto().Open_Tela();
+                    break;    
+                case 45:
+                    new Tela_Saida_Produto().Open_Tela();
+                    break;    
+                case 46:
+                    new Tela_Cancelar_Saida().Open_Tela();
+                    break;    
+                case 47:
+                    new Tela_Gerar_Devolucao().Open_Tela();
+                    break;    
+                case 48:
+                    Mostrar_Sem_Permissao();
+                    break;    
+                case 49:
+                    new Tela_Alterar_Senha().Open_Tela();
+                    break;
+                case 50:
+                    new Tela_Ativacao().Open_Tela();
+                    break;
+                case 51:
+                    Mostrar_Mensagem();
+                    break;
+                case 52:
+                    try{    
+                        Runtime.getRuntime().exec("calc"); //assim    
+                        //Runtime.getRuntime().exec("C:\\Windows\\System32\\calc.exe"); //e assim    
+                    }catch(Exception erro){    
+                        System.err.println("Deu pau!");    
+                    }  
+                    break;
+                case 53:
+                     Mostrar_Logout();
+                    break;
+                case 54:
+                    new Controle_Log().Registrar_Log("BLOQUEIO DO SISTEMA",CodLogado);   
+                    Mostrar_Bloqueio();
+                    break;
+                case 55:
+                    Mostrar_DL_Logoff();
+                    break;
+                case 56:
+                    Mostrar_Sobre();
+                    break;                
+                default:
+                    Mostrar_Rotina_Nao_Encontrada();
+                    break;  
+                    
+            }
+        JTF_Rotina.setText("");
+        }
+    }
     //Metodos Para setar os dialogs
 
     public void Mostrar_DL_Logoff() {
@@ -1887,6 +2391,14 @@ public static Tela_Principal TP;
         DLEscolherEntrada = new Inf_Escolher_Entrada_TP(this, true);
         DLEscolherEntrada.setVisible(true);
     }
+    void Mostrar_Sem_Permissao(){
+        DLSemPermissao = new Inf_Sem_Permissao_TP(this, true);
+        DLSemPermissao.setVisible(true);
+    }
+    void Mostrar_Rotina_Nao_Encontrada(){
+        DLRotinaNaoEncontrada = new Inf_Rotina_Nao_Encontrada_TP(this, true);
+        DLRotinaNaoEncontrada.setVisible(true);
+    }
     
     public void Setar_Usuario(String Usuario, String Permissao) {
         ObjControleUser.Acesso_Adm("SISTEMA");
@@ -1899,6 +2411,8 @@ public static Tela_Principal TP;
             CodLogado = JL_Cod.getText();
             jLabel1.setVisible(!false);
             jLabel2.setVisible(!false);
+            Metodos.Cronometro(JL_Cont);
+            JL_Start.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icones_Gerais/player_play.png")));
         }else{
             ObjControleUser.Procura_Nome_Usuario(JL_Usuario, Usuario, JL_Cod);
             JL_Permissao.setText(Permissao);        
@@ -1907,7 +2421,8 @@ public static Tela_Principal TP;
             CodLogado = JL_Cod.getText();
             jLabel1.setVisible(!false);
             jLabel2.setVisible(!false);
-            
+            Metodos.Cronometro(JL_Cont);
+            JL_Start.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icones_Gerais/player_play.png")));            
         }
         ObjControleLog.Registrar_Log("Login no sistema",CodLogado);   
     }
@@ -1944,6 +2459,7 @@ public static Tela_Principal TP;
         Tela_Relat_Log.Obj=null;
         Tela_Consulta_Log.Obj=null;
         Tela_Cancelar_Entrada_Produto.Obj=null;
+        Tela_Cancelar_Saida.Obj=null;
         
         Mostrar_Finalizando_Iniciando();
     } catch (Exception ex) { }    
@@ -2093,6 +2609,7 @@ public static Tela_Principal TP;
     private javax.swing.JMenuItem CS_Turma;
     private javax.swing.JMenuItem CS_Usuario;
     public javax.swing.JLabel JL_Cod;
+    public javax.swing.JLabel JL_Cont;
     private javax.swing.JLabel JL_Data;
     private javax.swing.JLabel JL_Hora;
     private javax.swing.JLabel JL_Logo_ADS;
@@ -2100,10 +2617,12 @@ public static Tela_Principal TP;
     private javax.swing.JLabel JL_Logo_Estacio;
     private javax.swing.JLabel JL_Logo_Fcat;
     public javax.swing.JLabel JL_Permissao;
+    private javax.swing.JLabel JL_Start;
     public javax.swing.JLabel JL_Usuario;
     private javax.swing.JPanel JP_Acesso_Rapido;
     private javax.swing.JPanel JP_Data_Hora_Sistema;
     private javax.swing.JRadioButtonMenuItem JRB_Padrao;
+    private javax.swing.JTextField JTF_Rotina;
     private javax.swing.JMenu MP_Ajuda;
     private javax.swing.JMenu MP_Cadastrar;
     private javax.swing.JMenu MP_Consultar;
@@ -2120,14 +2639,16 @@ public static Tela_Principal TP;
     private javax.swing.JMenuItem Serv_Altera_Senha;
     private javax.swing.JMenuItem Serv_Ativa;
     private javax.swing.JMenuItem Serv_Cancela_Entrada;
+    private javax.swing.JMenuItem Serv_Cancela_Entrada1;
     private javax.swing.JMenuItem Serv_Entrada;
     private javax.swing.JMenuItem Serv_Entrada1;
-    private javax.swing.JMenuItem Serv_Saida;
+    private javax.swing.JMenuItem Serv_Entrada2;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
+    private javax.swing.JLabel jLabel6;
     private javax.swing.JMenu jMenu1;
     private javax.swing.JMenu jMenu10;
     private javax.swing.JMenu jMenu11;
@@ -2135,6 +2656,7 @@ public static Tela_Principal TP;
     private javax.swing.JMenu jMenu13;
     private javax.swing.JMenu jMenu14;
     private javax.swing.JMenu jMenu15;
+    private javax.swing.JMenu jMenu16;
     private javax.swing.JMenu jMenu2;
     private javax.swing.JMenu jMenu3;
     private javax.swing.JMenu jMenu4;

@@ -87,7 +87,7 @@ public class Tela_Consulta_Usuario extends javax.swing.JInternalFrame {
 
         setBorder(javax.swing.BorderFactory.createCompoundBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.LOWERED), javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED)));
         setIconifiable(true);
-        setTitle("Consulta De Usuário");
+        setTitle("8 - Consulta De Usuário");
         setFrameIcon(new javax.swing.ImageIcon(getClass().getResource("/Icones_Gerais/User 24x24.png"))); // NOI18N
         addInternalFrameListener(new javax.swing.event.InternalFrameListener() {
             public void internalFrameActivated(javax.swing.event.InternalFrameEvent evt) {

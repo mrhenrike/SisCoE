@@ -120,7 +120,7 @@ public class Tela_Consulta_Log extends javax.swing.JInternalFrame {
 
         setBorder(javax.swing.BorderFactory.createCompoundBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.LOWERED), javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED)));
         setIconifiable(true);
-        setTitle("Consulta Log Do Sistema");
+        setTitle("9 - Consulta Log Do Sistema");
         setFrameIcon(new javax.swing.ImageIcon(getClass().getResource("/Icones_Gerais/Log 24x24.png"))); // NOI18N
         addInternalFrameListener(new javax.swing.event.InternalFrameListener() {
             public void internalFrameActivated(javax.swing.event.InternalFrameEvent evt) {

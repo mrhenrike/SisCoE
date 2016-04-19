@@ -2,6 +2,7 @@ package Metodos;
 
 // @author Márison Tamiarana
 
+import static java.lang.Thread.sleep;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -54,20 +55,32 @@ jt.setText(new SimpleDateFormat("dd-MM-yyyy").format(new java.util.Date(System.c
              (dtFinal.getTime() - dtInicial.getTime() + 3600000L) / 86400000L;  
     }  
 
-    //Metodo para colocar uma tecla como atalho para o botao
-//    public final void Setar_Atalho_BT_Procurar(){
-//        InputMap inputMap = this.getRootPane().getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW);
-//        inputMap.put(KeyStroke.getKeyStroke(KeyEvent.VK_F2, 0),"Tecla");
-//        this.getRootPane().setInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW, inputMap);
-//        this.getRootPane().getActionMap().put("Tecla", new AbstractAction(){
-//        private static final long serialVersionUID = 1L;
-//        @Override
-//        public void actionPerformed(ActionEvent arg0) {
-//        BT_Procurar.doClick();
-//    }
-//    });
-//    }
-  
+  public static final void Cronometro(JLabel JLHorario){    
+    new Thread() {            
+        
+        @Override
+        public void run() {
+            long cont = 10800000;
+            while(true){
+            try {
+                StringBuilder data = new StringBuilder();                
+                Date date = new Date();  
+                date.setTime(cont);
+                
+                SimpleDateFormat sdf = new SimpleDateFormat("HH:mm:ss"); // Para Atualizar a DATA so mudar para o formato dd/MM/yyyy  
+                JLHorario.setText(data.toString() + sdf.format(date)); 
+                JLHorario.revalidate(); 
+                sleep(1000);
+                cont = cont + 1000;
+            } catch (InterruptedException ex) {
+                JOptionPane.showMessageDialog(null, "Erro ao carregar o sistema" + ex);
+            }
+            
+        }
+    }
+        
+    }.start();
+}  
 
 }//Fim Da Classe
 

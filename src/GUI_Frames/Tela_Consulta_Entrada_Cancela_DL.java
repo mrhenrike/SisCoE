@@ -246,8 +246,8 @@ public class Tela_Consulta_Entrada_Cancela_DL extends javax.swing.JDialog {
                     .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addGap(18, 18, 18)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 318, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 330, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(BT_Sair, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
@@ -429,7 +429,7 @@ public class Tela_Consulta_Entrada_Cancela_DL extends javax.swing.JDialog {
  public final void Preencher_Tabela(String SQL) {
         ArrayList dados = new ArrayList();
 
-        String[] Colunas = new String[]{"Nº Entrada", "Data Entrada", "Descrição"};//Seta os indices da tabela
+        String[] Colunas = new String[]{"Nº Entrada", "Data Entrada", "Descrição","Situação"};//Seta os indices da tabela
         ObjConecta.Conectar();
         ObjConecta.ExecutaSQL(SQL);
         try {
@@ -437,7 +437,8 @@ public class Tela_Consulta_Entrada_Cancela_DL extends javax.swing.JDialog {
             do {                
                String data_Entrada = String.valueOf(new SimpleDateFormat("dd-MM-yyyy").format(ObjConecta.rs.getDate("data_entrada")));
                 
-                dados.add(new Object[]{ObjConecta.rs.getInt("id_entrada"), data_Entrada, ObjConecta.rs.getString("descricao_entrada") });
+                dados.add(new Object[]{ObjConecta.rs.getInt("id_entrada"), data_Entrada, ObjConecta.rs.getString("descricao_entrada"),
+                ObjConecta.rs.getString("situacao_entrada")});
             
             } while (ObjConecta.rs.next());
             
@@ -447,12 +448,14 @@ public class Tela_Consulta_Entrada_Cancela_DL extends javax.swing.JDialog {
         Modelo_Tabela tabela = new Modelo_Tabela(dados, Colunas);
         JTB_Entradas.setModel(tabela);
         JTB_Entradas.setDefaultRenderer(Object.class, new Pintar_Tabela_Padrao());
-        JTB_Entradas.getColumnModel().getColumn(0).setPreferredWidth(100);//Tamanho da coluna
+        JTB_Entradas.getColumnModel().getColumn(0).setPreferredWidth(80);//Tamanho da coluna
         JTB_Entradas.getColumnModel().getColumn(0).setResizable(false);//Redimensionavel        
-        JTB_Entradas.getColumnModel().getColumn(1).setPreferredWidth(100);
+        JTB_Entradas.getColumnModel().getColumn(1).setPreferredWidth(80);
         JTB_Entradas.getColumnModel().getColumn(1).setResizable(false);
-        JTB_Entradas.getColumnModel().getColumn(2).setPreferredWidth(500);
+        JTB_Entradas.getColumnModel().getColumn(2).setPreferredWidth(400);
         JTB_Entradas.getColumnModel().getColumn(2).setResizable(false);
+        JTB_Entradas.getColumnModel().getColumn(3).setPreferredWidth(180);
+        JTB_Entradas.getColumnModel().getColumn(3).setResizable(false);
         JTB_Entradas.getTableHeader().setReorderingAllowed(false);//Reordenar alocação
         JTB_Entradas.setAutoResizeMode(JTB_Entradas.AUTO_RESIZE_ALL_COLUMNS);//Tabela Redimensionavel(Todas colunas)
         JTB_Entradas.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);//Seleciona uma unica linha da tabela

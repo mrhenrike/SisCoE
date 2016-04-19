@@ -1176,7 +1176,7 @@ public static Tela_Saida_Produto Obj;
             ObjConecta.Desconecta();
             ObjControleSaida.Controla_Devolucao(Id_Saida);//verifica se a saída necessita devolução
             if(ObjControleSaida.Controla_Devolucao == false){
-                ObjControleSaida.Efetivar_Devolucao(String.valueOf(Id_Saida),"SEM DEVOLUÇÃO");//atualiza para sem devolução
+                ObjControleSaida.Efetivar_Situacao(String.valueOf(Id_Saida),"SEM DEVOLUÇÃO");//atualiza para sem devolução
             }
             //verifica se existe algum produto na saida
             ObjControleSaida.Verifica_Saida_Sem_Itens(Id_Saida);

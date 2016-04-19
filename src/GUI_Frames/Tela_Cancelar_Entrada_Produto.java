@@ -96,6 +96,7 @@ public class Tela_Cancelar_Entrada_Produto extends javax.swing.JInternalFrame {
         Desabilita_Status();
         Setar_Atalho_BT();        
         JTB_Itens_Entrada.setEnabled(false);
+        BT_Salvar.setEnabled(false);
     }
 
     @SuppressWarnings("unchecked")
@@ -444,7 +445,7 @@ public class Tela_Cancelar_Entrada_Produto extends javax.swing.JInternalFrame {
             Mostrar_Nao_Ha_Itens_Salvar();
         }else{
             if(JL_Status_Msg.getText().equalsIgnoreCase("CANCELADA")){
-                Mostrar_Saida_Cancelada();
+                Mostrar_Entrada_Cancelada();
             }else if(JTF_Descricao_Entrada.getText().equalsIgnoreCase("") || JTF_Cod_Entrada.getText().equalsIgnoreCase("") 
                     || JTF_Motivo.getText().equalsIgnoreCase("")){
                 Mostrar_Preencher_Campos();
@@ -531,8 +532,7 @@ public class Tela_Cancelar_Entrada_Produto extends javax.swing.JInternalFrame {
     }
      
     public void Sair_Sem_Salvar(){
-        int cont = JTB_Itens_Entrada.getRowCount();
-        if(cont > 0 || !JTF_Cod_Entrada.getText().equalsIgnoreCase("")){
+        if(!JL_Status_Msg.getText().equalsIgnoreCase("") && !JL_Status_Msg.getText().equalsIgnoreCase("CANCELADA")){
             Mostrar_Sair_Sem_Salvar();
         }else{
             dispose();
@@ -600,25 +600,48 @@ public class Tela_Cancelar_Entrada_Produto extends javax.swing.JInternalFrame {
     
     void Testar_Campos_Pesquisa_Entrada(String id){//verifica a pesquisa de entrada atraves do id
         ObjControlEnt.Consulta_Entrada_Id(Integer.parseInt(id));
-        if(ObjControlEnt.Controle_Entrada == true){
-            ObjControlEnt.Consulta_Entrada(ObjModeloEntrada, id);
-            Setar_Campo_Descricao_Entrada(ObjModeloEntrada.getDescricao(), String.valueOf(ObjModeloEntrada.getId_entrada()),ObjModeloEntrada.getObservacao());
-            JL_Saida.setVisible(!false);
-            JL_Saida_Numero.setText(String.valueOf(ObjModeloEntrada.getId_entrada()));
-            JL_Status.setVisible(!false);
-            JL_Status_Msg.setText(ObjModeloEntrada.getSituacao());
-            JTF_Motivo.requestFocus();
+        if(ObjControlEnt.Controle_Entrada == true){//se existe entrada
+            ObjControlEnt.Controle_Entrada = false;
+            ObjControlEnt.Consulta_Entrada_Id_Ativo(Integer.parseInt(id));
+            if(ObjControlEnt.Controle_Entrada == true){//se a entrada ainda nao foi cancelada
+                ObjControlEnt.Consulta_Entrada(ObjModeloEntrada, id);
+                Setar_Campo_Descricao_Entrada(ObjModeloEntrada.getDescricao(), String.valueOf(ObjModeloEntrada.getId_entrada()),ObjModeloEntrada.getObservacao());
+                JL_Saida.setVisible(!false);
+                JL_Saida_Numero.setText(String.valueOf(ObjModeloEntrada.getId_entrada()));
+                JL_Status.setVisible(!false);
+                JL_Status_Msg.setText(ObjModeloEntrada.getSituacao());
+                JTF_Motivo.requestFocus();
+                BT_Salvar.setEnabled(true);
+                ObjControlEnt.Controle_Entrada = false;
+            }else{
+                ObjControlEnt.Consulta_Entrada(ObjModeloEntrada, id);
+                Setar_Campo_Descricao_Entrada(ObjModeloEntrada.getDescricao(), String.valueOf(ObjModeloEntrada.getId_entrada()),ObjModeloEntrada.getObservacao());
+                JL_Saida.setVisible(!false);
+                JL_Saida_Numero.setText(String.valueOf(ObjModeloEntrada.getId_entrada()));
+                JL_Status.setVisible(!false);
+                JL_Status_Msg.setText(ObjModeloEntrada.getSituacao());
+                BT_Salvar.setEnabled(false);   
+                JTF_Pesquisa.requestFocus();
+                Mostrar_Entrada_Cancelada();
+                JTF_Pesquisa.requestFocus();
+            }
         }else{
-            Mostrar_Entrada_Nao_Encontrada();
-            JTF_Cod_Entrada.setText("");
-            JTF_Descricao_Entrada.setText("");
-            JTF_Obs.setText("");
-            JTF_Pesquisa.setText("");
-            JTF_Motivo.setText("");
+            BT_Salvar.setEnabled(false);
             Limpar_Tabela_Itens_Entrada();
+            Limpar_Campos();
             Desabilita_Status();
-            JTF_Cod_Entrada.requestFocus();
+            JTF_Pesquisa.requestFocus();
+            Mostrar_Entrada_Nao_Encontrada();
+            JTF_Pesquisa.requestFocus();
         }
+    }
+    
+    void Limpar_Campos(){
+        JTF_Cod_Entrada.setText("");
+        JTF_Descricao_Entrada.setText("");
+        JTF_Motivo.setText("");
+        JTF_Obs.setText("");
+        JTF_Pesquisa.setText("");
     }
     
     final void Desabilita_Status(){          
@@ -659,7 +682,7 @@ public class Tela_Cancelar_Entrada_Produto extends javax.swing.JInternalFrame {
         ObjNaoHaItensSalvar = new Inf_Nao_Ha_Itens_Salvar_Ent_Canc(this, true);
         ObjNaoHaItensSalvar.setVisible(true);    
     }
-    void Mostrar_Saida_Cancelada(){
+    void Mostrar_Entrada_Cancelada(){
         ObjSaidaCancelada = new Inf_Entrada_Cancelada_Canc(this, true);
         ObjSaidaCancelada.setVisible(true);
     }

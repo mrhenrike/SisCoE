@@ -111,7 +111,7 @@ public class Tela_Consulta_Saida extends javax.swing.JInternalFrame {
 
         setBorder(javax.swing.BorderFactory.createCompoundBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.LOWERED), javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED)));
         setIconifiable(true);
-        setTitle("Consulta De Saída");
+        setTitle("7 - Consulta De Saída");
         setFrameIcon(new javax.swing.ImageIcon(getClass().getResource("/Icones_Gerais/Relatório - Saida 24x24.png"))); // NOI18N
         setMaximumSize(new java.awt.Dimension(1000, 560));
         setMinimumSize(new java.awt.Dimension(1000, 560));

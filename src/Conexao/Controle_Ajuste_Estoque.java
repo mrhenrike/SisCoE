@@ -85,7 +85,8 @@ public class Controle_Ajuste_Estoque {
             String data_atual = new SimpleDateFormat("yyyy-MM-dd").format(Calendar.getInstance().getTime());
             String data_inicio = new SimpleDateFormat("yyyy-MM-dd").format(c.getTime());
             
-            obj.ExecutaSQL("select * from ajuste_estoque inner join lote_estoque on ajuste_estoque.lote_estoque_id_lote = lote_estoque.id_lote");
+            obj.ExecutaSQL("select * from ajuste_estoque inner join lote_estoque on ajuste_estoque.lote_estoque_id_lote = lote_estoque.id_lote "
+                    + " and ajuste_estoque.produto_id_produto = "+id);
             //primeira saida
             obj.rs.first();
             Date dt1 = obj.rs.getDate("data_ajuste");

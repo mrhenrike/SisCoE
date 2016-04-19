@@ -2,6 +2,7 @@ package Conexao;
 
 // @author Márison Tamiarana
 
+import Classes.Modelo_Lote_Estoque;
 import Classes.Modelo_Saida_Produto;
 import com.toedter.calendar.JDateChooser;
 import java.sql.PreparedStatement;
@@ -31,7 +32,7 @@ public class Controle_Saida_Produto {
     public boolean Verifica_Produto_Devolucao;
     public boolean Verifica_Devolucao;
     public boolean Verifica_Saida_Sem_Itens;
-    public boolean Efetiva_Devolucao;
+    public boolean efetiva_situacao;
     public boolean Confirma_Devolucao;
     public boolean Atualiza_Devolucao;
     public long dt;
@@ -280,6 +281,7 @@ public class Controle_Saida_Produto {
         return ObjModeloSaidaProd;
     }
     
+    
     ///////////////////////////////// Controle para devolução
     
     public Modelo_Saida_Produto Consulta_Saida_Devolucao(Modelo_Saida_Produto ObjModeloSaida, int id_saida){
@@ -306,13 +308,14 @@ public class Controle_Saida_Produto {
                 ObjModeloSaida.setObservacao(rs.getString("observacao"));
                 ObjModeloSaida.setSituacao(rs.getString("situacao"));
                 ObjModeloSaida.setId_saida(rs.getInt("id_saida"));
+                ObjModeloSaida.setTurma_id_turma(rs.getInt("turma_id_turma"));
+                
 
                 ObjConecta.Desconecta();
             }
         } catch (SQLException Erro) {
             ObjConecta.Desconecta();
         }
-
         return ObjModeloSaida;
     }
     
@@ -395,7 +398,7 @@ public class Controle_Saida_Produto {
         try {
             ObjConecta.Conectar();
             ObjConecta.ExecutaSQL("select * from saida inner join saida_itens on"
-              + " saida.id_saida=saida_itens.saida_id_saida where produto_id_produto="+id_prod+"");
+              + " saida.id_saida=saida_itens.saida_id_saida where produto_id_produto="+id_prod+" and situacao !='CANCELADA'");
             ObjConecta.rs.first();
             int id = ObjConecta.rs.getInt("id_saida");
             Controle_Saida = true;
@@ -442,7 +445,7 @@ public class Controle_Saida_Produto {
         }
     }
     
-    public void Efetivar_Devolucao(String id, String situacao){
+    public void Efetivar_Situacao(String id, String situacao){
         ObjConecta.Conectar();
         String sql = "update saida set situacao=? where id_saida="+id+"";
         
@@ -451,12 +454,12 @@ public class Controle_Saida_Produto {
                 stmt.setString(1,situacao);
                 stmt.execute();
                 stmt.close();
-                Efetiva_Devolucao = true;
+                efetiva_situacao = true;
             }
         } catch (SQLException ex) 
             {
                 ObjConecta.Desconecta();
-                Efetiva_Devolucao = false;
+                efetiva_situacao = false;
                 JOptionPane.showMessageDialog(null,"Erro ao atualizar a devolução no banco! \n"
                         +ex,"Informação Do Banco De Dados",JOptionPane.INFORMATION_MESSAGE);
             }        
@@ -707,4 +710,161 @@ public class Controle_Saida_Produto {
         }
         ObjConecta.Desconecta();  
     }
+    //////////////////////////////Cancelamento/////////////////////////
+    
+    public void Consulta_Saida_Id_Nao_Cancelada(int id_saida){
+        try {
+            ObjConecta.Conectar();
+            ObjConecta.ExecutaSQL("Select * from saida where id_saida = "+id_saida+" and situacao != 'CANCELADA'");
+            ObjConecta.rs.first();
+            int id = ObjConecta.rs.getInt("id_saida");
+            Controle_Saida = true;
+            ObjConecta.Desconecta();
+        } catch (SQLException ex) {
+            Controle_Saida = false;
+            ObjConecta.Desconecta();
+        }
+    }
+    
+    public void Atualiza_Estoque_Cancela_Saida(Modelo_Saida_Produto ObjSaidaProd, int id_prod, double quant){
+        ObjConecta.Conectar();        
+        String sql = "update lote_estoque set quantidade_estoque =? where produto_id_produto="+id_prod+"";
+            try {
+                try (PreparedStatement stmt = ObjConecta.conn.prepareStatement(sql)) {
+                    {
+                        stmt.setDouble(1, ObjSaidaProd.getQuantidade()+quant);
+                    }
+                    stmt.execute();
+                    stmt.close();
+                }           
+                    Confirma_Atualiza_Estoque = true;      
+                } catch (SQLException ex) {
+                    Confirma_Atualiza_Estoque = false;
+                    JOptionPane.showMessageDialog(null,"Erro ao atualzar o estoque no banco! \n"
+                        +ex,"Informação Do Banco De Dados",JOptionPane.INFORMATION_MESSAGE);
+                        }        
+        ObjConecta.Desconecta();
+    }
+    
+    public void Atualiza_Estoque_Lote_Cancela_saida(Modelo_Saida_Produto ObjSaidaProd, int id_prod, double quant, String lote){
+        ObjConecta.Conectar();        
+        String sql = "update lote_estoque set quantidade_estoque =? where produto_id_produto="+id_prod+" and numero_lote="+"'"+lote+"'"+"";
+            try {
+                try (PreparedStatement stmt = ObjConecta.conn.prepareStatement(sql)) {
+                    {
+                        stmt.setDouble(1, ObjSaidaProd.getQuantidade()+quant);
+                    }
+                    stmt.execute();
+                    stmt.close();
+                }           
+                    Confirma_Atualiza_Estoque_Lote = true;      
+                } catch (SQLException ex) {
+                    Confirma_Atualiza_Estoque_Lote = false;
+                    JOptionPane.showMessageDialog(null,"Erro ao atualzar o estoque no banco! \n"
+                        +ex,"Informação Do Banco De Dados",JOptionPane.INFORMATION_MESSAGE);
+                        }        
+        ObjConecta.Desconecta();
+    }
+    
+    public void Atualiza_Estoque_Produto_Saida_Cancela(int id_prod, double quant, String lote, String data_val){
+        try {
+            Modelo_Saida_Produto ObjModelo_Saida = new Modelo_Saida_Produto();
+            ObjConecta.Conectar();
+            ObjConecta.ExecutaSQL("select* from lote_estoque where produto_id_produto="+id_prod+"");
+            ObjConecta.rs.first();
+            String Lote = ObjConecta.rs.getString("numero_lote");
+            
+                if(Lote == null){//Produto com estoque e sem lote - atualização
+                    ObjConecta.ExecutaSQL("select* from lote_estoque where produto_id_produto="+id_prod+"");
+                    ObjConecta.rs.first();
+                    ObjModelo_Saida.setQuantidade(ObjConecta.rs.getDouble("quantidade_estoque"));
+                    //Atualiza o estoque
+                    Atualiza_Estoque_Cancela_Saida(ObjModelo_Saida, id_prod, quant);
+
+                }else{//produto com lote - atualizaçao
+                    ObjConecta.ExecutaSQL("select* from lote_estoque where produto_id_produto="+id_prod+" and numero_lote= "+"'"+lote+"'"+"");
+                    ObjConecta.rs.first();
+                    ObjModelo_Saida.setQuantidade(ObjConecta.rs.getDouble("quantidade_estoque"));
+                    //Atualiza o estoque 
+                    Atualiza_Estoque_Lote_Cancela_saida(ObjModelo_Saida, id_prod, quant, lote);
+                                     
+                }
+            ObjConecta.Desconecta();
+        } catch (SQLException ex) {//inserir estoque de produto sem estoque            
+                ObjConecta.Desconecta();
+            }
+    }
+    
+    public void Inserir_Saida_Itens_Cancelamento(int Id_Prod, int Id_saida, double Quant, String Lote, String Data_Val){
+        ObjConecta.Conectar();
+        String sql = "insert into saida_itens_cancelados (Produto_id_produto, saida_id_saida, quantidade, lote, data_validade, data_cancelamento_produto)"
+                + " values(?,?,?,?,?,?)";
+            try {
+                try (PreparedStatement stmt = ObjConecta.conn.prepareStatement(sql)) {
+                    {
+                        stmt.setInt   (1,  Id_Prod);
+                        stmt.setInt   (2,  Id_saida);
+                        stmt.setDouble(3,  Quant);
+                        stmt.setString(4,  Lote);
+                        stmt.setString(5,  Data_Val);
+                        stmt.setString(6, new SimpleDateFormat("yyyy/MM/dd").format(new Date(System.currentTimeMillis())));//data atual do sistema
+                    }
+                    stmt.execute();
+                    stmt.close();
+                }
+                Confirma_Iten_Inserido = true;
+                ObjConecta.Desconecta();
+            } catch (SQLException ex) {
+                ObjConecta.Desconecta();
+                Confirma_Iten_Inserido = false;
+                JOptionPane.showMessageDialog(null,"Erro ao dar entrada de itens cancelados no banco! \n"
+                    +ex,"Informação Do Banco De Dados",JOptionPane.INFORMATION_MESSAGE);
+                    }        
+        ObjConecta.Desconecta();
+    }
+   
+   public void Inserir_Motivo_Saida_Cancelada(int id_saida, String motivo){
+       ObjConecta.Conectar();
+        String sql = "insert into motivo_saida_cancelada (motivo_saida_cancelada, saida_id_saida, data_cancelamento)"
+                + " values(?,?,?)";
+            try {
+                try (PreparedStatement stmt = ObjConecta.conn.prepareStatement(sql)) {
+                    {
+                        stmt.setString(1,  motivo);
+                        stmt.setInt   (2,  id_saida);
+                        stmt.setString(3, new SimpleDateFormat("yyyy/MM/dd").format(new Date(System.currentTimeMillis())));//data atual do sistema
+                    }
+                    stmt.execute();
+                    stmt.close();
+                }
+                ObjConecta.Desconecta();
+            } catch (SQLException ex) {
+                ObjConecta.Desconecta();
+                JOptionPane.showMessageDialog(null,"Erro ao salvar o motivo cancelamento no banco! \n"
+                    +ex,"Informação Do Banco De Dados",JOptionPane.INFORMATION_MESSAGE);
+                    }        
+        ObjConecta.Desconecta();
+   }
+
+   public void Atualiza_Data_Alteracao_Saida(int id){
+        ObjConecta.Conectar();
+        String sql = "update saida set data_alteracao_saida =? where id_saida="+id+"";
+        
+        try {
+            try (PreparedStatement stmt = ObjConecta.conn.prepareStatement(sql)) {
+                stmt.setString(1,new SimpleDateFormat("yyyy/MM/dd").format(new Date(System.currentTimeMillis())));
+                stmt.execute();
+                stmt.close();
+            }
+        } catch (SQLException ex) 
+            {
+                ObjConecta.Desconecta();
+                JOptionPane.showMessageDialog(null,"Erro ao atualizar a data de alteraca da saida no banco! \n"
+                        +ex,"Informação Do Banco De Dados",JOptionPane.INFORMATION_MESSAGE);
+            }        
+        ObjConecta.Desconecta();
+        
+    }
 }
+    
+    

@@ -112,7 +112,7 @@ public class Tela_Consulta_Curso_Turma extends javax.swing.JInternalFrame {
 
         setBorder(javax.swing.BorderFactory.createCompoundBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.LOWERED), javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED)));
         setIconifiable(true);
-        setTitle("Consulta De Turma E Curso");
+        setTitle("5 - Consulta Acadêmica (Curso - Turma - Disciplina)");
         setFrameIcon(new javax.swing.ImageIcon(getClass().getResource("/Icones_Gerais/Curso 24x24.png"))); // NOI18N
         setMaximumSize(new java.awt.Dimension(545, 413));
         setMinimumSize(new java.awt.Dimension(545, 413));

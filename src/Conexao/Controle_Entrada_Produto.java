@@ -30,7 +30,7 @@ public class Controle_Entrada_Produto {
     public boolean Confirma_Efetivar_Entrada;
     public boolean Confirma_Excluir_Entrada;
     public boolean ControlaLote;
-    public boolean Controle_Entrada;
+    public boolean Controle_Entrada = false;
     public boolean Verifica_Entrada_Sem_Itens;
     public long dt;
     
@@ -419,6 +419,36 @@ public void Consulta_Entrada_Id(int id_entrada){
             ObjConecta.Desconecta();
         }
     }
+    public void Consulta_Entrada_Alteradas(String situacao){
+        try {
+            ObjConecta.Conectar();
+            ObjConecta.ExecutaSQL("Select * from entrada where situacao_entrada = '"+situacao+"'");
+            ObjConecta.rs.first();
+            int id = ObjConecta.rs.getInt("id_entrada");
+            Controle_Entrada = true;
+             ObjConecta.Desconecta();
+        } catch (SQLException ex) {
+            Controle_Entrada = false;
+            ObjConecta.Desconecta();
+        }
+    }
+    public void Consulta_Entrada_Alteradas_Por_Periodo(JDateChooser dt_inicial, JDateChooser dt_final, String situacao){
+         try {
+            String di = new SimpleDateFormat("yyyy-MM-dd").format(dt_inicial.getDate());
+            String df = new SimpleDateFormat("yyyy-MM-dd").format(dt_final.getDate());
+            
+            ObjConecta.Conectar();
+            ObjConecta.ExecutaSQL("select * from entrada where data_entrada between '"+di+"' and '"+df+"' and situacao_entrada = '"+situacao+"'");
+            ObjConecta.rs.first();
+            int id = ObjConecta.rs.getInt("id_entrada");
+            Controle_Entrada = true;
+            ObjConecta.Desconecta();
+        } catch (SQLException ex) {
+            Controle_Entrada = false;
+            ObjConecta.Desconecta();
+        }
+    }
+    
      public void Consulta_Iten_Entrada(int id_prod){
         try {
             ObjConecta.Conectar();
@@ -658,4 +688,5 @@ public void Consulta_Entrada_Id(int id_entrada){
                     }        
         ObjConecta.Desconecta();
    }
+   
 }

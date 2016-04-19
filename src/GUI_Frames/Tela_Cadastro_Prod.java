@@ -126,7 +126,7 @@ public class Tela_Cadastro_Prod extends javax.swing.JInternalFrame {
 
         setBorder(javax.swing.BorderFactory.createCompoundBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.LOWERED), javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED)));
         setIconifiable(true);
-        setTitle("Cadastro De Produto");
+        setTitle("1 - Cadastro De Produto");
         setFrameIcon(new javax.swing.ImageIcon(getClass().getResource("/Icones_Gerais/Prod 24x24.png"))); // NOI18N
         setMaximumSize(new java.awt.Dimension(805, 560));
         setMinimumSize(new java.awt.Dimension(805, 560));

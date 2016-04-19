@@ -3,12 +3,14 @@ package GUI_Frames;
 import Classes.Modelo_Tabela;
 import Conexao.Conecta_Banco;
 import Conexao.Controle_Entrada_Produto;
+import Conexao.Controle_Log;
 import Conexao.Controle_Relatorio_Entradas;
 import GUI_Dialogs_Consulta_Ent_Saida.Inf_Data_Final_Inferior_Cons_Ent;
 import GUI_Dialogs_Consulta_Ent_Saida.Inf_Entrada_Nao_Encontrada;
 import GUI_Dialogs_Consulta_Ent_Saida.Inf_Nao_Existe_Entrada;
 import GUI_Dialogs_Consulta_Ent_Saida.Inf_Preencher_Datas_Cons_Ent;
 import GUI_Dialogs_Consulta_Ent_Saida.Inf_Preencher_N_Entrada_Cons_Ent;
+import static GUI_Frames.Tela_Principal.CodLogado;
 import Metodos.Formatacao;
 import Metodos.Pintar_Tabela_Padrao;
 import java.awt.Dimension;
@@ -21,8 +23,6 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.swing.AbstractAction;
 import javax.swing.InputMap;
 import javax.swing.JComponent;
@@ -113,7 +113,7 @@ public class Tela_Consulta_Entrada extends javax.swing.JInternalFrame {
 
         setBorder(javax.swing.BorderFactory.createCompoundBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.LOWERED), javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED)));
         setIconifiable(true);
-        setTitle("Consulta De Entrada");
+        setTitle("6 - Consulta De Entrada");
         setFrameIcon(new javax.swing.ImageIcon(getClass().getResource("/Icones_Gerais/Relatorio - Entrada 24x24.png"))); // NOI18N
         setMaximumSize(new java.awt.Dimension(1000, 560));
         setMinimumSize(new java.awt.Dimension(1000, 560));
@@ -197,25 +197,25 @@ public class Tela_Consulta_Entrada extends javax.swing.JInternalFrame {
                                 .addComponent(jLabel2)))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(JD_Final, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(0, 0, Short.MAX_VALUE))
+                        .addGap(0, 8, Short.MAX_VALUE))
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(JCB_Tipo_Pesquisa, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(jSeparator1))
                         .addContainerGap())))
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(75, 75, 75)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(BT_Consultar, javax.swing.GroupLayout.PREFERRED_SIZE, 160, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 0, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
             .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(jPanel1Layout.createSequentialGroup()
                     .addContainerGap()
-                    .addComponent(jSeparator2, javax.swing.GroupLayout.DEFAULT_SIZE, 291, Short.MAX_VALUE)
+                    .addComponent(jSeparator2, javax.swing.GroupLayout.DEFAULT_SIZE, 299, Short.MAX_VALUE)
                     .addContainerGap()))
             .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(jPanel1Layout.createSequentialGroup()
                     .addContainerGap()
-                    .addComponent(jSeparator3, javax.swing.GroupLayout.DEFAULT_SIZE, 291, Short.MAX_VALUE)
+                    .addComponent(jSeparator3, javax.swing.GroupLayout.DEFAULT_SIZE, 299, Short.MAX_VALUE)
                     .addContainerGap()))
         );
         jPanel1Layout.setVerticalGroup(
@@ -357,7 +357,7 @@ public class Tela_Consulta_Entrada extends javax.swing.JInternalFrame {
                         .addComponent(BT_Sair, javax.swing.GroupLayout.PREFERRED_SIZE, 160, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                         .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                 .addContainerGap())
         );
@@ -524,6 +524,45 @@ public class Tela_Consulta_Entrada extends javax.swing.JInternalFrame {
             JTF_Num_Entrada.setText("");
             Controle=0;
             BT_Relatorio.setEnabled(false);
+        }
+        if(JCB_Tipo_Pesquisa.getSelectedIndex()==6){
+            BT_Consultar.setEnabled(!false);
+            JD_Final.setEnabled(!false);
+            JD_Inicial.setEnabled(!false);
+            JD_Final.setDate(null);
+            JD_Inicial.setDate(null);
+            Limpar_Tabela_Entrada();
+            Limpar_Tabela_Entrada_Itens();
+            JTF_Num_Entrada.setEnabled(false);
+            JTF_Num_Entrada.setText("");
+            Controle=0;
+            BT_Relatorio.setEnabled(false);
+        }
+        if(JCB_Tipo_Pesquisa.getSelectedIndex()==7){
+            BT_Consultar.setEnabled(!false);
+            JD_Final.setEnabled(false);
+            JD_Inicial.setEnabled(false);
+            JD_Final.setDate(null);
+            JD_Inicial.setDate(null);
+            Limpar_Tabela_Entrada();
+            Limpar_Tabela_Entrada_Itens();
+            JTF_Num_Entrada.setEnabled(false);
+            JTF_Num_Entrada.setText("");
+            Controle=0;
+            BT_Relatorio.setEnabled(false);
+         }
+        if(JCB_Tipo_Pesquisa.getSelectedIndex()==8){
+            BT_Consultar.setEnabled(!false);
+            JD_Final.setEnabled(!false);
+            JD_Inicial.setEnabled(!false);
+            JD_Final.setDate(null);
+            JD_Inicial.setDate(null);
+            Limpar_Tabela_Entrada();
+            Limpar_Tabela_Entrada_Itens();
+            JTF_Num_Entrada.setEnabled(false);
+            JTF_Num_Entrada.setText("");
+            Controle=0;
+            BT_Relatorio.setEnabled(false);
          }
     }//GEN-LAST:event_JCB_Tipo_PesquisaActionPerformed
 
@@ -533,11 +572,36 @@ public class Tela_Consulta_Entrada extends javax.swing.JInternalFrame {
 
     private void BT_RelatorioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BT_RelatorioActionPerformed
         if(Controle==0){}
-        if(Controle==1){ObjRelatEntrada.Relatorio_Entrada_Prod_Todos();}
-        if(Controle==2){ObjRelatEntrada.Relatorio_Entrada_Prod_Ultimos_30_Dias();}
-        if(Controle==3){ObjRelatEntrada.Relatorio_Entrada_Periodo(JD_Inicial, JD_Final);}
-        if(Controle==4){ObjRelatEntrada.Relatorio_Entrada_N_Entrada(JTF_Num_Entrada);}
-        if(Controle==5){ObjRelatEntrada.Relatorio_Entrada_Alterada("EFETIVADA COM ALTERAÇÃO");}
+        if(Controle==1){ObjRelatEntrada.Relatorio_Entrada_Prod_Todos();
+            new Controle_Log().Registrar_Log("Gerou o relatório de todas as entradas", CodLogado);
+        }
+        if(Controle==2){ObjRelatEntrada.Relatorio_Entrada_Prod_Ultimos_30_Dias();
+            new Controle_Log().Registrar_Log("Gerou o relatório de todas as entradas nos últimos 30 dias", CodLogado);
+        }
+        if(Controle==3){ObjRelatEntrada.Relatorio_Entrada_Periodo(JD_Inicial, JD_Final);
+            String dti = new SimpleDateFormat("dd-MM-yyyy").format(JD_Inicial.getDate());
+            String dtf = new SimpleDateFormat("dd-MM-yyyy").format(JD_Final.getDate());
+            new Controle_Log().Registrar_Log("Gerou o relatório de entrada por período de "+dti+" até "+dtf, CodLogado);
+        }
+        if(Controle==4){ObjRelatEntrada.Relatorio_Entrada_N_Entrada(JTF_Num_Entrada);
+            new Controle_Log().Registrar_Log("Gerou o relatório de entrada por numero id: "+JTF_Num_Entrada.getText(), CodLogado);
+        }
+        if(Controle==5){ObjRelatEntrada.Relatorio_Entrada_Alterada("EFETIVADA COM ALTERAÇÃO","Todas as Entradas Alteradas - Últimos 30 Dias");
+            new Controle_Log().Registrar_Log("Gerou o relatório de todas as entradas alteradas nos últimos 30 dias", CodLogado);
+        }
+        if(Controle==6){ObjRelatEntrada.Relatorio_Entrada_Alterada_Periodo("EFETIVADA COM ALTERAÇÃO","Entradas Alteradas - Período de ", JD_Inicial, JD_Final);
+            String dti = new SimpleDateFormat("dd-MM-yyyy").format(JD_Inicial.getDate());
+            String dtf = new SimpleDateFormat("dd-MM-yyyy").format(JD_Final.getDate());
+            new Controle_Log().Registrar_Log("Gerou o relatório de entrada alterada por período de "+dti+" até "+dtf, CodLogado);
+        }
+        if(Controle==7){ObjRelatEntrada.Relatorio_Entrada_Alterada("CANCELADA","Todas as Entradas Canceladas - Últimos 30 Dias");
+            new Controle_Log().Registrar_Log("Gerou o relatório de todas as entradas canceladas nos últimos 30 dias", CodLogado);
+        }
+        if(Controle==8){ObjRelatEntrada.Relatorio_Entrada_Alterada_Periodo("CANCELADA","Entradas Canceladas - Período de ", JD_Inicial,JD_Final);
+            String dti = new SimpleDateFormat("dd-MM-yyyy").format(JD_Inicial.getDate());
+            String dtf = new SimpleDateFormat("dd-MM-yyyy").format(JD_Final.getDate());
+            new Controle_Log().Registrar_Log("Gerou o relatório de entrada cancelada por período de "+dti+" até "+dtf, CodLogado);
+        }
     }//GEN-LAST:event_BT_RelatorioActionPerformed
 
     private void JTB_EntradasKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_JTB_EntradasKeyReleased
@@ -557,7 +621,11 @@ public class Tela_Consulta_Entrada extends javax.swing.JInternalFrame {
         if(JCB_Tipo_Pesquisa.getSelectedIndex()==1){
             ObjControleEntrada.Consulta_Entrada_Todas();
             if(ObjControleEntrada.Controle_Entrada == true){
-                Preencher_Tabela_Entrada("select * from entrada order by id_entrada desc");
+                Calendar c = Calendar.getInstance();
+                c.add(Calendar.YEAR, -1); //diminuir datas - inicio para 30 dias;
+                String df = new SimpleDateFormat("yyyy-MM-dd").format(Calendar.getInstance().getTime());
+                String di = new SimpleDateFormat("yyyy-MM-dd").format(c.getTime());
+                Preencher_Tabela_Entrada("select * from entrada where data_entrada between '"+di+"' and '"+df+"' order by id_entrada desc");
                 Controle=1;
                 BT_Relatorio.setEnabled(!false);
                     ObjControleEntrada.Controle_Entrada=false;
@@ -603,7 +671,7 @@ public class Tela_Consulta_Entrada extends javax.swing.JInternalFrame {
                     Mostrar_Data_Inferior();
                     DataMenor = false;
                 }else{
-                    ObjControleEntrada.Consulta_Entrada_Todas();
+                    ObjControleEntrada.Consulta_Entrada_Por_Periodo(JD_Inicial, JD_Final);
                     if (ObjControleEntrada.Controle_Entrada == true) {
                         try{
                             String di = new SimpleDateFormat("yyyy-MM-dd").format(JD_Inicial.getDate());
@@ -646,9 +714,14 @@ public class Tela_Consulta_Entrada extends javax.swing.JInternalFrame {
             }
         }
         if(JCB_Tipo_Pesquisa.getSelectedIndex()==5){
-            ObjControleEntrada.Consulta_Entrada_Todas();
+            ObjControleEntrada.Consulta_Entrada_Alteradas("EFETIVADA COM ALTERAÇÃO");
             if(ObjControleEntrada.Controle_Entrada == true){
-                Preencher_Tabela_Entrada("select * from entrada where situacao_entrada = 'EFETIVADA COM ALTERAÇÃO' order by id_entrada desc");
+                Calendar c = Calendar.getInstance();
+                c.add(Calendar.MONTH, -1); //diminuir datas - inicio para 30 dias;
+                String df = new SimpleDateFormat("yyyy-MM-dd").format(Calendar.getInstance().getTime());
+                String di = new SimpleDateFormat("yyyy-MM-dd").format(c.getTime());
+                Preencher_Tabela_Entrada("select * from entrada where data_entrada between '"+di+"' and '"+df+"' "
+                        + " and situacao_entrada = 'EFETIVADA COM ALTERAÇÃO' order by id_entrada desc");
                 Controle=5;
                 BT_Relatorio.setEnabled(!false);
                 ObjControleEntrada.Controle_Entrada=false;
@@ -658,6 +731,86 @@ public class Tela_Consulta_Entrada extends javax.swing.JInternalFrame {
                 Limpar_Tabela_Entrada_Itens();
                 Controle=0;
                 BT_Relatorio.setEnabled(false);
+            }
+        }
+        if(JCB_Tipo_Pesquisa.getSelectedIndex()==6){
+            if(JD_Inicial.getDate()==null || JD_Final.getDate()==null){
+                Mostrar_Preencher_Datas();
+            }else{
+                Verifica_Datas();
+                if(DataMenor == true){
+                    Mostrar_Data_Inferior();
+                    DataMenor = false;
+                }else{
+                    ObjControleEntrada.Consulta_Entrada_Alteradas_Por_Periodo(JD_Inicial, JD_Final,"EFETIVADA COM ALTERAÇÃO");
+                    if (ObjControleEntrada.Controle_Entrada == true) {
+                        try{
+                            String di = new SimpleDateFormat("yyyy-MM-dd").format(JD_Inicial.getDate());
+                            String df = new SimpleDateFormat("yyyy-MM-dd").format(JD_Final.getDate());
+                            Preencher_Tabela_Entrada("select * from entrada where data_entrada between '"+di+"' and '"+df+"' "
+                                    + " and situacao_entrada = 'EFETIVADA COM ALTERAÇÃO' order by id_entrada desc");
+                            Controle = 6;
+                            BT_Relatorio.setEnabled(!false);
+                            }catch(Exception ex){}
+                            ObjControleEntrada.Controle_Entrada = false;
+                    } else {
+                        Mostra_Nao_Existe_Entrada();
+                        Limpar_Tabela_Entrada();
+                        Limpar_Tabela_Entrada_Itens();
+                        Controle = 0;
+                        BT_Relatorio.setEnabled(false);
+                    }
+                }
+            }
+        }
+        if(JCB_Tipo_Pesquisa.getSelectedIndex()==7){
+            ObjControleEntrada.Consulta_Entrada_Alteradas("CANCELADA");
+            if(ObjControleEntrada.Controle_Entrada == true){
+                Calendar c = Calendar.getInstance();
+                c.add(Calendar.MONTH, -1); //diminuir datas - inicio para 30 dias;
+                String df = new SimpleDateFormat("yyyy-MM-dd").format(Calendar.getInstance().getTime());
+                String di = new SimpleDateFormat("yyyy-MM-dd").format(c.getTime());
+                Preencher_Tabela_Entrada("select * from entrada where data_entrada between '"+di+"' and '"+df+"' "
+                        + " and situacao_entrada = 'CANCELADA' order by id_entrada desc");
+                Controle=7;
+                BT_Relatorio.setEnabled(!false);
+                ObjControleEntrada.Controle_Entrada=false;
+            }else{
+                Mostra_Nao_Existe_Entrada();
+                Limpar_Tabela_Entrada();
+                Limpar_Tabela_Entrada_Itens();
+                Controle=0;
+                BT_Relatorio.setEnabled(false);
+            }
+        }
+        if(JCB_Tipo_Pesquisa.getSelectedIndex()==8){
+            if(JD_Inicial.getDate()==null || JD_Final.getDate()==null){
+                Mostrar_Preencher_Datas();
+            }else{
+                Verifica_Datas();
+                if(DataMenor == true){
+                    Mostrar_Data_Inferior();
+                    DataMenor = false;
+                }else{
+                    ObjControleEntrada.Consulta_Entrada_Alteradas_Por_Periodo(JD_Inicial, JD_Final,"CANCELADA");
+                    if (ObjControleEntrada.Controle_Entrada == true) {
+                        try{
+                            String di = new SimpleDateFormat("yyyy-MM-dd").format(JD_Inicial.getDate());
+                            String df = new SimpleDateFormat("yyyy-MM-dd").format(JD_Final.getDate());
+                            Preencher_Tabela_Entrada("select * from entrada where data_entrada between '"+di+"' and '"+df+"' "
+                                    + " and situacao_entrada = 'CANCELADA' order by id_entrada desc");
+                            Controle = 8;
+                            BT_Relatorio.setEnabled(!false);
+                            }catch(Exception ex){}
+                            ObjControleEntrada.Controle_Entrada = false;
+                    } else {
+                        Mostra_Nao_Existe_Entrada();
+                        Limpar_Tabela_Entrada();
+                        Limpar_Tabela_Entrada_Itens();
+                        Controle = 0;
+                        BT_Relatorio.setEnabled(false);
+                    }
+                }
             }
         }
     }
@@ -684,7 +837,10 @@ public class Tela_Consulta_Entrada extends javax.swing.JInternalFrame {
         JCB_Tipo_Pesquisa.addItem("ÚLTIMOS 30 DIAS");
         JCB_Tipo_Pesquisa.addItem("POR PERÍODO");
         JCB_Tipo_Pesquisa.addItem("NÚMERO DA ENTRADA");
-        JCB_Tipo_Pesquisa.addItem("ALTERADAS");
+        JCB_Tipo_Pesquisa.addItem("ALTERADAS ÚLTIMOS 30 DIAS");
+        JCB_Tipo_Pesquisa.addItem("ALTERADAS POR PERÍODO");
+        JCB_Tipo_Pesquisa.addItem("CANCELADAS ÚLTIMOS 30 DIAS");
+        JCB_Tipo_Pesquisa.addItem("CANCELADAS POR PERÍODO");
     }
     
     public final void Preencher_Tabela_Entrada(String SQL) {

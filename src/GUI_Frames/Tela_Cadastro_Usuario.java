@@ -127,7 +127,7 @@ public class Tela_Cadastro_Usuario extends javax.swing.JInternalFrame {
 
         setBorder(javax.swing.BorderFactory.createCompoundBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.LOWERED), javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED)));
         setIconifiable(true);
-        setTitle("Cadastro De Usuário");
+        setTitle("2 - Cadastro De Usuário");
         setToolTipText("");
         setFrameIcon(new javax.swing.ImageIcon(getClass().getResource("/Icones_Gerais/User 24x24.png"))); // NOI18N
         addInternalFrameListener(new javax.swing.event.InternalFrameListener() {

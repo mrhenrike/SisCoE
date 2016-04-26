@@ -404,7 +404,7 @@ public class Tela_Consulta_Saida_Devolucao_DL extends javax.swing.JDialog {
         }
                         
         if(JCB_Tipo_Pesquisa.getSelectedIndex()==4){
-            ObjControlSaida.Consulta_Saida_Aberto();
+            ObjControlSaida.Consulta_Saida_Alterada("ABERTO");
                 if(ObjControlSaida.Controle_Saida == true){
                     Preencher_Tabela_Saida("select * from saida where situacao = 'ABERTO' order by id_saida desc");
                     BT_Adicionar.setEnabled(!false);

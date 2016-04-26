@@ -8,6 +8,7 @@ import Conexao.Controle_Lote_Estoque;
 import Conexao.Controle_Relatorio_Curso_Turma_Disciplina;
 import Conexao.Controle_Relatorio_Entradas;
 import Conexao.Controle_Relatorio_Produto;
+import Conexao.Controle_Relatorio_Saidas;
 import Conexao.Controle_Saida_Produto;
 import Conexao.Controle_Usuario;
 import GUI_Dialogs_Principal.Inf_Abaixo_Do_Minimo_TP;
@@ -34,14 +35,19 @@ import com.jtattoo.plaf.mint.MintLookAndFeel;
 import com.jtattoo.plaf.noire.NoireLookAndFeel;
 import com.jtattoo.plaf.texture.TextureLookAndFeel;
 import java.awt.Font;
+import java.awt.event.ActionEvent;
+import java.awt.event.KeyEvent;
 import static java.awt.image.ImageObserver.WIDTH;
 import java.sql.SQLException;
 import java.util.Properties;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.AbstractAction;
 import javax.swing.ImageIcon;
+import javax.swing.InputMap;
+import javax.swing.JComponent;
 import javax.swing.JDesktopPane;
-import javax.swing.JOptionPane;
+import javax.swing.KeyStroke;
 import javax.swing.SwingUtilities;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
@@ -121,6 +127,7 @@ public static Tela_Principal TP;
         JRB_Padrao.setSelected(true);
         JTF_Rotina.setDocument(ObjFormat.new Format_Apenas_Numero(5));
         JL_Start.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icones_Gerais/stop.png")));
+        Setar_Atalho_BT();
     }
     
     
@@ -193,9 +200,13 @@ public static Tela_Principal TP;
         jMenuItem7 = new javax.swing.JMenuItem();
         jMenuItem13 = new javax.swing.JMenuItem();
         jMenuItem27 = new javax.swing.JMenuItem();
+        jMenuItem36 = new javax.swing.JMenuItem();
         jMenuItem23 = new javax.swing.JMenuItem();
         jMenuItem28 = new javax.swing.JMenuItem();
         jMenuItem29 = new javax.swing.JMenuItem();
+        jMenu17 = new javax.swing.JMenu();
+        jMenuItem37 = new javax.swing.JMenuItem();
+        jMenuItem39 = new javax.swing.JMenuItem();
         jSeparator3 = new javax.swing.JPopupMenu.Separator();
         jMenu2 = new javax.swing.JMenu();
         jMenu12 = new javax.swing.JMenu();
@@ -227,7 +238,7 @@ public static Tela_Principal TP;
         Serv_Cancela_Entrada = new javax.swing.JMenuItem();
         jMenu16 = new javax.swing.JMenu();
         Serv_Entrada2 = new javax.swing.JMenuItem();
-        Serv_Cancela_Entrada1 = new javax.swing.JMenuItem();
+        Serv_Cancela_Saida = new javax.swing.JMenuItem();
         jMenuItem24 = new javax.swing.JMenuItem();
         jSeparator2 = new javax.swing.JPopupMenu.Separator();
         Serv_AjustaEstoque = new javax.swing.JMenuItem();
@@ -277,13 +288,6 @@ public static Tela_Principal TP;
         setFont(new java.awt.Font("Arial", 0, 10)); // NOI18N
         setMinimumSize(new java.awt.Dimension(1366, 768));
         setName("Menu Principal"); // NOI18N
-        addWindowFocusListener(new java.awt.event.WindowFocusListener() {
-            public void windowGainedFocus(java.awt.event.WindowEvent evt) {
-                formWindowGainedFocus(evt);
-            }
-            public void windowLostFocus(java.awt.event.WindowEvent evt) {
-            }
-        });
         addWindowListener(new java.awt.event.WindowAdapter() {
             public void windowClosing(java.awt.event.WindowEvent evt) {
                 formWindowClosing(evt);
@@ -720,7 +724,7 @@ public static Tela_Principal TP;
         jMenu3.add(jMenuItem4);
 
         jMenuItem8.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        jMenuItem8.setText("Por Período");
+        jMenuItem8.setText("Tipo Por Período");
         jMenuItem8.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jMenuItem8ActionPerformed(evt);
@@ -745,14 +749,29 @@ public static Tela_Principal TP;
 
         jMenuItem6.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         jMenuItem6.setText("Todas Saídas");
+        jMenuItem6.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem6ActionPerformed(evt);
+            }
+        });
         jMenu5.add(jMenuItem6);
 
         jMenuItem14.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         jMenuItem14.setText("Últimos 30 Dias");
+        jMenuItem14.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem14ActionPerformed(evt);
+            }
+        });
         jMenu5.add(jMenuItem14);
 
         jMenuItem18.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        jMenuItem18.setText("Por Período");
+        jMenuItem18.setText("Tipo Por Período");
+        jMenuItem18.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem18ActionPerformed(evt);
+            }
+        });
         jMenu5.add(jMenuItem18);
 
         jMenuItem19.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
@@ -766,10 +785,20 @@ public static Tela_Principal TP;
 
         jMenuItem20.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         jMenuItem20.setText("Por Curso");
+        jMenuItem20.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem20ActionPerformed(evt);
+            }
+        });
         jMenu5.add(jMenuItem20);
 
         jMenuItem21.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         jMenuItem21.setText("Por Turma");
+        jMenuItem21.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem21ActionPerformed(evt);
+            }
+        });
         jMenu5.add(jMenuItem21);
 
         jMenuItem22.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
@@ -802,21 +831,73 @@ public static Tela_Principal TP;
         jMenu4.add(jMenuItem13);
 
         jMenuItem27.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        jMenuItem27.setText("Abaixo Do Mínimo");
+        jMenuItem27.setText("Abaixo do Mínimo");
+        jMenuItem27.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem27ActionPerformed(evt);
+            }
+        });
         jMenu4.add(jMenuItem27);
+
+        jMenuItem36.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        jMenuItem36.setText("Negativo");
+        jMenuItem36.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem36ActionPerformed(evt);
+            }
+        });
+        jMenu4.add(jMenuItem36);
 
         jMenuItem23.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_Q, java.awt.event.InputEvent.ALT_MASK | java.awt.event.InputEvent.CTRL_MASK));
         jMenuItem23.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         jMenuItem23.setText("Sem Estoque");
+        jMenuItem23.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem23ActionPerformed(evt);
+            }
+        });
         jMenu4.add(jMenuItem23);
 
         jMenuItem28.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        jMenuItem28.setText("Produtos Vencidos");
+        jMenuItem28.setText("Vencidos");
+        jMenuItem28.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem28ActionPerformed(evt);
+            }
+        });
         jMenu4.add(jMenuItem28);
 
         jMenuItem29.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         jMenuItem29.setText("Vencimento Abaixo 30 Dias");
+        jMenuItem29.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem29ActionPerformed(evt);
+            }
+        });
         jMenu4.add(jMenuItem29);
+
+        jMenu17.setText("Por Categoria");
+        jMenu17.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+
+        jMenuItem37.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        jMenuItem37.setText("Todas Categorias");
+        jMenuItem37.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem37ActionPerformed(evt);
+            }
+        });
+        jMenu17.add(jMenuItem37);
+
+        jMenuItem39.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        jMenuItem39.setText("Selecionar Categoria");
+        jMenuItem39.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem39ActionPerformed(evt);
+            }
+        });
+        jMenu17.add(jMenuItem39);
+
+        jMenu4.add(jMenu17);
 
         MP_Relatorio.add(jMenu4);
         MP_Relatorio.add(jSeparator3);
@@ -1051,16 +1132,16 @@ public static Tela_Principal TP;
         });
         jMenu16.add(Serv_Entrada2);
 
-        Serv_Cancela_Entrada1.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_F11, java.awt.event.InputEvent.CTRL_MASK));
-        Serv_Cancela_Entrada1.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        Serv_Cancela_Entrada1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icones_Gerais/Remove_24x24.png"))); // NOI18N
-        Serv_Cancela_Entrada1.setText("Cancelar Saída");
-        Serv_Cancela_Entrada1.addActionListener(new java.awt.event.ActionListener() {
+        Serv_Cancela_Saida.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_F11, java.awt.event.InputEvent.CTRL_MASK));
+        Serv_Cancela_Saida.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        Serv_Cancela_Saida.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icones_Gerais/Remove_24x24.png"))); // NOI18N
+        Serv_Cancela_Saida.setText("Cancelar Saída");
+        Serv_Cancela_Saida.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                Serv_Cancela_Entrada1ActionPerformed(evt);
+                Serv_Cancela_SaidaActionPerformed(evt);
             }
         });
-        jMenu16.add(Serv_Cancela_Entrada1);
+        jMenu16.add(Serv_Cancela_Saida);
 
         MP_Serv.add(jMenu16);
 
@@ -1643,7 +1724,7 @@ public static Tela_Principal TP;
     }//GEN-LAST:event_jMenuItem7ActionPerformed
 
     private void jMenuItem19ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem19ActionPerformed
-        // TODO add your handling code here:
+        new Tela_Relat_Saida_Num().Open_Tela();
     }//GEN-LAST:event_jMenuItem19ActionPerformed
 
     private void jMenuItem24ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem24ActionPerformed
@@ -1902,17 +1983,72 @@ public static Tela_Principal TP;
         }
     }//GEN-LAST:event_JTF_RotinaActionPerformed
 
-    private void formWindowGainedFocus(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowGainedFocus
-        JTF_Rotina.requestFocus();
-    }//GEN-LAST:event_formWindowGainedFocus
-
     private void Serv_Entrada2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Serv_Entrada2ActionPerformed
         new Tela_Saida_Produto().Open_Tela();
     }//GEN-LAST:event_Serv_Entrada2ActionPerformed
 
-    private void Serv_Cancela_Entrada1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Serv_Cancela_Entrada1ActionPerformed
+    private void Serv_Cancela_SaidaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Serv_Cancela_SaidaActionPerformed
         new Tela_Cancelar_Saida().Open_Tela();
-    }//GEN-LAST:event_Serv_Cancela_Entrada1ActionPerformed
+    }//GEN-LAST:event_Serv_Cancela_SaidaActionPerformed
+
+    private void jMenuItem23ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem23ActionPerformed
+        new Controle_Relatorio_Produto().Relatorio_Produto_Estoque_Geral("Todos Produtos Sem Estoque", 
+                " and (select sum(quantidade_estoque) from lote_estoque where produto.id_produto=lote_estoque.produto_id_produto) = 0 ");
+        new Controle_Log().Registrar_Log("Gerou o relatório de estoque de Produto sem estoque", CodLogado);
+    }//GEN-LAST:event_jMenuItem23ActionPerformed
+
+    private void jMenuItem36ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem36ActionPerformed
+        new Controle_Relatorio_Produto().Relatorio_Produto_Estoque_Geral("Todos Produtos Com o Estoque Negativo", 
+                " and (select sum(quantidade_estoque) from lote_estoque where produto.id_produto=lote_estoque.produto_id_produto) < 0 ");
+        new Controle_Log().Registrar_Log("Gerou o relatório de estoque de Produto Negativo", CodLogado);
+    }//GEN-LAST:event_jMenuItem36ActionPerformed
+
+    private void jMenuItem28ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem28ActionPerformed
+        new Controle_Relatorio_Produto().Relatorio_Produto_Estoque_Vencido("Todos Produtos Com Estoque Vencido");
+        new Controle_Log().Registrar_Log("Gerou o relatório de estoque de Produto Vencido", CodLogado);
+    }//GEN-LAST:event_jMenuItem28ActionPerformed
+
+    private void jMenuItem29ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem29ActionPerformed
+        new Controle_Relatorio_Produto().Relatorio_Produto_Estoque_Abaixo_30_Dias("Todos Produtos Com Estoque Abaixo de 30 Dias");
+        new Controle_Log().Registrar_Log("Gerou o relatório de estoque de Produto abaixo de 30 dias", CodLogado);
+    }//GEN-LAST:event_jMenuItem29ActionPerformed
+
+    private void jMenuItem27ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem27ActionPerformed
+        new Controle_Relatorio_Produto().Relatorio_Produto_Estoque_Geral("Todos Produtos Com o Estoque Abaixo Do Mínimo", 
+                " and (select sum(quantidade_estoque) from lote_estoque where produto.id_produto=lote_estoque.produto_id_produto)<quantidade_minima");
+        new Controle_Log().Registrar_Log("Gerou o relatório de estoque de Produto Abaixo Do Mínimo", CodLogado);
+    }//GEN-LAST:event_jMenuItem27ActionPerformed
+
+    private void jMenuItem37ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem37ActionPerformed
+        new Controle_Relatorio_Produto().Relatorio_Produto_Estoque_Categoria();
+        new Controle_Log().Registrar_Log("Gerou o relatório de estoque de Produto por categoria", CodLogado);
+    }//GEN-LAST:event_jMenuItem37ActionPerformed
+
+    private void jMenuItem39ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem39ActionPerformed
+        new Tela_Relat_Estoque_Produto_Categoria().Open_Tela();
+    }//GEN-LAST:event_jMenuItem39ActionPerformed
+
+    private void jMenuItem6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem6ActionPerformed
+        new Controle_Relatorio_Saidas().Relatorio_Saida_Prod_Todos();
+        new Controle_Log().Registrar_Log("Gerou o relatório de todas as saídas", CodLogado);
+    }//GEN-LAST:event_jMenuItem6ActionPerformed
+
+    private void jMenuItem14ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem14ActionPerformed
+        new Controle_Relatorio_Saidas().Relatorio_Saida_Ultimo_30_Dias();
+        new Controle_Log().Registrar_Log("Gerou o relatório de todas as Saídas nos últimos 30 dias", CodLogado);
+    }//GEN-LAST:event_jMenuItem14ActionPerformed
+
+    private void jMenuItem18ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem18ActionPerformed
+        new Tela_Relat_Saida_Periodo().Open_Tela();
+    }//GEN-LAST:event_jMenuItem18ActionPerformed
+
+    private void jMenuItem20ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem20ActionPerformed
+        new Tela_Relat_Saida_Curso().Open_Tela();
+    }//GEN-LAST:event_jMenuItem20ActionPerformed
+
+    private void jMenuItem21ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem21ActionPerformed
+        new Tela_Relat_Saida_Turma().Open_Tela();
+    }//GEN-LAST:event_jMenuItem21ActionPerformed
 
     void Rotina_Adm(){
         if(JTF_Rotina.getText().equalsIgnoreCase("")){
@@ -1966,29 +2102,30 @@ public static Tela_Principal TP;
                     new Tela_Relat_Entrada_Num().Open_Tela();
                     break;
                 case 14:
-                    
+                    new Controle_Relatorio_Saidas().Relatorio_Saida_Prod_Todos();
+                    new Controle_Log().Registrar_Log("Gerou o relatório de todas as saídas", CodLogado);
                     break;
                 case 15:
-                    
+                    new Controle_Relatorio_Saidas().Relatorio_Saida_Ultimo_30_Dias();
+                    new Controle_Log().Registrar_Log("Gerou o relatório de todas as Saídas nos últimos 30 dias", CodLogado);
                     break;    
                 case 16:
-                    
+                    new Tela_Relat_Saida_Periodo().Open_Tela();
                     break;    
                 case 17:
-                    
+                     new Tela_Relat_Saida_Num().Open_Tela();
                     break;    
                 case 18:
-                    
+                    new Tela_Relat_Saida_Curso().Open_Tela();
                     break;    
                 case 19:
-                    
+                    new Tela_Relat_Saida_Turma().Open_Tela();
                     break;    
                 case 20:
                     
                     break;    
                 case 21:
                     new Controle_Relatorio_Produto().Relatorio_Produto_Estoque_Analitico();
-                    //Log
                     new Controle_Log().Registrar_Log("Gerou o relatório de estoque de produto analítico", CodLogado);
                     break;
                 case 22:
@@ -1997,16 +2134,22 @@ public static Tela_Principal TP;
                     new Controle_Log().Registrar_Log("Gerou o relatório de estoque de produto sintético", CodLogado);
                     break;
                 case 23:
-
+                    new Controle_Relatorio_Produto().Relatorio_Produto_Estoque_Geral("Todos Produtos Com o Estoque Abaixo Do Mínimo", 
+                    " and (select sum(quantidade_estoque) from lote_estoque where produto.id_produto=lote_estoque.produto_id_produto)<quantidade_minima");
+                    new Controle_Log().Registrar_Log("Gerou o relatório de estoque de Produto Abaixo Do Mínimo", CodLogado);
                     break;
                 case 24:
-
+                     new Controle_Relatorio_Produto().Relatorio_Produto_Estoque_Geral("Todos Produtos Sem Estoque", 
+                    " and (select sum(quantidade_estoque) from lote_estoque where produto.id_produto=lote_estoque.produto_id_produto) = 0 ");
+                    new Controle_Log().Registrar_Log("Gerou o relatório de estoque de Produto sem estoque", CodLogado);
                     break;
                 case 25:
-
+                    new Controle_Relatorio_Produto().Relatorio_Produto_Estoque_Vencido("Todos Produtos Com Estoque Vencido");
+                    new Controle_Log().Registrar_Log("Gerou o relatório de estoque de Produto Vencido", CodLogado);
                     break;
                 case 26:
-
+                    new Controle_Relatorio_Produto().Relatorio_Produto_Estoque_Abaixo_30_Dias("Todos Produtos Com Estoque Abaixo de 30 Dias");
+                    new Controle_Log().Registrar_Log("Gerou o relatório de estoque de Produto abaixo de 30 dias", CodLogado);
                     break;
                 case 27:
                     new Controle_Relatorio_Produto().Relatorio_Produto_Todos("","Todos os Produtos");
@@ -2077,7 +2220,7 @@ public static Tela_Principal TP;
                     new Tela_Saida_Produto().Open_Tela();
                     break;    
                 case 46:
-
+                    new Tela_Cancelar_Saida().Open_Tela();
                     break;    
                 case 47:
                     new Tela_Gerar_Devolucao().Open_Tela();
@@ -2114,7 +2257,12 @@ public static Tela_Principal TP;
                     break;
                 case 56:
                     Mostrar_Sobre();
-                    break;                
+                    break;  
+                case 57:
+                    new Controle_Relatorio_Produto().Relatorio_Produto_Estoque_Geral("Todos Produtos Com o Estoque Negativo", 
+                    " and (select sum(quantidade_estoque) from lote_estoque where produto.id_produto=lote_estoque.produto_id_produto) < 0 ");
+                    new Controle_Log().Registrar_Log("Gerou o relatório de estoque de Produto Negativo", CodLogado);
+                    break;
                 default:
                     Mostrar_Rotina_Nao_Encontrada();
                     break;  
@@ -2176,22 +2324,24 @@ public static Tela_Principal TP;
                     new Tela_Relat_Entrada_Num().Open_Tela();
                     break;
                 case 14:
-                    
+                    new Controle_Relatorio_Saidas().Relatorio_Saida_Prod_Todos();
+                    new Controle_Log().Registrar_Log("Gerou o relatório de todas as saídas", CodLogado);
                     break;
                 case 15:
-                    
+                    new Controle_Relatorio_Saidas().Relatorio_Saida_Ultimo_30_Dias();
+                    new Controle_Log().Registrar_Log("Gerou o relatório de todas as Saídas nos últimos 30 dias", CodLogado);
                     break;    
                 case 16:
-                    
+                    new Tela_Relat_Saida_Periodo().Open_Tela();
                     break;    
                 case 17:
-                    
+                    new Tela_Relat_Saida_Num().Open_Tela();
                     break;    
                 case 18:
-                    
+                    new Tela_Relat_Saida_Curso().Open_Tela();
                     break;    
                 case 19:
-                    
+                    new Tela_Relat_Saida_Turma().Open_Tela();
                     break;    
                 case 20:
                     
@@ -2207,16 +2357,22 @@ public static Tela_Principal TP;
                     new Controle_Log().Registrar_Log("Gerou o relatório de estoque de produto sintético", CodLogado);
                     break;
                 case 23:
-
+                    new Controle_Relatorio_Produto().Relatorio_Produto_Estoque_Geral("Todos Produtos Com o Estoque Abaixo Do Mínimo", 
+                    " and (select sum(quantidade_estoque) from lote_estoque where produto.id_produto=lote_estoque.produto_id_produto)<quantidade_minima");
+                    new Controle_Log().Registrar_Log("Gerou o relatório de estoque de Produto Abaixo Do Mínimo", CodLogado);
                     break;
                 case 24:
-
+                     new Controle_Relatorio_Produto().Relatorio_Produto_Estoque_Geral("Todos Produtos Sem Estoque", 
+                    " and (select sum(quantidade_estoque) from lote_estoque where produto.id_produto=lote_estoque.produto_id_produto) = 0 ");
+                    new Controle_Log().Registrar_Log("Gerou o relatório de estoque de Produto sem estoque", CodLogado);
                     break;
                 case 25:
-
+                    new Controle_Relatorio_Produto().Relatorio_Produto_Estoque_Vencido("Todos Produtos Com Estoque Vencido");
+                    new Controle_Log().Registrar_Log("Gerou o relatório de estoque de Produto Vencido", CodLogado);
                     break;
                 case 26:
-
+                    new Controle_Relatorio_Produto().Relatorio_Produto_Estoque_Abaixo_30_Dias("Todos Produtos Com Estoque Abaixo de 30 Dias");
+                    new Controle_Log().Registrar_Log("Gerou o relatório de estoque de Produto abaixo de 30 dias", CodLogado);
                     break;
                 case 27:
                     new Controle_Relatorio_Produto().Relatorio_Produto_Todos("","Todos os Produtos");
@@ -2287,7 +2443,7 @@ public static Tela_Principal TP;
                     new Tela_Saida_Produto().Open_Tela();
                     break;    
                 case 46:
-                    new Tela_Cancelar_Saida().Open_Tela();
+                    Mostrar_Sem_Permissao();
                     break;    
                 case 47:
                     new Tela_Gerar_Devolucao().Open_Tela();
@@ -2324,7 +2480,12 @@ public static Tela_Principal TP;
                     break;
                 case 56:
                     Mostrar_Sobre();
-                    break;                
+                    break;   
+                case 57:
+                    new Controle_Relatorio_Produto().Relatorio_Produto_Estoque_Geral("Todos Produtos Com o Estoque Negativo", 
+                    " and (select sum(quantidade_estoque) from lote_estoque where produto.id_produto=lote_estoque.produto_id_produto) < 0 ");
+                    new Controle_Log().Registrar_Log("Gerou o relatório de estoque de Produto Negativo", CodLogado);
+                    break;
                 default:
                     Mostrar_Rotina_Nao_Encontrada();
                     break;  
@@ -2413,6 +2574,7 @@ public static Tela_Principal TP;
             jLabel2.setVisible(!false);
             Metodos.Cronometro(JL_Cont);
             JL_Start.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icones_Gerais/player_play.png")));
+            JTF_Rotina.requestFocus();
         }else{
             ObjControleUser.Procura_Nome_Usuario(JL_Usuario, Usuario, JL_Cod);
             JL_Permissao.setText(Permissao);        
@@ -2422,7 +2584,8 @@ public static Tela_Principal TP;
             jLabel1.setVisible(!false);
             jLabel2.setVisible(!false);
             Metodos.Cronometro(JL_Cont);
-            JL_Start.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icones_Gerais/player_play.png")));            
+            JL_Start.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icones_Gerais/player_play.png")));  
+            JTF_Rotina.requestFocus();
         }
         ObjControleLog.Registrar_Log("Login no sistema",CodLogado);   
     }
@@ -2460,6 +2623,10 @@ public static Tela_Principal TP;
         Tela_Consulta_Log.Obj=null;
         Tela_Cancelar_Entrada_Produto.Obj=null;
         Tela_Cancelar_Saida.Obj=null;
+        Tela_Relat_Estoque_Produto_Categoria.Obj=null;
+        Tela_Relat_Saida_Periodo.Obj=null;
+        Tela_Relat_Saida_Num.Obj=null;
+        Tela_Relat_Saida_Turma.Obj=null;
         
         Mostrar_Finalizando_Iniciando();
     } catch (Exception ex) { }    
@@ -2474,6 +2641,7 @@ public static Tela_Principal TP;
             Relat_Log.setEnabled(false);
             Relat_Usuario.setEnabled(false);
             Serv_Cancela_Entrada.setEnabled(false);
+            Serv_Cancela_Saida.setEnabled(false);
         }
     
     }
@@ -2553,8 +2721,24 @@ public static Tela_Principal TP;
     public void Fechar_Tela_bloqueio(){
         DLLogout.setVisible(false);
     }
+    
     public static void Fechar_Tela_Principal(){
         TP.dispose();
+    }
+    
+    public final void Setar_Atalho_BT(){
+        //metodo para pegar a tecla pressionada        
+        InputMap inputMap3 = this.getRootPane().getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW);
+        inputMap3.put(KeyStroke.getKeyStroke(KeyEvent.VK_F12, 0),"Rotina");
+        this.getRootPane().setInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW, inputMap3);
+        
+        this.getRootPane().getActionMap().put("Rotina", new AbstractAction(){
+        private static final long serialVersionUID = 1L;
+        @Override
+        public void actionPerformed(ActionEvent arg0) {
+        JTF_Rotina.requestFocus();
+        }
+        });
     }
     /**
      * @param args the command line arguments
@@ -2639,7 +2823,7 @@ public static Tela_Principal TP;
     private javax.swing.JMenuItem Serv_Altera_Senha;
     private javax.swing.JMenuItem Serv_Ativa;
     private javax.swing.JMenuItem Serv_Cancela_Entrada;
-    private javax.swing.JMenuItem Serv_Cancela_Entrada1;
+    private javax.swing.JMenuItem Serv_Cancela_Saida;
     private javax.swing.JMenuItem Serv_Entrada;
     private javax.swing.JMenuItem Serv_Entrada1;
     private javax.swing.JMenuItem Serv_Entrada2;
@@ -2657,6 +2841,7 @@ public static Tela_Principal TP;
     private javax.swing.JMenu jMenu14;
     private javax.swing.JMenu jMenu15;
     private javax.swing.JMenu jMenu16;
+    private javax.swing.JMenu jMenu17;
     private javax.swing.JMenu jMenu2;
     private javax.swing.JMenu jMenu3;
     private javax.swing.JMenu jMenu4;
@@ -2693,7 +2878,10 @@ public static Tela_Principal TP;
     private javax.swing.JMenuItem jMenuItem33;
     private javax.swing.JMenuItem jMenuItem34;
     private javax.swing.JMenuItem jMenuItem35;
+    private javax.swing.JMenuItem jMenuItem36;
+    private javax.swing.JMenuItem jMenuItem37;
     private javax.swing.JMenuItem jMenuItem38;
+    private javax.swing.JMenuItem jMenuItem39;
     private javax.swing.JMenuItem jMenuItem4;
     private javax.swing.JMenuItem jMenuItem5;
     private javax.swing.JMenuItem jMenuItem6;

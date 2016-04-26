@@ -289,7 +289,7 @@ public class Tela_Relat_Entrada_Periodo extends javax.swing.JInternalFrame {
                 if(JCB_Tipo.getSelectedIndex()==0){
                     ObjControleEntrada.Consulta_Entrada_Por_Periodo(JD_Inicial, JD_Final);
                     if(ObjControleEntrada.Controle_Entrada == true){
-                        ObjRelatEntrada.Relatorio_Entrada_Periodo_Todas("Todas Entrada - Período de ", JD_Inicial, JD_Final);
+                        ObjRelatEntrada.Relatorio_Entrada_Periodo_Todas("12 - Entrada Por Período - Todas de ", JD_Inicial, JD_Final);
                         ObjControleEntrada.Controle_Entrada = false;
                         //Log
                         String dti = new SimpleDateFormat("dd-MM-yyyy").format(JD_Inicial.getDate());
@@ -303,7 +303,7 @@ public class Tela_Relat_Entrada_Periodo extends javax.swing.JInternalFrame {
                     ObjControleEntrada.Consulta_Entrada_Alteradas_Por_Periodo(JD_Inicial, JD_Final,"EFETIVADA");
                     if (ObjControleEntrada.Controle_Entrada == true) {
                         ObjControleEntrada.Controle_Entrada = false;
-                        ObjRelatEntrada.Relatorio_Entrada_Alterada_Periodo("EFETIVADA","Entradas Alteradas - Período de ", JD_Inicial, JD_Final);
+                        ObjRelatEntrada.Relatorio_Entrada_Alterada_Periodo("EFETIVADA","12 - Entrada Por Período - Efetivadas de ", JD_Inicial, JD_Final);
                         //log
                         String dti = new SimpleDateFormat("dd-MM-yyyy").format(JD_Inicial.getDate());
                         String dtf = new SimpleDateFormat("dd-MM-yyyy").format(JD_Final.getDate());
@@ -316,7 +316,7 @@ public class Tela_Relat_Entrada_Periodo extends javax.swing.JInternalFrame {
                     ObjControleEntrada.Consulta_Entrada_Alteradas_Por_Periodo(JD_Inicial, JD_Final,"EFETIVADA COM ALTERAÇÃO");
                     if (ObjControleEntrada.Controle_Entrada == true) {
                         ObjControleEntrada.Controle_Entrada = false;
-                        ObjRelatEntrada.Relatorio_Entrada_Alterada_Periodo("EFETIVADA COM ALTERAÇÃO","Entradas Alteradas - Período de ", JD_Inicial,JD_Final);
+                        ObjRelatEntrada.Relatorio_Entrada_Alterada_Periodo("EFETIVADA COM ALTERAÇÃO","12 - Entradas Por Período - Alteradas de ", JD_Inicial,JD_Final);
                         String dti = new SimpleDateFormat("dd-MM-yyyy").format(JD_Inicial.getDate());
                         String dtf = new SimpleDateFormat("dd-MM-yyyy").format(JD_Final.getDate());
                         new Controle_Log().Registrar_Log("Gerou o relatório de entradas alteradas por período de "+dti+" até "+dtf, CodLogado);
@@ -328,7 +328,7 @@ public class Tela_Relat_Entrada_Periodo extends javax.swing.JInternalFrame {
                     ObjControleEntrada.Consulta_Entrada_Alteradas_Por_Periodo(JD_Inicial, JD_Final,"CANCELADA");
                     if (ObjControleEntrada.Controle_Entrada == true) {
                         ObjControleEntrada.Controle_Entrada = false;
-                        ObjRelatEntrada.Relatorio_Entrada_Alterada_Periodo("CANCELADA","Entradas Canceladas - Período de ", JD_Inicial,JD_Final);
+                        ObjRelatEntrada.Relatorio_Entrada_Alterada_Periodo("CANCELADA","12 - Entradas Por Período - Canceladas de ", JD_Inicial,JD_Final);
                         String dti = new SimpleDateFormat("dd-MM-yyyy").format(JD_Inicial.getDate());
                         String dtf = new SimpleDateFormat("dd-MM-yyyy").format(JD_Final.getDate());
                         new Controle_Log().Registrar_Log("Gerou o relatório de entradas canceladas por período de "+dti+" até "+dtf, CodLogado);
@@ -362,7 +362,7 @@ public class Tela_Relat_Entrada_Periodo extends javax.swing.JInternalFrame {
         
         //metodo para pegar a tecla pressionada
         InputMap inputMap2 = this.getRootPane().getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW);
-        inputMap2.put(KeyStroke.getKeyStroke(KeyEvent.VK_F11, 0),"Relatorio");
+        inputMap2.put(KeyStroke.getKeyStroke(KeyEvent.VK_F2, 0),"Relatorio");
         this.getRootPane().setInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW, inputMap2);
         
         this.getRootPane().getActionMap().put("Esc", new AbstractAction(){

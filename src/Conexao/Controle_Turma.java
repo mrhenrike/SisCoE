@@ -328,5 +328,36 @@ public class Controle_Turma {
         ObjConecta.Desconecta();
    }
    
+   public void Preencher_CB_Turma_Concat(JComboBox jb, String sql_semestre, String curso, String ano){
+       try {
+            ObjConecta.Conectar();
+            ObjConecta.ExecutaSQL("select concat(semestre,abrev_curso,turno,ano_turma,'.',semestre_vestibular,' ',turma) as turmas "
+                    + " from curso inner join turma on curso.id_curso = turma.curso_id_curso "
+                    + " where situacao_turma = 'ATIVO' and nome_curso = '"+curso+"' "+sql_semestre+" and ano_turma = '"+ano+"' order by semestre, turma");
+            ObjConecta.rs.first();
+            do {
+                jb.addItem(ObjConecta.rs.getString("turmas"));                
+            } while (ObjConecta.rs.next());
+            ObjConecta.Desconecta();
+        } catch (SQLException ex) {
+            ObjConecta.Desconecta();
+            //JOptionPane.showMessageDialog(null, "Erro Ao Preencher O ComboBox Curso!");
+        }
+   }
    
+   public Modelo_Turma Consulta_Turma_Id(Modelo_Turma ObjModeloTurma,  String sql_semestre, String curso, String turma){
+       try {
+            ObjConecta.Conectar();
+            ObjConecta.ExecutaSQL("select id_turma from curso inner join turma on curso.id_curso = turma.curso_id_curso "
+                    + " where situacao_turma = 'ATIVO' and nome_curso = '"+curso+"' "+sql_semestre+" "
+                    + " and (select concat(semestre,abrev_curso,turno,ano_turma,'.',semestre_vestibular,' ',turma)) = '"+turma+"'");
+            ObjConecta.rs.first();
+            ObjModeloTurma.setId_turma(ObjConecta.rs.getInt("id_turma"));
+            ObjConecta.Desconecta();
+        } catch (SQLException ex) {
+            ObjConecta.Desconecta();
+            //JOptionPane.showMessageDialog(null, "Erro Ao Preencher O ComboBox Curso!");
+        }
+         return ObjModeloTurma;
+   }
 }

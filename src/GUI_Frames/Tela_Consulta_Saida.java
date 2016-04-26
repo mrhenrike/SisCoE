@@ -2,13 +2,16 @@ package GUI_Frames;
 
 import Classes.Modelo_Tabela;
 import Conexao.Conecta_Banco;
+import Conexao.Controle_Log;
 import Conexao.Controle_Relatorio_Entradas;
+import Conexao.Controle_Relatorio_Saidas;
 import Conexao.Controle_Saida_Produto;
 import GUI_Dialogs_Consulta_Ent_Saida.Inf_Data_Final_Inferior_Cons_Saida;
 import GUI_Dialogs_Consulta_Ent_Saida.Inf_Nao_Existe_Saida;
 import GUI_Dialogs_Consulta_Ent_Saida.Inf_Preencher_Datas_Cons_Saida;
 import GUI_Dialogs_Consulta_Ent_Saida.Inf_Preencher_N_Saida_Cons_Saida;
 import GUI_Dialogs_Consulta_Ent_Saida.Inf_Saida_Nao_Encontrada;
+import static GUI_Frames.Tela_Principal.CodLogado;
 import Metodos.Formatacao;
 import Metodos.Pintar_Tabela_Padrao;
 import java.awt.Dimension;
@@ -59,7 +62,6 @@ public class Tela_Consulta_Saida extends javax.swing.JInternalFrame {
     public static Tela_Consulta_Saida Objteste;
     Conecta_Banco ObjConecta = new Conecta_Banco();
     Conecta_Banco ObjConecta_2 = new Conecta_Banco();
-    Controle_Relatorio_Entradas ObjRelatEntrada = new Controle_Relatorio_Entradas();
     Controle_Saida_Produto ObjControlSaida = new Controle_Saida_Produto();
     Formatacao ObjFormat = new Formatacao();
     
@@ -198,24 +200,26 @@ public class Tela_Consulta_Saida extends javax.swing.JInternalFrame {
                                 .addComponent(jLabel3)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(JTF_Num_Saida, javax.swing.GroupLayout.PREFERRED_SIZE, 70, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(BT_Consultar, javax.swing.GroupLayout.PREFERRED_SIZE, 160, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                        .addGap(0, 0, Short.MAX_VALUE))))
+                                    .addGroup(jPanel1Layout.createSequentialGroup()
+                                        .addGap(10, 10, 10)
+                                        .addComponent(BT_Consultar, javax.swing.GroupLayout.PREFERRED_SIZE, 160, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                    .addComponent(JTF_Num_Saida, javax.swing.GroupLayout.PREFERRED_SIZE, 70, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                        .addGap(0, 12, Short.MAX_VALUE))))
             .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                    .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addContainerGap(16, Short.MAX_VALUE)
                     .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 291, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addContainerGap(11, Short.MAX_VALUE)))
+                    .addContainerGap(17, Short.MAX_VALUE)))
             .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                    .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addContainerGap(16, Short.MAX_VALUE)
                     .addComponent(jSeparator2, javax.swing.GroupLayout.PREFERRED_SIZE, 291, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addContainerGap(11, Short.MAX_VALUE)))
+                    .addContainerGap(17, Short.MAX_VALUE)))
             .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                    .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addContainerGap(16, Short.MAX_VALUE)
                     .addComponent(jSeparator3, javax.swing.GroupLayout.PREFERRED_SIZE, 291, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addContainerGap(11, Short.MAX_VALUE)))
+                    .addContainerGap(17, Short.MAX_VALUE)))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -359,7 +363,7 @@ public class Tela_Consulta_Saida extends javax.swing.JInternalFrame {
                         .addComponent(BT_Sair, javax.swing.GroupLayout.PREFERRED_SIZE, 160, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                         .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                 .addContainerGap())
         );
@@ -524,6 +528,32 @@ public class Tela_Consulta_Saida extends javax.swing.JInternalFrame {
             Controle=0;
             BT_Relatorio.setEnabled(false);
          }
+        if(JCB_Tipo_Pesquisa.getSelectedIndex()==5){
+            BT_Consultar.setEnabled(!false);
+            JD_Final.setEnabled(false);
+            JD_Inicial.setEnabled(false);
+            JD_Final.setDate(null);
+            JD_Inicial.setDate(null);
+            Limpar_Tabela_Saida();
+            Limpar_Tabela_Saida_Itens();
+            JTF_Num_Saida.setEnabled(false);
+            JTF_Num_Saida.setText("");
+            Controle=0;
+            BT_Relatorio.setEnabled(false);
+         }
+        if(JCB_Tipo_Pesquisa.getSelectedIndex()==6){
+            BT_Consultar.setEnabled(!false);
+            JD_Final.setEnabled(!false);
+            JD_Inicial.setEnabled(!false);
+            JD_Final.setDate(null);
+            JD_Inicial.setDate(null);
+            Limpar_Tabela_Saida();
+            Limpar_Tabela_Saida_Itens();
+            JTF_Num_Saida.setEnabled(false);
+            JTF_Num_Saida.setText("");
+            Controle=0;
+            BT_Relatorio.setEnabled(false);
+         }
     }//GEN-LAST:event_JCB_Tipo_PesquisaActionPerformed
 
     private void JTF_Num_SaidaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_JTF_Num_SaidaActionPerformed
@@ -532,10 +562,38 @@ public class Tela_Consulta_Saida extends javax.swing.JInternalFrame {
 
     private void BT_RelatorioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BT_RelatorioActionPerformed
         if(Controle==0){}
-        if(Controle==1){ObjRelatEntrada.Relatorio_Entrada_Prod_Todos();}
-        if(Controle==2){ObjRelatEntrada.Relatorio_Entrada_Prod_Ultimos_30_Dias();}
-        if(Controle==3){ObjRelatEntrada.Relatorio_Entrada_Periodo(JD_Inicial, JD_Final);}
-        if(Controle==4){ObjRelatEntrada.Relatorio_Entrada_N_Entrada(JTF_Num_Saida);}
+        if(Controle==1){
+            new Controle_Relatorio_Saidas().Relatorio_Saida_Prod_Todos();
+            new Controle_Log().Registrar_Log("Gerou o relatório de todas as saídas", CodLogado);
+        }
+        if(Controle==2){
+            new Controle_Relatorio_Saidas().Relatorio_Saida_Ultimo_30_Dias();
+        new Controle_Log().Registrar_Log("Gerou o relatório de todas as Saídas nos últimos 30 dias", CodLogado);
+        }
+        if(Controle==3){
+            new Controle_Relatorio_Saidas().Relatorio_Saida_Periodo("16 - Saída Por Período - Todas de ", JD_Inicial, JD_Final);
+            String dti = new SimpleDateFormat("dd-MM-yyyy").format(JD_Inicial.getDate());
+            String dtf = new SimpleDateFormat("dd-MM-yyyy").format(JD_Final.getDate());
+            new Controle_Log().Registrar_Log("Gerou o relatório de saída por período de "+dti+" até "+dtf, CodLogado);
+        }
+        if(Controle==4){
+            if(JTF_Num_Saida.getText().equalsIgnoreCase("")){
+                    Mostrar_Preencher_N_Saida();
+            }else{
+                new Controle_Relatorio_Saidas().Relatorio_Saida_Num(JTF_Num_Saida.getText().trim());
+                new Controle_Log().Registrar_Log("Gerou o relatório de saída por numero id: "+JTF_Num_Saida.getText(), CodLogado);
+            }
+        }
+        if(Controle==5){
+            new Controle_Relatorio_Saidas().Relatorio_Saida_Cancelada_Ultimo_30_Dias();
+            new Controle_Log().Registrar_Log("Gerou o relatório de saída cancelada nos últimos 30 dias", CodLogado);
+        }
+        if(Controle==6){
+            new Controle_Relatorio_Saidas().Relatorio_Saida_Alteradas_Periodo("CANCELADA", "16 - Saída Por Período - Canceladas de ", JD_Inicial, JD_Final);
+            String dti = new SimpleDateFormat("dd-MM-yyyy").format(JD_Inicial.getDate());
+            String dtf = new SimpleDateFormat("dd-MM-yyyy").format(JD_Final.getDate());
+            new Controle_Log().Registrar_Log("Gerou o relatório de saída cancelada por período de "+dti+" até "+dtf, CodLogado);
+        }        
     }//GEN-LAST:event_BT_RelatorioActionPerformed
 
     private void JTB_SaidasKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_JTB_SaidasKeyReleased
@@ -557,7 +615,11 @@ public class Tela_Consulta_Saida extends javax.swing.JInternalFrame {
         if(JCB_Tipo_Pesquisa.getSelectedIndex()==1){
             ObjControlSaida.Consulta_Saida_Todas();
                 if(ObjControlSaida.Controle_Saida == true){
-                    Preencher_Tabela_Saida("select * from saida order by id_saida desc");
+                     Calendar c = Calendar.getInstance();
+                    c.add(Calendar.YEAR, -1); //diminuir datas
+                    String df = new SimpleDateFormat("yyyy-MM-dd").format(Calendar.getInstance().getTime());
+                    String di = new SimpleDateFormat("yyyy-MM-dd").format(c.getTime());
+                    Preencher_Tabela_Saida("select * from saida where data_saida between '"+di+"' and '"+df+"' order by id_saida desc");
                     Controle=1;
                     BT_Relatorio.setEnabled(!false);
                     ObjControlSaida.Controle_Saida=false;
@@ -636,7 +698,7 @@ public class Tela_Consulta_Saida extends javax.swing.JInternalFrame {
         
         if(JCB_Tipo_Pesquisa.getSelectedIndex()==4){
             if(JTF_Num_Saida.getText().equalsIgnoreCase("")){
-                    Mostrar_Preencher_N_Entrada();
+                    Mostrar_Preencher_N_Saida();
                     Controle=0;
                     BT_Relatorio.setEnabled(false);
             }else{
@@ -653,10 +715,67 @@ public class Tela_Consulta_Saida extends javax.swing.JInternalFrame {
                     Controle=0;
                     BT_Relatorio.setEnabled(false);
                 }
-                
             }
         }
-        }catch(NumberFormatException | HeadlessException ex){}
+        
+        if(JCB_Tipo_Pesquisa.getSelectedIndex()==5){
+            ObjControlSaida.Consulta_Saida_Alterada("CANCELADA");
+                if(ObjControlSaida.Controle_Saida == true){
+                    Calendar c = Calendar.getInstance();
+                    c.add(Calendar.MONTH, -1); //diminuir datas
+                    String df = new SimpleDateFormat("yyyy-MM-dd").format(Calendar.getInstance().getTime());
+                    String di = new SimpleDateFormat("yyyy-MM-dd").format(c.getTime());
+                    Preencher_Tabela_Saida("select * from saida where data_saida between '"+di+"' and '"+df+"' "
+                            + " and situacao = 'CANCELADA' order by id_saida desc");
+                    Controle=5;
+                    BT_Relatorio.setEnabled(!false);
+                    ObjControlSaida.Controle_Saida=false;
+                }else{
+                    Mostra_Nao_Existe_Saida();
+                    Limpar_Tabela_Saida();
+                    Limpar_Tabela_Saida_Itens();
+                    Controle=0;
+                    BT_Relatorio.setEnabled(false);
+                }
+        }
+        
+        if(JCB_Tipo_Pesquisa.getSelectedIndex()==6){
+            if(JD_Inicial.getDate()==null || JD_Final.getDate()==null){
+                Mostrar_Preencher_Datas();
+            }else{
+                Verifica_Datas();
+                if(DataMenor == true){
+                    Mostrar_Data_Inferior();
+                    DataMenor = false;
+                }else{
+                    ObjControlSaida.Consulta_Saida_Todas();
+                    if(ObjControlSaida.Controle_Saida == true){
+                        try{
+                            ObjControlSaida.Consulta_Saida_Alterada_Por_Periodo(JD_Inicial, JD_Final, "CANCELADA");
+                            if(ObjControlSaida.Controle_Saida == true){
+                                String di = new SimpleDateFormat("yyyy-MM-dd").format(JD_Inicial.getDate());
+                                String df = new SimpleDateFormat("yyyy-MM-dd").format(JD_Final.getDate());
+                                Preencher_Tabela_Saida("select * from saida where data_saida between '"+di+"' and '"+df+"' "
+                                    + " and situacao = 'CANCELADA' order by id_saida desc");
+                                Controle = 6;
+                                BT_Relatorio.setEnabled(!false);
+                                ObjControlSaida.Controle_Saida=false;
+                            }else{
+                                Mostrar_Saida_Nao_Encontrada();
+                            }
+                        }catch(Exception ex){Controle = 0;BT_Relatorio.setEnabled(false);}
+                            ObjControlSaida.Controle_Saida=false;
+                    }else{
+                        Mostra_Nao_Existe_Saida();
+                        Limpar_Tabela_Saida();
+                        Limpar_Tabela_Saida_Itens();
+                        Controle=0;
+                        BT_Relatorio.setEnabled(false);
+                    }
+                }
+            }
+        }
+    }catch(NumberFormatException | HeadlessException ex){}
     }
     
     public void Verifica_Datas(){//verifica se a data inicial é inferior a inicial
@@ -681,6 +800,9 @@ public class Tela_Consulta_Saida extends javax.swing.JInternalFrame {
         JCB_Tipo_Pesquisa.addItem("ÚLTIMOS 30 DIAS");
         JCB_Tipo_Pesquisa.addItem("POR PERÍODO");
         JCB_Tipo_Pesquisa.addItem("NÚMERO DA SAÍDA");
+        JCB_Tipo_Pesquisa.addItem("CANCELADAS ÚLTIMOS 30 DIAS");
+        JCB_Tipo_Pesquisa.addItem("CANCELADAS POR PERÍODO");
+        
     }
     
     public final void Preencher_Tabela_Saida(String SQL) {
@@ -797,7 +919,7 @@ public class Tela_Consulta_Saida extends javax.swing.JInternalFrame {
         ObjDataInferior = new Inf_Data_Final_Inferior_Cons_Saida(this, true);
         ObjDataInferior.setVisible(true);
     }
-    public void Mostrar_Preencher_N_Entrada(){
+    public void Mostrar_Preencher_N_Saida(){
         ObjPreencherSaida = new Inf_Preencher_N_Saida_Cons_Saida(this, true);
         ObjPreencherSaida.setVisible(true);
     }

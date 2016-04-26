@@ -449,7 +449,7 @@ public void Consulta_Entrada_Id(int id_entrada){
         }
     }
     
-     public void Consulta_Iten_Entrada(int id_prod){
+    public void Consulta_Iten_Entrada(int id_prod){
         try {
             ObjConecta.Conectar();
             ObjConecta.ExecutaSQL("select * from entrada inner join entrada_itens on"

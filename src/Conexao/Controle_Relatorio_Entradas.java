@@ -51,7 +51,7 @@ public class Controle_Relatorio_Entradas {
                 parametros.put("Usuario",ObjTP.UserLogado);//Se precisar passar algum parametro, tipo usuario logado
                 parametros.put("Quant_Iten", ContItens);
                 parametros.put("Quant_Entrada", ContEntradas);
-                parametros.put("Tipo_Relatorio","Todas as Entradas - Último Ano");
+                parametros.put("Tipo_Relatorio","10 - Todas as Entradas - Último Ano");
                 //Aqui fica o diretorio do arquivo
                 JasperPrint JPrint = JasperFillManager.fillReport("C:\\Program Files (x86)\\SisCoE/Relat_Entradas_Todos.jasper",parametros, Relatorio);
                 JasperViewer JView = new JasperViewer(JPrint, false);
@@ -92,7 +92,7 @@ public class Controle_Relatorio_Entradas {
                 parametros.put("Usuario",ObjTP.UserLogado);
                 parametros.put("Quant_Iten", ContItens);
                 parametros.put("Quant_Entrada", ContEntradas);
-                parametros.put("Tipo_Relatorio","Todas as Entradas - Último 30 Dias");
+                parametros.put("Tipo_Relatorio","11 - Todas as Entradas - Último 30 Dias");
 
                 JasperPrint JPrint = JasperFillManager.fillReport("C:\\Program Files (x86)\\SisCoE/Relat_Entradas_Todos.jasper", parametros, Relatorio);
                 JasperViewer JView = new JasperViewer(JPrint, false);

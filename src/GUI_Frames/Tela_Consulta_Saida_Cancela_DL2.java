@@ -75,7 +75,7 @@ public class Tela_Consulta_Saida_Cancela_DL2 extends javax.swing.JDialog {
         JCB_Intervalo_Tempo = new javax.swing.JComboBox();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
-        setTitle("Consulta Entrada");
+        setTitle("Consulta Saída");
         setName("Consulta Produto"); // NOI18N
 
         JTB_Saidas.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
@@ -174,7 +174,7 @@ public class Tela_Consulta_Saida_Cancela_DL2 extends javax.swing.JDialog {
         });
 
         jLabel1.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
-        jLabel1.setText("Entradas:");
+        jLabel1.setText("Saídas:");
 
         JL_Saidas.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
 
@@ -271,8 +271,9 @@ public class Tela_Consulta_Saida_Cancela_DL2 extends javax.swing.JDialog {
     private void JTB_SaidasMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_JTB_SaidasMouseClicked
         if (evt.getClickCount() == 2) {
             Object id = (JTB_Saidas.getValueAt(JTB_Saidas.getSelectedRow(), 0));
-            ObjCancelaSaida.Testar_Campos_Pesquisa(String.valueOf(id));
             dispose();
+            ObjCancelaSaida.Testar_Campos_Pesquisa(String.valueOf(id));
+            
         }
 
     }//GEN-LAST:event_JTB_SaidasMouseClicked
@@ -296,8 +297,8 @@ public class Tela_Consulta_Saida_Cancela_DL2 extends javax.swing.JDialog {
         if (linha_selecionada >= 0)
         {
             Object id = (JTB_Saidas.getValueAt(JTB_Saidas.getSelectedRow(), 0));
-            ObjCancelaSaida.Testar_Campos_Pesquisa(String.valueOf(id));
             dispose();
+            ObjCancelaSaida.Testar_Campos_Pesquisa(String.valueOf(id));            
         }
         
     }//GEN-LAST:event_BT_AdicionarActionPerformed

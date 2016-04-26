@@ -2,7 +2,6 @@ package Conexao;
 
 // @author Márison Tamiarana
 
-import Classes.Modelo_Lote_Estoque;
 import Classes.Modelo_Saida_Produto;
 import com.toedter.calendar.JDateChooser;
 import java.sql.PreparedStatement;
@@ -40,6 +39,7 @@ public class Controle_Saida_Produto {
     public boolean Confirma_Atualiza_Estoque_Dev;
     public boolean Controla_Devolucao;
     public boolean Controla_Devolucao_Pendente;
+    public boolean Verifica_Intem_Saida;
     
     public void Controla_Lote(Object id_prod){
         try {
@@ -282,7 +282,7 @@ public class Controle_Saida_Produto {
     }
     
     
-    ///////////////////////////////// Controle para devolução
+    ///////////////////////////////// Controle para devolução///////////////////
     
     public Modelo_Saida_Produto Consulta_Saida_Devolucao(Modelo_Saida_Produto ObjModeloSaida, int id_saida){
         try {
@@ -347,10 +347,10 @@ public class Controle_Saida_Produto {
         }
     }
     
-    public void Consulta_Saida_Aberto(){
+    public void Consulta_Saida_Alterada(String situacao){
         try {
             ObjConecta.Conectar();
-            ObjConecta.ExecutaSQL("Select * from saida where situacao = 'ABERTO'");
+            ObjConecta.ExecutaSQL("Select * from saida where situacao = '"+situacao+"'");
             ObjConecta.rs.first();
             int id = ObjConecta.rs.getInt("id_saida");
             Controle_Saida = true;
@@ -394,6 +394,24 @@ public class Controle_Saida_Produto {
             ObjConecta.Desconecta();
         }
     }
+    
+    public void Consulta_Saida_Alterada_Por_Periodo(JDateChooser dt_inicial, JDateChooser dt_final, String situacao){
+         try {
+            String di = new SimpleDateFormat("yyyy-MM-dd").format(dt_inicial.getDate());
+            String df = new SimpleDateFormat("yyyy-MM-dd").format(dt_final.getDate());
+            
+            ObjConecta.Conectar();
+            ObjConecta.ExecutaSQL("select * from saida where data_saida between '"+di+"' and '"+df+"' and situacao = '"+situacao+"'");
+            ObjConecta.rs.first();
+            int id = ObjConecta.rs.getInt("id_saida");
+            Controle_Saida = true;
+            ObjConecta.Desconecta();
+        } catch (SQLException ex) {
+            Controle_Saida = false;
+            ObjConecta.Desconecta();
+        }
+    }
+    
      public void Consulta_Iten_Saida(int id_prod){
         try {
             ObjConecta.Conectar();
@@ -473,7 +491,7 @@ public class Controle_Saida_Produto {
             ObjConecta.ExecutaSQL("select * from saida where id_saida = "+id+"");
             ObjConecta.rs.first();
             String Devolucao = ObjConecta.rs.getString("situacao");
-            Confirma_Devolucao = Devolucao.equalsIgnoreCase("EFETIVADA");
+            Confirma_Devolucao = Devolucao.equalsIgnoreCase("EFETIVADA DEVOLUÇÃO");
             ObjConecta.Desconecta();
         } catch (SQLException ex) {
             Confirma_Devolucao = false;
@@ -864,6 +882,21 @@ public class Controle_Saida_Produto {
             }        
         ObjConecta.Desconecta();
         
+    }
+   
+   public void Consulta_Saida_Sem_Item_Cancela(int id_prod){
+        try {
+            ObjConecta.Conectar();
+            ObjConecta.ExecutaSQL("select * from saida inner join saida_itens on"
+              + " saida.id_saida=saida_itens.saida_id_saida where produto_id_produto="+id_prod+" and situacao !='CANCELADA'");
+            ObjConecta.rs.first();
+            int id = ObjConecta.rs.getInt("id_entrada");
+            Verifica_Intem_Saida = true;
+            ObjConecta.Desconecta();
+        } catch (SQLException ex) {
+            Verifica_Intem_Saida = false;
+            ObjConecta.Desconecta();
+        }
     }
 }
     

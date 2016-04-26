@@ -18,7 +18,6 @@ import java.text.SimpleDateFormat;
 import javax.swing.AbstractAction;
 import javax.swing.InputMap;
 import javax.swing.JComponent;
-import javax.swing.JOptionPane;
 import javax.swing.KeyStroke;
 
 // @author Márison Tamiarana

@@ -182,9 +182,8 @@ public class Tela_Relat_Produto_Categoria extends javax.swing.JInternalFrame {
         if(JCB_Categoria.getSelectedIndex()<=0){
             Mostrar_Preencher_Campos();
         }else{
-            dispose();
             ObjControlCategoria.Procura_Id_Categoria(JCB_Categoria.getSelectedItem().toString().trim());
-            ObjRelatProd.Relatorio_Produto_Categoria_Seleciona(ObjControlCategoria.Id_Cat);
+            ObjRelatProd.Relatorio_Produto_Categoria_Selecionada(ObjControlCategoria.Id_Cat);
             new Controle_Log().Registrar_Log("Gerou o relatório de produto por categoria selecionada id: "+ObjControlCategoria.Id_Cat+" - "
                     +JCB_Categoria.getSelectedItem().toString().trim(), CodLogado);
         }              

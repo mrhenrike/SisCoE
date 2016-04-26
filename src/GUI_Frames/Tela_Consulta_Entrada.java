@@ -404,14 +404,16 @@ public class Tela_Consulta_Entrada extends javax.swing.JInternalFrame {
                 Object Data = JTB_Entradas.getValueAt(JTB_Entradas.getSelectedRow(), 1);
                 Object Num_Entrada = JTB_Entradas.getValueAt(JTB_Entradas.getSelectedRow(), 0); 
                 String Situacao = null;
+                String Obs = null;
                 try {
                     ObjConecta.Conectar();
                     ObjConecta.ExecutaSQL("select * from entrada where id_entrada="+Num_Entrada);
                     ObjConecta.rs.first();
-                     Situacao= ObjConecta.rs.getString("Situacao_entrada");
+                    Situacao = ObjConecta.rs.getString("situacao_entrada");
+                    Obs = ObjConecta.rs.getString("observacao_entrada");
                 } catch (SQLException ex) { }
                 JOptionPane.showMessageDialog(rootPane,"Entrada: "+ Num_Entrada+"   Data:"+Data+
-                        "\nDescrição: "+Descricao + "\nSituação: "+ Situacao,
+                        "\nDescrição: "+Descricao + "\nSituação: "+ Situacao+"\nObservação: "+Obs,
                         "Descrição Da Entrada", JOptionPane.INFORMATION_MESSAGE);
             }
         } catch (HeadlessException ex) {
@@ -622,7 +624,7 @@ public class Tela_Consulta_Entrada extends javax.swing.JInternalFrame {
             ObjControleEntrada.Consulta_Entrada_Todas();
             if(ObjControleEntrada.Controle_Entrada == true){
                 Calendar c = Calendar.getInstance();
-                c.add(Calendar.YEAR, -1); //diminuir datas - inicio para 30 dias;
+                c.add(Calendar.YEAR, -1); //diminuir datas
                 String df = new SimpleDateFormat("yyyy-MM-dd").format(Calendar.getInstance().getTime());
                 String di = new SimpleDateFormat("yyyy-MM-dd").format(c.getTime());
                 Preencher_Tabela_Entrada("select * from entrada where data_entrada between '"+di+"' and '"+df+"' order by id_entrada desc");
@@ -846,7 +848,7 @@ public class Tela_Consulta_Entrada extends javax.swing.JInternalFrame {
     public final void Preencher_Tabela_Entrada(String SQL) {
         ArrayList dados = new ArrayList();
 
-        String[] Colunas = new String[]{"Nº Entrada", "Data Entrada", "Descrição"};//Seta os indices da tabela
+        String[] Colunas = new String[]{"Nº Entrada", "Data Entrada", "Descrição", "Situação"};//Seta os indices da tabela
         ObjConecta.Conectar();
         ObjConecta.ExecutaSQL(SQL);
         try {
@@ -854,7 +856,8 @@ public class Tela_Consulta_Entrada extends javax.swing.JInternalFrame {
             do {                
                String data_Entrada = String.valueOf(new SimpleDateFormat("dd-MM-yyyy").format(ObjConecta.rs.getDate("data_entrada")));
                 
-                dados.add(new Object[]{ObjConecta.rs.getInt("id_entrada"), data_Entrada, ObjConecta.rs.getString("descricao_entrada") });
+                dados.add(new Object[]{ObjConecta.rs.getInt("id_entrada"), data_Entrada, ObjConecta.rs.getString("descricao_entrada"),
+                ObjConecta.rs.getString("situacao_entrada")});
             
             } while (ObjConecta.rs.next());
             
@@ -868,8 +871,10 @@ public class Tela_Consulta_Entrada extends javax.swing.JInternalFrame {
         JTB_Entradas.getColumnModel().getColumn(0).setResizable(false);//Redimensionavel        
         JTB_Entradas.getColumnModel().getColumn(1).setPreferredWidth(100);
         JTB_Entradas.getColumnModel().getColumn(1).setResizable(false);
-        JTB_Entradas.getColumnModel().getColumn(2).setPreferredWidth(500);
+        JTB_Entradas.getColumnModel().getColumn(2).setPreferredWidth(300);
         JTB_Entradas.getColumnModel().getColumn(2).setResizable(false);
+        JTB_Entradas.getColumnModel().getColumn(3).setPreferredWidth(200);
+        JTB_Entradas.getColumnModel().getColumn(3).setResizable(false);
         JTB_Entradas.getTableHeader().setReorderingAllowed(false);//Reordenar alocação
         JTB_Entradas.setAutoResizeMode(JTB_Entradas.AUTO_RESIZE_ALL_COLUMNS);//Tabela Redimensionavel(Todas colunas)
         JTB_Entradas.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);//Seleciona uma unica linha da tabela

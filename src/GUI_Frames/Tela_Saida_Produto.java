@@ -864,7 +864,7 @@ public static Tela_Saida_Produto Obj;
         JCB_Tipo.removeAllItems();
         JCB_Tipo.addItem(" ");
         JCB_Tipo.addItem("AULA DE CAMPO");
-        JCB_Tipo.addItem("AULA DE PRÁTICA");
+        JCB_Tipo.addItem("AULA PRÁTICA");
         JCB_Tipo.addItem("ESTÁGIO");
         JCB_Tipo.addItem("INICIAÇÃO CIENTÍFICA");
         JCB_Tipo.addItem("OUTROS");

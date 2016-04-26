@@ -89,7 +89,7 @@ where produto.situacao = 'ATIVO'  and quantidade_estoque > 0 order by descricao;
 					<text><![CDATA[Descrição]]></text>
 				</staticText>
 				<rectangle>
-					<reportElement mode="Opaque" x="0" y="14" width="15" height="16" forecolor="#CCCCCC" backcolor="#CCCCCC" uuid="c8606170-0e9b-4b33-80c5-ce27b11d63f0"/>
+					<reportElement mode="Opaque" x="0" y="14" width="15" height="36" forecolor="#CCCCCC" backcolor="#CCCCCC" uuid="c8606170-0e9b-4b33-80c5-ce27b11d63f0"/>
 				</rectangle>
 				<staticText>
 					<reportElement style="Column header" x="15" y="0" width="77" height="14" uuid="5f99cb51-b50c-4c43-a588-f33f5a0b6f6a"/>
@@ -113,14 +113,14 @@ where produto.situacao = 'ATIVO'  and quantidade_estoque > 0 order by descricao;
 					<textFieldExpression><![CDATA[$F{descricao}]]></textFieldExpression>
 				</textField>
 				<staticText>
-					<reportElement style="Column header" x="0" y="30" width="55" height="10" forecolor="#000000" uuid="53109118-fa41-434f-a23b-ead52f95951c"/>
+					<reportElement style="Column header" x="26" y="30" width="31" height="10" forecolor="#000000" uuid="53109118-fa41-434f-a23b-ead52f95951c"/>
 					<textElement verticalAlignment="Middle">
 						<font fontName="Tahoma" size="8" isBold="false"/>
 					</textElement>
 					<text><![CDATA[Mínimo]]></text>
 				</staticText>
 				<staticText>
-					<reportElement style="Column header" x="55" y="30" width="32" height="10" forecolor="#000000" uuid="95581fb9-7f89-41e5-abe1-05e576cea286"/>
+					<reportElement style="Column header" x="57" y="30" width="30" height="10" forecolor="#000000" uuid="95581fb9-7f89-41e5-abe1-05e576cea286"/>
 					<textElement verticalAlignment="Middle">
 						<font fontName="Tahoma" size="8" isBold="false"/>
 					</textElement>
@@ -197,14 +197,14 @@ where produto.situacao = 'ATIVO'  and quantidade_estoque > 0 order by descricao;
 					<text><![CDATA[Última Alteração]]></text>
 				</staticText>
 				<textField isStretchWithOverflow="true">
-					<reportElement style="Detail" positionType="Float" x="0" y="40" width="55" height="11" uuid="09fab5cf-8b31-4589-9661-67dc1991df47"/>
+					<reportElement style="Detail" positionType="Float" x="26" y="40" width="31" height="11" uuid="09fab5cf-8b31-4589-9661-67dc1991df47"/>
 					<textElement verticalAlignment="Middle">
 						<font fontName="Tahoma" size="8"/>
 					</textElement>
 					<textFieldExpression><![CDATA[$F{quantidade_minima}]]></textFieldExpression>
 				</textField>
 				<textField isStretchWithOverflow="true">
-					<reportElement style="Detail" positionType="Float" x="55" y="40" width="32" height="11" uuid="9a4b40ef-9402-454f-8d13-1eee8c0e7670"/>
+					<reportElement style="Detail" positionType="Float" x="57" y="40" width="30" height="11" uuid="9a4b40ef-9402-454f-8d13-1eee8c0e7670"/>
 					<textElement verticalAlignment="Middle">
 						<font fontName="Tahoma" size="8"/>
 					</textElement>

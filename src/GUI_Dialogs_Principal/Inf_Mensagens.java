@@ -79,7 +79,7 @@ public class Inf_Mensagens extends javax.swing.JDialog {
         JL_Mensagem.setVerticalAlignment(javax.swing.SwingConstants.TOP);
 
         jLabel6.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
-        jLabel6.setText("Você tem mensagem(s) importante(s) logo abaixo! Por favor as leia!");
+        jLabel6.setText("Você tem mensagem(ns) importante(s) logo abaixo! Por favor as leia!");
         jLabel6.setVerticalAlignment(javax.swing.SwingConstants.TOP);
 
         jLabel7.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N

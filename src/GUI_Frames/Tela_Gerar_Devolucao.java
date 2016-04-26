@@ -14,8 +14,10 @@ import GUI_Dialogs_Devolucao.Inf_Nao_Existe_Prod_Dev;
 import GUI_Dialogs_Devolucao.Inf_Preencher_Campos_Dev;
 import GUI_Dialogs_Devolucao.Inf_Saida_Nao_Encontrada_Dev;
 import static GUI_Frames.Tela_Principal.CodLogado;
+import Metodos.Formatacao;
 import Metodos.Pintar_Tabela_Padrao;
 import java.awt.Dimension;
+import java.awt.HeadlessException;
 import java.awt.event.ActionEvent;
 import java.awt.event.KeyEvent;
 import java.beans.PropertyVetoException;
@@ -74,6 +76,7 @@ public class Tela_Gerar_Devolucao extends javax.swing.JInternalFrame {
     Conecta_Banco ObjConecta2 = new Conecta_Banco();
     Modelo_Saida_Produto ObjModeloSaida = new Modelo_Saida_Produto();
     Controle_Saida_Produto ObjControlSaida = new Controle_Saida_Produto();
+    Formatacao ObjFormat = new Formatacao();
     
     //Boolean para controles;
     public boolean Confirma_Devolucao;
@@ -81,6 +84,7 @@ public class Tela_Gerar_Devolucao extends javax.swing.JInternalFrame {
     public Tela_Gerar_Devolucao() {
         initComponents();
         Desabilita_Campos();
+        JTF_Pesquisa.setDocument(ObjFormat.new Format_Apenas_Numero(10));
         JL_Saida.setVisible(false);
         JL_Saida_Numero.setText("");
         JL_Status.setVisible(false);
@@ -547,7 +551,7 @@ public class Tela_Gerar_Devolucao extends javax.swing.JInternalFrame {
                             Limpar_Campos();
                             ObjControlSaida.Consulta_Saida_Devolucao(ObjModeloSaida, Integer.parseInt(JTF_Pesquisa.getText()));
                             Setar_Campos();
-                            BT_Salvar.setEnabled(true);
+                            BT_Salvar.setEnabled(!true);
                             ObjControlSaida.Verifica_Devolucao= false;
                             JTF_Pesquisa.setText("");
                         }
@@ -557,7 +561,7 @@ public class Tela_Gerar_Devolucao extends javax.swing.JInternalFrame {
                     Limpar_Campos();
                     Limpar_Tabela(JTB_Devolucao_Prod);
                     BT_Salvar.setEnabled(false);
-                    ObjControlSaida.Efetivar_Situacao(JTF_Pesquisa.getText(),"SEM DEVOLUÇÃO");
+                    //ObjControlSaida.Efetivar_Situacao(JTF_Pesquisa.getText(),"SEM DEVOLUÇÃO");
                     JTF_Pesquisa.setText("");
                 }
             }else{//se nao existir saída
@@ -585,8 +589,7 @@ public class Tela_Gerar_Devolucao extends javax.swing.JInternalFrame {
         if(ObjControlSaida.Confirma_Devolucao==true){
             Mostrar_Dev_Ja_Efetivada();
             ObjControlSaida.Confirma_Devolucao=false;
-        }
-        else{
+        }else{
             Mostrar_Confirma_Salvar();                
         }
     }
@@ -644,8 +647,9 @@ public class Tela_Gerar_Devolucao extends javax.swing.JInternalFrame {
                 } catch (NumberFormatException | ParseException | Error ex){JOptionPane.showMessageDialog(rootPane, "Erro No Laço: "+ex);}
             }
             Confirma_Devolucao=true;
-            ObjControlSaida.Efetivar_Situacao(JL_Saida_Numero.getText(),"EFETIVADA");
-        } catch (Exception ex) {
+            ObjControlSaida.Efetivar_Situacao(JL_Saida_Numero.getText(),"EFETIVADA DEVOLUÇÃO");
+            ObjControlSaida.Atualiza_Data_Alteracao_Saida(Integer.parseInt(JL_Saida_Numero.getText()));//altera a data de alteração
+        } catch (HeadlessException | NumberFormatException ex) {
             Confirma_Devolucao = false;
             JOptionPane.showMessageDialog(rootPane,"Erro na devolução de produtos!!!!! \n"+ex);
         }   

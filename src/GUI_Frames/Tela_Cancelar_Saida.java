@@ -12,6 +12,7 @@ import GUI_Dialogs_Saida.Conf_Salvar_Saida_Cancel;
 import GUI_Dialogs_Saida.Inf_Dados_Nao_Salvos_Saida_Cancel;
 import GUI_Dialogs_Saida.Inf_Dados_Salvos_Saida_Cancel;
 import GUI_Dialogs_Saida.Inf_Preencher_Campos_Saida_Cancel;
+import GUI_Dialogs_Saida.Inf_Saida_Finalizada_Cancel;
 import GUI_Dialogs_Saida.Inf_Saida_Ja_Cancel;
 import GUI_Dialogs_Saida.Inf_Saida_Nao_Encontrada_Cancel;
 import static GUI_Frames.Tela_Principal.CodLogado;
@@ -71,6 +72,7 @@ public class Tela_Cancelar_Saida extends javax.swing.JInternalFrame {
     private static Conf_Sair_Sem_Salvar_Saida_Cancel ObjSairSemSalvar;
     private static Tela_Consulta_Saida_Cancela_DL ObjConsSaida;
     private static Tela_Consulta_Saida_Cancela_DL2 ObjConsSaida2;
+    private static Inf_Saida_Finalizada_Cancel ObjSaidaEmAberto;
     
     //Instancia das classes
     Conecta_Banco ObjConecta = new Conecta_Banco();
@@ -94,6 +96,7 @@ public class Tela_Cancelar_Saida extends javax.swing.JInternalFrame {
         JL_Status_Msg.setText("");
         BT_Salvar.setEnabled(false);
         JTF_Motivo.setDocument(ObjFormat.new Format_Geral(500));
+        JTF_Pesquisa.setDocument(ObjFormat.new Format_Geral(500));
         JTB_Saidas_Itens.setEnabled(false);
         Setar_Atalho_BT();
     }
@@ -313,7 +316,7 @@ public class Tela_Cancelar_Saida extends javax.swing.JInternalFrame {
         });
 
         jLabel2.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        jLabel2.setText("Número Da Saída*:");
+        jLabel2.setText("Numero Ou Descrição*:");
 
         BT_Confirmar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icones_Gerais/Ativar 24x24.png"))); // NOI18N
         BT_Confirmar.setToolTipText("Clique Para Confirmar Um Produto");
@@ -339,10 +342,10 @@ public class Tela_Cancelar_Saida extends javax.swing.JInternalFrame {
                 .addContainerGap()
                 .addComponent(jLabel2)
                 .addGap(18, 18, 18)
-                .addComponent(JTF_Pesquisa, javax.swing.GroupLayout.PREFERRED_SIZE, 95, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
+                .addComponent(JTF_Pesquisa, javax.swing.GroupLayout.PREFERRED_SIZE, 65, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(BT_Confirmar)
-                .addGap(18, 18, 18)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(BT_Procurar)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
@@ -441,7 +444,7 @@ public class Tela_Cancelar_Saida extends javax.swing.JInternalFrame {
                         .addComponent(BT_Sair, javax.swing.GroupLayout.PREFERRED_SIZE, 160, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                             .addComponent(JL_Status)
                             .addComponent(JL_Saida))
@@ -500,14 +503,15 @@ public class Tela_Cancelar_Saida extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_JTF_PesquisaFocusGained
 
     private void JTF_PesquisaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_JTF_PesquisaActionPerformed
-        Testar_Campos_Confirmar(JTF_Pesquisa.getText());
+        Pesquisa_Automatica();
     }//GEN-LAST:event_JTF_PesquisaActionPerformed
 
     private void BT_ConfirmarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BT_ConfirmarActionPerformed
-        Testar_Campos_Confirmar(JTF_Pesquisa.getText());
+        Pesquisa_Automatica();
     }//GEN-LAST:event_BT_ConfirmarActionPerformed
 
     private void BT_ProcurarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BT_ProcurarActionPerformed
+        pesquisa_saida = JTF_Pesquisa.getText();
         Mostrar_Consulta_Saida2();
     }//GEN-LAST:event_BT_ProcurarActionPerformed
 
@@ -564,16 +568,33 @@ public class Tela_Cancelar_Saida extends javax.swing.JInternalFrame {
         ObjControlSaida.Consulta_Saida_Id_Nao_Cancelada(Integer.parseInt(id_saida));//verifica se ja foi cancelada
         if(ObjControlSaida.Controle_Saida == true){//se existir saída
             ObjControlSaida.Controle_Saida = false;
-            Limpar_Tabela(JTB_Saidas_Itens);
-            Preencher_Tabela("select * from produto inner join categoria_produto "
+            ObjControlSaida.Verifica_Devolucao_Efetivada(id_saida);//Verifica se ja foi efetivada
+            if (ObjControlSaida.Confirma_Devolucao == true) {
+                ObjControlSaida.Confirma_Devolucao = false;
+                Limpar_Tabela(JTB_Saidas_Itens);
+                Preencher_Tabela("select * from produto inner join categoria_produto "
+                        + " on produto.Categoria_Produto_id_categoria = categoria_produto.id_categoria "
+                        + " inner join saida_itens on produto.id_produto = saida_itens.produto_id_produto "
+                        + " where saida_id_saida=" + id_saida + "  ");
+                Limpar_Campos();
+                ObjControlSaida.Consulta_Saida_Devolucao(ObjModeloSaida, Integer.parseInt(id_saida));
+                Setar_Campos();
+                BT_Salvar.setEnabled(!true);
+                JTF_Pesquisa.setText("");
+                JTF_Pesquisa.requestFocus();
+                Mostrar_Saida_Finalizada();
+            }else{
+                Limpar_Tabela(JTB_Saidas_Itens);
+                Preencher_Tabela("select * from produto inner join categoria_produto "
                     + " on produto.Categoria_Produto_id_categoria = categoria_produto.id_categoria "
                     + " inner join saida_itens on produto.id_produto = saida_itens.produto_id_produto "
                     + " where saida_id_saida=" + id_saida + "  ");
-            Limpar_Campos();
-            ObjControlSaida.Consulta_Saida_Devolucao(ObjModeloSaida, Integer.parseInt(id_saida));
-            Setar_Campos();
-            BT_Salvar.setEnabled(true);
-            JTF_Pesquisa.setText("");
+                Limpar_Campos();
+                ObjControlSaida.Consulta_Saida_Devolucao(ObjModeloSaida, Integer.parseInt(id_saida));
+                Setar_Campos();
+                BT_Salvar.setEnabled(true);
+                JTF_Pesquisa.setText("");
+            }
         }else{
             Limpar_Tabela(JTB_Saidas_Itens);
             Preencher_Tabela("select * from produto inner join categoria_produto "
@@ -598,17 +619,34 @@ public class Tela_Cancelar_Saida extends javax.swing.JInternalFrame {
                 ObjControlSaida.Consulta_Saida_Id_Nao_Cancelada(Integer.parseInt(id_saida));//verifica se ja foi cancelada
                 if(ObjControlSaida.Controle_Saida == true){//se existir saída
                     ObjControlSaida.Controle_Saida = false;
-                    Limpar_Tabela(JTB_Saidas_Itens);
-                    Preencher_Tabela("select * from produto inner join categoria_produto "
-                        + " on produto.Categoria_Produto_id_categoria = categoria_produto.id_categoria "
-                        + " inner join saida_itens on produto.id_produto = saida_itens.produto_id_produto "
-                        + " where saida_id_saida="+id_saida+"  ");
-                    Limpar_Campos();
-                    ObjControlSaida.Consulta_Saida_Devolucao(ObjModeloSaida, Integer.parseInt(id_saida));
-                    Setar_Campos();
-                    BT_Salvar.setEnabled(true);
-                    JTF_Pesquisa.setText("");
-                    JTF_Motivo.requestFocus();
+                    ObjControlSaida.Verifica_Devolucao_Efetivada(id_saida);//Verifica se ja foi efetivada
+                    if(ObjControlSaida.Confirma_Devolucao==true){                    
+                        ObjControlSaida.Confirma_Devolucao = false;
+                        Limpar_Tabela(JTB_Saidas_Itens);
+                        Preencher_Tabela("select * from produto inner join categoria_produto "
+                                + " on produto.Categoria_Produto_id_categoria = categoria_produto.id_categoria "
+                                + " inner join saida_itens on produto.id_produto = saida_itens.produto_id_produto "
+                                + " where saida_id_saida=" + id_saida + "  ");
+                        Limpar_Campos();
+                        ObjControlSaida.Consulta_Saida_Devolucao(ObjModeloSaida, Integer.parseInt(id_saida));
+                        Setar_Campos();
+                        BT_Salvar.setEnabled(!true);
+                        JTF_Pesquisa.setText("");
+                        JTF_Pesquisa.requestFocus();
+                        Mostrar_Saida_Finalizada();
+                    }else{
+                        Limpar_Tabela(JTB_Saidas_Itens);
+                        Preencher_Tabela("select * from produto inner join categoria_produto "
+                            + " on produto.Categoria_Produto_id_categoria = categoria_produto.id_categoria "
+                            + " inner join saida_itens on produto.id_produto = saida_itens.produto_id_produto "
+                            + " where saida_id_saida="+id_saida+" ");
+                        Limpar_Campos();
+                        ObjControlSaida.Consulta_Saida_Devolucao(ObjModeloSaida, Integer.parseInt(id_saida));
+                        Setar_Campos();
+                        BT_Salvar.setEnabled(true);
+                        JTF_Pesquisa.setText("");
+                        JTF_Motivo.requestFocus();
+                    }
                 }else{
                     Limpar_Tabela(JTB_Saidas_Itens);
                     Preencher_Tabela("select * from produto inner join categoria_produto "
@@ -652,6 +690,23 @@ public class Tela_Cancelar_Saida extends javax.swing.JInternalFrame {
             Mostrar_Preencher_Campos();
         }else{
             Mostrar_Confirma_Salvar();      
+        }
+    }
+    
+    void Pesquisa_Automatica(){//verifica se foi digitado texto ou numero e faz a consulta
+        boolean ehNumero = true;
+        try{
+            Integer.parseInt(JTF_Pesquisa.getText());
+        }catch(Exception e){
+            ehNumero = false;
+        }
+        if(ehNumero == false){
+            pesquisa_saida = JTF_Pesquisa.getText();
+            Mostrar_Consulta_Saida2();
+            JTF_Motivo.requestFocus();
+        }
+        if(ehNumero == true){
+            Testar_Campos_Confirmar(JTF_Pesquisa.getText());
         }
     }
     
@@ -738,7 +793,8 @@ public class Tela_Cancelar_Saida extends javax.swing.JInternalFrame {
     }
     
     void Sair_Sem_Salvar(){
-        if(!JL_Status_Msg.getText().equalsIgnoreCase("")  && !JL_Status_Msg.getText().equalsIgnoreCase("CANCELADA")){
+        if(!JL_Status_Msg.getText().equalsIgnoreCase("")  && !JL_Status_Msg.getText().equalsIgnoreCase("CANCELADA")
+                && !JL_Status_Msg.getText().equalsIgnoreCase("EFETIVADA DEVOLUÇÃO")){
             Mostrar_Sair_Sem_Salvar();
         }else{
             dispose();
@@ -784,6 +840,10 @@ public class Tela_Cancelar_Saida extends javax.swing.JInternalFrame {
     public void Mostrar_Consulta_Saida2(){
         ObjConsSaida2 = new Tela_Consulta_Saida_Cancela_DL2(this, true);
         ObjConsSaida2.setVisible(true);
+    }
+    void Mostrar_Saida_Finalizada(){
+        ObjSaidaEmAberto = new Inf_Saida_Finalizada_Cancel(this, true);
+        ObjSaidaEmAberto.setVisible(true);
     }
     
     public final void Preencher_Tabela(String SQL) {

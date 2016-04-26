@@ -52,11 +52,9 @@ public class Escolha_Lote_Ajuste extends javax.swing.JDialog {
         setLocationRelativeTo(ObjAjuste);
         
         data = new SimpleDateFormat("yyyy/MM/dd").format(new Date(System.currentTimeMillis()));
-        Preencher_Tabela_Lote_Estoque("select * from lote_estoque where quantidade_estoque > 0 "
-                + " and data_validade_lote>='"+data+"' and produto_id_produto="+id+"");
+        Preencher_Tabela_Lote_Estoque("select * from lote_estoque where produto_id_produto="+id+"");
         
-        Setar_Atalho_BT();
-       
+        Setar_Atalho_BT();   
     }
     
     private Escolha_Lote_Ajuste(Tela_Ajuste_Estoque ObjAjuste, boolean b) {

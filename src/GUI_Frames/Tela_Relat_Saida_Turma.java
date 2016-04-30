@@ -8,11 +8,8 @@ import Conexao.Controle_Log;
 import Conexao.Controle_Relatorio_Saidas;
 import Conexao.Controle_Saida_Produto;
 import Conexao.Controle_Turma;
-import GUI_Dialogs_Relatorios.Inf_Data_Final_Inferior_Relat_Saida_Curso;
 import GUI_Dialogs_Relatorios.Inf_Data_Final_Inferior_Relat_Saida_Turma;
-import GUI_Dialogs_Relatorios.Inf_Preencher_Datas_Relat_Saida_Curso;
 import GUI_Dialogs_Relatorios.Inf_Preencher_Datas_Relat_Saida_Turma;
-import GUI_Dialogs_Relatorios.Inf_Saida_Nao_Encontrada_Relat_Saida_Curso;
 import GUI_Dialogs_Relatorios.Inf_Saida_Nao_Encontrada_Relat_Saida_Turma;
 import static GUI_Frames.Tela_Principal.CodLogado;
 import java.awt.Dimension;
@@ -219,9 +216,8 @@ public class Tela_Relat_Saida_Turma extends javax.swing.JInternalFrame {
                         .addComponent(JD_Inicial, javax.swing.GroupLayout.PREFERRED_SIZE, 125, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
                         .addComponent(jLabel2)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(JD_Final, javax.swing.GroupLayout.PREFERRED_SIZE, 125, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(0, 0, Short.MAX_VALUE)))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(JD_Final, javax.swing.GroupLayout.PREFERRED_SIZE, 125, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap())
         );
         jPanel1Layout.setVerticalGroup(

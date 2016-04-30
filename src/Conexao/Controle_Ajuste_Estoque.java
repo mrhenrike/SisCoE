@@ -98,7 +98,7 @@ public class Controle_Ajuste_Estoque {
             dt = (((dt_atual.getTime() - dt1.getTime()) + 3600000) / 86400000L);//Quantidade de dias entra as datas
                         
                 ObjConecta.Conectar();
-                ObjConecta.ExecutaSQL("select sum(quantidade) as media from ajuste_estoque inner join lote_estoque "
+                ObjConecta.ExecutaSQL("select format(sum(quantidade),2) as media from ajuste_estoque inner join lote_estoque "
                         + " on ajuste_estoque.lote_estoque_id_lote = lote_estoque.id_lote "
                         + " where ajuste_estoque.data_ajuste between "+"'"+data_inicio+"'"+" and "+"'"+data_atual+"'"+" and ajuste_estoque.produto_id_produto=" + id + "");
                 ObjConecta.rs.first();
@@ -109,7 +109,7 @@ public class Controle_Ajuste_Estoque {
                         float resultado = soma;
                         ObjModAjusteEstoque.setMedia(resultado); }
                     if (dt > 30 && dt <= 60) {
-                        float resultado = soma / 2;
+                        float resultado = (soma / 2);
                         ObjModAjusteEstoque.setMedia(resultado); }
                     if (dt > 60) {
                         float resultado = soma / 3;

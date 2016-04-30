@@ -18,7 +18,7 @@ public class Inf_Mensagens extends javax.swing.JDialog {
         this.setModal(modal);
         initComponents();
         setResizable(false);
-        setSize(700,450);
+        setSize(700,470);
         setLocationRelativeTo(ObjTP);
         JTP_Informacao.setEnabled(false);
         Saudacao();
@@ -71,8 +71,8 @@ public class Inf_Mensagens extends javax.swing.JDialog {
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 243, Short.MAX_VALUE)
-                .addContainerGap())
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 274, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         JL_Mensagem.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
@@ -133,7 +133,7 @@ public class Inf_Mensagens extends javax.swing.JDialog {
                 .addGroup(layout.createSequentialGroup()
                     .addGap(42, 42, 42)
                     .addComponent(jLabel2)
-                    .addContainerGap(375, Short.MAX_VALUE)))
+                    .addContainerGap(406, Short.MAX_VALUE)))
         );
 
         pack();
@@ -151,35 +151,43 @@ public class Inf_Mensagens extends javax.swing.JDialog {
         String abaixo30;        
         String vencido;   
         String devolucao;
+        String devolucao_outra;
         ObjTP.Verifica_Informacao();
-        if(ObjTP.Abaixo_Minimo != true && ObjTP.Abaixo_30 != true && ObjTP.Vencido != true && ObjTP.Devolucao_Pendente != true){
-            JTP_Informacao.setText("MENSAGEM: \n\n>> VOCÊ NÃO TEM MENSAGEM(S)!");
+        if(ObjTP.Abaixo_Minimo != true && ObjTP.Abaixo_30 != true && ObjTP.Vencido != true && ObjTP.Devolucao_Pendente != true
+                && ObjTP.Devolucao_Pendente_Outra != true){
+            JTP_Informacao.setText("MENSAGEM: \n\n>> VOCÊ NÃO TEM MENSAGEM(NS)!");
         }else{
             if(ObjTP.Abaixo_Minimo == true){
-                minimo = "\n>> EXITE PRODUTO(S) COM ESTOQUE ABAIXO DO MÍNIMO!\n";
+                minimo = "\n>> EXITE(M) PRODUTO(S) COM ESTOQUE ABAIXO DO MÍNIMO!\n";
             }else{
                 minimo = "";
             }
             if(ObjTP.Abaixo_30 == true){
-                abaixo30 = "\n>> EXITE PRODUTO(S) COM VALIDADE ABAIXO DO 30 DIAS!\n";            
+                abaixo30 = "\n>> EXITE(M) PRODUTO(S) COM VALIDADE ABAIXO DO 30 DIAS!\n";            
             }else{
                 abaixo30 = "";
             }
             if(ObjTP.Vencido == true){
-                vencido = "\n>> EXITE PRODUTO(S) COM A VALIDADE VENCIDA!\n";            
+                vencido = "\n>> EXITE(M) PRODUTO(S) COM A VALIDADE VENCIDA!\n";            
             }else{
                 vencido = "";
             }
             if(ObjTP.Devolucao_Pendente == true){
-                devolucao = "\n>> EXITE SAÍDA(S) COM DEVOLUÇÃO PENDENTE!\n";            
+                devolucao = "\n>> EXITE(M) SAÍDA(S) COM DEVOLUÇÃO PENDENTE!\n";            
             }else{
                 devolucao = "";
+            }
+            if(ObjTP.Devolucao_Pendente_Outra == true){
+                devolucao_outra = "\n>> EXITE(M) OUTRA(S) SAÍDA(S) COM DEVOLUÇÃO PENDENTE!\n";            
+            }else{
+                devolucao_outra = "";
             }
             ObjTP.Abaixo_Minimo = false;
             ObjTP.Abaixo_30 = false;
             ObjTP.Vencido = false;
             ObjTP.Devolucao_Pendente = false;
-            JTP_Informacao.setText("MENSAGEM(S): \n"+minimo+abaixo30+vencido+devolucao);
+            ObjTP.Devolucao_Pendente_Outra = false;
+            JTP_Informacao.setText("MENSAGEM(NS): \n"+minimo+abaixo30+vencido+devolucao+devolucao_outra);
         }
     }
     

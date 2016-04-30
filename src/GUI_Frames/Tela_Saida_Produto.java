@@ -8,6 +8,7 @@ import Conexao.Conecta_Banco;
 import Conexao.Controle_Curso;
 import Conexao.Controle_Disciplina;
 import Conexao.Controle_Log;
+import Conexao.Controle_Saida_Outra;
 import Conexao.Controle_Saida_Produto;
 import Conexao.Controle_Turma;
 import GUI_Dialogs_Saida.Conf_Alterar_Quant_Lote_Saida;
@@ -15,6 +16,7 @@ import GUI_Dialogs_Saida.Conf_Alterar_Quant_Saida;
 import GUI_Dialogs_Saida.Conf_Excluir_Saida;
 import GUI_Dialogs_Saida.Conf_Sair_Sem_Salvar_Saida;
 import GUI_Dialogs_Saida.Conf_Salvar_Saida;
+import GUI_Dialogs_Saida.Conf_Salvar_Saida_Outra;
 import GUI_Dialogs_Saida.Escolha_Lote_Saida;
 import GUI_Dialogs_Saida.Escolha_Nova_Quant_Lote_Saida;
 import GUI_Dialogs_Saida.Escolha_Nova_Quant_Saida;
@@ -85,6 +87,8 @@ public static Tela_Saida_Produto Obj;
     Formatacao ObjFormat = new Formatacao();
     Modelo_Saida_Produto ObjModeloSaida = new Modelo_Saida_Produto();
     Controle_Saida_Produto ObjControleSaida = new Controle_Saida_Produto();
+    Controle_Saida_Outra ObjControleSaidaOutra = new Controle_Saida_Outra();
+    
     //telas dialogs
     private static Tela_Consulta_Produto_Saida_DL ObjProdSaida;
     private static Escolha_Lote_Saida ObjEscolhaLote;
@@ -98,6 +102,7 @@ public static Tela_Saida_Produto Obj;
     private static Inf_Dados_Salvos_Saida ObjDadosSalvos;
     private static Inf_Dados_Nao_Salvos_Saida ObjDadosNaoSalvos;
     private static Conf_Salvar_Saida ObjConfSalvar;
+    private static Conf_Salvar_Saida_Outra ObjConfSalvarOutra;
     private static Conf_Sair_Sem_Salvar_Saida ObjSairSemSalvar;
     private static Inf_Produto_Existente_Saida ObjProdExistente;
     private static Inf_Produto_Existente_Lote_Saida ObjProdExistenteLote;
@@ -664,31 +669,27 @@ public static Tela_Saida_Produto Obj;
             JCB_Turma.removeAllItems();
         }
         if(JCB_Curso.getSelectedIndex()>0){ 
-            if(JCB_Curso.getSelectedItem().equals("OUTROS")){
+            if(JCB_Curso.getSelectedIndex()==1){
                 JCB_Turno.setEnabled(!true);
                 JCB_Turno.removeAllItems();
-                JCB_Turno.addItem("OUTROS");
                 JCB_Ano.setEnabled(!true);
                 JCB_Ano.removeAllItems();
-                JCB_Ano.addItem("OUTROS");
                 JCB_Semestre.setEnabled(!true);
                 JCB_Semestre.removeAllItems();
-                JCB_Semestre.addItem("OUTROS");
                 JCB_Vestibular.setEnabled(!true);
                 JCB_Vestibular.removeAllItems();
-                JCB_Vestibular.addItem("OUTROS");
-                JCB_Tipo.setEnabled(!true);
+                JCB_Turma.setEnabled(!true);
+                JCB_Turma.removeAllItems();
+                JCB_Tipo.setEnabled(true);
                 JCB_Tipo.removeAllItems();
-                JCB_Tipo.addItem("OUTROS");
+                Preencher_CB_Tipo_Outra_Saida();
                 JCB_Disciplina.setEnabled(!true);
                 JCB_Disciplina.removeAllItems();
-                JCB_Disciplina.addItem("OUTROS");
             }else{
-            JCB_Turno.setEnabled(true);
-            Preencher_CB_Turno();
+                JCB_Turno.setEnabled(true);
+                Preencher_CB_Turno();
             }
         }
-        
     }//GEN-LAST:event_JCB_CursoActionPerformed
 
     private void JCB_AnoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_JCB_AnoActionPerformed
@@ -769,14 +770,19 @@ public static Tela_Saida_Produto Obj;
     }//GEN-LAST:event_JCB_TurnoActionPerformed
 
     private void JCB_TipoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_JCB_TipoActionPerformed
-        if(JCB_Tipo.getSelectedIndex()>0){ 
-            JCB_Disciplina.setEnabled(true);
-            ObjControleDisciplina.Preencher_CB_Disciplina(JCB_Curso,JCB_Semestre,JCB_Disciplina);
-        }
-        if(JCB_Tipo.getSelectedIndex()<=0){
+        if(JCB_Curso.getSelectedIndex()==1){
             JCB_Disciplina.setEnabled(!true);
             JCB_Disciplina.removeAllItems();
-            
+        }
+        else{
+            if(JCB_Tipo.getSelectedIndex()>0){ 
+                JCB_Disciplina.setEnabled(true);
+                ObjControleDisciplina.Preencher_CB_Disciplina(JCB_Curso,JCB_Semestre,JCB_Disciplina);
+            }
+            if(JCB_Tipo.getSelectedIndex()<=0){
+                JCB_Disciplina.setEnabled(!true);
+                JCB_Disciplina.removeAllItems();
+            }    
         }
     }//GEN-LAST:event_JCB_TipoActionPerformed
 
@@ -850,7 +856,10 @@ public static Tela_Saida_Produto Obj;
     }//GEN-LAST:event_JTB_Saida_ItensMouseClicked
 
     public final void Preencher_CB_Curso(){
-        ObjControleCurso.Preencher_CB_Curso(JCB_Curso);
+        JCB_Curso.removeAllItems();
+        JCB_Curso.addItem("");
+        JCB_Curso.addItem("OUTROS");
+        ObjControleCurso.Preencher_CB_Curso_Sem_Remove(JCB_Curso);
         //JCB_Curso.addItem("OUTROS");
     }
     void Preencher_CB_Turno(){
@@ -867,6 +876,16 @@ public static Tela_Saida_Produto Obj;
         JCB_Tipo.addItem("AULA PRÁTICA");
         JCB_Tipo.addItem("ESTÁGIO");
         JCB_Tipo.addItem("INICIAÇÃO CIENTÍFICA");
+        JCB_Tipo.addItem("OUTROS");
+    }
+    void Preencher_CB_Tipo_Outra_Saida(){
+        JCB_Tipo.removeAllItems();
+        JCB_Tipo.addItem(" ");
+        JCB_Tipo.addItem("AULA DE CAMPO");
+        JCB_Tipo.addItem("AULA PRÁTICA");
+        JCB_Tipo.addItem("ESTÁGIO");
+        JCB_Tipo.addItem("INICIAÇÃO CIENTÍFICA");
+        JCB_Tipo.addItem("INSTITUCIONAL");
         JCB_Tipo.addItem("OUTROS");
     }
     
@@ -1097,14 +1116,15 @@ public static Tela_Saida_Produto Obj;
     
     public void Preencher_Objetos_Saida(){
         if(JCB_Curso.getSelectedItem().equals("OUTROS")){
-            
+            ObjModeloSaida.setObservacao(JTF_Observacao.getText().toUpperCase().trim());//pega a observação
+            ObjModeloSaida.setTipo(JCB_Tipo.getSelectedItem().toString().trim());//pega o tipo de saida
         }else{
-        ObjControleTurma.Procura_Id_Turma(ObjModeloTurma, JCB_Curso, JCB_Semestre, JCB_Turno, JCB_Ano, JCB_Vestibular,JCB_Turma);//procura o id da turma
-        ObjModeloSaida.setTurma_id_turma(ObjModeloTurma.getId_turma());//passa para o modelo saida
-        ObjControleDisciplina.Procura_Id_Disciplina(ObjModeloDisciplina, JCB_Disciplina);//procura o id da disciplina
-        ObjModeloSaida.setDisciplina_id_disciplina(ObjModeloDisciplina.getId_disciplina());//passa para o modelo saida
-        ObjModeloSaida.setTipo(JCB_Tipo.getSelectedItem().toString().trim());//pega o tipo de saida
-        ObjModeloSaida.setObservacao(JTF_Observacao.getText().toUpperCase().trim());//pega a observação
+            ObjControleTurma.Procura_Id_Turma(ObjModeloTurma, JCB_Curso, JCB_Semestre, JCB_Turno, JCB_Ano, JCB_Vestibular,JCB_Turma);//procura o id da turma
+            ObjModeloSaida.setTurma_id_turma(ObjModeloTurma.getId_turma());//passa para o modelo saida
+            ObjControleDisciplina.Procura_Id_Disciplina(ObjModeloDisciplina, JCB_Disciplina, JCB_Semestre);//procura o id da disciplina
+            ObjModeloSaida.setDisciplina_id_disciplina(ObjModeloDisciplina.getId_disciplina());//passa para o modelo saida
+            ObjModeloSaida.setTipo(JCB_Tipo.getSelectedItem().toString().trim());//pega o tipo de saida
+            ObjModeloSaida.setObservacao(JTF_Observacao.getText().toUpperCase().trim());//pega a observação
         }
     }
      
@@ -1194,6 +1214,91 @@ public static Tela_Saida_Produto Obj;
         }   
     }
     
+    void Inserir_Saida_Outra(){
+    try {
+        ObjConecta.Conectar();
+        //carrega os objetos
+        Preencher_Objetos_Saida();
+        //Faz a saida
+        ObjControleSaidaOutra.Inserir_Saida(ObjModeloSaida);
+        //Busca o ultimo Id inserido           
+        int Id_Saida = ObjModeloSaida.getId_saida();
+        //Conta quantas linha tem para inserção
+        int Quant_Linhas = JTB_Saida_Itens.getRowCount();
+        //Laço para fazer todas as inserçoes no banco de saída de itens
+            for(int Linha = 0; Linha < Quant_Linhas; Linha++){
+                try {
+                    JTB_Saida_Itens.addRowSelectionInterval(Linha,Linha); //seta na primeira linha da tabela
+                                        
+                    if(JTB_Saida_Itens.getValueAt(Linha, 3).equals("")){   //Produto sem validade     
+                        try{
+                            int Id_Produto = (Integer.parseInt((String)JTB_Saida_Itens.getValueAt(Linha, 0)));//Pega o id do produto na linha da tabela
+                            double Quant = (Double.parseDouble((String) JTB_Saida_Itens.getValueAt(Linha, 2)));//pega a quantidade na linha da tabela
+                            String Validade = null;
+                            String Lote = (String.valueOf(JTB_Saida_Itens.getValueAt(Linha, 4)));//pega o lote na linha da tabela
+                        
+                            ObjControleSaidaOutra.Inserir_Saida_Itens(Id_Produto, Id_Saida, Quant, Lote, Validade);//Metodo para inserira no banco
+                            //verifica se foi inserido
+                            if(ObjControleSaidaOutra.Confirma_Iten_Inserido ==true){
+                                ObjControleSaida.Atualiza_Estoque_Produto(Id_Produto, Quant, Lote,Validade);//atualiza o estoque
+                                ObjControleSaida.Confirma_Iten_Inserido = false;
+                            }
+                            //verifica se o produto solicita devolucao
+                            ObjControleSaida.Controla_Devolucao_Produto(Id_Produto);
+                             if(ObjControleSaida.Controla_Devolucao_Produto == true){
+                                ObjControleSaidaOutra.Atualiza_Devolucao(Id_Saida);//atualiza a saida que precisa de devolução
+                                ObjControleSaidaOutra.Atualiza_Produto_Devolvido(Id_Produto, "NÃO");//atualiza o produto para não devolvido
+                                ObjControleSaida.Controla_Devolucao_Produto = false;
+                        }
+                        }catch(NumberFormatException | Error ex){JOptionPane.showMessageDialog(rootPane, "Erro ao inserir o produto \n"+ex);}
+                    }
+                    else{//Com validade
+                         try{
+                            int Id_Produto = (Integer.parseInt((String)JTB_Saida_Itens.getValueAt(Linha, 0)));//Pega o id do produto na linha da tabela
+                            double Quant =  (Double.parseDouble((String) JTB_Saida_Itens.getValueAt(Linha, 2)));//pega a quantidade na linha da tabela
+                            String Validade = (String.valueOf(new SimpleDateFormat("yyyy-MM-dd").format
+                            (new SimpleDateFormat("dd-MM-yyyy").parse((String) (JTB_Saida_Itens.getValueAt(Linha, 3))))));//pega a trata a data de validade
+                            String Lote = (String.valueOf(JTB_Saida_Itens.getValueAt(Linha, 4)));//pega o lote na linha da tabela
+
+                            ObjControleSaidaOutra.Inserir_Saida_Itens(Id_Produto, Id_Saida, Quant, Lote, Validade);
+                            //verifica se foi inserido
+                            if(ObjControleSaidaOutra.Confirma_Iten_Inserido ==true){
+                                ObjControleSaida.Atualiza_Estoque_Produto(Id_Produto, Quant, Lote,Validade);//atualiza o estoque
+                                ObjControleSaida.Confirma_Iten_Inserido = false;
+                            }
+                            //verifica se o produto solicita devolucao
+                            ObjControleSaida.Controla_Devolucao_Produto(Id_Produto);
+                            if(ObjControleSaida.Controla_Devolucao_Produto == true){
+                                ObjControleSaidaOutra.Atualiza_Devolucao(Id_Saida);
+                                ObjControleSaidaOutra.Atualiza_Produto_Devolvido_Lote(Id_Produto,Lote,"NÃO");
+                                ObjControleSaida.Controla_Devolucao_Produto = false;
+                            }
+                        }catch(NumberFormatException | ParseException | Error ex){JOptionPane.showMessageDialog(rootPane, "Erro ao inserir o produto com lote "+""+ex);}
+                    }
+                } catch (NumberFormatException ex){JOptionPane.showMessageDialog(rootPane, "Erro No Laço: "+ex);}
+            }
+            confirma_saida=true;
+            ObjConecta.Desconecta();
+            ObjControleSaidaOutra.Controla_Devolucao(Id_Saida);//verifica se a saída necessita devolução
+            if(ObjControleSaidaOutra.Controla_Devolucao == false){
+               ObjControleSaidaOutra.Efetivar_Situacao(String.valueOf(Id_Saida),"SEM DEVOLUÇÃO");//atualiza para sem devolução
+            }
+            //verifica se existe algum produto na saida
+            ObjControleSaidaOutra.Verifica_Saida_Sem_Itens(Id_Saida);
+            if(ObjControleSaidaOutra.Verifica_Saida_Sem_Itens == false){//se não existir
+                ObjControleSaidaOutra.Excluir_Saida(Id_Saida);//exclui a saída do banco
+                new Controle_Log().Registrar_Log("inserida e excluída a saída id: "+ObjModeloSaida.getId_saida(), CodLogado);
+                ObjControleSaidaOutra.Verifica_Saida_Sem_Itens = false;
+                confirma_saida = false;
+            }
+        
+        } catch (Exception ex) {
+            confirma_saida = false;
+            ObjConecta.Desconecta();
+            JOptionPane.showMessageDialog(rootPane,"Erro na saida de produtos \n"+ex);
+        }   
+    }
+    
     public void Conf_Inserir_Saida() {
         Inserir_Saida();
         if (confirma_saida == true) 
@@ -1217,6 +1322,25 @@ public static Tela_Saida_Produto Obj;
                 confirma_saida = false;
             }
     }
+    
+    public void Conf_Inserir_Saida_Outra() {
+        Inserir_Saida_Outra();
+        if (confirma_saida == true) 
+            {
+                Mostrar_Dados_Salvos();
+                //Log                
+                new Controle_Log().Registrar_Log("Efetivou a saída (outras) id: "+ObjModeloSaida.getId_saida()+" - "+ObjModeloSaida.getTipo() , CodLogado);
+                Limpar_Tabela();
+                Limpar_Produto();
+                Limpar_descricao();
+                confirma_saida = false;
+            }
+            else{
+                Mostrar_Dados_Nao_Salvos();
+                new Controle_Log().Registrar_Log("erro ao efetivar a saída (outras) id: "+ObjModeloSaida.getId_saida(), CodLogado);
+                confirma_saida = false;
+            }
+    }
     public void Sair_Sem_Salvar(){
         int cont = JTB_Saida_Itens.getRowCount();
         if(cont > 0 || JCB_Curso.getSelectedIndex()>0){
@@ -1231,10 +1355,16 @@ public static Tela_Saida_Produto Obj;
         if(linha <=0){
             Mostrar_Nao_Ha_Itens_Salvar();
         }else{
-            if(JCB_Curso.getSelectedIndex()<=0 || JCB_Disciplina.getSelectedIndex()<=0){
+            if(JCB_Curso.getSelectedIndex()<=0){
                 Mostrar_Preencher_Campos();
             }else{
-                Mostrar_Conf_Salvar();
+                if(JCB_Curso.getSelectedIndex()==1 && JCB_Tipo.getSelectedIndex()>0){
+                    Mostrar_Conf_Salvar_Outra();
+                }else if(JCB_Curso.getSelectedIndex() > 1 && JCB_Disciplina.getSelectedIndex() > 0){
+                    Mostrar_Conf_Salvar();
+                }else{
+                    Mostrar_Preencher_Campos();
+                }
             }
         }
     }
@@ -1281,6 +1411,10 @@ public static Tela_Saida_Produto Obj;
     void Mostrar_Conf_Salvar(){
         ObjConfSalvar = new Conf_Salvar_Saida(this, true);
         ObjConfSalvar.setVisible(true);        
+    }
+    void Mostrar_Conf_Salvar_Outra(){
+        ObjConfSalvarOutra = new Conf_Salvar_Saida_Outra(this, true);
+        ObjConfSalvarOutra.setVisible(true);        
     }
     public void Mostrar_Dados_Salvos(){
         ObjDadosSalvos = new Inf_Dados_Salvos_Saida(this, true);

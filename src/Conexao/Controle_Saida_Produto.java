@@ -247,6 +247,7 @@ public class Controle_Saida_Produto {
                         ObjModeloSaidaProd.setMedia(resultado); }
                     if (dt > 60) {
                         float resultado = soma / 3;
+                        JOptionPane.showMessageDialog(null, resultado);
                         ObjModeloSaidaProd.setMedia(resultado); }           
                 }else{
                     float resultado = soma / 3;
@@ -456,7 +457,8 @@ public class Controle_Saida_Produto {
                 String Devolucao = ObjConecta.rs.getString("solicita_devolucao_saida");
                 if(Devolucao.equalsIgnoreCase("SIM")){
                    Verifica_Devolucao=true;
-                }            
+                }   
+                ObjConecta.Desconecta();           
             } catch (SQLException ex) {
                 Verifica_Devolucao=false;
                 ObjConecta.Desconecta();           

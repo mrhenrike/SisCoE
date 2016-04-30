@@ -3,8 +3,8 @@ package GUI_Frames;
 import Classes.Modelo_Tabela;
 import Conexao.Conecta_Banco;
 import Conexao.Controle_Log;
-import Conexao.Controle_Relatorio_Entradas;
 import Conexao.Controle_Relatorio_Saidas;
+import Conexao.Controle_Saida_Outra;
 import Conexao.Controle_Saida_Produto;
 import GUI_Dialogs_Consulta_Ent_Saida.Inf_Data_Final_Inferior_Cons_Saida;
 import GUI_Dialogs_Consulta_Ent_Saida.Inf_Nao_Existe_Saida;
@@ -63,6 +63,7 @@ public class Tela_Consulta_Saida extends javax.swing.JInternalFrame {
     Conecta_Banco ObjConecta = new Conecta_Banco();
     Conecta_Banco ObjConecta_2 = new Conecta_Banco();
     Controle_Saida_Produto ObjControlSaida = new Controle_Saida_Produto();
+    Controle_Saida_Outra ObjControlSaidaOutra = new Controle_Saida_Outra();
     Formatacao ObjFormat = new Formatacao();
     
     boolean teste;
@@ -393,19 +394,48 @@ public class Tela_Consulta_Saida extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_BT_SairActionPerformed
 
     private void JTB_SaidasMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_JTB_SaidasMouseClicked
-         try {
+        try {
              int Sel_Curso = JTB_Saidas.getSelectedRow();
                 if (Sel_Curso >= 0) {
-                Object resultado = JTB_Saidas.getValueAt(JTB_Saidas.getSelectedRow(), 0);
-                Preencher_Tabela_Itens_Saida("select * from saida inner join saida_itens "
-                        + "on saida.id_saida=saida_itens.saida_id_saida inner join produto "
-                        + "on produto.id_produto=saida_itens.produto_id_produto where saida_itens.saida_id_saida="+resultado+"");
+                    if(JCB_Tipo_Pesquisa.getSelectedIndex() == 7){
+                        Object resultado = JTB_Saidas.getValueAt(JTB_Saidas.getSelectedRow(), 0);
+                        Preencher_Tabela_Itens_Saida("select * from saida_outra inner join saida_itens_outra "
+                            + "on saida_outra.id_saida_outra = saida_itens_outra.saida_outra_id_saida_outra inner join produto "
+                            + "on produto.id_produto = saida_itens_outra.produto_id_produto where saida_itens_outra.saida_outra_id_saida_outra="+resultado+"");
+                    }
+                    else{
+                        Object resultado = JTB_Saidas.getValueAt(JTB_Saidas.getSelectedRow(), 0);
+                        Preencher_Tabela_Itens_Saida("select * from saida inner join saida_itens "
+                            + "on saida.id_saida=saida_itens.saida_id_saida inner join produto "
+                            + "on produto.id_produto=saida_itens.produto_id_produto where saida_itens.saida_id_saida="+resultado+"");
+                    }
                 } 
         } catch (HeadlessException ex) { }
          
-        if (evt.getClickCount() == 2) { 
-            Object Num_Saida = JTB_Saidas.getValueAt(JTB_Saidas.getSelectedRow(), 0);
-            Object Data = JTB_Saidas.getValueAt(JTB_Saidas.getSelectedRow(), 1);
+        if (evt.getClickCount() == 2) {
+            if(JCB_Tipo_Pesquisa.getSelectedIndex()==7){
+                Object Num_Saida = JTB_Saidas.getValueAt(JTB_Saidas.getSelectedRow(), 0);
+                Object Data = JTB_Saidas.getValueAt(JTB_Saidas.getSelectedRow(), 1);
+                try {
+                        ObjConecta.Conectar();
+                        ObjConecta.ExecutaSQL("select * from saida_outra where id_saida_outra="+Num_Saida+"");
+                        ObjConecta.rs.first();
+                        String Tipo = ObjConecta.rs.getString("tipo_outra");
+                        String Observacao = ObjConecta.rs.getString("observacao");
+                        String Situacao = ObjConecta.rs.getString("situacao");
+                                                                        
+                        JOptionPane.showMessageDialog(rootPane,"Número Da Saída: "+ Num_Saida+"   Data: "+Data+
+                        "\nTipo: "+Tipo +"\nSituação: "+Situacao+ "\nObservação: "+Observacao,
+                         "Descrição Da Saída",JOptionPane.INFORMATION_MESSAGE);
+                        ObjConecta.Desconecta();
+                
+                    }catch (SQLException ex) {
+                        ObjConecta.Desconecta();  
+                    }
+            }
+            else{
+                Object Num_Saida = JTB_Saidas.getValueAt(JTB_Saidas.getSelectedRow(), 0);
+                Object Data = JTB_Saidas.getValueAt(JTB_Saidas.getSelectedRow(), 1);
                 try {
                         ObjConecta.Conectar();
                         ObjConecta.ExecutaSQL("select * from saida where id_saida="+Num_Saida+"");
@@ -431,6 +461,7 @@ public class Tela_Consulta_Saida extends javax.swing.JInternalFrame {
                     }catch (SQLException ex) {
                         ObjConecta.Desconecta();  
                     }
+            }
         }
     }//GEN-LAST:event_JTB_SaidasMouseClicked
 
@@ -554,6 +585,19 @@ public class Tela_Consulta_Saida extends javax.swing.JInternalFrame {
             Controle=0;
             BT_Relatorio.setEnabled(false);
          }
+        if(JCB_Tipo_Pesquisa.getSelectedIndex()==7){
+            BT_Consultar.setEnabled(!false);
+            JD_Final.setEnabled(!false);
+            JD_Inicial.setEnabled(!false);
+            JD_Final.setDate(null);
+            JD_Inicial.setDate(null);
+            Limpar_Tabela_Saida();
+            Limpar_Tabela_Saida_Itens();
+            JTF_Num_Saida.setEnabled(false);
+            JTF_Num_Saida.setText("");
+            Controle=0;
+            BT_Relatorio.setEnabled(false);
+         }
     }//GEN-LAST:event_JCB_Tipo_PesquisaActionPerformed
 
     private void JTF_Num_SaidaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_JTF_Num_SaidaActionPerformed
@@ -597,14 +641,23 @@ public class Tela_Consulta_Saida extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_BT_RelatorioActionPerformed
 
     private void JTB_SaidasKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_JTB_SaidasKeyReleased
-        int Sel_Saida = JTB_Saidas.getSelectedRow();
+        try {
+            int Sel_Saida = JTB_Saidas.getSelectedRow();
             if (Sel_Saida >= 0) {
-                Object resultado = JTB_Saidas.getValueAt(JTB_Saidas.getSelectedRow(), 0);
-                Preencher_Tabela_Itens_Saida("select * from saida inner join saida_itens "
-                        + "on saida.id_saida=saida_itens.saida_id_saida inner join produto "
-                        + "on produto.id_produto=saida_itens.produto_id_produto where saida_itens.saida_id_saida="+resultado+"");
-            } 
-                
+                    if(JCB_Tipo_Pesquisa.getSelectedIndex() == 7){
+                        Object resultado = JTB_Saidas.getValueAt(JTB_Saidas.getSelectedRow(), 0);
+                        Preencher_Tabela_Itens_Saida("select * from saida_outra inner join saida_itens_outra "
+                            + "on saida_outra.id_saida_outra = saida_itens_outra.saida_outra_id_saida_outra inner join produto "
+                            + "on produto.id_produto = saida_itens_outra.produto_id_produto where saida_itens_outra.saida_outra_id_saida_outra="+resultado+"");
+                    }
+                    else{
+                        Object resultado = JTB_Saidas.getValueAt(JTB_Saidas.getSelectedRow(), 0);
+                        Preencher_Tabela_Itens_Saida("select * from saida inner join saida_itens "
+                            + "on saida.id_saida=saida_itens.saida_id_saida inner join produto "
+                            + "on produto.id_produto=saida_itens.produto_id_produto where saida_itens.saida_id_saida="+resultado+"");
+                    }
+                } 
+        } catch (HeadlessException ex) { }      
     }//GEN-LAST:event_JTB_SaidasKeyReleased
 
     public void Testar_Campos(){
@@ -775,6 +828,43 @@ public class Tela_Consulta_Saida extends javax.swing.JInternalFrame {
                 }
             }
         }
+        
+        if(JCB_Tipo_Pesquisa.getSelectedIndex()==7){
+            if(JD_Inicial.getDate()==null || JD_Final.getDate()==null){
+                Mostrar_Preencher_Datas();
+            }else{
+                Verifica_Datas();
+                if(DataMenor == true){
+                    Mostrar_Data_Inferior();
+                    DataMenor = false;
+                }else{
+                    ObjControlSaidaOutra.Consulta_Saida_Todas();
+                    if(ObjControlSaidaOutra.Controle_Saida == true){
+                        try{
+                            ObjControlSaidaOutra.Consulta_Saida_Intervalo(JD_Inicial, JD_Final);
+                            if(ObjControlSaidaOutra.Controle_Saida == true){
+                                String di = new SimpleDateFormat("yyyy-MM-dd").format(JD_Inicial.getDate());
+                                String df = new SimpleDateFormat("yyyy-MM-dd").format(JD_Final.getDate());
+                                Preencher_Tabela_Saida_Outra("select * from saida_outra where data_saida_outra between '"+di+"' and '"+df+"' order by id_saida_outra desc");
+                                Controle = 7;
+                                BT_Relatorio.setEnabled(!false);
+                                ObjControlSaidaOutra.Controle_Saida=false;
+                            }else{
+                                Mostrar_Saida_Nao_Encontrada();
+                            }
+                        }catch(Exception ex){
+                            Controle = 0;BT_Relatorio.setEnabled(false);}
+                            ObjControlSaidaOutra.Controle_Saida=false;
+                    }else{
+                        Mostra_Nao_Existe_Saida();
+                        Limpar_Tabela_Saida();
+                        Limpar_Tabela_Saida_Itens();
+                        Controle=0;
+                        BT_Relatorio.setEnabled(false);
+                    }
+                }
+            }
+        }
     }catch(NumberFormatException | HeadlessException ex){}
     }
     
@@ -802,7 +892,7 @@ public class Tela_Consulta_Saida extends javax.swing.JInternalFrame {
         JCB_Tipo_Pesquisa.addItem("NÚMERO DA SAÍDA");
         JCB_Tipo_Pesquisa.addItem("CANCELADAS ÚLTIMOS 30 DIAS");
         JCB_Tipo_Pesquisa.addItem("CANCELADAS POR PERÍODO");
-        
+        JCB_Tipo_Pesquisa.addItem("OUTRAS SAÍDAS POR PERÍODO");
     }
     
     public final void Preencher_Tabela_Saida(String SQL) {
@@ -896,6 +986,42 @@ public class Tela_Consulta_Saida extends javax.swing.JInternalFrame {
         JTB_Itens_Saidas.setAutoResizeMode(JTB_Itens_Saidas.AUTO_RESIZE_ALL_COLUMNS);//Tabela Redimensionavel(todas colunas)
         JTB_Itens_Saidas.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);//Seleciona uma unica linha da tabela
       
+    }
+    
+    public final void Preencher_Tabela_Saida_Outra(String SQL) {
+        ArrayList dados = new ArrayList();
+
+        String[] Colunas = new String[]{"Nº Saída", "Data Saída", "Descrição","Situação"};//Seta os indices da tabela
+        ObjConecta.Conectar();
+        ObjConecta.ExecutaSQL(SQL);
+        try {
+            ObjConecta.rs.first();           
+            do {                
+                String data_Entrada = String.valueOf(new SimpleDateFormat("dd-MM-yyyy").format(ObjConecta.rs.getDate("data_saida_outra")));
+                                                        
+                dados.add(new Object[]{ObjConecta.rs.getInt("id_saida_outra"), data_Entrada, ObjConecta.rs.getString("tipo_outra"),
+                    ObjConecta.rs.getString("situacao") });
+            
+            } while (ObjConecta.rs.next());
+            
+            ObjConecta.Desconecta();
+        } catch (SQLException ex) {
+            ObjConecta.Desconecta();
+        }
+        Modelo_Tabela tabela = new Modelo_Tabela(dados, Colunas);
+        JTB_Saidas.setModel(tabela);
+        JTB_Saidas.setDefaultRenderer(Object.class, new Pintar_Tabela_Padrao());
+        JTB_Saidas.getColumnModel().getColumn(0).setPreferredWidth(100);//Tamanho da coluna
+        JTB_Saidas.getColumnModel().getColumn(0).setResizable(false);//Redimensionavel        
+        JTB_Saidas.getColumnModel().getColumn(1).setPreferredWidth(100);
+        JTB_Saidas.getColumnModel().getColumn(1).setResizable(false);
+        JTB_Saidas.getColumnModel().getColumn(2).setPreferredWidth(300);
+        JTB_Saidas.getColumnModel().getColumn(2).setResizable(false);
+        JTB_Saidas.getColumnModel().getColumn(3).setPreferredWidth(150);
+        JTB_Saidas.getColumnModel().getColumn(3).setResizable(false);
+        JTB_Saidas.getTableHeader().setReorderingAllowed(false);//Reordenar alocação
+        JTB_Saidas.setAutoResizeMode(JTB_Saidas.AUTO_RESIZE_ALL_COLUMNS);//Tabela Redimensionavel(Todas colunas)
+        JTB_Saidas.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);//Seleciona uma unica linha da tabela
     }
     
     public final void Limpar_Tabela_Saida() {

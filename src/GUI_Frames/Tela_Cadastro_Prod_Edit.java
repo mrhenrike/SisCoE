@@ -34,13 +34,17 @@ import java.awt.event.ActionEvent;
 import java.awt.event.KeyEvent;
 import java.beans.PropertyVetoException;
 import java.sql.SQLException;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.AbstractAction;
 import javax.swing.InputMap;
 import javax.swing.JComponent;
+import javax.swing.JFormattedTextField;
 import javax.swing.JOptionPane;
 import javax.swing.KeyStroke;
 import javax.swing.ListSelectionModel;
@@ -114,7 +118,6 @@ public class Tela_Cadastro_Prod_Edit extends javax.swing.JInternalFrame {
         Preencher_CB_Categoria();
         ObjControlProd.Preencher_CB_Macro(JCB_Macro);
         ObjControlProd.Preencher_CB_Unidade(JCB_Unidade);
-        
         BT_Salvar.setEnabled(false);
         Setar_Atalho_BT();
     }
@@ -162,9 +165,9 @@ public class Tela_Cadastro_Prod_Edit extends javax.swing.JInternalFrame {
         JL_Ultimo = new javax.swing.JLabel();
         JTF_Ultimo = new javax.swing.JTextField();
         JL_Media = new javax.swing.JLabel();
-        JTF_Media = new javax.swing.JTextField();
         JL_Total = new javax.swing.JLabel();
         JTF_Total = new javax.swing.JTextField();
+        JTF_Media = new javax.swing.JFormattedTextField();
         BT_Salvar = new javax.swing.JButton();
         JL_Quant_Itens1 = new javax.swing.JLabel();
 
@@ -470,12 +473,12 @@ public class Tela_Cadastro_Prod_Edit extends javax.swing.JInternalFrame {
         JL_Media.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         JL_Media.setText("Média 3 Meses:");
 
-        JTF_Media.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-
         JL_Total.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         JL_Total.setText("Total 3 Meses:");
 
         JTF_Total.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+
+        JTF_Media.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -484,18 +487,19 @@ public class Tela_Cadastro_Prod_Edit extends javax.swing.JInternalFrame {
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(JL_Ultimo, javax.swing.GroupLayout.DEFAULT_SIZE, 102, Short.MAX_VALUE)
+                    .addComponent(JL_Ultimo, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(JTF_Ultimo, javax.swing.GroupLayout.PREFERRED_SIZE, 94, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(JCB_Tipo_Pesquisa, javax.swing.GroupLayout.PREFERRED_SIZE, 94, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(JTF_Media, javax.swing.GroupLayout.PREFERRED_SIZE, 94, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(JL_Media)
-                            .addComponent(JTF_Total, javax.swing.GroupLayout.PREFERRED_SIZE, 94, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(JL_Total))
-                        .addGap(0, 0, Short.MAX_VALUE)))
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(JTF_Ultimo, javax.swing.GroupLayout.DEFAULT_SIZE, 94, Short.MAX_VALUE)
+                            .addComponent(JCB_Tipo_Pesquisa, 0, 94, Short.MAX_VALUE)
+                            .addComponent(JTF_Total, javax.swing.GroupLayout.DEFAULT_SIZE, 94, Short.MAX_VALUE)
+                            .addComponent(JL_Total)
+                            .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                                .addComponent(JTF_Media, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 93, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(JL_Media, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                        .addGap(0, 10, Short.MAX_VALUE)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 644, Short.MAX_VALUE)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 642, Short.MAX_VALUE)
                 .addGap(1, 1, 1))
         );
         jPanel1Layout.setVerticalGroup(
@@ -510,13 +514,13 @@ public class Tela_Cadastro_Prod_Edit extends javax.swing.JInternalFrame {
                 .addComponent(JTF_Ultimo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(JL_Media)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGap(4, 4, 4)
                 .addComponent(JTF_Media, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(JL_Total)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(JTF_Total, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 5, Short.MAX_VALUE))
+                .addGap(0, 2, Short.MAX_VALUE))
         );
 
         BT_Salvar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icones/Bt Salvar.png"))); // NOI18N
@@ -1171,6 +1175,13 @@ public class Tela_Cadastro_Prod_Edit extends javax.swing.JInternalFrame {
         JTB_Consulta_Prod.setToolTipText("Clique Duas Vezes Em Uma Linha Para Mais Informações!");
     }
     
+    static void Mascara(JFormattedTextField jt, String mascara){
+        try {
+            jt.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.MaskFormatter(mascara)));
+        } catch (ParseException ex) {
+        }
+    }
+    
     void Controle_Log_Registrar(){
         //descricao
         boolean controle = false;//controlar as alterações
@@ -1329,7 +1340,7 @@ public class Tela_Cadastro_Prod_Edit extends javax.swing.JInternalFrame {
     private javax.swing.JTextField JTF_Descricao;
     private javax.swing.JFormattedTextField JTF_Estoque;
     private javax.swing.JTextField JTF_Id;
-    private javax.swing.JTextField JTF_Media;
+    private javax.swing.JFormattedTextField JTF_Media;
     private javax.swing.JFormattedTextField JTF_Preco;
     private javax.swing.JTextField JTF_Quant_Macro;
     private javax.swing.JTextField JTF_Quant_Min;

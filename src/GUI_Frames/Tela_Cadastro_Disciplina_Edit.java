@@ -62,12 +62,15 @@ public class Tela_Cadastro_Disciplina_Edit extends javax.swing.JInternalFrame {
     private static Conf_Salvar_Disc_Edit ObjSalvar;
     private static Conf_Sair_Sem_Salvar_Disc_Edit ObjSairSemSalvar;
     
+    public String id_disciplina_edit;
+    public String disciplina_edit;
    
     public Tela_Cadastro_Disciplina_Edit() {
         initComponents();
         JTF_Id.setEnabled(false);
         JTF_Disciplina.setDocument(ObjFormat.new Format_Geral(100));
         ObjControleCurso.Preencher_CB_Curso(JCB_Curso_Disc);
+        JCB_Curso_Disc.setEnabled(false);
         Setar_Atalho_BT();
     }
 
@@ -285,6 +288,9 @@ public class Tela_Cadastro_Disciplina_Edit extends javax.swing.JInternalFrame {
         JCB_Semestre_Disc.setSelectedItem(String.valueOf(ObjModDisciplina.getSemestre()));
         ObjControleCurso.Consulta_Curso(ObjModCurso, ObjModDisciplina.getId_curso());
         JCB_Curso_Disc.setSelectedItem(ObjModCurso.getNome_curso());
+        
+        id_disciplina_edit = JTF_Id.getText();
+        disciplina_edit = JTF_Disciplina.getText();
     }
     
     public void Preencher_Objetos(){

@@ -24,8 +24,8 @@ public class Modelo_Saida_Produto {
     private int turma_semestre;
     private int vestibular;
     private int disciplina_semestre;
-    private double media;//armazenar a media das saidas
-    private double total;//armazenar o total das saidas
+    private float media;//armazenar a media das saidas
+    private float total;//armazenar o total das saidas
 
     public int getId_saida() {
         return id_saida;
@@ -63,8 +63,8 @@ public class Modelo_Saida_Produto {
         return disciplina_id_disciplina;
     }
 
-    public void setDisciplina_id_disciplina(int curso_id_curso) {
-        this.disciplina_id_disciplina = curso_id_curso;
+    public void setDisciplina_id_disciplina(int disciplina_id_disciplina) {
+        this.disciplina_id_disciplina = disciplina_id_disciplina;
     }
 
     public double getQuantidade() {
@@ -123,14 +123,6 @@ public class Modelo_Saida_Produto {
         this.observacao = observacao;
     }
 
-    public double getMedia() {
-        return media;
-    }
-
-    public void setMedia(double media) {
-        this.media = media;
-    }
-
     public String getCurso_nome() {
         return curso_nome;
     }
@@ -163,6 +155,14 @@ public class Modelo_Saida_Produto {
         this.disciplina_nome = disciplina_nome;
     }
 
+    public String getSituacao() {
+        return situacao;
+    }
+
+    public void setSituacao(String situacao) {
+        this.situacao = situacao;
+    }
+
     public int getTurma_semestre() {
         return turma_semestre;
     }
@@ -187,20 +187,20 @@ public class Modelo_Saida_Produto {
         this.disciplina_semestre = disciplina_semestre;
     }
 
-    public String getSituacao() {
-        return situacao;
+    public float getMedia() {
+        return media;
     }
 
-    public void setSituacao(String situacao) {
-        this.situacao = situacao;
+    public void setMedia(float media) {
+        this.media = media;
     }
 
-    public double getTotal() {
+    public float getTotal() {
         return total;
     }
 
-    public void setTotal(double total) {
+    public void setTotal(float total) {
         this.total = total;
     }
 
-   }
+}

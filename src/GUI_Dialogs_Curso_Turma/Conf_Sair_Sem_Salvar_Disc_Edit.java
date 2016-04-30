@@ -2,7 +2,9 @@ package GUI_Dialogs_Curso_Turma;
 
 // @author Márison Tamiarana
 
+import Conexao.Controle_Log;
 import GUI_Frames.Tela_Cadastro_Disciplina_Edit;
+import static GUI_Frames.Tela_Principal.CodLogado;
 
 
 
@@ -110,6 +112,7 @@ public class Conf_Sair_Sem_Salvar_Disc_Edit extends javax.swing.JDialog {
     }//GEN-LAST:event_JB_NaoActionPerformed
 
     private void JB_SimActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_JB_SimActionPerformed
+       new Controle_Log().Registrar_Log("cancelou a edição da Disciplina id: "+Obj.id_disciplina_edit+" - "+Obj.disciplina_edit, CodLogado);
        Obj.dispose();
        dispose();
        Obj.Mostrar_Tela_Consulta();

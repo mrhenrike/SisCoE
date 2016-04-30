@@ -816,4 +816,336 @@ public class Controle_Relatorio_Saidas {
             JOptionPane.showMessageDialog(null, "Erro ao gerar o relatório: " + ex);
         }
     }
+    
+    /////////////////////////////////Disciplina Analitico//////////////////////////////////
+    
+    public void Relatorio_Saida_Disciplina_Analitico_Periodo(String sql_semestre,String ano, JDateChooser dinicial,JDateChooser dfinal){
+        try {
+            String di = new SimpleDateFormat("yyyy-MM-dd").format(dinicial.getDate());
+            String dti = new SimpleDateFormat("dd-MM-yyyy").format(dinicial.getDate());
+            String df = new SimpleDateFormat("yyyy-MM-dd").format(dfinal.getDate());
+            String dtf = new SimpleDateFormat("dd-MM-yyyy").format(dfinal.getDate());
+            String periodo = dti+" até "+dtf;
+            
+            ObjConecta.Conectar();//abre a conexão
+            //Conta os itens;
+            ObjConecta.ExecutaSQL("select count(id_saida_itens) as cont "
+                    + " from saida_itens inner join saida on saida_itens.saida_id_saida = saida.id_saida "
+                    + " inner join produto on produto.id_produto=saida_itens.produto_id_produto "
+                    + " inner join turma on turma.id_turma = saida.turma_id_turma inner join curso on curso.id_curso = turma.curso_id_curso "
+                    + " where saida.data_saida between '" + di + "' and '" + df + "' and ano_turma = "+ano+" "+sql_semestre+" "
+                    + " and saida.situacao != 'CANCELADA' ");
+            ObjConecta.rs.first();
+            int ContItens = ObjConecta.rs.getInt("cont");
+
+            //conta a quantidade de saidas
+             ObjConecta.ExecutaSQL("select count(distinct id_saida) as cont "
+                    + " from saida inner join turma on turma.id_turma = saida.turma_id_turma inner join curso on curso.id_curso = turma.curso_id_curso "
+                    + " where saida.data_saida between '" + di + "' and '" + df + "' and ano_turma = "+ano+" "+sql_semestre+" "
+                    + " and saida.situacao != 'CANCELADA' ");
+            ObjConecta.rs.first();
+            int ContSaidas = ObjConecta.rs.getInt("cont");
+
+            ObjConecta.ExecutaSQL("select *,(select concat(semestre,abrev_curso,turno,ano_turma,'.',semestre_vestibular,' ',turma) as turma "
+                    + " from curso inner join turma on curso.id_curso = turma.curso_id_curso where turma.id_turma = saida.turma_id_turma) as turmas, "
+                    + " (select disciplina from disciplina where id_disciplina = saida.disciplina_id_disciplina) as disciplina, "
+                    + " (select count(id_saida_itens) from saida_itens where saida_itens.saida_id_saida = saida.id_saida) as itens "
+                    + " from saida inner join saida_itens on saida.id_saida=saida_itens.saida_id_saida inner join produto on produto.id_produto=saida_itens.produto_id_produto "
+                    + " inner join turma on turma.id_turma = saida.turma_id_turma inner join curso on curso.id_curso = turma.curso_id_curso "
+                    + " where saida.data_saida between '" + di + "' and '" + df + "' and ano_turma = "+ano+" "+sql_semestre+" "
+                    + " and saida.situacao != 'CANCELADA'  order by nome_curso, semestre, id_saida desc, produto.descricao");
+                        
+            JRResultSetDataSource Relatorio = new JRResultSetDataSource(ObjConecta.rs);
+            HashMap parametros = new HashMap();//instancia um hashMap para passar os parametros;
+            parametros.put("Usuario", UserLogado);//Se precisar passar algum parametro, tipo usuario logado
+            parametros.put("Quant_Iten", ContItens);
+            parametros.put("Quant_Saida", ContSaidas);
+            parametros.put("Tipo_Relatorio", "20 - Por Disciplina Analítico - Todas - "+ano+" - de " + periodo);
+            //Aqui fica o diretorio do arquivo
+            JasperPrint JPrint = JasperFillManager.fillReport("C:\\Program Files (x86)\\SisCoE/Relat_Saidas_Disciplina_Analitico.jasper", parametros, Relatorio);
+            JasperViewer JView = new JasperViewer(JPrint, false);
+            JView.setVisible(true);//Seta visivel                
+            JView.setTitle("Relatório De Saída");//Colocar titulo na janela
+            JView.setIconImage(new ImageIcon(getClass().getResource("/Icones_Gerais/Serviço 24x24.png")).getImage()); //Colocar icone na janela
+            ObjConecta.Desconecta();//fecjha a conexão
+        } catch (SQLException | JRException ex) {
+            ObjConecta.Desconecta();
+            JOptionPane.showMessageDialog(null, "Erro ao gerar o relatório: " + ex);
+        }
+    }
+    
+    public void Relatorio_Saida_Disciplina_Todas_Curso_Selecionado_Analitico_Periodo(String sql_semestre,String ano, JDateChooser dinicial,JDateChooser dfinal, String curso ){
+        try {
+            String di = new SimpleDateFormat("yyyy-MM-dd").format(dinicial.getDate());
+            String dti = new SimpleDateFormat("dd-MM-yyyy").format(dinicial.getDate());
+            String df = new SimpleDateFormat("yyyy-MM-dd").format(dfinal.getDate());
+            String dtf = new SimpleDateFormat("dd-MM-yyyy").format(dfinal.getDate());
+            String periodo = dti+" até "+dtf;
+            
+            ObjConecta.Conectar();//abre a conexão
+            //Conta os itens;
+            ObjConecta.ExecutaSQL("select count(id_saida_itens) as cont "
+                    + " from saida_itens inner join saida on saida_itens.saida_id_saida = saida.id_saida "
+                    + " inner join produto on produto.id_produto=saida_itens.produto_id_produto "
+                    + " inner join turma on turma.id_turma = saida.turma_id_turma inner join curso on curso.id_curso = turma.curso_id_curso "
+                    + " where saida.data_saida between '" + di + "' and '" + df + "' and ano_turma = "+ano+" "+sql_semestre+" "
+                    + " and saida.situacao != 'CANCELADA' and nome_curso = '"+curso+"' ");
+            ObjConecta.rs.first();
+            int ContItens = ObjConecta.rs.getInt("cont");
+
+            //conta a quantidade de saidas
+            ObjConecta.ExecutaSQL("select count(distinct id_saida) as cont "
+                    + " from saida inner join turma on turma.id_turma = saida.turma_id_turma inner join curso on curso.id_curso = turma.curso_id_curso "
+                    + " where saida.data_saida between '" + di + "' and '" + df + "' and ano_turma = "+ano+" "+sql_semestre+" "
+                    + " and saida.situacao != 'CANCELADA' and nome_curso = '"+curso+" ' ");
+            ObjConecta.rs.first();
+            int ContSaidas = ObjConecta.rs.getInt("cont");
+
+            ObjConecta.ExecutaSQL("select *,(select concat(semestre,abrev_curso,turno,ano_turma,'.',semestre_vestibular,' ',turma) as turma "
+                    + " from curso inner join turma on curso.id_curso = turma.curso_id_curso where turma.id_turma = saida.turma_id_turma) as turmas, "
+                    + " (select disciplina from disciplina where id_disciplina = saida.disciplina_id_disciplina) as disciplina, "
+                    + " (select count(id_saida_itens) from saida_itens where saida_itens.saida_id_saida = saida.id_saida) as itens "
+                    + " from saida inner join saida_itens on saida.id_saida=saida_itens.saida_id_saida inner join produto on produto.id_produto=saida_itens.produto_id_produto "
+                    + " inner join turma on turma.id_turma = saida.turma_id_turma inner join curso on curso.id_curso = turma.curso_id_curso "
+                    + " where saida.data_saida between '" + di + "' and '" + df + "' and ano_turma = "+ano+" "+sql_semestre+" "
+                    + " and saida.situacao != 'CANCELADA' and nome_curso = '"+curso+" '   order by nome_curso, turmas, id_saida desc, produto.descricao");
+            JRResultSetDataSource Relatorio = new JRResultSetDataSource(ObjConecta.rs);
+            HashMap parametros = new HashMap();//instancia um hashMap para passar os parametros;
+            parametros.put("Usuario", UserLogado);//Se precisar passar algum parametro, tipo usuario logado
+            parametros.put("Quant_Iten", ContItens);
+            parametros.put("Quant_Saida", ContSaidas);
+            parametros.put("Tipo_Relatorio", "20 - Por Disciplina Analítico - "+ano+" - de " + periodo);
+            //Aqui fica o diretorio do arquivo
+            JasperPrint JPrint = JasperFillManager.fillReport("C:\\Program Files (x86)\\SisCoE/Relat_Saidas_Disciplina_Analitico.jasper", parametros, Relatorio);
+            JasperViewer JView = new JasperViewer(JPrint, false);
+            JView.setVisible(true);//Seta visivel                
+            JView.setTitle("Relatório De Saída");//Colocar titulo na janela
+            JView.setIconImage(new ImageIcon(getClass().getResource("/Icones_Gerais/Serviço 24x24.png")).getImage()); //Colocar icone na janela
+            ObjConecta.Desconecta();//fecjha a conexão
+        } catch (SQLException | JRException ex) {
+            ObjConecta.Desconecta();
+            JOptionPane.showMessageDialog(null, "Erro ao gerar o relatório: " + ex);
+        }
+    }
+    
+    public void Relatorio_Saida_Disciplina_Selecionada_Curso_Selecionado_Analitico_Periodo(String sql_semestre,String ano, JDateChooser dinicial,JDateChooser dfinal, String curso ,String id_disciplina){
+        try {
+            String di = new SimpleDateFormat("yyyy-MM-dd").format(dinicial.getDate());
+            String dti = new SimpleDateFormat("dd-MM-yyyy").format(dinicial.getDate());
+            String df = new SimpleDateFormat("yyyy-MM-dd").format(dfinal.getDate());
+            String dtf = new SimpleDateFormat("dd-MM-yyyy").format(dfinal.getDate());
+            String periodo = dti+" até "+dtf;
+            
+            ObjConecta.Conectar();//abre a conexão
+            //Conta os itens;
+            ObjConecta.ExecutaSQL("select count(id_saida_itens) as cont "
+                    + " from saida_itens inner join saida on saida_itens.saida_id_saida = saida.id_saida "
+                    + " inner join turma on turma.id_turma = saida.turma_id_turma inner join curso on curso.id_curso = turma.curso_id_curso "
+                    + " inner join produto on produto.id_produto=saida_itens.produto_id_produto "
+                    + " where saida.data_saida between '" + di + "' and '" + df + "' and ano_turma = "+ano+" "+sql_semestre+" "
+                    + " and saida.situacao != 'CANCELADA' and nome_curso = '"+curso+" ' and id_turma="+id_disciplina);
+            ObjConecta.rs.first();
+            int ContItens = ObjConecta.rs.getInt("cont");
+                  
+            ObjConecta.ExecutaSQL("select count(distinct id_saida) as cont "
+                    + " from saida inner join turma on turma.id_turma = saida.turma_id_turma inner join curso on curso.id_curso = turma.curso_id_curso "
+                    + " where saida.data_saida between '" + di + "' and '" + df + "' and ano_turma = "+ano+" "+sql_semestre+" "
+                    + " and saida.situacao != 'CANCELADA' and nome_curso = '"+curso+" ' and id_turma="+id_disciplina);
+            
+            ObjConecta.rs.first();
+            
+            int ContSaidas = ObjConecta.rs.getInt("cont");
+
+            ObjConecta.ExecutaSQL("select *,(select concat(semestre,abrev_curso,turno,ano_turma,'.',semestre_vestibular,' ',turma) as turma "
+                    + " from curso inner join turma on curso.id_curso = turma.curso_id_curso where turma.id_turma = saida.turma_id_turma) as turmas, "
+                    + " (select disciplina from disciplina where id_disciplina = saida.disciplina_id_disciplina) as disciplina, "
+                    + " (select count(id_saida_itens) from saida_itens where saida_itens.saida_id_saida = saida.id_saida) as itens "
+                    + " from saida inner join saida_itens on saida.id_saida=saida_itens.saida_id_saida inner join produto on produto.id_produto=saida_itens.produto_id_produto "
+                    + " inner join turma on turma.id_turma = saida.turma_id_turma inner join curso on curso.id_curso = turma.curso_id_curso "
+                    + " where saida.data_saida between '" + di + "' and '" + df + "' and ano_turma = "+ano+" "+sql_semestre+" "
+                    + " and saida.situacao != 'CANCELADA' and nome_curso = '"+curso+" ' and saida.disciplina_id_disciplina = "+id_disciplina+ "  order by nome_curso, turmas, id_saida desc, produto.descricao");
+            JRResultSetDataSource Relatorio = new JRResultSetDataSource(ObjConecta.rs);
+            HashMap parametros = new HashMap();//instancia um hashMap para passar os parametros;
+            parametros.put("Usuario", UserLogado);//Se precisar passar algum parametro, tipo usuario logado
+            parametros.put("Quant_Iten", ContItens);
+            parametros.put("Quant_Saida", ContSaidas);
+            parametros.put("Tipo_Relatorio", "20 - Por Disciplina Analítico - Selecionada - "+ano+" - de " + periodo);
+            //Aqui fica o diretorio do arquivo
+            JasperPrint JPrint = JasperFillManager.fillReport("C:\\Program Files (x86)\\SisCoE/Relat_Saidas_Disciplina_Analitico.jasper", parametros, Relatorio);
+            JasperViewer JView = new JasperViewer(JPrint, false);
+            JView.setVisible(true);//Seta visivel                
+            JView.setTitle("Relatório De Saída");//Colocar titulo na janela
+            JView.setIconImage(new ImageIcon(getClass().getResource("/Icones_Gerais/Serviço 24x24.png")).getImage()); //Colocar icone na janela
+            ObjConecta.Desconecta();//fecha a conexão
+        } catch (SQLException | JRException ex) {
+            ObjConecta.Desconecta();
+            JOptionPane.showMessageDialog(null, "Erro ao gerar o relatório: " + ex);
+        }
+    }
+    
+    /////////////////////////////////////Disciplina Sintetico///////////////////////////////////////////
+    
+    public void Relatorio_Saida_Disciplina_Sintetico_Periodo(String sql_semestre,String ano, JDateChooser dinicial,JDateChooser dfinal){
+        try {
+            String di = new SimpleDateFormat("yyyy-MM-dd").format(dinicial.getDate());
+            String dti = new SimpleDateFormat("dd-MM-yyyy").format(dinicial.getDate());
+            String df = new SimpleDateFormat("yyyy-MM-dd").format(dfinal.getDate());
+            String dtf = new SimpleDateFormat("dd-MM-yyyy").format(dfinal.getDate());
+            String periodo = dti+" até "+dtf;
+            
+            ObjConecta.Conectar();//abre a conexão
+            //Conta os itens;
+            ObjConecta.ExecutaSQL("select count(id_saida_itens) as cont "
+                    + " from saida_itens inner join saida on saida_itens.saida_id_saida = saida.id_saida "
+                    + " inner join produto on produto.id_produto=saida_itens.produto_id_produto "
+                    + " inner join turma on turma.id_turma = saida.turma_id_turma inner join curso on curso.id_curso = turma.curso_id_curso "
+                    + " where saida.data_saida between '" + di + "' and '" + df + "' and ano_turma = "+ano+" "+sql_semestre+" "
+                    + " and saida.situacao != 'CANCELADA' ");
+            ObjConecta.rs.first();
+            int ContItens = ObjConecta.rs.getInt("cont");
+
+            //conta a quantidade de saidas
+             ObjConecta.ExecutaSQL("select count(distinct id_saida) as cont "
+                    + " from saida inner join turma on turma.id_turma = saida.turma_id_turma inner join curso on curso.id_curso = turma.curso_id_curso "
+                    + " where saida.data_saida between '" + di + "' and '" + df + "' and ano_turma = "+ano+" "+sql_semestre+" "
+                    + " and saida.situacao != 'CANCELADA' ");
+            ObjConecta.rs.first();
+            int ContSaidas = ObjConecta.rs.getInt("cont");
+
+            ObjConecta.ExecutaSQL("select *,(select concat(semestre,abrev_curso,turno,ano_turma,'.',semestre_vestibular,' ',turma) as turma "
+                    + " from curso inner join turma on curso.id_curso = turma.curso_id_curso where turma.id_turma = saida.turma_id_turma) as turmas, "
+                    + " (select disciplina from disciplina where id_disciplina = saida.disciplina_id_disciplina) as disciplina, "
+                    + " (select count(id_saida_itens) from saida_itens where saida_itens.saida_id_saida = saida.id_saida) as itens "
+                    + " from saida inner join saida_itens on saida.id_saida=saida_itens.saida_id_saida inner join produto on produto.id_produto=saida_itens.produto_id_produto "
+                    + " inner join turma on turma.id_turma = saida.turma_id_turma inner join curso on curso.id_curso = turma.curso_id_curso "
+                    + " where saida.data_saida between '" + di + "' and '" + df + "' and ano_turma = "+ano+" "+sql_semestre+" "
+                    + " and saida.situacao != 'CANCELADA'  order by nome_curso, semestre, id_saida desc, produto.descricao");
+                        
+            JRResultSetDataSource Relatorio = new JRResultSetDataSource(ObjConecta.rs);
+            HashMap parametros = new HashMap();//instancia um hashMap para passar os parametros;
+            parametros.put("Usuario", UserLogado);//Se precisar passar algum parametro, tipo usuario logado
+            parametros.put("Quant_Iten", ContItens);
+            parametros.put("Quant_Saida", ContSaidas);
+            parametros.put("Tipo_Relatorio", "20 - Por Disciplina Sintético - Todas - "+ano+" - de " + periodo);
+            //Aqui fica o diretorio do arquivo
+            JasperPrint JPrint = JasperFillManager.fillReport("C:\\Program Files (x86)\\SisCoE/Relat_Saidas_Disciplina_Sintetico.jasper", parametros, Relatorio);
+            JasperViewer JView = new JasperViewer(JPrint, false);
+            JView.setVisible(true);//Seta visivel                
+            JView.setTitle("Relatório De Saída");//Colocar titulo na janela
+            JView.setIconImage(new ImageIcon(getClass().getResource("/Icones_Gerais/Serviço 24x24.png")).getImage()); //Colocar icone na janela
+            ObjConecta.Desconecta();//fecjha a conexão
+        } catch (SQLException | JRException ex) {
+            ObjConecta.Desconecta();
+            JOptionPane.showMessageDialog(null, "Erro ao gerar o relatório: " + ex);
+        }
+    }
+    
+    public void Relatorio_Saida_Disciplina_Todas_Curso_Selecionado_Sintetico_Periodo(String sql_semestre,String ano, JDateChooser dinicial,JDateChooser dfinal, String curso ){
+        try {
+            String di = new SimpleDateFormat("yyyy-MM-dd").format(dinicial.getDate());
+            String dti = new SimpleDateFormat("dd-MM-yyyy").format(dinicial.getDate());
+            String df = new SimpleDateFormat("yyyy-MM-dd").format(dfinal.getDate());
+            String dtf = new SimpleDateFormat("dd-MM-yyyy").format(dfinal.getDate());
+            String periodo = dti+" até "+dtf;
+            
+            ObjConecta.Conectar();//abre a conexão
+            //Conta os itens;
+            ObjConecta.ExecutaSQL("select count(id_saida_itens) as cont "
+                    + " from saida_itens inner join saida on saida_itens.saida_id_saida = saida.id_saida "
+                    + " inner join produto on produto.id_produto=saida_itens.produto_id_produto "
+                    + " inner join turma on turma.id_turma = saida.turma_id_turma inner join curso on curso.id_curso = turma.curso_id_curso "
+                    + " where saida.data_saida between '" + di + "' and '" + df + "' and ano_turma = "+ano+" "+sql_semestre+" "
+                    + " and saida.situacao != 'CANCELADA' and nome_curso = '"+curso+"' ");
+            ObjConecta.rs.first();
+            int ContItens = ObjConecta.rs.getInt("cont");
+
+            //conta a quantidade de saidas
+            ObjConecta.ExecutaSQL("select count(distinct id_saida) as cont "
+                    + " from saida inner join turma on turma.id_turma = saida.turma_id_turma inner join curso on curso.id_curso = turma.curso_id_curso "
+                    + " where saida.data_saida between '" + di + "' and '" + df + "' and ano_turma = "+ano+" "+sql_semestre+" "
+                    + " and saida.situacao != 'CANCELADA' and nome_curso = '"+curso+" ' ");
+            ObjConecta.rs.first();
+            int ContSaidas = ObjConecta.rs.getInt("cont");
+
+            ObjConecta.ExecutaSQL("select *,(select concat(semestre,abrev_curso,turno,ano_turma,'.',semestre_vestibular,' ',turma) as turma "
+                    + " from curso inner join turma on curso.id_curso = turma.curso_id_curso where turma.id_turma = saida.turma_id_turma) as turmas, "
+                    + " (select disciplina from disciplina where id_disciplina = saida.disciplina_id_disciplina) as disciplina, "
+                    + " (select count(id_saida_itens) from saida_itens where saida_itens.saida_id_saida = saida.id_saida) as itens "
+                    + " from saida inner join saida_itens on saida.id_saida=saida_itens.saida_id_saida inner join produto on produto.id_produto=saida_itens.produto_id_produto "
+                    + " inner join turma on turma.id_turma = saida.turma_id_turma inner join curso on curso.id_curso = turma.curso_id_curso "
+                    + " where saida.data_saida between '" + di + "' and '" + df + "' and ano_turma = "+ano+" "+sql_semestre+" "
+                    + " and saida.situacao != 'CANCELADA' and nome_curso = '"+curso+" '   order by nome_curso, turmas, id_saida desc, produto.descricao");
+            JRResultSetDataSource Relatorio = new JRResultSetDataSource(ObjConecta.rs);
+            HashMap parametros = new HashMap();//instancia um hashMap para passar os parametros;
+            parametros.put("Usuario", UserLogado);//Se precisar passar algum parametro, tipo usuario logado
+            parametros.put("Quant_Iten", ContItens);
+            parametros.put("Quant_Saida", ContSaidas);
+            parametros.put("Tipo_Relatorio", "20 - Por Disciplina Sintético - "+ano+" - de " + periodo);
+            //Aqui fica o diretorio do arquivo
+            JasperPrint JPrint = JasperFillManager.fillReport("C:\\Program Files (x86)\\SisCoE/Relat_Saidas_Disciplina_Sintetico.jasper", parametros, Relatorio);
+            JasperViewer JView = new JasperViewer(JPrint, false);
+            JView.setVisible(true);//Seta visivel                
+            JView.setTitle("Relatório De Saída");//Colocar titulo na janela
+            JView.setIconImage(new ImageIcon(getClass().getResource("/Icones_Gerais/Serviço 24x24.png")).getImage()); //Colocar icone na janela
+            ObjConecta.Desconecta();//fecjha a conexão
+        } catch (SQLException | JRException ex) {
+            ObjConecta.Desconecta();
+            JOptionPane.showMessageDialog(null, "Erro ao gerar o relatório: " + ex);
+        }
+    }
+    
+    public void Relatorio_Saida_Disciplina_Selecionada_Curso_Selecionado_Sintetico_Periodo(String sql_semestre,String ano, JDateChooser dinicial,JDateChooser dfinal, String curso ,String id_disciplina){
+        try {
+            String di = new SimpleDateFormat("yyyy-MM-dd").format(dinicial.getDate());
+            String dti = new SimpleDateFormat("dd-MM-yyyy").format(dinicial.getDate());
+            String df = new SimpleDateFormat("yyyy-MM-dd").format(dfinal.getDate());
+            String dtf = new SimpleDateFormat("dd-MM-yyyy").format(dfinal.getDate());
+            String periodo = dti+" até "+dtf;
+            
+            ObjConecta.Conectar();//abre a conexão
+            //Conta os itens;
+            ObjConecta.ExecutaSQL("select count(id_saida_itens) as cont "
+                    + " from saida_itens inner join saida on saida_itens.saida_id_saida = saida.id_saida "
+                    + " inner join turma on turma.id_turma = saida.turma_id_turma inner join curso on curso.id_curso = turma.curso_id_curso "
+                    + " inner join produto on produto.id_produto=saida_itens.produto_id_produto "
+                    + " where saida.data_saida between '" + di + "' and '" + df + "' and ano_turma = "+ano+" "+sql_semestre+" "
+                    + " and saida.situacao != 'CANCELADA' and nome_curso = '"+curso+" ' saida.disciplina_id_disciplina = "+id_disciplina);
+            ObjConecta.rs.first();
+            int ContItens = ObjConecta.rs.getInt("cont");
+                  
+            ObjConecta.ExecutaSQL("select count(distinct id_saida) as cont "
+                    + " from saida inner join turma on turma.id_turma = saida.turma_id_turma inner join curso on curso.id_curso = turma.curso_id_curso "
+                    + " where saida.data_saida between '" + di + "' and '" + df + "' and ano_turma = "+ano+" "+sql_semestre+" "
+                    + " and saida.situacao != 'CANCELADA' and nome_curso = '"+curso+" ' and saida.disciplina_id_disciplina ="+id_disciplina);
+            
+            ObjConecta.rs.first();
+            
+            int ContSaidas = ObjConecta.rs.getInt("cont");
+
+            ObjConecta.ExecutaSQL("select *,(select concat(semestre,abrev_curso,turno,ano_turma,'.',semestre_vestibular,' ',turma) as turma "
+                    + " from curso inner join turma on curso.id_curso = turma.curso_id_curso where turma.id_turma = saida.turma_id_turma) as turmas, "
+                    + " (select disciplina from disciplina where id_disciplina = saida.disciplina_id_disciplina) as disciplina, "
+                    + " (select count(id_saida_itens) from saida_itens where saida_itens.saida_id_saida = saida.id_saida) as itens "
+                    + " from saida inner join saida_itens on saida.id_saida=saida_itens.saida_id_saida inner join produto on produto.id_produto=saida_itens.produto_id_produto "
+                    + " inner join turma on turma.id_turma = saida.turma_id_turma inner join curso on curso.id_curso = turma.curso_id_curso "
+                    + " where saida.data_saida between '" + di + "' and '" + df + "' and ano_turma = "+ano+" "+sql_semestre+" "
+                    + " and saida.situacao != 'CANCELADA' and nome_curso = '"+curso+" ' and saida.disciplina_id_disciplina = "+id_disciplina+ "  order by nome_curso, turmas, id_saida desc, produto.descricao");
+            JRResultSetDataSource Relatorio = new JRResultSetDataSource(ObjConecta.rs);
+            HashMap parametros = new HashMap();//instancia um hashMap para passar os parametros;
+            parametros.put("Usuario", UserLogado);//Se precisar passar algum parametro, tipo usuario logado
+            parametros.put("Quant_Iten", ContItens);
+            parametros.put("Quant_Saida", ContSaidas);
+            parametros.put("Tipo_Relatorio", "19 - Por Disciplina Sintético - Selecionada - "+ano+" - de " + periodo);
+            //Aqui fica o diretorio do arquivo
+            JasperPrint JPrint = JasperFillManager.fillReport("C:\\Program Files (x86)\\SisCoE/Relat_Saidas_Disciplina_Sintetico.jasper", parametros, Relatorio);
+            JasperViewer JView = new JasperViewer(JPrint, false);
+            JView.setVisible(true);//Seta visivel                
+            JView.setTitle("Relatório De Saída");//Colocar titulo na janela
+            JView.setIconImage(new ImageIcon(getClass().getResource("/Icones_Gerais/Serviço 24x24.png")).getImage()); //Colocar icone na janela
+            ObjConecta.Desconecta();//fecha a conexão
+        } catch (SQLException | JRException ex) {
+            ObjConecta.Desconecta();
+            JOptionPane.showMessageDialog(null, "Erro ao gerar o relatório: " + ex);
+        }
+    }
 }

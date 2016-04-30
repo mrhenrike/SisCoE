@@ -57,11 +57,30 @@ public class Controle_Disciplina {
         ObjConecta.Desconecta();
     }
     
-    public Modelo_Disciplina Procura_Id_Disciplina(Modelo_Disciplina ObjModeloDisciplina, JComboBox jcb){
-        if(jcb.getSelectedIndex()!=0){
+    public Modelo_Disciplina Procura_Id_Disciplina(Modelo_Disciplina ObjModeloDisciplina, JComboBox disciplina, JComboBox semestre){
+        if(disciplina.getSelectedIndex()!=0){
             try {
                 ObjConecta.Conectar();
-                ObjConecta.ExecutaSQL("Select * from disciplina where disciplina='" + jcb.getSelectedItem().toString() + "' and situacao_disciplina = 'ATIVO'");
+                ObjConecta.ExecutaSQL("Select * from disciplina where disciplina='" + disciplina.getSelectedItem().toString() + "' and situacao_disciplina = 'ATIVO' "
+                        + " and semestre =" + semestre.getSelectedItem().toString().trim() + " ");
+                ObjConecta.rs.first();
+                ObjModeloDisciplina.setId_disciplina(ObjConecta.rs.getInt("id_disciplina"));
+                ObjConecta.Desconecta();
+            } catch (SQLException ex) {
+                ObjConecta.Desconecta();
+                //JOptionPane.showMessageDialog(null,"Erro ao procurar o id da disciplina no banco! \n"
+                   // +ex,"Informação Do Banco De Dados",JOptionPane.INFORMATION_MESSAGE);
+            }
+        }
+        return ObjModeloDisciplina;
+    }
+    
+    public Modelo_Disciplina Procura_Id_Disciplina(Modelo_Disciplina ObjModeloDisciplina, JComboBox disciplina, String sql_semestre){
+        if(disciplina.getSelectedIndex()!=0){
+            try {
+                ObjConecta.Conectar();
+                ObjConecta.ExecutaSQL("Select * from disciplina where disciplina='" + disciplina.getSelectedItem().toString() + "' and situacao_disciplina = 'ATIVO' "
+                        + sql_semestre + " ");
                 ObjConecta.rs.first();
                 ObjModeloDisciplina.setId_disciplina(ObjConecta.rs.getInt("id_disciplina"));
                 ObjConecta.Desconecta();
@@ -225,5 +244,21 @@ public class Controle_Disciplina {
         ObjConecta.Desconecta();
     
     }
+    
+    public void Preencher_CB_Disciplina(JComboBox jb, String sql_semestre, String curso){
+       try {
+            ObjConecta.Conectar();
+            ObjConecta.ExecutaSQL("select * from disciplina inner join curso on curso.id_curso = disciplina.curso_id_curso "
+                    + " where situacao_disciplina = 'ATIVO' and nome_curso = '"+curso+"' "+sql_semestre+" order by semestre, disciplina");
+            ObjConecta.rs.first();
+            do {
+                jb.addItem(ObjConecta.rs.getString("disciplina"));                
+            } while (ObjConecta.rs.next());
+            ObjConecta.Desconecta();
+        } catch (SQLException ex) {
+            ObjConecta.Desconecta();
+            //JOptionPane.showMessageDialog(null, "Erro Ao Preencher O ComboBox Curso!");
+        }
+   }
     
 }

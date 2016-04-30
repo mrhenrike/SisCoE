@@ -9,6 +9,7 @@ import Conexao.Controle_Relatorio_Curso_Turma_Disciplina;
 import Conexao.Controle_Relatorio_Entradas;
 import Conexao.Controle_Relatorio_Produto;
 import Conexao.Controle_Relatorio_Saidas;
+import Conexao.Controle_Saida_Outra;
 import Conexao.Controle_Saida_Produto;
 import Conexao.Controle_Usuario;
 import GUI_Dialogs_Principal.Inf_Abaixo_Do_Minimo_TP;
@@ -99,6 +100,7 @@ public static Tela_Principal TP;
     public static boolean Vencido = false;
     public static boolean Abaixo_Minimo = false;
     public static boolean Devolucao_Pendente = false;
+    public static boolean Devolucao_Pendente_Outra = false;
         
     //Instanciando objetos de outras classes para usar os metodos dessa classe
     Metodos ObjMetodo = new Metodos(); 
@@ -240,6 +242,7 @@ public static Tela_Principal TP;
         Serv_Entrada2 = new javax.swing.JMenuItem();
         Serv_Cancela_Saida = new javax.swing.JMenuItem();
         jMenuItem24 = new javax.swing.JMenuItem();
+        jMenuItem40 = new javax.swing.JMenuItem();
         jSeparator2 = new javax.swing.JPopupMenu.Separator();
         Serv_AjustaEstoque = new javax.swing.JMenuItem();
         jSeparator4 = new javax.swing.JPopupMenu.Separator();
@@ -803,6 +806,11 @@ public static Tela_Principal TP;
 
         jMenuItem22.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         jMenuItem22.setText("Por Disciplina");
+        jMenuItem22.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem22ActionPerformed(evt);
+            }
+        });
         jMenu5.add(jMenuItem22);
 
         MP_Relatorio.add(jMenu5);
@@ -1155,6 +1163,17 @@ public static Tela_Principal TP;
             }
         });
         MP_Serv.add(jMenuItem24);
+
+        jMenuItem40.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_L, java.awt.event.InputEvent.ALT_MASK));
+        jMenuItem40.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        jMenuItem40.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icones_Gerais/Devoluca 22x22.png"))); // NOI18N
+        jMenuItem40.setText("Devolução de Produto (Outras Saídas)");
+        jMenuItem40.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem40ActionPerformed(evt);
+            }
+        });
+        MP_Serv.add(jMenuItem40);
         MP_Serv.add(jSeparator2);
 
         Serv_AjustaEstoque.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_F9, java.awt.event.InputEvent.CTRL_MASK));
@@ -2050,6 +2069,14 @@ public static Tela_Principal TP;
         new Tela_Relat_Saida_Turma().Open_Tela();
     }//GEN-LAST:event_jMenuItem21ActionPerformed
 
+    private void jMenuItem22ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem22ActionPerformed
+        new Tela_Relat_Saida_Disciplina().Open_Tela();
+    }//GEN-LAST:event_jMenuItem22ActionPerformed
+
+    private void jMenuItem40ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem40ActionPerformed
+        new Tela_Gerar_Devolucao_Outra().Open_Tela();
+    }//GEN-LAST:event_jMenuItem40ActionPerformed
+
     void Rotina_Adm(){
         if(JTF_Rotina.getText().equalsIgnoreCase("")){
         }
@@ -2262,6 +2289,9 @@ public static Tela_Principal TP;
                     new Controle_Relatorio_Produto().Relatorio_Produto_Estoque_Geral("Todos Produtos Com o Estoque Negativo", 
                     " and (select sum(quantidade_estoque) from lote_estoque where produto.id_produto=lote_estoque.produto_id_produto) < 0 ");
                     new Controle_Log().Registrar_Log("Gerou o relatório de estoque de Produto Negativo", CodLogado);
+                    break;
+                case 58:
+                    new Tela_Gerar_Devolucao_Outra().Open_Tela();
                     break;
                 default:
                     Mostrar_Rotina_Nao_Encontrada();
@@ -2486,6 +2516,9 @@ public static Tela_Principal TP;
                     " and (select sum(quantidade_estoque) from lote_estoque where produto.id_produto=lote_estoque.produto_id_produto) < 0 ");
                     new Controle_Log().Registrar_Log("Gerou o relatório de estoque de Produto Negativo", CodLogado);
                     break;
+                case 58:
+                    new Tela_Gerar_Devolucao_Outra().Open_Tela();
+                    break;
                 default:
                     Mostrar_Rotina_Nao_Encontrada();
                     break;  
@@ -2627,6 +2660,8 @@ public static Tela_Principal TP;
         Tela_Relat_Saida_Periodo.Obj=null;
         Tela_Relat_Saida_Num.Obj=null;
         Tela_Relat_Saida_Turma.Obj=null;
+        Tela_Relat_Saida_Disciplina.Obj=null;
+        Tela_Gerar_Devolucao_Outra.Obj=null;
         
         Mostrar_Finalizando_Iniciando();
     } catch (Exception ex) { }    
@@ -2715,6 +2750,12 @@ public static Tela_Principal TP;
         if(obj2.Controla_Devolucao_Pendente ==true){
             Devolucao_Pendente = true;
             obj2.Controla_Devolucao_Pendente =false;
+        }
+        Controle_Saida_Outra obj3 = new Controle_Saida_Outra();
+        obj3.Devolucao_Pendente();
+        if(obj3.Controla_Devolucao_Pendente ==true){
+            Devolucao_Pendente_Outra = true;
+            obj3.Controla_Devolucao_Pendente =false;
         }
     }
     
@@ -2883,6 +2924,7 @@ public static Tela_Principal TP;
     private javax.swing.JMenuItem jMenuItem38;
     private javax.swing.JMenuItem jMenuItem39;
     private javax.swing.JMenuItem jMenuItem4;
+    private javax.swing.JMenuItem jMenuItem40;
     private javax.swing.JMenuItem jMenuItem5;
     private javax.swing.JMenuItem jMenuItem6;
     private javax.swing.JMenuItem jMenuItem7;

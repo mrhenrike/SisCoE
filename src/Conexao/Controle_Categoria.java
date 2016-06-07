@@ -77,7 +77,7 @@ public class Controle_Categoria {
     
     }
     
-     public void Preencher_CB_Categoria(JComboBox jb) {
+    public void Preencher_CB_Categoria(JComboBox jb) {
         try {
             ObjConecta.Conectar();
             ObjConecta.ExecutaSQL2("select * from categoria_produto where situacao = 'ATIVO' order by categoria");
@@ -95,6 +95,20 @@ public class Controle_Categoria {
         jb.addItem("+ ADICIONAR NOVO");
     }
      
+    public void Preencher_CB_Categoria_Sem_Remove(JComboBox jb) {
+        try {
+            ObjConecta.Conectar();
+            ObjConecta.ExecutaSQL2("select * from categoria_produto where situacao = 'ATIVO' order by categoria");
+            ObjConecta.rs.first();
+            do {
+                jb.addItem(ObjConecta.rs.getString("categoria"));                
+            } while (ObjConecta.rs.next());
+            ObjConecta.Desconecta();
+        } catch (SQLException ex) {
+            ObjConecta.Desconecta();
+            //JOptionPane.showMessageDialog(null, "Erro Ao Preencher O ComboBox Categoria!");
+        }
+    }
     public Modelo_Categoria Consulta_Categoria(Modelo_Categoria ObjModeloCategoria, Object id_categoria) throws SQLException{
       
         ObjConecta.Conectar();

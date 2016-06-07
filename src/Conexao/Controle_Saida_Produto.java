@@ -247,7 +247,6 @@ public class Controle_Saida_Produto {
                         ObjModeloSaidaProd.setMedia(resultado); }
                     if (dt > 60) {
                         float resultado = soma / 3;
-                        JOptionPane.showMessageDialog(null, resultado);
                         ObjModeloSaidaProd.setMedia(resultado); }           
                 }else{
                     float resultado = soma / 3;
@@ -897,6 +896,23 @@ public class Controle_Saida_Produto {
             ObjConecta.Desconecta();
         } catch (SQLException ex) {
             Verifica_Intem_Saida = false;
+            ObjConecta.Desconecta();
+        }
+    }
+   
+   public void Consulta_Saida_Outra_Por_Periodo(JDateChooser dt_inicial, JDateChooser dt_final){
+         try {
+            String di = new SimpleDateFormat("yyyy-MM-dd").format(dt_inicial.getDate());
+            String df = new SimpleDateFormat("yyyy-MM-dd").format(dt_final.getDate());
+            
+            ObjConecta.Conectar();
+            ObjConecta.ExecutaSQL("select * from saida_outra where data_saida_outra between '"+di+"' and '"+df+"' and situacao != 'CANCELADA'");
+            ObjConecta.rs.first();
+            int id = ObjConecta.rs.getInt("id_saida_outra");
+            Controle_Saida = true;
+            ObjConecta.Desconecta();
+        } catch (SQLException ex) {
+            Controle_Saida = false;
             ObjConecta.Desconecta();
         }
     }

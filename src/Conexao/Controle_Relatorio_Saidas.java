@@ -20,6 +20,7 @@ import net.sf.jasperreports.view.JasperViewer;
 public class Controle_Relatorio_Saidas {
 
     Conecta_Banco ObjConecta = new Conecta_Banco();
+    String Org = "COOLAB - Coordenação de Laboratórios da Estácio | FCAT";
     
     public void Relatorio_Saida_Prod_Todos(){
         try {
@@ -40,7 +41,7 @@ public class Controle_Relatorio_Saidas {
                 ObjConecta.rs.first();
                 int ContSaidas = ObjConecta.rs.getInt("cont");
 
-                ObjConecta.ExecutaSQL("select *,(select concat(semestre,abrev_curso,turno,ano_turma,'.',semestre_vestibular) as turma "
+                ObjConecta.ExecutaSQL("select *,(select concat(semestre,abrev_curso,turno,ano_turma,'.',semestre_vestibular,' ',turma) as turma "
                         + " from curso inner join turma on curso.id_curso = turma.curso_id_curso where turma.id_turma = saida.turma_id_turma) as turma, "
                         + " (select disciplina from disciplina where id_disciplina = saida.disciplina_id_disciplina) as disciplina, "
                         + " (select count(id_saida_itens) from saida_itens where saida_itens.saida_id_saida = saida.id_saida) as itens "
@@ -52,6 +53,7 @@ public class Controle_Relatorio_Saidas {
                 parametros.put("Quant_Iten", ContItens);
                 parametros.put("Quant_Saida", ContSaidas);
                 parametros.put("Tipo_Relatorio","14 - Todas as Saídas - Último Ano");
+                parametros.put("Organizacao",Org);
                 //Aqui fica o diretorio do arquivo
                 JasperPrint JPrint = JasperFillManager.fillReport("C:\\Program Files (x86)\\SisCoE/Relat_Saidas.jasper",parametros, Relatorio);
                 JasperViewer JView = new JasperViewer(JPrint, false);
@@ -96,6 +98,7 @@ public class Controle_Relatorio_Saidas {
                 parametros.put("Quant_Iten", ContItens);
                 parametros.put("Quant_Saida", ContSaidas);
                 parametros.put("Tipo_Relatorio","15 - Todas as Saídas - Últimos 30 Dias");
+                parametros.put("Organizacao",Org);
                 //Aqui fica o diretorio do arquivo
                 JasperPrint JPrint = JasperFillManager.fillReport("C:\\Program Files (x86)\\SisCoE/Relat_Saidas.jasper",parametros, Relatorio);
                 JasperViewer JView = new JasperViewer(JPrint, false);
@@ -140,6 +143,7 @@ public class Controle_Relatorio_Saidas {
                 parametros.put("Usuario",UserLogado);//Se precisar passar algum parametro, tipo usuario logado
                 parametros.put("Quant_Iten", ContItens);
                 parametros.put("Quant_Saida", ContSaidas);
+                parametros.put("Organizacao",Org);
                 parametros.put("Tipo_Relatorio",tipo_relatorio+periodo);
                 //Aqui fica o diretorio do arquivo
                 JasperPrint JPrint = JasperFillManager.fillReport("C:\\Program Files (x86)\\SisCoE/Relat_Saidas.jasper",parametros, Relatorio);
@@ -186,6 +190,7 @@ public class Controle_Relatorio_Saidas {
                 HashMap parametros = new HashMap();//instancia um hashMap para passar os parametros;
                 parametros.put("Usuario",UserLogado);//Se precisar passar algum parametro, tipo usuario logado
                 parametros.put("Quant_Iten", ContItens);
+                parametros.put("Organizacao",Org);
                 parametros.put("Quant_Saida", ContSaidas);
                 parametros.put("Tipo_Relatorio",tipo_relatorio+periodo);
                 //Aqui fica o diretorio do arquivo
@@ -226,6 +231,7 @@ public class Controle_Relatorio_Saidas {
                 parametros.put("Usuario",UserLogado);//Se precisar passar algum parametro, tipo usuario logado
                 parametros.put("Quant_Iten", ContItens);
                 parametros.put("Quant_Saida", ContSaidas);
+                parametros.put("Organizacao",Org);
                 parametros.put("Tipo_Relatorio","17 - Por Saída - Nº "+id_saida);
                 //Aqui fica o diretorio do arquivo
                 JasperPrint JPrint = JasperFillManager.fillReport("C:\\Program Files (x86)\\SisCoE/Relat_Saidas.jasper",parametros, Relatorio);
@@ -273,6 +279,7 @@ public class Controle_Relatorio_Saidas {
                 HashMap parametros = new HashMap();//instancia um hashMap para passar os parametros;
                 parametros.put("Usuario",UserLogado);//Se precisar passar algum parametro, tipo usuario logado
                 parametros.put("Quant_Iten", ContItens);
+                parametros.put("Organizacao",Org);
                 parametros.put("Quant_Saida", ContSaidas);
                 parametros.put("Tipo_Relatorio","15 - Todas as Saídas Canceladas - Últimos 30 Dias");
                 //Aqui fica o diretorio do arquivo
@@ -325,6 +332,7 @@ public class Controle_Relatorio_Saidas {
                 parametros.put("Usuario",UserLogado);//Se precisar passar algum parametro, tipo usuario logado
                 parametros.put("Quant_Iten", ContItens);
                 parametros.put("Quant_Saida", ContSaidas);
+                parametros.put("Organizacao",Org);
                 parametros.put("Tipo_Relatorio","18 - Por Curso Analítico - Todos Cursos - de "+periodo);
                 //Aqui fica o diretorio do arquivo
                 JasperPrint JPrint = JasperFillManager.fillReport("C:\\Program Files (x86)\\SisCoE/Relat_Saidas_Curso_Analitico.jasper",parametros, Relatorio);
@@ -379,6 +387,7 @@ public class Controle_Relatorio_Saidas {
                 parametros.put("Usuario",UserLogado);//Se precisar passar algum parametro, tipo usuario logado
                 parametros.put("Quant_Iten", ContItens);
                 parametros.put("Quant_Saida", ContSaidas);
+                parametros.put("Organizacao",Org);
                 parametros.put("Tipo_Relatorio","18 - Por Curso Analítico - Selecionado - Período de "+periodo);
                 //Aqui fica o diretorio do arquivo
                 JasperPrint JPrint = JasperFillManager.fillReport("C:\\Program Files (x86)\\SisCoE/Relat_Saidas_Curso_Analitico.jasper",parametros, Relatorio);
@@ -430,6 +439,7 @@ public class Controle_Relatorio_Saidas {
             parametros.put("Usuario", UserLogado);//Se precisar passar algum parametro, tipo usuario logado
             parametros.put("Quant_Iten", ContItens);
             parametros.put("Quant_Saida", ContSaidas);
+            parametros.put("Organizacao",Org);
             parametros.put("Tipo_Relatorio", "18 - Por Curso Sintético - Selecionado - Período de " + periodo);
             //Aqui fica o diretorio do arquivo
             JasperPrint JPrint = JasperFillManager.fillReport("C:\\Program Files (x86)\\SisCoE/Relat_Saidas_Curso_Sintetico.jasper", parametros, Relatorio);
@@ -480,6 +490,7 @@ public class Controle_Relatorio_Saidas {
             HashMap parametros = new HashMap();//instancia um hashMap para passar os parametros;
             parametros.put("Usuario", UserLogado);//Se precisar passar algum parametro, tipo usuario logado
             parametros.put("Quant_Iten", ContItens);
+            parametros.put("Organizacao",Org);
             parametros.put("Quant_Saida", ContSaidas);
             parametros.put("Tipo_Relatorio", "18 - Por Curso Sintético - Todos Cursos - Período de " + periodo);
             //Aqui fica o diretorio do arquivo
@@ -534,6 +545,7 @@ public class Controle_Relatorio_Saidas {
             parametros.put("Usuario", UserLogado);//Se precisar passar algum parametro, tipo usuario logado
             parametros.put("Quant_Iten", ContItens);
             parametros.put("Quant_Saida", ContSaidas);
+            parametros.put("Organizacao",Org);
             parametros.put("Tipo_Relatorio", "19 - Por Turma Sintético - Todas Turma de "+ano+" - de " + periodo);
             //Aqui fica o diretorio do arquivo
             JasperPrint JPrint = JasperFillManager.fillReport("C:\\Program Files (x86)\\SisCoE/Relat_Saidas_Turma_Sintetico.jasper", parametros, Relatorio);
@@ -586,6 +598,7 @@ public class Controle_Relatorio_Saidas {
             parametros.put("Usuario", UserLogado);//Se precisar passar algum parametro, tipo usuario logado
             parametros.put("Quant_Iten", ContItens);
             parametros.put("Quant_Saida", ContSaidas);
+            parametros.put("Organizacao",Org);
             parametros.put("Tipo_Relatorio", "19 - Por Turma Sintético - Todas Turma de "+ano+" - de " + periodo);
             //Aqui fica o diretorio do arquivo
             JasperPrint JPrint = JasperFillManager.fillReport("C:\\Program Files (x86)\\SisCoE/Relat_Saidas_Turma_Sintetico.jasper", parametros, Relatorio);
@@ -638,6 +651,7 @@ public class Controle_Relatorio_Saidas {
             parametros.put("Usuario", UserLogado);//Se precisar passar algum parametro, tipo usuario logado
             parametros.put("Quant_Iten", ContItens);
             parametros.put("Quant_Saida", ContSaidas);
+            parametros.put("Organizacao",Org);
             parametros.put("Tipo_Relatorio", "19 - Por Turma Sintético - Selecionada de "+ano+" - de " + periodo);
             //Aqui fica o diretorio do arquivo
             JasperPrint JPrint = JasperFillManager.fillReport("C:\\Program Files (x86)\\SisCoE/Relat_Saidas_Turma_Sintetico.jasper", parametros, Relatorio);
@@ -693,6 +707,7 @@ public class Controle_Relatorio_Saidas {
             HashMap parametros = new HashMap();//instancia um hashMap para passar os parametros;
             parametros.put("Usuario", UserLogado);//Se precisar passar algum parametro, tipo usuario logado
             parametros.put("Quant_Iten", ContItens);
+            parametros.put("Organizacao",Org);
             parametros.put("Quant_Saida", ContSaidas);
             parametros.put("Tipo_Relatorio", "19 - Por Turma Analítico - Todas Turma de "+ano+" - de " + periodo);
             //Aqui fica o diretorio do arquivo
@@ -748,6 +763,7 @@ public class Controle_Relatorio_Saidas {
             parametros.put("Usuario", UserLogado);//Se precisar passar algum parametro, tipo usuario logado
             parametros.put("Quant_Iten", ContItens);
             parametros.put("Quant_Saida", ContSaidas);
+            parametros.put("Organizacao",Org);
             parametros.put("Tipo_Relatorio", "19 - Por Turma Analítico - Todas Turma de "+ano+" - de " + periodo);
             //Aqui fica o diretorio do arquivo
             JasperPrint JPrint = JasperFillManager.fillReport("C:\\Program Files (x86)\\SisCoE/Relat_Saidas_Turma_Analitico.jasper", parametros, Relatorio);
@@ -803,6 +819,7 @@ public class Controle_Relatorio_Saidas {
             parametros.put("Usuario", UserLogado);//Se precisar passar algum parametro, tipo usuario logado
             parametros.put("Quant_Iten", ContItens);
             parametros.put("Quant_Saida", ContSaidas);
+            parametros.put("Organizacao",Org);
             parametros.put("Tipo_Relatorio", "19 - Por Turma Analítico - Selecionada de "+ano+" - de " + periodo);
             //Aqui fica o diretorio do arquivo
             JasperPrint JPrint = JasperFillManager.fillReport("C:\\Program Files (x86)\\SisCoE/Relat_Saidas_Turma_Analitico.jasper", parametros, Relatorio);
@@ -860,6 +877,7 @@ public class Controle_Relatorio_Saidas {
             parametros.put("Usuario", UserLogado);//Se precisar passar algum parametro, tipo usuario logado
             parametros.put("Quant_Iten", ContItens);
             parametros.put("Quant_Saida", ContSaidas);
+            parametros.put("Organizacao",Org);
             parametros.put("Tipo_Relatorio", "20 - Por Disciplina Analítico - Todas - "+ano+" - de " + periodo);
             //Aqui fica o diretorio do arquivo
             JasperPrint JPrint = JasperFillManager.fillReport("C:\\Program Files (x86)\\SisCoE/Relat_Saidas_Disciplina_Analitico.jasper", parametros, Relatorio);
@@ -914,6 +932,7 @@ public class Controle_Relatorio_Saidas {
             parametros.put("Usuario", UserLogado);//Se precisar passar algum parametro, tipo usuario logado
             parametros.put("Quant_Iten", ContItens);
             parametros.put("Quant_Saida", ContSaidas);
+            parametros.put("Organizacao",Org);
             parametros.put("Tipo_Relatorio", "20 - Por Disciplina Analítico - "+ano+" - de " + periodo);
             //Aqui fica o diretorio do arquivo
             JasperPrint JPrint = JasperFillManager.fillReport("C:\\Program Files (x86)\\SisCoE/Relat_Saidas_Disciplina_Analitico.jasper", parametros, Relatorio);
@@ -943,14 +962,14 @@ public class Controle_Relatorio_Saidas {
                     + " inner join turma on turma.id_turma = saida.turma_id_turma inner join curso on curso.id_curso = turma.curso_id_curso "
                     + " inner join produto on produto.id_produto=saida_itens.produto_id_produto "
                     + " where saida.data_saida between '" + di + "' and '" + df + "' and ano_turma = "+ano+" "+sql_semestre+" "
-                    + " and saida.situacao != 'CANCELADA' and nome_curso = '"+curso+" ' and id_turma="+id_disciplina);
+                    + " and saida.situacao != 'CANCELADA' and nome_curso = '"+curso+" ' and saida.disciplina_id_disciplina="+id_disciplina);
             ObjConecta.rs.first();
             int ContItens = ObjConecta.rs.getInt("cont");
                   
             ObjConecta.ExecutaSQL("select count(distinct id_saida) as cont "
                     + " from saida inner join turma on turma.id_turma = saida.turma_id_turma inner join curso on curso.id_curso = turma.curso_id_curso "
                     + " where saida.data_saida between '" + di + "' and '" + df + "' and ano_turma = "+ano+" "+sql_semestre+" "
-                    + " and saida.situacao != 'CANCELADA' and nome_curso = '"+curso+" ' and id_turma="+id_disciplina);
+                    + " and saida.situacao != 'CANCELADA' and nome_curso = '"+curso+" ' and saida.disciplina_id_disciplina="+id_disciplina);
             
             ObjConecta.rs.first();
             
@@ -969,6 +988,7 @@ public class Controle_Relatorio_Saidas {
             parametros.put("Usuario", UserLogado);//Se precisar passar algum parametro, tipo usuario logado
             parametros.put("Quant_Iten", ContItens);
             parametros.put("Quant_Saida", ContSaidas);
+            parametros.put("Organizacao",Org);
             parametros.put("Tipo_Relatorio", "20 - Por Disciplina Analítico - Selecionada - "+ano+" - de " + periodo);
             //Aqui fica o diretorio do arquivo
             JasperPrint JPrint = JasperFillManager.fillReport("C:\\Program Files (x86)\\SisCoE/Relat_Saidas_Disciplina_Analitico.jasper", parametros, Relatorio);
@@ -1012,20 +1032,21 @@ public class Controle_Relatorio_Saidas {
             ObjConecta.rs.first();
             int ContSaidas = ObjConecta.rs.getInt("cont");
 
-            ObjConecta.ExecutaSQL("select *,(select concat(semestre,abrev_curso,turno,ano_turma,'.',semestre_vestibular,' ',turma) as turma "
+            ObjConecta.ExecutaSQL("select distinct *,(select concat(semestre,abrev_curso,turno,ano_turma,'.',semestre_vestibular,' ',turma) as turma "
                     + " from curso inner join turma on curso.id_curso = turma.curso_id_curso where turma.id_turma = saida.turma_id_turma) as turmas, "
                     + " (select disciplina from disciplina where id_disciplina = saida.disciplina_id_disciplina) as disciplina, "
                     + " (select count(id_saida_itens) from saida_itens where saida_itens.saida_id_saida = saida.id_saida) as itens "
                     + " from saida inner join saida_itens on saida.id_saida=saida_itens.saida_id_saida inner join produto on produto.id_produto=saida_itens.produto_id_produto "
                     + " inner join turma on turma.id_turma = saida.turma_id_turma inner join curso on curso.id_curso = turma.curso_id_curso "
                     + " where saida.data_saida between '" + di + "' and '" + df + "' and ano_turma = "+ano+" "+sql_semestre+" "
-                    + " and saida.situacao != 'CANCELADA'  order by nome_curso, semestre, id_saida desc, produto.descricao");
+                    + " and saida.situacao != 'CANCELADA' order by id_saida desc,nome_curso, semestre, produto.descricao");
                         
             JRResultSetDataSource Relatorio = new JRResultSetDataSource(ObjConecta.rs);
             HashMap parametros = new HashMap();//instancia um hashMap para passar os parametros;
             parametros.put("Usuario", UserLogado);//Se precisar passar algum parametro, tipo usuario logado
             parametros.put("Quant_Iten", ContItens);
             parametros.put("Quant_Saida", ContSaidas);
+            parametros.put("Organizacao",Org);
             parametros.put("Tipo_Relatorio", "20 - Por Disciplina Sintético - Todas - "+ano+" - de " + periodo);
             //Aqui fica o diretorio do arquivo
             JasperPrint JPrint = JasperFillManager.fillReport("C:\\Program Files (x86)\\SisCoE/Relat_Saidas_Disciplina_Sintetico.jasper", parametros, Relatorio);
@@ -1080,6 +1101,7 @@ public class Controle_Relatorio_Saidas {
             parametros.put("Usuario", UserLogado);//Se precisar passar algum parametro, tipo usuario logado
             parametros.put("Quant_Iten", ContItens);
             parametros.put("Quant_Saida", ContSaidas);
+            parametros.put("Organizacao",Org);
             parametros.put("Tipo_Relatorio", "20 - Por Disciplina Sintético - "+ano+" - de " + periodo);
             //Aqui fica o diretorio do arquivo
             JasperPrint JPrint = JasperFillManager.fillReport("C:\\Program Files (x86)\\SisCoE/Relat_Saidas_Disciplina_Sintetico.jasper", parametros, Relatorio);
@@ -1109,7 +1131,7 @@ public class Controle_Relatorio_Saidas {
                     + " inner join turma on turma.id_turma = saida.turma_id_turma inner join curso on curso.id_curso = turma.curso_id_curso "
                     + " inner join produto on produto.id_produto=saida_itens.produto_id_produto "
                     + " where saida.data_saida between '" + di + "' and '" + df + "' and ano_turma = "+ano+" "+sql_semestre+" "
-                    + " and saida.situacao != 'CANCELADA' and nome_curso = '"+curso+" ' saida.disciplina_id_disciplina = "+id_disciplina);
+                    + " and saida.situacao != 'CANCELADA' and nome_curso = '"+curso+" ' and saida.disciplina_id_disciplina = "+id_disciplina);
             ObjConecta.rs.first();
             int ContItens = ObjConecta.rs.getInt("cont");
                   
@@ -1122,19 +1144,21 @@ public class Controle_Relatorio_Saidas {
             
             int ContSaidas = ObjConecta.rs.getInt("cont");
 
-            ObjConecta.ExecutaSQL("select *,(select concat(semestre,abrev_curso,turno,ano_turma,'.',semestre_vestibular,' ',turma) as turma "
+            ObjConecta.ExecutaSQL("select distinct*,(select concat(semestre,abrev_curso,turno,ano_turma,'.',semestre_vestibular,' ',turma) as turma "
                     + " from curso inner join turma on curso.id_curso = turma.curso_id_curso where turma.id_turma = saida.turma_id_turma) as turmas, "
                     + " (select disciplina from disciplina where id_disciplina = saida.disciplina_id_disciplina) as disciplina, "
-                    + " (select count(id_saida_itens) from saida_itens where saida_itens.saida_id_saida = saida.id_saida) as itens "
+                    + " (select count(id_saida_itens) from saida_itens where saida_itens.saida_id_saida = saida.id_saida ) as itens "
                     + " from saida inner join saida_itens on saida.id_saida=saida_itens.saida_id_saida inner join produto on produto.id_produto=saida_itens.produto_id_produto "
                     + " inner join turma on turma.id_turma = saida.turma_id_turma inner join curso on curso.id_curso = turma.curso_id_curso "
                     + " where saida.data_saida between '" + di + "' and '" + df + "' and ano_turma = "+ano+" "+sql_semestre+" "
-                    + " and saida.situacao != 'CANCELADA' and nome_curso = '"+curso+" ' and saida.disciplina_id_disciplina = "+id_disciplina+ "  order by nome_curso, turmas, id_saida desc, produto.descricao");
+                    + " and saida.situacao != 'CANCELADA' and nome_curso = '"+curso+" ' and saida.disciplina_id_disciplina = "+id_disciplina+ "  "
+                    + " group by id_saida desc");
             JRResultSetDataSource Relatorio = new JRResultSetDataSource(ObjConecta.rs);
             HashMap parametros = new HashMap();//instancia um hashMap para passar os parametros;
             parametros.put("Usuario", UserLogado);//Se precisar passar algum parametro, tipo usuario logado
             parametros.put("Quant_Iten", ContItens);
             parametros.put("Quant_Saida", ContSaidas);
+            parametros.put("Organizacao",Org);
             parametros.put("Tipo_Relatorio", "19 - Por Disciplina Sintético - Selecionada - "+ano+" - de " + periodo);
             //Aqui fica o diretorio do arquivo
             JasperPrint JPrint = JasperFillManager.fillReport("C:\\Program Files (x86)\\SisCoE/Relat_Saidas_Disciplina_Sintetico.jasper", parametros, Relatorio);
@@ -1147,5 +1171,46 @@ public class Controle_Relatorio_Saidas {
             ObjConecta.Desconecta();
             JOptionPane.showMessageDialog(null, "Erro ao gerar o relatório: " + ex);
         }
+    }
+    
+    public void Relatorio_Saida_Outras_Periodo(String tipo_relatorio, JDateChooser dinicial,JDateChooser dfinal){
+        try {
+                String di = new SimpleDateFormat("yyyy-MM-dd").format(dinicial.getDate());
+                String dti = new SimpleDateFormat("dd-MM-yyyy").format(dinicial.getDate());
+                String df = new SimpleDateFormat("yyyy-MM-dd").format(dfinal.getDate());
+                String dtf = new SimpleDateFormat("dd-MM-yyyy").format(dfinal.getDate());
+                String periodo = dti+" até "+dtf;
+                
+                ObjConecta.Conectar();//abre a conexão
+                //Conta os itens;
+                ObjConecta.ExecutaSQL("select count(id_saida_outra) as cont, count(distinct id_saida_outra) as cont_itens from saida_outra inner join saida_itens_outra on id_saida_outra = saida_outra_id_saida_outra "
+                        + " inner join produto on produto.id_produto = saida_itens_outra.produto_id_produto "
+                        + " where data_saida_outra between '" + di + "' and '" + df + "' order by id_saida_outra desc, produto.descricao");
+                ObjConecta.rs.first();
+                int ContItens = ObjConecta.rs.getInt("cont");
+                int ContSaidas = ObjConecta.rs.getInt("cont_itens");
+
+                ObjConecta.ExecutaSQL("select * from saida_outra inner join saida_itens_outra on id_saida_outra = saida_outra_id_saida_outra "
+                        + " inner join produto on produto.id_produto = saida_itens_outra.produto_id_produto "
+                        + " where data_saida_outra between '" + di + "' and '" + df + "' order by id_saida_outra desc, produto.descricao");
+                
+                JRResultSetDataSource Relatorio = new JRResultSetDataSource(ObjConecta.rs);               
+                HashMap parametros = new HashMap();//instancia um hashMap para passar os parametros;
+                parametros.put("Usuario",UserLogado);//Se precisar passar algum parametro, tipo usuario logado
+                parametros.put("Quant_Iten", ContItens);
+                parametros.put("Quant_Saida", ContSaidas);
+                parametros.put("Organizacao",Org);
+                parametros.put("Tipo_Relatorio",tipo_relatorio+periodo);
+                //Aqui fica o diretorio do arquivo
+                JasperPrint JPrint = JasperFillManager.fillReport("C:\\Program Files (x86)\\SisCoE/Relat_Saidas_Outras.jasper",parametros, Relatorio);
+                JasperViewer JView = new JasperViewer(JPrint, false);
+                JView.setVisible(true);//Seta visivel                
+                JView.setTitle("Relatório De Saída");//Colocar titulo na janela
+                JView.setIconImage(new ImageIcon(getClass().getResource("/Icones_Gerais/Serviço 24x24.png")).getImage()); //Colocar icone na janela
+                ObjConecta.Desconecta();//fecha a conexão
+            } catch (SQLException | JRException ex) {
+                ObjConecta.Desconecta();
+                JOptionPane.showMessageDialog(null,"Erro ao gerar o relatório: "+ex);
+            }
     }
 }

@@ -1122,6 +1122,7 @@ public class Tela_Entrada_Produto extends javax.swing.JInternalFrame {
             JRB_Data.setEnabled(true);
             JRB_Quant_Dias.setEnabled(true);
             JRB_Quant_Dias.setSelected(true);
+            ObjControlEnt.ControlaLote = false;
         } else {
             JTF_Lote.setEnabled(false);
             JTF_Data_Validade.setEnabled(false);
@@ -1129,6 +1130,7 @@ public class Tela_Entrada_Produto extends javax.swing.JInternalFrame {
             JTF_Quant_Dias.setEnabled(false);
             JRB_Data.setEnabled(false);
             JRB_Quant_Dias.setEnabled(false);
+            ObjControlEnt.ControlaLote = false;
         }
     }
     

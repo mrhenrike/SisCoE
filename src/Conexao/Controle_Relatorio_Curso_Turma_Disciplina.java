@@ -17,6 +17,7 @@ import net.sf.jasperreports.view.JasperViewer;
 public class Controle_Relatorio_Curso_Turma_Disciplina {
     
     Conecta_Banco ObjConecta = new Conecta_Banco();
+    String Org = "COOLAB - Coordenação de Laboratórios da Estácio | FCAT";
     
     public void Relatorio_Disciplina_Todas(){
         try {
@@ -38,6 +39,7 @@ public class Controle_Relatorio_Curso_Turma_Disciplina {
             HashMap parametros = new HashMap();
             parametros.put("Tipo_Relatorio","Todas Disciplinas Por Curso");
             parametros.put("Usuario",UserLogado);
+            parametros.put("Organizacao",Org);
             parametros.put("Quant_Itens",Cont);
             parametros.put("Quant_Disciplinas",Cont_Disciplina);
             JasperPrint JPrint = JasperFillManager.fillReport("C:\\Program Files (x86)\\SisCoE/Relat_Curso_Disciplinas.jasper",parametros, Relatorio);
@@ -75,6 +77,7 @@ public class Controle_Relatorio_Curso_Turma_Disciplina {
             HashMap parametros = new HashMap();
             parametros.put("Tipo_Relatorio","Todas Disciplinas Por Curso Selecionado");
             parametros.put("Usuario",UserLogado);
+            parametros.put("Organizacao",Org);
             parametros.put("Quant_Itens",Cont);
             parametros.put("Quant_Disciplinas",Cont_Disciplina);
             JasperPrint JPrint = JasperFillManager.fillReport("C:\\Program Files (x86)\\SisCoE/Relat_Curso_Disciplinas.jasper",parametros, Relatorio);
@@ -113,6 +116,7 @@ public class Controle_Relatorio_Curso_Turma_Disciplina {
             HashMap parametros = new HashMap();
             parametros.put("Tipo_Relatorio","Todas Disciplinas Por Curso E Semestre");
             parametros.put("Usuario",UserLogado);
+            parametros.put("Organizacao",Org);
             parametros.put("Quant_Itens",Cont);
             parametros.put("Quant_Disciplinas",Cont_Disciplina);
             JasperPrint JPrint = JasperFillManager.fillReport("C:\\Program Files (x86)\\SisCoE/Relat_Curso_Disciplinas_Semestre.jasper",parametros, Relatorio);
@@ -150,6 +154,7 @@ public class Controle_Relatorio_Curso_Turma_Disciplina {
             JRResultSetDataSource Relatorio = new JRResultSetDataSource(ObjConecta.rs);
             HashMap parametros = new HashMap();
             parametros.put("Tipo_Relatorio","Todas Disciplinas Por Curso Selecionado E Semestre");
+            parametros.put("Organizacao",Org);
             parametros.put("Usuario",UserLogado);
             parametros.put("Quant_Itens",Cont);
             parametros.put("Quant_Disciplinas",Cont_Disciplina);
@@ -182,6 +187,7 @@ public class Controle_Relatorio_Curso_Turma_Disciplina {
             JRResultSetDataSource Relatorio = new JRResultSetDataSource(ObjConecta.rs);
             HashMap parametros = new HashMap();
             parametros.put("Tipo_Relatorio","Todos Os Curso Ativos");
+            parametros.put("Organizacao",Org);
             parametros.put("Usuario",UserLogado);
             parametros.put("Quant_Itens",Cont);
             JasperPrint JPrint = JasperFillManager.fillReport("C:\\Program Files (x86)\\SisCoE/Relat_Curso.jasper",parametros, Relatorio);
@@ -223,6 +229,7 @@ public class Controle_Relatorio_Curso_Turma_Disciplina {
             HashMap parametros = new HashMap();
             parametros.put("Tipo_Relatorio","Todas As Turma Por Curso No Ano De "+ano);
             parametros.put("Usuario",UserLogado);
+            parametros.put("Organizacao",Org);
             parametros.put("Quant_Itens",Cont);
             parametros.put("Quant_Turmas",Cont_Turma);
             JasperPrint JPrint = JasperFillManager.fillReport("C:\\Program Files (x86)\\SisCoE/Relat_Curso_Turmas.jasper",parametros, Relatorio);
@@ -262,6 +269,7 @@ public class Controle_Relatorio_Curso_Turma_Disciplina {
             HashMap parametros = new HashMap();
             parametros.put("Tipo_Relatorio","Todas As Turma Por Curso Selecionado No Ano De "+ano);
             parametros.put("Usuario",UserLogado);
+            parametros.put("Organizacao",Org);
             parametros.put("Quant_Itens",Cont);
             parametros.put("Quant_Turmas",Cont_Turma);
             JasperPrint JPrint = JasperFillManager.fillReport("C:\\Program Files (x86)\\SisCoE/Relat_Curso_Turmas.jasper",parametros, Relatorio);
@@ -307,6 +315,7 @@ public class Controle_Relatorio_Curso_Turma_Disciplina {
             HashMap parametros = new HashMap();
             parametros.put("Tipo_Relatorio","Todas As Turma Com Disciplina Por Curso No Ano De "+ano);
             parametros.put("Usuario",UserLogado);
+            parametros.put("Organizacao",Org);
             parametros.put("Quant_Itens",Cont);
             parametros.put("Quant_Disciplinas",Cont_Turma);
             JasperPrint JPrint = JasperFillManager.fillReport("C:\\Program Files (x86)\\SisCoE/Relat_Curso_Disciplinas_Turmas.jasper",parametros, Relatorio);
@@ -352,6 +361,7 @@ public class Controle_Relatorio_Curso_Turma_Disciplina {
             HashMap parametros = new HashMap();
             parametros.put("Tipo_Relatorio","Todas As Turma Com Disciplina Por Curso Selecionado No Ano De "+ano);
             parametros.put("Usuario",UserLogado);
+            parametros.put("Organizacao",Org);
             parametros.put("Quant_Itens",Cont);
             parametros.put("Quant_Disciplinas",Cont_Turma);
             JasperPrint JPrint = JasperFillManager.fillReport("C:\\Program Files (x86)\\SisCoE/Relat_Curso_Disciplinas_Turmas.jasper",parametros, Relatorio);

@@ -22,6 +22,9 @@
 	<parameter name="Quant_Categorias" class="java.lang.Integer">
 		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
 	</parameter>
+	<parameter name="Organizacao" class="java.lang.String">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
 	<queryString>
 		<![CDATA[select*from categoria_produto inner join produto  on categoria_produto.id_categoria = produto.Categoria_Produto_id_categoria where produto.situacao ='Ativo'  order by categoria, descricao]]>
 	</queryString>
@@ -243,13 +246,6 @@
 	</background>
 	<title>
 		<band height="106" splitType="Stretch">
-			<staticText>
-				<reportElement x="-1" y="35" width="312" height="18" uuid="a38de211-d78d-4290-bf17-c810720df09a"/>
-				<textElement>
-					<font fontName="Tahoma" size="14"/>
-				</textElement>
-				<text><![CDATA[CooLab - Coordenação de Laboratórios da FCAT]]></text>
-			</staticText>
 			<textField pattern="dd &apos;de&apos; MMMMM &apos;de&apos; yyyy &apos;às&apos; HH:mm:ss">
 				<reportElement x="99" y="53" width="212" height="16" uuid="e32247cb-d170-4da5-8edc-57e7ede06188"/>
 				<textElement verticalAlignment="Middle">
@@ -301,6 +297,13 @@
 					<font fontName="Tahoma"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$P{Usuario}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="-1" y="33" width="465" height="20" uuid="758cb9ca-6cae-4214-8a8a-f81d2bcfa1c2"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Tahoma" size="14"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{Organizacao}]]></textFieldExpression>
 			</textField>
 		</band>
 	</title>

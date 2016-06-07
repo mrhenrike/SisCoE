@@ -156,7 +156,6 @@ public static Tela_Principal TP;
         JTF_Rotina = new javax.swing.JTextField();
         JL_Start = new javax.swing.JLabel();
         Area_Trabalho_Pricinpal = new javax.swing.JDesktopPane();
-        JL_Logo_Fcat = new javax.swing.JLabel();
         JL_Logo_Estacio = new javax.swing.JLabel();
         JL_Logo_ADS = new javax.swing.JLabel();
         JL_Logo_Coolab2 = new javax.swing.JLabel();
@@ -225,6 +224,13 @@ public static Tela_Principal TP;
         jMenu6 = new javax.swing.JMenu();
         jMenuItem16 = new javax.swing.JMenuItem();
         jMenuItem17 = new javax.swing.JMenuItem();
+        jMenu18 = new javax.swing.JMenu();
+        jMenuItem42 = new javax.swing.JMenuItem();
+        jMenuItem45 = new javax.swing.JMenuItem();
+        jMenu19 = new javax.swing.JMenu();
+        jMenuItem46 = new javax.swing.JMenuItem();
+        jMenuItem48 = new javax.swing.JMenuItem();
+        jMenuItem47 = new javax.swing.JMenuItem();
         jSeparator8 = new javax.swing.JPopupMenu.Separator();
         Relat_Usuario = new javax.swing.JMenuItem();
         jSeparator6 = new javax.swing.JPopupMenu.Separator();
@@ -287,7 +293,7 @@ public static Tela_Principal TP;
         Aj_Sobre = new javax.swing.JMenuItem();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        setTitle("COOLAB - Coordenação de Laboratórios da FCAT");
+        setTitle("SisCoE - Sistema De Controle De Estoque - COOLAB - Coordenação De Laboratórios Da Estácio | FCAT");
         setFont(new java.awt.Font("Arial", 0, 10)); // NOI18N
         setMinimumSize(new java.awt.Dimension(1366, 768));
         setName("Menu Principal"); // NOI18N
@@ -409,10 +415,8 @@ public static Tela_Principal TP;
         Area_Trabalho_Pricinpal.setMinimumSize(new java.awt.Dimension(1000, 0));
         Area_Trabalho_Pricinpal.setPreferredSize(new java.awt.Dimension(1000, 610));
 
-        JL_Logo_Fcat.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icones_Gerais/fcat.png"))); // NOI18N
-
         JL_Logo_Estacio.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        JL_Logo_Estacio.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icones_Gerais/Logo Estacio 250 x 100.png"))); // NOI18N
+        JL_Logo_Estacio.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icones_Gerais/Estacio - Fcat 100.png"))); // NOI18N
         JL_Logo_Estacio.setAlignmentY(0.0F);
         JL_Logo_Estacio.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
 
@@ -432,18 +436,16 @@ public static Tela_Principal TP;
         Area_Trabalho_Pricinpal.setLayout(Area_Trabalho_PricinpalLayout);
         Area_Trabalho_PricinpalLayout.setHorizontalGroup(
             Area_Trabalho_PricinpalLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, Area_Trabalho_PricinpalLayout.createSequentialGroup()
-                .addGroup(Area_Trabalho_PricinpalLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jLabel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addGroup(Area_Trabalho_PricinpalLayout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(Area_Trabalho_PricinpalLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(Area_Trabalho_PricinpalLayout.createSequentialGroup()
-                        .addContainerGap()
                         .addComponent(JL_Logo_ADS, javax.swing.GroupLayout.PREFERRED_SIZE, 264, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(36, 36, 36)
-                        .addComponent(JL_Logo_Coolab2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addGap(32, 32, 32)
-                        .addComponent(JL_Logo_Estacio, javax.swing.GroupLayout.DEFAULT_SIZE, 254, Short.MAX_VALUE)
-                        .addGap(16, 16, 16)
-                        .addComponent(JL_Logo_Fcat)))
+                        .addGap(18, 18, 18)
+                        .addComponent(JL_Logo_Estacio, javax.swing.GroupLayout.DEFAULT_SIZE, 520, Short.MAX_VALUE)
+                        .addGap(40, 40, 40)
+                        .addComponent(JL_Logo_Coolab2, javax.swing.GroupLayout.PREFERRED_SIZE, 260, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jLabel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
         );
         Area_Trabalho_PricinpalLayout.setVerticalGroup(
@@ -452,13 +454,11 @@ public static Tela_Principal TP;
                 .addComponent(jLabel4)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(Area_Trabalho_PricinpalLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(JL_Logo_Fcat)
                     .addComponent(JL_Logo_Estacio)
                     .addComponent(JL_Logo_ADS)
                     .addComponent(JL_Logo_Coolab2))
                 .addGap(39, 39, 39))
         );
-        Area_Trabalho_Pricinpal.setLayer(JL_Logo_Fcat, javax.swing.JLayeredPane.DEFAULT_LAYER);
         Area_Trabalho_Pricinpal.setLayer(JL_Logo_Estacio, javax.swing.JLayeredPane.DEFAULT_LAYER);
         Area_Trabalho_Pricinpal.setLayer(JL_Logo_ADS, javax.swing.JLayeredPane.DEFAULT_LAYER);
         Area_Trabalho_Pricinpal.setLayer(JL_Logo_Coolab2, javax.swing.JLayeredPane.DEFAULT_LAYER);
@@ -996,6 +996,11 @@ public static Tela_Principal TP;
         jMenuItem15.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_S, java.awt.event.InputEvent.ALT_MASK | java.awt.event.InputEvent.CTRL_MASK));
         jMenuItem15.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         jMenuItem15.setText("Saída Por Período");
+        jMenuItem15.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem15ActionPerformed(evt);
+            }
+        });
         jMenu2.add(jMenuItem15);
 
         jMenu6.setText("Por Categoria");
@@ -1020,6 +1025,61 @@ public static Tela_Principal TP;
         jMenu6.add(jMenuItem17);
 
         jMenu2.add(jMenu6);
+
+        jMenu18.setText("Movimentação");
+        jMenu18.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+
+        jMenuItem42.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        jMenuItem42.setText("Todos Produtos");
+        jMenuItem42.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem42ActionPerformed(evt);
+            }
+        });
+        jMenu18.add(jMenuItem42);
+
+        jMenuItem45.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        jMenuItem45.setText("Por Categoria");
+        jMenuItem45.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem45ActionPerformed(evt);
+            }
+        });
+        jMenu18.add(jMenuItem45);
+
+        jMenu19.setText("Saída");
+        jMenu19.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+
+        jMenuItem46.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        jMenuItem46.setText("Por Curso");
+        jMenuItem46.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem46ActionPerformed(evt);
+            }
+        });
+        jMenu19.add(jMenuItem46);
+
+        jMenuItem48.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        jMenuItem48.setText("Por Disciplina");
+        jMenuItem48.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem48ActionPerformed(evt);
+            }
+        });
+        jMenu19.add(jMenuItem48);
+
+        jMenuItem47.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        jMenuItem47.setText("Por Turma");
+        jMenuItem47.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem47ActionPerformed(evt);
+            }
+        });
+        jMenu19.add(jMenuItem47);
+
+        jMenu18.add(jMenu19);
+
+        jMenu2.add(jMenu18);
 
         MP_Relatorio.add(jMenu2);
         MP_Relatorio.add(jSeparator8);
@@ -2077,6 +2137,30 @@ public static Tela_Principal TP;
         new Tela_Gerar_Devolucao_Outra().Open_Tela();
     }//GEN-LAST:event_jMenuItem40ActionPerformed
 
+    private void jMenuItem15ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem15ActionPerformed
+        new Tela_Relat_Produto_Saida_Periodo().Open_Tela();
+    }//GEN-LAST:event_jMenuItem15ActionPerformed
+
+    private void jMenuItem42ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem42ActionPerformed
+        new Tela_Relat_Mov_Prod_Periodo().Open_Tela();
+    }//GEN-LAST:event_jMenuItem42ActionPerformed
+
+    private void jMenuItem45ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem45ActionPerformed
+        new Tela_Relat_Mov_Prod_Periodo_Categoria().Open_Tela();
+    }//GEN-LAST:event_jMenuItem45ActionPerformed
+
+    private void jMenuItem46ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem46ActionPerformed
+        new Tela_Relat_Mov_Prod_Saida_Curso().Open_Tela();
+    }//GEN-LAST:event_jMenuItem46ActionPerformed
+
+    private void jMenuItem47ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem47ActionPerformed
+        new Tela_Relat_Mov_Prod_Saida_Turma().Open_Tela();
+    }//GEN-LAST:event_jMenuItem47ActionPerformed
+
+    private void jMenuItem48ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem48ActionPerformed
+        new Tela_Relat_Mov_Prod_Saida_Disciplina().Open_Tela();
+    }//GEN-LAST:event_jMenuItem48ActionPerformed
+
     void Rotina_Adm(){
         if(JTF_Rotina.getText().equalsIgnoreCase("")){
         }
@@ -2149,7 +2233,7 @@ public static Tela_Principal TP;
                     new Tela_Relat_Saida_Turma().Open_Tela();
                     break;    
                 case 20:
-                    
+                    new Tela_Relat_Saida_Disciplina().Open_Tela();
                     break;    
                 case 21:
                     new Controle_Relatorio_Produto().Relatorio_Produto_Estoque_Analitico();
@@ -2208,7 +2292,7 @@ public static Tela_Principal TP;
                     new Tela_Relat_Produto_Ent_Periodo().Open_Tela();
                     break;
                 case 34:
-
+                    new Tela_Relat_Produto_Saida_Periodo().Open_Tela();
                     break;
                 case 35:
                     new Controle_Relatorio_Produto().Relatorio_Produto_Categoria_Todas();
@@ -2293,6 +2377,21 @@ public static Tela_Principal TP;
                 case 58:
                     new Tela_Gerar_Devolucao_Outra().Open_Tela();
                     break;
+                case 59:
+                    new Tela_Relat_Mov_Prod_Periodo().Open_Tela();
+                    break;
+                case 60:
+                    new Tela_Relat_Mov_Prod_Periodo_Categoria().Open_Tela();
+                    break;
+                case 61:
+                    new Tela_Relat_Mov_Prod_Saida_Curso().Open_Tela();
+                    break;
+                case 62:
+                    new Tela_Relat_Mov_Prod_Saida_Turma().Open_Tela();
+                    break;
+                case 63:
+                    new Tela_Relat_Mov_Prod_Saida_Disciplina().Open_Tela();
+                    break;
                 default:
                     Mostrar_Rotina_Nao_Encontrada();
                     break;  
@@ -2374,7 +2473,7 @@ public static Tela_Principal TP;
                     new Tela_Relat_Saida_Turma().Open_Tela();
                     break;    
                 case 20:
-                    
+                    new Tela_Relat_Saida_Disciplina().Open_Tela();
                     break;    
                 case 21:
                     new Controle_Relatorio_Produto().Relatorio_Produto_Estoque_Analitico();
@@ -2434,7 +2533,7 @@ public static Tela_Principal TP;
                     new Tela_Relat_Produto_Ent_Periodo().Open_Tela();
                     break;
                 case 34:
-
+                    new Tela_Relat_Produto_Saida_Periodo().Open_Tela();
                     break;
                 case 35:
                     new Controle_Relatorio_Produto().Relatorio_Produto_Categoria_Todas();
@@ -2518,6 +2617,21 @@ public static Tela_Principal TP;
                     break;
                 case 58:
                     new Tela_Gerar_Devolucao_Outra().Open_Tela();
+                    break;
+                case 59:
+                    new Tela_Relat_Mov_Prod_Periodo().Open_Tela();
+                    break;
+                case 60:
+                    new Tela_Relat_Mov_Prod_Periodo_Categoria().Open_Tela();
+                    break;
+                case 61:
+                    new Tela_Relat_Mov_Prod_Saida_Curso().Open_Tela();
+                    break;
+                case 62:
+                    new Tela_Relat_Mov_Prod_Saida_Turma().Open_Tela();
+                    break;
+                case 63:
+                    new Tela_Relat_Mov_Prod_Saida_Disciplina().Open_Tela();
                     break;
                 default:
                     Mostrar_Rotina_Nao_Encontrada();
@@ -2662,6 +2776,12 @@ public static Tela_Principal TP;
         Tela_Relat_Saida_Turma.Obj=null;
         Tela_Relat_Saida_Disciplina.Obj=null;
         Tela_Gerar_Devolucao_Outra.Obj=null;
+        Tela_Relat_Produto_Saida_Periodo.Obj=null;
+        Tela_Relat_Mov_Prod_Periodo.Obj=null;
+        Tela_Relat_Mov_Prod_Periodo_Categoria.Obj=null;
+        Tela_Relat_Mov_Prod_Saida_Curso.Obj=null;
+        Tela_Relat_Mov_Prod_Saida_Turma.Obj=null;
+        Tela_Relat_Mov_Prod_Saida_Disciplina.Obj=null;
         
         Mostrar_Finalizando_Iniciando();
     } catch (Exception ex) { }    
@@ -2840,7 +2960,6 @@ public static Tela_Principal TP;
     private javax.swing.JLabel JL_Logo_ADS;
     private javax.swing.JLabel JL_Logo_Coolab2;
     private javax.swing.JLabel JL_Logo_Estacio;
-    private javax.swing.JLabel JL_Logo_Fcat;
     public javax.swing.JLabel JL_Permissao;
     private javax.swing.JLabel JL_Start;
     public javax.swing.JLabel JL_Usuario;
@@ -2883,6 +3002,8 @@ public static Tela_Principal TP;
     private javax.swing.JMenu jMenu15;
     private javax.swing.JMenu jMenu16;
     private javax.swing.JMenu jMenu17;
+    private javax.swing.JMenu jMenu18;
+    private javax.swing.JMenu jMenu19;
     private javax.swing.JMenu jMenu2;
     private javax.swing.JMenu jMenu3;
     private javax.swing.JMenu jMenu4;
@@ -2925,6 +3046,11 @@ public static Tela_Principal TP;
     private javax.swing.JMenuItem jMenuItem39;
     private javax.swing.JMenuItem jMenuItem4;
     private javax.swing.JMenuItem jMenuItem40;
+    private javax.swing.JMenuItem jMenuItem42;
+    private javax.swing.JMenuItem jMenuItem45;
+    private javax.swing.JMenuItem jMenuItem46;
+    private javax.swing.JMenuItem jMenuItem47;
+    private javax.swing.JMenuItem jMenuItem48;
     private javax.swing.JMenuItem jMenuItem5;
     private javax.swing.JMenuItem jMenuItem6;
     private javax.swing.JMenuItem jMenuItem7;

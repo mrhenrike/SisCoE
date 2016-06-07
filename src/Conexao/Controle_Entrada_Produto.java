@@ -296,6 +296,7 @@ public void Controla_Lote(int id_prod){
             ObjConecta.Desconecta();
                        
         } catch (SQLException ex) {
+            ControlaLote = false;
             JOptionPane.showMessageDialog(null,"Erro ao procurar o controle de estoque do produto no banco! \n"
                     +ex,"Informação Do Banco De Dados",JOptionPane.INFORMATION_MESSAGE);
             ObjConecta.Desconecta();

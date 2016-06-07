@@ -2,7 +2,6 @@ package GUI_Dialogs_Principal;
 
 // @author Márison Tamiarana
 
-import Conexao.Controle_Log;
 import GUI_Frames.Tela_Login;
 import GUI_Frames.Tela_Principal;
 
@@ -35,6 +34,14 @@ public class Logoff_Login extends javax.swing.JDialog {
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Confirmação De Logoff");
         setUndecorated(true);
+        addWindowListener(new java.awt.event.WindowAdapter() {
+            public void windowClosed(java.awt.event.WindowEvent evt) {
+                formWindowClosed(evt);
+            }
+            public void windowClosing(java.awt.event.WindowEvent evt) {
+                formWindowClosing(evt);
+            }
+        });
 
         jLabel1.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         jLabel1.setText("Tem certeza que deseja sair do sistema?");
@@ -122,6 +129,16 @@ public class Logoff_Login extends javax.swing.JDialog {
         
     }//GEN-LAST:event_JB_SimActionPerformed
 
+    private void formWindowClosed(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosed
+        ObjTP.setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
+        dispose();
+    }//GEN-LAST:event_formWindowClosed
+
+    private void formWindowClosing(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosing
+        ObjTP.setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
+        dispose();
+    }//GEN-LAST:event_formWindowClosing
+
     /**
      * @param args the command line arguments
      */
@@ -157,7 +174,7 @@ public class Logoff_Login extends javax.swing.JDialog {
                 dialog.addWindowListener(new java.awt.event.WindowAdapter() {
                     @Override
                     public void windowClosing(java.awt.event.WindowEvent e) {
-                        System.exit(0);
+                        System.exit(WIDTH);
                     }
                 });
                 dialog.setVisible(true);

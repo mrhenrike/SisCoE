@@ -57,8 +57,10 @@ public class Conecta_Banco {
 
     public void Desconecta(){//Metodo responsavel por encerrar a conexão com o banco.
         try {
-            conn.close();//Fecha a conexão
-            //JOptionPane.showMessageDialog(null, "Conexao Finalizada Com Sucesso!","Aviso",JOptionPane.INFORMATION_MESSAGE);//Imprime uma mensagem.
+            if (conn != null) {
+                conn.close();//Fecha a conexão
+                //JOptionPane.showMessageDialog(null, "Conexao Finalizada Com Sucesso!","Aviso",JOptionPane.INFORMATION_MESSAGE);//Imprime uma mensagem.
+            }
         } catch (SQLException ex) {
             JOptionPane.showMessageDialog(null, "Erro Ao Encerrar A Conexao!\n "+ex.getMessage(),"Aviso",JOptionPane.INFORMATION_MESSAGE);
         }

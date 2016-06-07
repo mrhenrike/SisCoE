@@ -487,7 +487,7 @@ public class Tela_Cadastro_Usuario_Edit extends javax.swing.JInternalFrame {
             JL_Senha_Conf.setForeground(Color.red);
             Mostrar_Senhas_Diferentes();
         }
-        else if ((new String (JTF_Senha.getPassword()).length()<=4)&&(new String(JTF_Senha_Conf.getPassword())).length()<=4) 
+        else if ((new String (JTF_Senha.getPassword()).length()<4)&&(new String(JTF_Senha_Conf.getPassword())).length()<4) 
         {
             Mostrar_Senha_Minima();
         }

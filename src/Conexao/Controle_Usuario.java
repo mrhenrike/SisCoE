@@ -376,6 +376,7 @@ public Modelo_Usuario Consulta_Usuario_Nome(Modelo_Usuario ObjModeloUser, int id
 
 ///////////////////////////Relatório/////////////////////////////////////////////
 public void Relatorio_Usuario(String sql, String relat){
+    String Org = "COOLAB - Coordenação de Laboratórios da Estácio | FCAT";
     try {
             ObjConecta.Conectar();
             ObjConecta.ExecutaSQL("select count(id_usuario) as cont from usuario where permissao !='SISTEMA' "+sql+"");
@@ -388,6 +389,7 @@ public void Relatorio_Usuario(String sql, String relat){
             parametros.put("Usuario",UserLogado);
             parametros.put("Quant_Itens",Cont);
             parametros.put("Tipo_Relatorio", relat);
+            parametros.put("Organizacao",Org);
             String C = "C:\\Program Files (x86)\\SisCoE/Relat_Usuario.jasper";
             //String C = "/Relatorios/Relat_Produtos_Todos.jasper";
             JasperPrint JPrint = JasperFillManager.fillReport(C,parametros, Relatorio);

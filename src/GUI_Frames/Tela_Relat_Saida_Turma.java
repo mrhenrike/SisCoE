@@ -158,8 +158,6 @@ public class Tela_Relat_Saida_Turma extends javax.swing.JInternalFrame {
         jLabel11.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         jLabel11.setText("Ano:");
 
-        JY_Ano.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-
         jLabel12.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         jLabel12.setText("Semestre:");
 
@@ -227,18 +225,18 @@ public class Tela_Relat_Saida_Turma extends javax.swing.JInternalFrame {
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(JCB_Tipo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel3))
-                .addGap(18, 18, 18)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel4)
                     .addComponent(JCB_Curso, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel11)
                     .addComponent(JY_Ano, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                         .addComponent(jLabel12)
                         .addComponent(JCB_Semestre, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addGap(18, 18, 18)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel5)
                     .addComponent(JCB_Turma, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -357,9 +355,11 @@ public class Tela_Relat_Saida_Turma extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_JCB_CursoActionPerformed
 
     private void JCB_TurmaFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_JCB_TurmaFocusGained
-        Preencher_CB_Turma();
-        ano = String.valueOf(JY_Ano.getValue());
-        new Controle_Turma().Preencher_CB_Turma_Concat(JCB_Turma, sql_semestre, JCB_Curso.getSelectedItem().toString(),ano);
+        if(JCB_Turma.getSelectedIndex()==0){
+            Preencher_CB_Turma();
+            ano = String.valueOf(JY_Ano.getValue());
+            new Controle_Turma().Preencher_CB_Turma_Concat(JCB_Turma, sql_semestre, JCB_Curso.getSelectedItem().toString(),ano);
+        }
     }//GEN-LAST:event_JCB_TurmaFocusGained
 
     private void JCB_TurmaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_JCB_TurmaMouseClicked

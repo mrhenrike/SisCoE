@@ -22,6 +22,9 @@
 	<parameter name="Tipo_Relatorio" class="java.lang.String">
 		<defaultValueExpression><![CDATA[Tipo_Relatorio]]></defaultValueExpression>
 	</parameter>
+	<parameter name="Organizacao" class="java.lang.String">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
 	<queryString>
 		<![CDATA[select * from log_sistema inner join usuario on usuario_id_usuario = id_usuario order by id_log_sistema;]]>
 	</queryString>
@@ -83,13 +86,6 @@
 				<text><![CDATA[Relatório de Log Do Sitema]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="0" y="35" width="312" height="18" uuid="2bbeabf5-5ab9-4f72-bd8c-16b38de71501"/>
-				<textElement>
-					<font fontName="Tahoma" size="14"/>
-				</textElement>
-				<text><![CDATA[CooLab - Coordenação de Laboratórios da FCAT]]></text>
-			</staticText>
-			<staticText>
 				<reportElement x="0" y="53" width="100" height="16" uuid="8280826d-e724-475a-a259-36d46e35edca"/>
 				<textElement verticalAlignment="Middle">
 					<font fontName="Tahoma"/>
@@ -141,6 +137,13 @@
 				<reportElement x="713" y="0" width="89" height="100" uuid="c8742993-a256-4162-a4cd-76fe617bf971"/>
 				<imageExpression><![CDATA["C:\\Program Files (x86)\\SisCoE\\Logo - SisCoE 2.png"]]></imageExpression>
 			</image>
+			<textField>
+				<reportElement x="0" y="33" width="465" height="20" uuid="9324ed2a-b9a4-45b2-9c15-465508462a46"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Tahoma" size="14"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{Organizacao}]]></textFieldExpression>
+			</textField>
 		</band>
 	</title>
 	<pageHeader>

@@ -18,6 +18,7 @@ import net.sf.jasperreports.view.JasperViewer;
 public class Controle_Relatorio_Log {
     
     Conecta_Banco ObjConecta = new Conecta_Banco();
+    String Org = "COOLAB - Coordenação de Laboratórios da Estácio | FCAT";
     
     public void Relatorio_Log_Hoje(String hoje, JTextField filtro){
         try {
@@ -34,6 +35,7 @@ public class Controle_Relatorio_Log {
             HashMap parametros = new HashMap();
             parametros.put("Usuario",UserLogado);
             parametros.put("Quant_Itens",Cont);
+            parametros.put("Organizacao",Org);
             parametros.put("Tipo_Relatorio","Relatório De Log Do Sistema Referente A Hoje");
             String C = "C:\\Program Files (x86)\\SisCoE/Relat_Log.jasper";
             //String C = "/Relatorios/Relat_Produtos_Todos.jasper";
@@ -68,6 +70,7 @@ public class Controle_Relatorio_Log {
             HashMap parametros = new HashMap();
             parametros.put("Usuario",UserLogado);
             parametros.put("Quant_Itens",Cont);
+            parametros.put("Organizacao",Org);
             parametros.put("Tipo_Relatorio","Relatório De Log Do Sistema Referente Ao Período De "+dti+" Até "+dtf);
             String C = "C:\\Program Files (x86)\\SisCoE/Relat_Log.jasper";
             //String C = "/Relatorios/Relat_Produtos_Todos.jasper";

@@ -16,8 +16,8 @@ public class Modelo_Entrada_Produto {
     private String Descricao;
     private String Observacao;
     private String Situacao;
-    private double media;//armazenar a media das entradas
-    private double total;//armazenar a total das entradas
+    private float media;//armazenar a media das entradas
+    private float total;//armazenar a total das entradas
 
     public int getId_entrada() {
         return id_entrada;
@@ -123,21 +123,23 @@ public class Modelo_Entrada_Produto {
         this.Situacao = Situacao;
     }
 
-    public double getMedia() {
+    public float getMedia() {
         return media;
     }
 
-    public void setMedia(double media) {
+    public void setMedia(float media) {
         this.media = media;
     }
 
-    public double getTotal() {
+    public float getTotal() {
         return total;
     }
 
-    public void setTotal(double total) {
+    public void setTotal(float total) {
         this.total = total;
     }
+
+   
 
    
 }

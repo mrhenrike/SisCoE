@@ -261,6 +261,7 @@ public class Tela_Relat_Saida_Periodo extends javax.swing.JInternalFrame {
         JCB_Tipo.addItem("EFETIVADAS DEVOLUÇÃO");
         JCB_Tipo.addItem("CANCELADAS");
         JCB_Tipo.addItem("SEM DEVOLUÇÃO");
+        JCB_Tipo.addItem("OUTRAS SAÍDAS");
     }
     public void Verifica_Datas(){//verifica se a data inicial é inferior a inicial
         Date dt1 = JD_Inicial.getDate();
@@ -297,7 +298,7 @@ public class Tela_Relat_Saida_Periodo extends javax.swing.JInternalFrame {
                         String dtf = new SimpleDateFormat("dd-MM-yyyy").format(JD_Final.getDate());
                         new Controle_Log().Registrar_Log("Gerou o relatório de todas as saídas por período de "+dti+" até "+dtf, CodLogado);
                     }else{
-                         Mostrar_Entrada_Nao_Encontrada();
+                         Mostrar_Saida_Nao_Encontrada();
                     }
                 }                
                 if(JCB_Tipo.getSelectedIndex()==1){
@@ -310,7 +311,7 @@ public class Tela_Relat_Saida_Periodo extends javax.swing.JInternalFrame {
                         String dtf = new SimpleDateFormat("dd-MM-yyyy").format(JD_Final.getDate());
                         new Controle_Log().Registrar_Log("Gerou o relatório de saídas efetivadas por período de "+dti+" até "+dtf, CodLogado);
                     }else{
-                         Mostrar_Entrada_Nao_Encontrada();
+                         Mostrar_Saida_Nao_Encontrada();
                     }
                 }
                 if(JCB_Tipo.getSelectedIndex()==2){
@@ -323,7 +324,7 @@ public class Tela_Relat_Saida_Periodo extends javax.swing.JInternalFrame {
                         String dtf = new SimpleDateFormat("dd-MM-yyyy").format(JD_Final.getDate());
                         new Controle_Log().Registrar_Log("Gerou o relatório de saídas efetivadas com devolução por período de "+dti+" até "+dtf, CodLogado);
                     }else{
-                         Mostrar_Entrada_Nao_Encontrada();
+                         Mostrar_Saida_Nao_Encontrada();
                     }
                 }
                 if(JCB_Tipo.getSelectedIndex()==3){
@@ -336,7 +337,7 @@ public class Tela_Relat_Saida_Periodo extends javax.swing.JInternalFrame {
                         String dtf = new SimpleDateFormat("dd-MM-yyyy").format(JD_Final.getDate());
                         new Controle_Log().Registrar_Log("Gerou o relatório de saídas canceladas por período de "+dti+" até "+dtf, CodLogado);
                     }else{
-                         Mostrar_Entrada_Nao_Encontrada();
+                         Mostrar_Saida_Nao_Encontrada();
                     }
                 }
                 if(JCB_Tipo.getSelectedIndex()==4){
@@ -349,7 +350,20 @@ public class Tela_Relat_Saida_Periodo extends javax.swing.JInternalFrame {
                         String dtf = new SimpleDateFormat("dd-MM-yyyy").format(JD_Final.getDate());
                         new Controle_Log().Registrar_Log("Gerou o relatório de saídas sem devolução por período de "+dti+" até "+dtf, CodLogado);
                     }else{
-                         Mostrar_Entrada_Nao_Encontrada();
+                         Mostrar_Saida_Nao_Encontrada();
+                    }
+                }
+                if(JCB_Tipo.getSelectedIndex()==5){
+                    ObjControleSaida.Consulta_Saida_Outra_Por_Periodo(JD_Inicial, JD_Final);
+                    if(ObjControleSaida.Controle_Saida == true){
+                        ObjControleSaida.Controle_Saida = false;
+                        ObjRelatSaida.Relatorio_Saida_Outras_Periodo("16 - Saída Por Período - Outras de ", JD_Inicial, JD_Final);
+                        //log
+                        String dti = new SimpleDateFormat("dd-MM-yyyy").format(JD_Inicial.getDate());
+                        String dtf = new SimpleDateFormat("dd-MM-yyyy").format(JD_Final.getDate());
+                        new Controle_Log().Registrar_Log("Gerou o relatório de saídas (Outras) por período de "+dti+" até "+dtf, CodLogado);
+                    }else{
+                         Mostrar_Saida_Nao_Encontrada();
                     }
                 }
             }
@@ -364,7 +378,7 @@ public class Tela_Relat_Saida_Periodo extends javax.swing.JInternalFrame {
         ObjDataInferior = new Inf_Data_Final_Inferior_Relat_Saida(this, true);
         ObjDataInferior.setVisible(true);
     }
-    void Mostrar_Entrada_Nao_Encontrada(){
+    void Mostrar_Saida_Nao_Encontrada(){
         DLSaidaNaoEncontrada = new Inf_Entrada_Nao_Encontrada_Relat_Saida_Periodo(this, true);
         DLSaidaNaoEncontrada.setVisible(true);
     }

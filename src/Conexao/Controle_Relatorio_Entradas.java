@@ -22,6 +22,7 @@ public class Controle_Relatorio_Entradas {
 
     Conecta_Banco ObjConecta = new Conecta_Banco();
     Tela_Principal ObjTP = new Tela_Principal();
+    String Org = "COOLAB - Coordenação de Laboratórios da Estácio | FCAT";
     
     @SuppressWarnings("unchecked")
     public void Relatorio_Entrada_Prod_Todos(){
@@ -51,6 +52,7 @@ public class Controle_Relatorio_Entradas {
                 parametros.put("Usuario",ObjTP.UserLogado);//Se precisar passar algum parametro, tipo usuario logado
                 parametros.put("Quant_Iten", ContItens);
                 parametros.put("Quant_Entrada", ContEntradas);
+                parametros.put("Organizacao",Org);
                 parametros.put("Tipo_Relatorio","10 - Todas as Entradas - Último Ano");
                 //Aqui fica o diretorio do arquivo
                 JasperPrint JPrint = JasperFillManager.fillReport("C:\\Program Files (x86)\\SisCoE/Relat_Entradas_Todos.jasper",parametros, Relatorio);
@@ -92,6 +94,7 @@ public class Controle_Relatorio_Entradas {
                 parametros.put("Usuario",ObjTP.UserLogado);
                 parametros.put("Quant_Iten", ContItens);
                 parametros.put("Quant_Entrada", ContEntradas);
+                parametros.put("Organizacao",Org);
                 parametros.put("Tipo_Relatorio","11 - Todas as Entradas - Último 30 Dias");
 
                 JasperPrint JPrint = JasperFillManager.fillReport("C:\\Program Files (x86)\\SisCoE/Relat_Entradas_Todos.jasper", parametros, Relatorio);
@@ -138,7 +141,8 @@ public class Controle_Relatorio_Entradas {
             parametros.put("DTI", periodo);
             parametros.put("Quant_Iten", ContItens);
             parametros.put("Quant_Entrada", ContEntradas);
-
+            parametros.put("Organizacao",Org);
+            
             JasperPrint JPrint = JasperFillManager.fillReport("C:\\Program Files (x86)\\SisCoE/Relat_Entradas_Periodo.jasper", parametros, Relatorio);
             JasperViewer JView = new JasperViewer(JPrint, false);
             JView.setVisible(true);
@@ -168,6 +172,7 @@ public class Controle_Relatorio_Entradas {
             HashMap parametros = new HashMap();
             parametros.put("Usuario", ObjTP.UserLogado);
             parametros.put("Num_Entrada", jt.getText().trim());
+            parametros.put("Organizacao",Org);
             parametros.put("Total_Itens", cont);
             JasperPrint JPrint = JasperFillManager.fillReport("C:\\Program Files (x86)\\SisCoE/Relat_Entradas_Num_Entrada.jasper", parametros, Relatorio);
             JasperViewer JView = new JasperViewer(JPrint, false);
@@ -210,6 +215,7 @@ public class Controle_Relatorio_Entradas {
             JRResultSetDataSource Relatorio = new JRResultSetDataSource(ObjConecta.rs);
             HashMap parametros = new HashMap();//instancia um hashMap para passar os parametros;
             parametros.put("Usuario", ObjTP.UserLogado);//Se precisar passar algum parametro, tipo usuario logado
+            parametros.put("Organizacao",Org);
             parametros.put("Quant_Iten", ContItens);
             parametros.put("Quant_Entrada", ContEntradas);
             parametros.put("Tipo_Relatorio",tipo_relatorio);
@@ -253,6 +259,7 @@ public class Controle_Relatorio_Entradas {
             JRResultSetDataSource Relatorio = new JRResultSetDataSource(ObjConecta.rs);
             HashMap parametros = new HashMap();//instancia um hashMap para passar os parametros;
             parametros.put("Usuario", ObjTP.UserLogado);//Se precisar passar algum parametro, tipo usuario logado
+            parametros.put("Organizacao",Org);
             parametros.put("Quant_Iten", ContItens);
             parametros.put("Quant_Entrada", ContEntradas);
             parametros.put("Tipo_Relatorio",tipo_relatorio+periodo);
@@ -295,6 +302,7 @@ public class Controle_Relatorio_Entradas {
             JRResultSetDataSource Relatorio = new JRResultSetDataSource(ObjConecta.rs);
             HashMap parametros = new HashMap();//instancia um hashMap para passar os parametros;
             parametros.put("Usuario", ObjTP.UserLogado);//Se precisar passar algum parametro, tipo usuario logado
+            parametros.put("Organizacao",Org);
             parametros.put("Quant_Iten", ContItens);
             parametros.put("Quant_Entrada", ContEntradas);
             parametros.put("Tipo_Relatorio",tipo_relatorio+periodo);

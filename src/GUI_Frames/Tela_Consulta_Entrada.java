@@ -405,14 +405,21 @@ public class Tela_Consulta_Entrada extends javax.swing.JInternalFrame {
                 Object Num_Entrada = JTB_Entradas.getValueAt(JTB_Entradas.getSelectedRow(), 0); 
                 String Situacao = null;
                 String Obs = null;
+                String Ultima_Alteração = "SEM ALTERAÇÃO";
+                Date Alteracao;
                 try {
                     ObjConecta.Conectar();
                     ObjConecta.ExecutaSQL("select * from entrada where id_entrada="+Num_Entrada);
                     ObjConecta.rs.first();
                     Situacao = ObjConecta.rs.getString("situacao_entrada");
                     Obs = ObjConecta.rs.getString("observacao_entrada");
+                    Alteracao = ObjConecta.rs.getDate("data_alteracao_entrada");
+                    if(Alteracao != null){
+                        Ultima_Alteração = String.valueOf(new SimpleDateFormat("dd-MM-yyyy").format(ObjConecta.rs.getDate("data_alteracao_entrada")));
+                    }
                 } catch (SQLException ex) { }
-                JOptionPane.showMessageDialog(rootPane,"Entrada: "+ Num_Entrada+"   Data:"+Data+
+                JOptionPane.showMessageDialog(rootPane,"Número Da Entrada: "+ Num_Entrada+"   Data:"+Data+ 
+                        "\nData Última Alteração: "+Ultima_Alteração+ 
                         "\nDescrição: "+Descricao + "\nSituação: "+ Situacao+"\nObservação: "+Obs,
                         "Descrição Da Entrada", JOptionPane.INFORMATION_MESSAGE);
             }

@@ -1059,7 +1059,7 @@ public static Tela_Saida_Produto Obj;
             quantidade_sem_lote = 0;
             for(int Linha = 0; Linha < Quant_Linhas; Linha++){
                 try {
-                    JTB_Saida_Itens.addRowSelectionInterval(Linha,Linha); //seta na primeira linha da tabela
+                    JTB_Saida_Itens.setRowSelectionInterval(Linha,Linha); //seta na primeira linha da tabela
                     String Id_Produto = String.valueOf(JTB_Saida_Itens.getValueAt(Linha, 0));
                         if(Id_Produto.equalsIgnoreCase(JTF_Cod.getText()))
                         {
@@ -1155,7 +1155,7 @@ public static Tela_Saida_Produto Obj;
                             ObjControleSaida.Inserir_Saida_Itens(Id_Produto, Id_Saida, Quant, Lote, Validade);//Metodo para inserira no banco
                             //verifica se foi inserido
                             if(ObjControleSaida.Confirma_Iten_Inserido ==true){
-                                ObjControleSaida.Atualiza_Estoque_Produto(Id_Produto, Quant, Lote,Validade);//atualiza o estoque
+                                ObjControleSaida.Atualiza_Estoque_Saida(Id_Produto, Quant);//atualiza o estoque
                                 ObjControleSaida.Confirma_Iten_Inserido = false;
                             }
                             //verifica se o produto solicita devolucao
@@ -1178,7 +1178,7 @@ public static Tela_Saida_Produto Obj;
                             ObjControleSaida.Inserir_Saida_Itens(Id_Produto, Id_Saida, Quant, Lote, Validade);
                             //verifica se foi inserido
                             if(ObjControleSaida.Confirma_Iten_Inserido ==true){
-                                ObjControleSaida.Atualiza_Estoque_Produto(Id_Produto, Quant, Lote,Validade);//atualiza o estoque
+                                ObjControleSaida.Atualiza_Estoque_Lote_Saida(Id_Produto, Quant, Lote,Validade);//atualiza o estoque
                                 ObjControleSaida.Confirma_Iten_Inserido = false;
                             }
                             //verifica se o produto solicita devolucao
@@ -1240,7 +1240,7 @@ public static Tela_Saida_Produto Obj;
                             ObjControleSaidaOutra.Inserir_Saida_Itens(Id_Produto, Id_Saida, Quant, Lote, Validade);//Metodo para inserira no banco
                             //verifica se foi inserido
                             if(ObjControleSaidaOutra.Confirma_Iten_Inserido ==true){
-                                ObjControleSaida.Atualiza_Estoque_Produto(Id_Produto, Quant, Lote,Validade);//atualiza o estoque
+                                ObjControleSaida.Atualiza_Estoque_Saida(Id_Produto, Quant);//atualiza o estoque
                                 ObjControleSaida.Confirma_Iten_Inserido = false;
                             }
                             //verifica se o produto solicita devolucao
@@ -1263,7 +1263,7 @@ public static Tela_Saida_Produto Obj;
                             ObjControleSaidaOutra.Inserir_Saida_Itens(Id_Produto, Id_Saida, Quant, Lote, Validade);
                             //verifica se foi inserido
                             if(ObjControleSaidaOutra.Confirma_Iten_Inserido ==true){
-                                ObjControleSaida.Atualiza_Estoque_Produto(Id_Produto, Quant, Lote,Validade);//atualiza o estoque
+                                ObjControleSaida.Atualiza_Estoque_Lote_Saida(Id_Produto, Quant, Lote,Validade);//atualiza o estoque
                                 ObjControleSaida.Confirma_Iten_Inserido = false;
                             }
                             //verifica se o produto solicita devolucao

@@ -19,7 +19,7 @@
       </Border>
     </Property>
     <Property name="iconifiable" type="boolean" value="true"/>
-    <Property name="title" type="java.lang.String" value="Entrada De Produtos"/>
+    <Property name="title" type="java.lang.String" value="43 - Entrada De Produtos"/>
     <Property name="frameIcon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
       <Image iconType="3" name="/Icones_Gerais/Entrada Mercadoria 24x24.png"/>
     </Property>
@@ -62,7 +62,6 @@
           <Group type="102" attributes="0">
               <EmptySpace max="-2" attributes="0"/>
               <Group type="103" groupAlignment="0" attributes="0">
-                  <Component id="jScrollPane1" max="32767" attributes="0"/>
                   <Group type="102" alignment="1" attributes="0">
                       <Group type="103" groupAlignment="0" max="-2" attributes="0">
                           <Group type="102" attributes="0">
@@ -78,10 +77,8 @@
                           </Group>
                           <Component id="JL_Informacao" min="-2" max="-2" attributes="0"/>
                       </Group>
-                      <EmptySpace type="separate" pref="30" max="32767" attributes="0"/>
+                      <EmptySpace max="32767" attributes="0"/>
                       <Component id="BT_Salvar" min="-2" max="-2" attributes="0"/>
-                      <EmptySpace min="-2" pref="18" max="-2" attributes="0"/>
-                      <Component id="BT_Excluir" min="-2" pref="161" max="-2" attributes="0"/>
                       <EmptySpace type="separate" max="-2" attributes="0"/>
                       <Component id="BT_Sair" min="-2" pref="160" max="-2" attributes="0"/>
                   </Group>
@@ -91,7 +88,16 @@
                       <EmptySpace max="-2" attributes="0"/>
                       <Component id="JP_Descricao_Entrada" max="32767" attributes="0"/>
                   </Group>
-                  <Component id="jScrollPane2" alignment="0" max="32767" attributes="0"/>
+                  <Group type="102" alignment="0" attributes="0">
+                      <Component id="jScrollPane1" max="32767" attributes="0"/>
+                      <EmptySpace max="-2" attributes="0"/>
+                      <Component id="BT_Remove_Item" min="-2" pref="33" max="-2" attributes="0"/>
+                  </Group>
+                  <Group type="102" alignment="0" attributes="0">
+                      <Component id="jScrollPane2" max="32767" attributes="0"/>
+                      <EmptySpace max="-2" attributes="0"/>
+                      <Component id="BT_Remove_Item_Novo" min="-2" pref="33" max="-2" attributes="0"/>
+                  </Group>
               </Group>
               <EmptySpace max="-2" attributes="0"/>
           </Group>
@@ -106,11 +112,20 @@
                   <Component id="jPanel2" max="32767" attributes="0"/>
               </Group>
               <EmptySpace max="-2" attributes="0"/>
+              <Group type="103" groupAlignment="0" attributes="0">
+                  <Component id="jScrollPane1" min="-2" pref="128" max="-2" attributes="0"/>
+                  <Component id="BT_Remove_Item" min="-2" max="-2" attributes="0"/>
+              </Group>
+              <EmptySpace max="-2" attributes="0"/>
               <Component id="JP_Dados_Entrada" min="-2" max="-2" attributes="0"/>
               <EmptySpace max="-2" attributes="0"/>
-              <Component id="jScrollPane1" min="-2" pref="128" max="-2" attributes="0"/>
-              <EmptySpace max="-2" attributes="0"/>
-              <Component id="jScrollPane2" pref="148" max="32767" attributes="0"/>
+              <Group type="103" groupAlignment="0" attributes="0">
+                  <Component id="jScrollPane2" pref="152" max="32767" attributes="0"/>
+                  <Group type="102" attributes="0">
+                      <Component id="BT_Remove_Item_Novo" min="-2" max="-2" attributes="0"/>
+                      <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
+                  </Group>
+              </Group>
               <EmptySpace max="-2" attributes="0"/>
               <Group type="103" groupAlignment="0" attributes="0">
                   <Group type="102" attributes="0">
@@ -124,10 +139,12 @@
                           <Component id="JL_Quant_Item_Add" alignment="3" min="-2" pref="22" max="-2" attributes="0"/>
                       </Group>
                   </Group>
-                  <Group type="103" groupAlignment="0" attributes="0">
-                      <Component id="BT_Sair" alignment="1" min="-2" pref="50" max="-2" attributes="0"/>
-                      <Component id="BT_Excluir" alignment="1" min="-2" pref="51" max="-2" attributes="0"/>
-                      <Component id="BT_Salvar" alignment="1" min="-2" pref="52" max="-2" attributes="0"/>
+                  <Group type="102" attributes="0">
+                      <EmptySpace min="-2" pref="2" max="-2" attributes="0"/>
+                      <Group type="103" groupAlignment="0" max="-2" attributes="0">
+                          <Component id="BT_Sair" pref="50" max="32767" attributes="0"/>
+                          <Component id="BT_Salvar" max="32767" attributes="0"/>
+                      </Group>
                   </Group>
               </Group>
               <EmptySpace min="-2" pref="9" max="-2" attributes="0"/>
@@ -173,6 +190,9 @@
               <TableHeader reorderingAllowed="false" resizingAllowed="true"/>
             </Property>
           </Properties>
+          <Events>
+            <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="JTB_Itens_EntradaMouseClicked"/>
+          </Events>
         </Component>
       </SubComponents>
     </Container>
@@ -207,8 +227,8 @@
                   </Group>
                   <EmptySpace min="-2" max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                      <Component id="JTF_Cod" pref="70" max="32767" attributes="0"/>
-                      <Component id="JTF_Preco" max="32767" attributes="0"/>
+                      <Component id="JTF_Cod" max="32767" attributes="0"/>
+                      <Component id="JTF_Preco" min="-2" pref="70" max="-2" attributes="0"/>
                   </Group>
                   <EmptySpace min="-2" max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="1" attributes="0">
@@ -242,8 +262,8 @@
                   </Group>
                   <EmptySpace min="-2" max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                      <Component id="JTF_Quant" pref="69" max="32767" attributes="0"/>
-                      <Component id="JTF_Lote" max="32767" attributes="0"/>
+                      <Component id="JTF_Quant" max="32767" attributes="0"/>
+                      <Component id="JTF_Lote" min="-2" pref="70" max="-2" attributes="0"/>
                   </Group>
                   <EmptySpace min="-2" pref="10" max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="1" attributes="0">
@@ -528,7 +548,7 @@
               <Table columnCount="7" rowCount="0">
                 <Column editable="false" title="C&#xf3;digo" type="java.lang.Integer"/>
                 <Column editable="false" title="Descri&#xe7;&#xe3;o" type="java.lang.Object"/>
-                <Column editable="false" title="Quantidade" type="java.lang.Object"/>
+                <Column editable="true" title="Quantidade" type="java.lang.Object"/>
                 <Column editable="false" title="Un" type="java.lang.Object"/>
                 <Column editable="false" title="Validade" type="java.lang.Object"/>
                 <Column editable="false" title="Lote" type="java.lang.Object"/>
@@ -589,21 +609,6 @@
         <Property name="text" type="java.lang.String" value="Itens Entrada:"/>
       </Properties>
     </Component>
-    <Component class="javax.swing.JButton" name="BT_Excluir">
-      <Properties>
-        <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-          <Image iconType="3" name="/Icones/Bt Excluir.png"/>
-        </Property>
-        <Property name="mnemonic" type="int" value="120"/>
-        <Property name="toolTipText" type="java.lang.String" value="Selecione Uma Linha E Clique Para Excluir O Iten Ou Pressione Alt + X"/>
-        <Property name="pressedIcon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-          <Image iconType="3" name="/Icones/Bt Excluir Press.png"/>
-        </Property>
-      </Properties>
-      <Events>
-        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="BT_ExcluirActionPerformed"/>
-      </Events>
-    </Component>
     <Component class="javax.swing.JButton" name="BT_Salvar">
       <Properties>
         <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
@@ -623,7 +628,7 @@
       <Properties>
         <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
           <Border info="org.netbeans.modules.form.compat2.border.TitledBorderInfo">
-            <TitledBorder title="Descri&#xe7;&#xe3;o Da Entrada">
+            <TitledBorder title="C&#xf3;digo E Descri&#xe7;&#xe3;o Da Entrada">
               <Border PropertyName="innerBorder" info="org.netbeans.modules.form.compat2.border.CompoundBorderInfo">
                 <CompoundBorder>
                   <Border PropertyName="outside" info="org.netbeans.modules.form.compat2.border.BevelBorderInfo">
@@ -646,10 +651,10 @@
               <Group type="102" alignment="0" attributes="0">
                   <EmptySpace min="-2" pref="18" max="-2" attributes="0"/>
                   <Component id="jLabel9" min="-2" max="-2" attributes="0"/>
-                  <EmptySpace max="-2" attributes="0"/>
+                  <EmptySpace min="-2" max="-2" attributes="0"/>
                   <Component id="JTF_Cod_Entrada" min="-2" pref="67" max="-2" attributes="0"/>
                   <EmptySpace type="unrelated" max="-2" attributes="0"/>
-                  <Component id="JTF_Descricao_Entrada" max="32767" attributes="0"/>
+                  <Component id="JTF_Descricao_Entrada" min="-2" pref="489" max="-2" attributes="0"/>
                   <EmptySpace max="-2" attributes="0"/>
               </Group>
           </Group>
@@ -752,7 +757,7 @@
                   <EmptySpace type="unrelated" max="-2" attributes="0"/>
                   <Component id="BT_Confirmar" min="-2" max="-2" attributes="0"/>
                   <EmptySpace max="-2" attributes="0"/>
-                  <Component id="BT_Procurar1" min="-2" max="-2" attributes="0"/>
+                  <Component id="BT_Procurar_Entrada" min="-2" max="-2" attributes="0"/>
                   <EmptySpace max="32767" attributes="0"/>
               </Group>
           </Group>
@@ -769,7 +774,7 @@
                           </Group>
                       </Group>
                       <Component id="BT_Confirmar" alignment="0" min="-2" max="-2" attributes="0"/>
-                      <Component id="BT_Procurar1" alignment="0" min="-2" max="-2" attributes="0"/>
+                      <Component id="BT_Procurar_Entrada" alignment="0" min="-2" max="-2" attributes="0"/>
                   </Group>
                   <EmptySpace min="-2" pref="5" max="-2" attributes="0"/>
               </Group>
@@ -807,7 +812,7 @@
             <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="BT_ConfirmarActionPerformed"/>
           </Events>
         </Component>
-        <Component class="javax.swing.JButton" name="BT_Procurar1">
+        <Component class="javax.swing.JButton" name="BT_Procurar_Entrada">
           <Properties>
             <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
               <Image iconType="3" name="/Icones_Gerais/Search_24x24.png"/>
@@ -815,7 +820,7 @@
             <Property name="toolTipText" type="java.lang.String" value="Clique Para Pesquisar Um Produto"/>
           </Properties>
           <Events>
-            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="BT_Procurar1ActionPerformed"/>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="BT_Procurar_EntradaActionPerformed"/>
           </Events>
         </Component>
       </SubComponents>
@@ -835,6 +840,36 @@
         </Property>
         <Property name="text" type="java.lang.String" value="0"/>
       </Properties>
+    </Component>
+    <Component class="javax.swing.JButton" name="BT_Remove_Item">
+      <Properties>
+        <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+          <Font name="Tahoma" size="14" style="1"/>
+        </Property>
+        <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
+          <Image iconType="3" name="/Icones_Gerais/messagebox_critical.png"/>
+        </Property>
+        <Property name="toolTipText" type="java.lang.String" value="Selecione Uma Linha E Clique Para Excluir"/>
+        <Property name="contentAreaFilled" type="boolean" value="false"/>
+      </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="BT_Remove_ItemActionPerformed"/>
+      </Events>
+    </Component>
+    <Component class="javax.swing.JButton" name="BT_Remove_Item_Novo">
+      <Properties>
+        <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+          <Font name="Tahoma" size="14" style="1"/>
+        </Property>
+        <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
+          <Image iconType="3" name="/Icones_Gerais/messagebox_critical.png"/>
+        </Property>
+        <Property name="toolTipText" type="java.lang.String" value="Selecione Uma Linha E Clique Para Excluir"/>
+        <Property name="contentAreaFilled" type="boolean" value="false"/>
+      </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="BT_Remove_Item_NovoActionPerformed"/>
+      </Events>
     </Component>
   </SubComponents>
 </Form>

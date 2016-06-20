@@ -416,6 +416,8 @@ public class Tela_Consulta_Saida extends javax.swing.JInternalFrame {
             if(JCB_Tipo_Pesquisa.getSelectedIndex()==7){
                 Object Num_Saida = JTB_Saidas.getValueAt(JTB_Saidas.getSelectedRow(), 0);
                 Object Data = JTB_Saidas.getValueAt(JTB_Saidas.getSelectedRow(), 1);
+                String Ultima_Alteração = "SEM ALTERAÇÃO";
+                Date Alteracao;
                 try {
                         ObjConecta.Conectar();
                         ObjConecta.ExecutaSQL("select * from saida_outra where id_saida_outra="+Num_Saida+"");
@@ -423,8 +425,13 @@ public class Tela_Consulta_Saida extends javax.swing.JInternalFrame {
                         String Tipo = ObjConecta.rs.getString("tipo_outra");
                         String Observacao = ObjConecta.rs.getString("observacao");
                         String Situacao = ObjConecta.rs.getString("situacao");
+                        Alteracao = ObjConecta.rs.getDate("data_alteracao_saida_outra");
+                        if(Alteracao != null){
+                        Ultima_Alteração = String.valueOf(new SimpleDateFormat("dd-MM-yyyy").format(ObjConecta.rs.getDate("data_alteracao_saida_outra")));
+                        } 
                                                                         
                         JOptionPane.showMessageDialog(rootPane,"Número Da Saída: "+ Num_Saida+"   Data: "+Data+
+                        "\nData Última Alteração: "+Ultima_Alteração+
                         "\nTipo: "+Tipo +"\nSituação: "+Situacao+ "\nObservação: "+Observacao,
                          "Descrição Da Saída",JOptionPane.INFORMATION_MESSAGE);
                         ObjConecta.Desconecta();
@@ -436,6 +443,8 @@ public class Tela_Consulta_Saida extends javax.swing.JInternalFrame {
             else{
                 Object Num_Saida = JTB_Saidas.getValueAt(JTB_Saidas.getSelectedRow(), 0);
                 Object Data = JTB_Saidas.getValueAt(JTB_Saidas.getSelectedRow(), 1);
+                String Ultima_Alteração = "SEM ALTERAÇÃO";
+                Date Alteracao;
                 try {
                         ObjConecta.Conectar();
                         ObjConecta.ExecutaSQL("select * from saida where id_saida="+Num_Saida+"");
@@ -443,6 +452,10 @@ public class Tela_Consulta_Saida extends javax.swing.JInternalFrame {
                         String Tipo = ObjConecta.rs.getString("tipo");
                         String Observacao = ObjConecta.rs.getString("observacao");
                         String Situacao = ObjConecta.rs.getString("situacao");
+                        Alteracao = ObjConecta.rs.getDate("data_alteracao_saida");
+                        if(Alteracao != null){
+                        Ultima_Alteração = String.valueOf(new SimpleDateFormat("dd-MM-yyyy").format(ObjConecta.rs.getDate("data_alteracao_saida")));
+                        }                        
                         ObjConecta.ExecutaSQL("select concat(semestre,abrev_curso,turno,ano_turma,'.',semestre_vestibular,' ',turma) as turmas "
                                 + "from curso inner join turma on curso.id_curso = turma.curso_id_curso inner join saida on id_turma = saida.turma_id_turma "
                                 + "where saida.id_saida="+Num_Saida+"");
@@ -453,6 +466,7 @@ public class Tela_Consulta_Saida extends javax.swing.JInternalFrame {
                         String Disciplina = ObjConecta.rs.getInt("semestre")+"º SEM - "+ ObjConecta.rs.getString("disciplina");
                         
                         JOptionPane.showMessageDialog(rootPane,"Número Da Saída: "+ Num_Saida+"   Data: "+Data+
+                        "\nData Última Alteração: "+Ultima_Alteração+
                         "\nTipo: "+Tipo + "\nTurma: "+Turma + "\nDisciplina: "+Disciplina +
                         "\nSituação: "+Situacao+ "\nObservação: "+Observacao,
                          "Descrição Da Saída",JOptionPane.INFORMATION_MESSAGE);

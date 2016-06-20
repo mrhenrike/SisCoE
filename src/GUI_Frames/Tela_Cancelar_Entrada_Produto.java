@@ -494,7 +494,10 @@ public class Tela_Cancelar_Entrada_Produto extends javax.swing.JInternalFrame {
                             String Lote = (String.valueOf(JTB_Itens_Entrada.getValueAt(Linha, 4)));//pega o lote na linha da tabela
                             
                             ObjControlEnt.Inserir_Entrada_Itens_Cancelamento(Id_Produto, Id_Entrada, Quantidade, Lote, Validade);//inseri os itens
-                            ObjControlEnt.Atualiza_Estoque_Geral_Cancela(Id_Produto, Quantidade, Lote, Validade);//atualiza o estoque                            
+                            if(ObjControlEnt.Confirma_Entrada_Item == true){
+                                ObjControlEnt.Atualiza_Estoque_Produto_Cancela(Id_Produto, Quantidade);//atualiza o estoque 
+                                ObjControlEnt.Confirma_Entrada_Item = false;
+                            }
                             
                         }catch(NumberFormatException | Error ex){JOptionPane.showMessageDialog(rootPane, "Erro ao atualizar o estoque iten!\n"+ex);}
                     }
@@ -507,8 +510,10 @@ public class Tela_Cancelar_Entrada_Produto extends javax.swing.JInternalFrame {
                             String Lote = (String.valueOf(JTB_Itens_Entrada.getValueAt(Linha, 4)));//pega o lote na linha da tabela
                             
                             ObjControlEnt.Inserir_Entrada_Itens_Cancelamento(Id_Produto, Id_Entrada, Quantidade, Lote, Validade);//inseri os itens
-                            ObjControlEnt.Atualiza_Estoque_Geral_Cancela(Id_Produto, Quantidade, Lote, Validade);//atualiza o estoque        
-                            
+                            if(ObjControlEnt.Confirma_Entrada_Item == true){
+                                ObjControlEnt.Atualiza_Estoque_Lote_Produto_Cancela(Id_Produto, Quantidade, Lote, Validade);//atualiza o estoque 
+                                ObjControlEnt.Confirma_Entrada_Item = false;
+                            }                            
                         }catch(NumberFormatException | ParseException | Error ex){JOptionPane.showMessageDialog(rootPane, "Erro ao atualizar o estoque com lote iten!\n"+ex);}
                     }
                 }

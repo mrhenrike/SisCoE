@@ -710,7 +710,7 @@ public class Tela_Cancelar_Saida extends javax.swing.JInternalFrame {
         }
     }
     
-    public void Conf_Inserir_Devolucao(){
+    public void Conf_Inserir_Cancelamento(){
         Cancelar_Saida();
         if(confirma_cancelamento == true){
             Mostrar_Dados_Salvos();
@@ -758,9 +758,11 @@ public class Tela_Cancelar_Saida extends javax.swing.JInternalFrame {
                             String Validade = null;
                             String Lote = (String.valueOf(JTB_Saidas_Itens.getValueAt(Linha, 5)));//pega o lote na linha da tabela
 
-                            ObjControlSaida.Atualiza_Estoque_Produto_Saida_Cancela(Id_Produto, Quant, Lote,Validade);//atualiza o estoque
-                            ObjControlSaida.Inserir_Saida_Itens_Cancelamento(Id_Produto, Id_Saida, Quant, Lote, Validade);//inseri os itens cancelados
-
+                            ObjControlSaida.Atualiza_Estoque_Produto_Saida_Cancela(Id_Produto, Quant);//atualiza o estoque
+                            if(ObjControlSaida.Confirma_Atualiza_Estoque == true){
+                                ObjControlSaida.Inserir_Saida_Itens_Cancelamento(Id_Produto, Id_Saida, Quant, Lote, Validade);//inseri os itens cancelados
+                                ObjControlSaida.Confirma_Atualiza_Estoque = false;
+                            }
                         }catch(NumberFormatException | Error ex){JOptionPane.showMessageDialog(rootPane, "Erro ao atualizar o estoque iten!\n"+ex);}                    
                     }else{//Com validade
                         try {
@@ -770,9 +772,11 @@ public class Tela_Cancelar_Saida extends javax.swing.JInternalFrame {
                             (new SimpleDateFormat("dd-MM-yyyy").parse((String) (JTB_Saidas_Itens.getValueAt(Linha, 6))))));//pega a trata a data de validade
                             String Lote = (String.valueOf(JTB_Saidas_Itens.getValueAt(Linha, 5)));//pega o lote na linha da tabela
 
-                            ObjControlSaida.Atualiza_Estoque_Produto_Saida_Cancela(Id_Produto, Quant, Lote,Validade);//atualiza o estoque
-                            ObjControlSaida.Inserir_Saida_Itens_Cancelamento(Id_Produto, Id_Saida, Quant, Lote, Validade);//inseri os itens cancelados
-                            
+                            ObjControlSaida.Atualiza_Estoque_Lote_Produto_Saida_Cancela(Id_Produto, Quant, Lote,Validade);//atualiza o estoque
+                            if(ObjControlSaida.Confirma_Atualiza_Estoque_Lote == true){
+                                ObjControlSaida.Inserir_Saida_Itens_Cancelamento(Id_Produto, Id_Saida, Quant, Lote, Validade);//inseri os itens cancelados
+                                ObjControlSaida.Confirma_Atualiza_Estoque_Lote = false;
+                            }
                         }catch(NumberFormatException | ParseException | Error ex){JOptionPane.showMessageDialog(rootPane, "Erro ao atualizar o estoque com lote iten!\n"+ex);}              
                     }
                 }
@@ -788,7 +792,7 @@ public class Tela_Cancelar_Saida extends javax.swing.JInternalFrame {
             }
         } catch (NumberFormatException | HeadlessException ex) {
             confirma_cancelamento = false;
-            JOptionPane.showMessageDialog(rootPane,"Erro na devolução de produtos!!!!! \n"+ex);
+            JOptionPane.showMessageDialog(rootPane,"Erro no cancelamento da saída!!!!! \n"+ex);
         }   
     }
     

@@ -376,11 +376,10 @@ public class Tela_Consulta_Produto_Entrada_Cont_DL extends javax.swing.JDialog {
             if (linha_selecionada >= 0)
                 {
                 Object resultado = (JTB_Consulta_Prod.getValueAt(JTB_Consulta_Prod.getSelectedRow(), 0));
-                Carregar_Dados_Produtos(resultado);}
-            }catch (SQLException ex) {
-                
-            }
-        dispose();
+                Carregar_Dados_Produtos(resultado);
+                dispose();
+                }
+        }catch (SQLException ex) { }        
     }//GEN-LAST:event_BT_AdicionarActionPerformed
 
     private void JTB_Consulta_ProdKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_JTB_Consulta_ProdKeyPressed

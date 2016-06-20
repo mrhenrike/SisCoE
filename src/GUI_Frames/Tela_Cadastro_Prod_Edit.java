@@ -39,8 +39,6 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.swing.AbstractAction;
 import javax.swing.InputMap;
 import javax.swing.JComponent;
@@ -695,12 +693,25 @@ public class Tela_Cadastro_Prod_Edit extends javax.swing.JInternalFrame {
                     Object Descricao = JTB_Consulta_Prod.getValueAt(JTB_Consulta_Prod.getSelectedRow(), 1);
                     Object Data = JTB_Consulta_Prod.getValueAt(JTB_Consulta_Prod.getSelectedRow(), 2);
                     Object Num_Entrada = JTB_Consulta_Prod.getValueAt(JTB_Consulta_Prod.getSelectedRow(), 0);
+                    Date Data_Alteracao;
+                    String Ultima_Alteracao = "SEM ALTERAÇÃO";
+                    try{
+                        ObjConecta.Conectar();
+                        ObjConecta.ExecutaSQL("select * from entrada where id_entrada="+Num_Entrada+"");
+                        ObjConecta.rs.first();
+                        Data_Alteracao = ObjConecta.rs.getDate("data_alteracao_entrada");
+                        if(Data_Alteracao != null){Ultima_Alteracao = String.valueOf(new SimpleDateFormat("dd-MM-yyyy").format(ObjConecta.rs.getDate("data_alteracao_entrada")));}
+                    }catch(SQLException | ClassFormatError er){}
+                    
                     JOptionPane.showMessageDialog(rootPane,"Número Da Entrada: "+ Num_Entrada+"   Data: "+Data+
+                        "\nData Última Alteração: "+Ultima_Alteracao+
                         "\nDescrição: "+Descricao,"Descrição Da Entrada",JOptionPane.INFORMATION_MESSAGE);
                 }
                 if(JCB_Tipo_Pesquisa.getSelectedIndex()==1){
                     Object Num_Saida = JTB_Consulta_Prod.getValueAt(JTB_Consulta_Prod.getSelectedRow(), 0);
                     Object Data = JTB_Consulta_Prod.getValueAt(JTB_Consulta_Prod.getSelectedRow(), 1);
+                    Date Data_Alteracao;
+                    String Ultima_Alteracao = "SEM ALTERAÇÃO";
                     try {
                         ObjConecta.Conectar();
                         ObjConecta.ExecutaSQL("select * from saida where id_saida="+Num_Saida+"");
@@ -708,6 +719,9 @@ public class Tela_Cadastro_Prod_Edit extends javax.swing.JInternalFrame {
                         String Tipo = ObjConecta.rs.getString("tipo");
                         String Observacao = ObjConecta.rs.getString("observacao");
                         String Situacao = ObjConecta.rs.getString("situacao");
+                         Data_Alteracao = ObjConecta.rs.getDate("data_alteracao_saida");
+                        if(Data_Alteracao != null){Ultima_Alteracao = String.valueOf(new SimpleDateFormat("dd-MM-yyyy").format(ObjConecta.rs.getDate("data_alteracao_saida")));}
+                        
                         ObjConecta.ExecutaSQL("select concat(semestre,abrev_curso,turno,ano_turma,'.',semestre_vestibular,' ',turma) as turmas "
                                 + "from curso inner join turma on curso.id_curso = turma.curso_id_curso inner join saida on id_turma = saida.turma_id_turma "
                                 + "where saida.id_saida="+Num_Saida+"");
@@ -718,6 +732,7 @@ public class Tela_Cadastro_Prod_Edit extends javax.swing.JInternalFrame {
                         String Disciplina = ObjConecta.rs.getInt("semestre")+"º SEM - "+ ObjConecta.rs.getString("disciplina");
                         
                         JOptionPane.showMessageDialog(rootPane,"Número Da Saída: "+ Num_Saida+"   Data: "+Data+
+                        "\nData Última Alteração: "+Ultima_Alteracao+
                         "\nTipo: "+Tipo + "\nTurma: "+turma + "\nDisciplina: "+Disciplina +
                         "\nSituação: "+Situacao+ "\nObservação: "+Observacao,
                         "Descrição Da Saída",JOptionPane.INFORMATION_MESSAGE);

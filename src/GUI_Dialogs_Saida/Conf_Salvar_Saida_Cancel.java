@@ -110,7 +110,7 @@ public class Conf_Salvar_Saida_Cancel extends javax.swing.JDialog {
 
     private void JB_SimActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_JB_SimActionPerformed
        dispose();
-       ObjSaida.Conf_Inserir_Devolucao();
+       ObjSaida.Conf_Inserir_Cancelamento();
        
        
     }//GEN-LAST:event_JB_SimActionPerformed

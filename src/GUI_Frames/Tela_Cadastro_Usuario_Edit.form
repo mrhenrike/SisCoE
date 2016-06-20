@@ -15,7 +15,7 @@
       </Border>
     </Property>
     <Property name="iconifiable" type="boolean" value="true"/>
-    <Property name="title" type="java.lang.String" value="Cadastro De Usu&#xe1;rio"/>
+    <Property name="title" type="java.lang.String" value="Consultar E Editar Usu&#xe1;rio"/>
     <Property name="frameIcon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
       <Image iconType="3" name="/Icones_Gerais/User 24x24.png"/>
     </Property>

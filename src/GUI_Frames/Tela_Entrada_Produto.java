@@ -728,7 +728,7 @@ public class Tela_Entrada_Produto extends javax.swing.JInternalFrame {
                             }
                             ObjControlEnt.Inserir_Entrada_Itens(Id_Produto,Id_Entrada,Quantidade,Lote,Validade,ObjModeloProd.getPreco());//Metodo para inserir o iten no banco
                             if(ObjControlEnt.Confirma_Entrada_Item == true){//se for inserido
-                                ObjControlEnt.Inseri_Atualiza_Lote_Estoque(Id_Produto, Quantidade, Lote, Validade);//atualiza o estoque
+                                ObjControlEnt.Inseri_Atualiza_Estoque(Id_Produto, Quantidade);//atualiza o estoque
                                 ObjControlProd.Atualiza_Preco_Produto(ObjModeloProd,Id_Produto);//atualiza o preço
                                 ObjControlEnt.Confirma_Entrada_Item = false;
                             }
@@ -750,7 +750,7 @@ public class Tela_Entrada_Produto extends javax.swing.JInternalFrame {
 
                             ObjControlEnt.Inserir_Entrada_Itens(Id_Produto,Id_Entrada,Quantidade,Lote,Validade, ObjModeloProd.getPreco());//Metodo para inserira no banco
                             if(ObjControlEnt.Confirma_Entrada_Item == true){//se for inserido
-                                ObjControlEnt.Inseri_Atualiza_Lote_Estoque(Id_Produto, Quantidade, Lote, Validade);//atualiza o estoque
+                                ObjControlEnt.Inseri_Atualiza_Lote_Estoque_(Id_Produto, Quantidade, Lote, Validade);//atualiza o estoque
                                 ObjControlProd.Atualiza_Preco_Produto(ObjModeloProd,Id_Produto);//atualiza o preço
                                 ObjControlEnt.Confirma_Entrada_Item = false;
                             }
@@ -812,8 +812,8 @@ public class Tela_Entrada_Produto extends javax.swing.JInternalFrame {
    } 
     
    public void Testar_Campos(){
-       ObjControlEnt.Controla_Lote(Integer.parseInt(JTF_Cod.getText()));
-       if(ObjControlEnt.ControlaLote == false){ 
+       ObjControlEnt.Controla_Lote(Integer.parseInt(JTF_Cod.getText()));//verifica lote
+       if(ObjControlEnt.ControlaLote == false){ //sem lote
            
             if((JTF_Cod.getText().equalsIgnoreCase(""))
                 ||(JTF_Descricao.getText().equalsIgnoreCase(""))
@@ -841,7 +841,7 @@ public class Tela_Entrada_Produto extends javax.swing.JInternalFrame {
                    }
                }
            }
-        }else{  
+        }else{  //com lote
                 if((JTF_Cod.getText().equalsIgnoreCase(""))
                 ||(JTF_Descricao.getText().equalsIgnoreCase(""))
                 ||(JTF_Quant.getText().equalsIgnoreCase("")))
@@ -913,6 +913,7 @@ public class Tela_Entrada_Produto extends javax.swing.JInternalFrame {
                         }
                     }
                 }
+                ObjControlEnt.ControlaLote = false;
             }
     }
    public void Add_Na_Tabela(){
@@ -961,7 +962,13 @@ public class Tela_Entrada_Produto extends javax.swing.JInternalFrame {
                     JTB_Add_Itens.addRowSelectionInterval(Linha,Linha); //seta na primeira linha da tabela
                     String Id_Produto = ((String)JTB_Add_Itens.getValueAt(Linha, 0));
                     String Lote = ((String)JTB_Add_Itens.getValueAt(Linha, 4));
-                        if(Id_Produto.equalsIgnoreCase(JTF_Cod.getText())&&(Lote.equalsIgnoreCase(JTF_Lote.getText())))
+                    String Validade = ((String)JTB_Add_Itens.getValueAt(Linha, 3));//validade na tabela
+                    
+                    SimpleDateFormat df = new SimpleDateFormat("dd-MM-yyyy");
+                    String data = (String.valueOf(df.format(JTF_Data_Validade.getDate())));//validade do campo
+                    
+                        if(Id_Produto.equalsIgnoreCase(JTF_Cod.getText())&&(Lote.equalsIgnoreCase(JTF_Lote.getText()))
+                                &&(Validade.equalsIgnoreCase(data)))
                         {
                             VerificaExistenteLote=true;
                         }

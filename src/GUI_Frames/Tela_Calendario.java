@@ -1,22 +1,34 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package GUI_Frames;
 
+import java.awt.Dimension;
+import java.beans.PropertyVetoException;
 import java.text.SimpleDateFormat;
 import javax.swing.JOptionPane;
 
-/**
- *
- * @author Márison Tamiarana
- */
+//@author Márison Tamiarana
+ 
 public class Tela_Calendario extends javax.swing.JInternalFrame {
 
-    /**
-     * Creates new form Tela_Calendario
-     */
+    public static Tela_Calendario Obj;
+    
+    public void Open_Tela(){
+        if(Obj==null){
+            Obj = new Tela_Calendario();
+            Tela_Principal.getPainel().add(Obj);
+            Obj.setVisible(true);
+            Obj.setPosicao();
+        }
+        try {  
+            if(Obj.isIcon()) // se for um icon    
+               Obj.setIcon(false); // tira desse estado    
+            else // senão (não está iconizada)    
+               Obj.toFront(); // trás para frente das outras    
+         } catch (PropertyVetoException e) {}  
+    }
+    public void setPosicao() {
+        Dimension d = this.getDesktopPane().getSize();
+        this.setLocation((d.width - this.getSize().width) / 2, (d.height - this.getSize().height) / 2);
+    }
     public Tela_Calendario() {
         initComponents();
     }

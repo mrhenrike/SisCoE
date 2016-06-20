@@ -368,7 +368,7 @@ public class Tela_Consulta_Produto_Ajuste_DL extends javax.swing.JDialog {
                 }else{
                     Carregar_Dados_Produtos(resultado);
                     dispose();
-                    ObjControlLote.Consulta_Estoque_Produto(ObjModeloLote, resultado);
+                    ObjControlLote.Consulta_Estoque_Produto_Sem_Lote(ObjModeloLote, resultado);
                     ObjAjuste.Setar_Campo_Quantidade(ObjModeloLote.getQuantidade_estoque());
                 }
             }

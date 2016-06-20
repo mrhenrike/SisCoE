@@ -28,6 +28,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.KeyEvent;
 import java.beans.PropertyVetoException;
 import java.sql.SQLException;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.logging.Level;
@@ -620,7 +621,7 @@ public class Tela_Ajuste_Estoque extends javax.swing.JInternalFrame {
                 Object resultado = JTF_Pesquisa.getText().trim();
                 Limpar_Campos_Produto();
                 ObjControleSaida.Controla_Lote(resultado);
-                if(ObjControleSaida.Controla_Lote==true){
+                if(ObjControleSaida.Controla_Lote==true){//com lote
                     ObjModProd.setPesquisa(String.valueOf(resultado));
                     ObjControleProd.Consulta_Produto(ObjModProd);
                     Setar_Campos_Produto(ObjModProd.getId_produto(),ObjModProd.getDescricao(), ObjModProd.getUnidade());                    
@@ -633,7 +634,7 @@ public class Tela_Ajuste_Estoque extends javax.swing.JInternalFrame {
                         ObjModProd.setPesquisa(String.valueOf(resultado));
                         ObjControleProd.Consulta_Produto(ObjModProd);
                         Setar_Campos_Produto(ObjModProd.getId_produto(),ObjModProd.getDescricao(), ObjModProd.getUnidade());                 
-                        ObjControleLote.Consulta_Estoque_Produto(ObjModLote, resultado);
+                        ObjControleLote.Consulta_Estoque_Produto_Sem_Lote(ObjModLote, resultado);
                         Setar_Campo_Quantidade(ObjModLote.getQuantidade_estoque());
                         JCB_Motivo.requestFocus();
                         BT_Confirmar.setEnabled(false);
@@ -712,11 +713,11 @@ public class Tela_Ajuste_Estoque extends javax.swing.JInternalFrame {
     }
     
     public void Conf_Inserir_Ajuste(){
-        int id_produto = Integer.parseInt(JL_Cod_Produto.getText());
-        int usuario_logado = Integer.parseInt(Tela_Principal.CodLogado);
-        double nova_quant = Double.valueOf(JTF_Quantidade.getText().trim().replace(",", "."));
-        String lote = JL_Lote.getText().trim();
-        
+        try {
+            int id_produto = Integer.parseInt(JL_Cod_Produto.getText());
+            int usuario_logado = Integer.parseInt(Tela_Principal.CodLogado);
+            double nova_quant = Double.valueOf(JTF_Quantidade.getText().trim().replace(",", "."));                              
+            
             if(JL_Lote.getText().equalsIgnoreCase("")){//produto sem lote
                 Preencher_Objetos();
                 ObjControleLote.Consulta_Id_Estoque(ObjModLote, id_produto);//consulta o id do estoque
@@ -725,8 +726,7 @@ public class Tela_Ajuste_Estoque extends javax.swing.JInternalFrame {
                 
                 if(ObjControleAjuste.Confirma_Inserir == true){//caso a inserção for concluida
                     ObjControleLote.Quantidade_Estoque(ObjModLote, id_produto);//pega a quantidade do estoque
-                    ObjControleLote.Atualiza_Estoque(ObjModLote, id_produto, nova_quant ); //atualiza a nova quantidade
-                    
+                    ObjControleLote.Atualiza_Estoque(ObjModLote, id_produto, nova_quant ); //atualiza a nova quantidade                    
                     if(ObjControleLote.Confirma_Atualiza_Estoque == true){//se a ataulização for efetivavda
                         Mostrar_Dados_Salvos();
                         ObjControleAjuste.Confirma_Inserir = false;
@@ -751,14 +751,18 @@ public class Tela_Ajuste_Estoque extends javax.swing.JInternalFrame {
                 }
                 
             }else{//produto com lote
+                String validade = (String.valueOf(new SimpleDateFormat("yyyy-MM-dd").format
+                              (new SimpleDateFormat("dd-MM-yyyy").parse(JL_Validade.getText().trim()))));//pega a trata a data de validade 
+                String lote = JL_Lote.getText().trim();
+                
                 Preencher_Objetos();
                 ObjControleLote.Consulta_Id_Lote_Estoque(ObjModLote,id_produto, lote);//consulta o id do estoque
                 ObjModAjuste.setLote_id_lote( ObjModLote.getId_lote());//seta para o outro modelo
                 ObjControleAjuste.Inserir_Ajuste_Estoque(ObjModAjuste, usuario_logado,id_produto);//inseri no banco o ajuste
                 
                 if(ObjControleAjuste.Confirma_Inserir == true){//caso a inserção for concluida
-                    ObjControleLote.Quantidade_Estoque_Lote(ObjModLote, id_produto,lote);//pega a quantidade do estoque
-                    ObjControleLote.Atualiza_Estoque_Lote(ObjModLote, id_produto, nova_quant, lote ); //atualiza a nova quantidade
+                    ObjControleLote.Quantidade_Estoque_Lote(ObjModLote, id_produto,lote, validade);//pega a quantidade do estoque
+                    ObjControleLote.Atualiza_Estoque_Lote(ObjModLote, id_produto, nova_quant, lote, validade ); //atualiza a nova quantidade
                     
                     if(ObjControleLote.Confirma_Atualiza_Estoque_Lote == true){//se a ataulização for efetivavda
                         Limpar_Campos_Produto();
@@ -778,6 +782,9 @@ public class Tela_Ajuste_Estoque extends javax.swing.JInternalFrame {
                 }
             }
             //JOptionPane.showMessageDialog(rootPane, ObjModAjuste.getId_ajuste_estoque());
+        } catch (ParseException ex) {
+            Logger.getLogger(Tela_Ajuste_Estoque.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
     
     public void Mostrar_Quantidade_Maior(){

@@ -39,6 +39,24 @@ public class Controle_Lote_Estoque {
         return ObjModeloLote;        
        }
     }
+    
+    public Modelo_Lote_Estoque Consulta_Estoque_Produto_Sem_Lote(Modelo_Lote_Estoque ObjModeloLote, Object id)throws SQLException{
+        ObjConecta.Conectar();
+        
+       String sql = "select sum(quantidade_estoque) as quant from lote_estoque where produto_id_produto="+id+" and numero_lote is null";
+       
+       try(PreparedStatement stm = ObjConecta.conn.prepareStatement(sql);
+           ResultSet rs = stm.executeQuery()){
+                    
+           rs.first();
+           
+           ObjModeloLote.setQuantidade_estoque(rs.getDouble("quant"));
+        
+        ObjConecta.Desconecta(); 
+        
+        return ObjModeloLote;        
+       }
+    }
  
     public void Verificar_Abaixo_Do_Minimo(){
         try {
@@ -104,10 +122,10 @@ public class Controle_Lote_Estoque {
         }ObjConecta.Desconecta(); 
     }
     
-    public Modelo_Lote_Estoque Quantidade_Estoque_Lote(Modelo_Lote_Estoque ObjModLote, int id_prod, String lote){
+    public Modelo_Lote_Estoque Quantidade_Estoque_Lote(Modelo_Lote_Estoque ObjModLote, int id_prod, String lote, String validade){
         try {
             ObjConecta.Conectar();
-            ObjConecta.ExecutaSQL("select* from lote_estoque where produto_id_produto="+id_prod+" and numero_lote= "+"'"+lote+"'"+"");
+            ObjConecta.ExecutaSQL("select* from lote_estoque where produto_id_produto="+id_prod+" and numero_lote= '"+lote+"' and data_validade_lote = '"+validade+"' ");
             ObjConecta.rs.first();
             ObjModLote.setQuantidade_estoque(ObjConecta.rs.getDouble("quantidade_estoque"));
             Controla_Lote = true;
@@ -122,7 +140,7 @@ public class Controle_Lote_Estoque {
 public Modelo_Lote_Estoque Quantidade_Estoque(Modelo_Lote_Estoque ObjModLote,int id_prod){
         try {
             ObjConecta.Conectar();
-            ObjConecta.ExecutaSQL("select* from lote_estoque where produto_id_produto="+id_prod+"");
+            ObjConecta.ExecutaSQL("select* from lote_estoque where produto_id_produto="+id_prod+" and numero_lote is null");
             ObjConecta.rs.first();
             ObjModLote.setQuantidade_estoque(ObjConecta.rs.getDouble("quantidade_estoque"));
             ObjConecta.Desconecta();
@@ -134,7 +152,7 @@ public Modelo_Lote_Estoque Quantidade_Estoque(Modelo_Lote_Estoque ObjModLote,int
 
 public void Atualiza_Estoque(Modelo_Lote_Estoque ObjModLote, int id_prod, double quant){
         ObjConecta.Conectar();        
-        String sql = "update lote_estoque set quantidade_estoque =? where produto_id_produto="+id_prod+"";
+        String sql = "update lote_estoque set quantidade_estoque =? where produto_id_produto="+id_prod+" and numero_lote is null";
             try {
                 try (PreparedStatement stmt = ObjConecta.conn.prepareStatement(sql)) {
                     {
@@ -151,9 +169,9 @@ public void Atualiza_Estoque(Modelo_Lote_Estoque ObjModLote, int id_prod, double
                         }        
         ObjConecta.Desconecta();
     }
-   public void Atualiza_Estoque_Lote(Modelo_Lote_Estoque ObjModLote, int id_prod, double quant, String lote){
+   public void Atualiza_Estoque_Lote(Modelo_Lote_Estoque ObjModLote, int id_prod, double quant, String lote, String validade){
         ObjConecta.Conectar();        
-        String sql = "update lote_estoque set quantidade_estoque =? where produto_id_produto="+id_prod+" and numero_lote="+"'"+lote+"'"+"";
+        String sql = "update lote_estoque set quantidade_estoque =? where produto_id_produto="+id_prod+" and numero_lote='"+lote+"' and data_validade_lote='"+validade+"' ";
             try {
                 try (PreparedStatement stmt = ObjConecta.conn.prepareStatement(sql)) {
                     
@@ -176,7 +194,7 @@ public void Atualiza_Estoque(Modelo_Lote_Estoque ObjModLote, int id_prod, double
         try { 
             ObjConecta.Conectar();
         
-            String sql = "select * from lote_estoque where produto_id_produto="+id+"";
+            String sql = "select * from lote_estoque where produto_id_produto="+id+" and numero_lote is null";
        
             try(PreparedStatement stm = ObjConecta.conn.prepareStatement(sql);
                 ResultSet rs = stm.executeQuery()){

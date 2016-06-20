@@ -10,6 +10,8 @@ import java.sql.SQLException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 
@@ -63,14 +65,14 @@ public class Controle_Saida_Produto {
     public Modelo_Saida_Produto Estoque(Modelo_Saida_Produto ObjModeloSaida, int id){
         try {
             ObjConecta.Conectar();
-            ObjConecta.ExecutaSQL("select * from lote_estoque where produto_id_produto="+id+"");
+            ObjConecta.ExecutaSQL("select * from lote_estoque where produto_id_produto="+id+" and numero_lote is null");
             ObjConecta.rs.first();
             ObjModeloSaida.setQuantidade(ObjConecta.rs.getDouble("quantidade_estoque"));
             ObjConecta.Desconecta();
         } catch (SQLException ex) {
             ObjConecta.Desconecta();
-            JOptionPane.showMessageDialog(null,"Erro ao procurar o estoque do produto no banco! \n"
-                    +ex,"Informação Do Banco De Dados",JOptionPane.INFORMATION_MESSAGE);
+            JOptionPane.showMessageDialog(null,"O produto não possui estoque sem lote!"
+                    ,"Informação Do Banco De Dados",JOptionPane.INFORMATION_MESSAGE);
         }
         return ObjModeloSaida;
     }
@@ -139,7 +141,7 @@ public class Controle_Saida_Produto {
     
     public void Atualiza_Estoque(Modelo_Saida_Produto ObjSaidaProd, int id_prod, double quant){
         ObjConecta.Conectar();        
-        String sql = "update lote_estoque set quantidade_estoque =? where produto_id_produto="+id_prod+"";
+        String sql = "update lote_estoque set quantidade_estoque =? where produto_id_produto="+id_prod+" and numero_lote is null";
             try {
                 try (PreparedStatement stmt = ObjConecta.conn.prepareStatement(sql)) {
                     {
@@ -151,15 +153,16 @@ public class Controle_Saida_Produto {
                     Confirma_Atualiza_Estoque = true;      
                 } catch (SQLException ex) {
                     Confirma_Atualiza_Estoque = false;
-                    JOptionPane.showMessageDialog(null,"Erro ao atualzar o estoque no banco! \n"
+                    JOptionPane.showMessageDialog(null,"Erro ao atualizar o estoque no banco! \n"
                         +ex,"Informação Do Banco De Dados",JOptionPane.INFORMATION_MESSAGE);
                         }        
         ObjConecta.Desconecta();
     }
     
-    public void Atualiza_Estoque_Lote(Modelo_Saida_Produto ObjSaidaProd, int id_prod, double quant, String lote){
+    public void Atualiza_Estoque_Lote(Modelo_Saida_Produto ObjSaidaProd, int id_prod, double quant, String lote, String validade){
         ObjConecta.Conectar();        
-        String sql = "update lote_estoque set quantidade_estoque =? where produto_id_produto="+id_prod+" and numero_lote="+"'"+lote+"'"+"";
+        String sql = "update lote_estoque set quantidade_estoque =? where produto_id_produto="+id_prod+" and numero_lote= '"+lote+"' "
+                + " and data_validade_lote = '"+validade+"'";
             try {
                 try (PreparedStatement stmt = ObjConecta.conn.prepareStatement(sql)) {
                     {
@@ -171,39 +174,42 @@ public class Controle_Saida_Produto {
                     Confirma_Atualiza_Estoque_Lote = true;      
                 } catch (SQLException ex) {
                     Confirma_Atualiza_Estoque_Lote = false;
-                    JOptionPane.showMessageDialog(null,"Erro ao atualzar o estoque no banco! \n"
+                    JOptionPane.showMessageDialog(null,"Erro ao atualizar o estoque e o lote no banco! \n"
                         +ex,"Informação Do Banco De Dados",JOptionPane.INFORMATION_MESSAGE);
                         }        
         ObjConecta.Desconecta();
     }
     
-    public void Atualiza_Estoque_Produto(int id_prod, double quant, String lote, String data_val){
+    public void Atualiza_Estoque_Saida(int id_prod, double quant){
         try {
-            Modelo_Saida_Produto ObjModelo_Saida = new Modelo_Saida_Produto();
-            ObjConecta.Conectar();
-            ObjConecta.ExecutaSQL("select* from lote_estoque where produto_id_produto="+id_prod+"");
+            ObjConecta.Conectar();       
+            ObjConecta.ExecutaSQL("select* from lote_estoque where produto_id_produto="+id_prod+" and numero_lote is null");
             ObjConecta.rs.first();
-            String Lote = ObjConecta.rs.getString("numero_lote");
-            
-                if(Lote == null){//Produto com estoque e sem lote - atualização
-                    ObjConecta.ExecutaSQL("select* from lote_estoque where produto_id_produto="+id_prod+"");
-                    ObjConecta.rs.first();
-                    ObjModelo_Saida.setQuantidade(ObjConecta.rs.getDouble("quantidade_estoque"));
-                    //Atualiza o estoque
-                    Atualiza_Estoque(ObjModelo_Saida, id_prod, quant);
-
-                }else{//produto com lote - atualizaçao
-                    ObjConecta.ExecutaSQL("select* from lote_estoque where produto_id_produto="+id_prod+" and numero_lote= "+"'"+lote+"'"+"");
-                    ObjConecta.rs.first();
-                    ObjModelo_Saida.setQuantidade(ObjConecta.rs.getDouble("quantidade_estoque"));
-                    //Atualiza o estoque 
-                    Atualiza_Estoque_Lote(ObjModelo_Saida, id_prod, quant, lote);
-                                     
-                }
+            ObjModeloSaida.setQuantidade(ObjConecta.rs.getDouble("quantidade_estoque"));
+            Atualiza_Estoque(ObjModeloSaida, id_prod, quant);
+        } catch (SQLException ex) {
+            JOptionPane.showMessageDialog(null,"Erro ao executar o atualizar o estoque no banco! \n"
+                        +ex,"Informação Do Banco De Dados",JOptionPane.INFORMATION_MESSAGE);
             ObjConecta.Desconecta();
-        } catch (SQLException ex) {//inserir estoque de produto sem estoque            
-                ObjConecta.Desconecta();
-            }
+        }
+    
+    }
+    
+    public void Atualiza_Estoque_Lote_Saida(int id_prod, double quant, String lote, String data_val){
+        try {
+            ObjConecta.Conectar();       
+            ObjConecta.ExecutaSQL("select* from lote_estoque where produto_id_produto="+id_prod+" and numero_lote= '"+lote+"' "
+                    + " and data_validade_lote ='"+data_val+"'");
+            ObjConecta.rs.first();
+            ObjModeloSaida.setQuantidade(ObjConecta.rs.getDouble("quantidade_estoque"));
+            //Atualiza o estoque 
+            Atualiza_Estoque_Lote(ObjModeloSaida, id_prod, quant, lote,data_val);  
+            ObjConecta.Desconecta();
+        } catch (SQLException ex) {//inserir estoque de produto sem estoque  
+            JOptionPane.showMessageDialog(null,"Erro ao executar o atualizar o estoque e lote no banco! \n"
+                        +ex,"Informação Do Banco De Dados",JOptionPane.INFORMATION_MESSAGE);
+            ObjConecta.Desconecta();
+        }
     }
     
     public Modelo_Saida_Produto Media_Prod_Mes_Saida(Modelo_Saida_Produto ObjModeloSaidaProd, int id){
@@ -747,7 +753,7 @@ public class Controle_Saida_Produto {
     
     public void Atualiza_Estoque_Cancela_Saida(Modelo_Saida_Produto ObjSaidaProd, int id_prod, double quant){
         ObjConecta.Conectar();        
-        String sql = "update lote_estoque set quantidade_estoque =? where produto_id_produto="+id_prod+"";
+        String sql = "update lote_estoque set quantidade_estoque =? where produto_id_produto="+id_prod+" and numero_lote is null";
             try {
                 try (PreparedStatement stmt = ObjConecta.conn.prepareStatement(sql)) {
                     {
@@ -759,15 +765,16 @@ public class Controle_Saida_Produto {
                     Confirma_Atualiza_Estoque = true;      
                 } catch (SQLException ex) {
                     Confirma_Atualiza_Estoque = false;
-                    JOptionPane.showMessageDialog(null,"Erro ao atualzar o estoque no banco! \n"
+                    JOptionPane.showMessageDialog(null,"Erro ao atualizar o estoque no banco! \n"
                         +ex,"Informação Do Banco De Dados",JOptionPane.INFORMATION_MESSAGE);
                         }        
         ObjConecta.Desconecta();
     }
     
-    public void Atualiza_Estoque_Lote_Cancela_saida(Modelo_Saida_Produto ObjSaidaProd, int id_prod, double quant, String lote){
+    public void Atualiza_Estoque_Lote_Cancela_saida(Modelo_Saida_Produto ObjSaidaProd, int id_prod, double quant, String lote, String validade){
         ObjConecta.Conectar();        
-        String sql = "update lote_estoque set quantidade_estoque =? where produto_id_produto="+id_prod+" and numero_lote="+"'"+lote+"'"+"";
+        String sql = "update lote_estoque set quantidade_estoque =? where produto_id_produto="+id_prod+" and numero_lote ='"+lote+"' "
+                + " and data_validade_lote = '"+validade+"'";
             try {
                 try (PreparedStatement stmt = ObjConecta.conn.prepareStatement(sql)) {
                     {
@@ -779,37 +786,40 @@ public class Controle_Saida_Produto {
                     Confirma_Atualiza_Estoque_Lote = true;      
                 } catch (SQLException ex) {
                     Confirma_Atualiza_Estoque_Lote = false;
-                    JOptionPane.showMessageDialog(null,"Erro ao atualzar o estoque no banco! \n"
+                    JOptionPane.showMessageDialog(null,"Erro ao atualizar o estoque no banco! \n"
                         +ex,"Informação Do Banco De Dados",JOptionPane.INFORMATION_MESSAGE);
                         }        
         ObjConecta.Desconecta();
     }
     
-    public void Atualiza_Estoque_Produto_Saida_Cancela(int id_prod, double quant, String lote, String data_val){
+    public void Atualiza_Estoque_Produto_Saida_Cancela(int id_prod, double quant){
         try {
             Modelo_Saida_Produto ObjModelo_Saida = new Modelo_Saida_Produto();
             ObjConecta.Conectar();
-            ObjConecta.ExecutaSQL("select* from lote_estoque where produto_id_produto="+id_prod+"");
+            ObjConecta.ExecutaSQL("select* from lote_estoque where produto_id_produto="+id_prod+" and numero_lote is null");
             ObjConecta.rs.first();
-            String Lote = ObjConecta.rs.getString("numero_lote");
-            
-                if(Lote == null){//Produto com estoque e sem lote - atualização
-                    ObjConecta.ExecutaSQL("select* from lote_estoque where produto_id_produto="+id_prod+"");
-                    ObjConecta.rs.first();
-                    ObjModelo_Saida.setQuantidade(ObjConecta.rs.getDouble("quantidade_estoque"));
-                    //Atualiza o estoque
-                    Atualiza_Estoque_Cancela_Saida(ObjModelo_Saida, id_prod, quant);
+            ObjModelo_Saida.setQuantidade(ObjConecta.rs.getDouble("quantidade_estoque"));
+            //Atualiza o estoque
+            Atualiza_Estoque_Cancela_Saida(ObjModelo_Saida, id_prod, quant);
 
-                }else{//produto com lote - atualizaçao
-                    ObjConecta.ExecutaSQL("select* from lote_estoque where produto_id_produto="+id_prod+" and numero_lote= "+"'"+lote+"'"+"");
-                    ObjConecta.rs.first();
-                    ObjModelo_Saida.setQuantidade(ObjConecta.rs.getDouble("quantidade_estoque"));
-                    //Atualiza o estoque 
-                    Atualiza_Estoque_Lote_Cancela_saida(ObjModelo_Saida, id_prod, quant, lote);
-                                     
-                }
             ObjConecta.Desconecta();
         } catch (SQLException ex) {//inserir estoque de produto sem estoque            
+                ObjConecta.Desconecta();
+            }
+    }
+    public void Atualiza_Estoque_Lote_Produto_Saida_Cancela(int id_prod, double quant, String lote, String data_val){
+        try {
+            Modelo_Saida_Produto ObjModelo_Saida = new Modelo_Saida_Produto();
+            ObjConecta.Conectar();
+            ObjConecta.ExecutaSQL("select* from lote_estoque where produto_id_produto="+id_prod+" and numero_lote= '"+lote+"' "
+                     + " and data_validade_lote = '"+data_val+"'");
+            ObjConecta.rs.first();
+            ObjModelo_Saida.setQuantidade(ObjConecta.rs.getDouble("quantidade_estoque"));
+            //Atualiza o estoque 
+            Atualiza_Estoque_Lote_Cancela_saida(ObjModelo_Saida, id_prod, quant, lote, data_val);                                     
+                
+            ObjConecta.Desconecta();
+        } catch (SQLException ex) {          
                 ObjConecta.Desconecta();
             }
     }

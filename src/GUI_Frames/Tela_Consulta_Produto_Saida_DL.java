@@ -10,7 +10,6 @@ import Conexao.Controle_Lote_Estoque;
 import Conexao.Controle_Saida_Produto;
 import Metodos.Formatacao;
 import Metodos.Pintar_Tabela;
-import Metodos.Pintar_Tabela_Padrao;
 import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.awt.event.KeyEvent;
@@ -393,12 +392,12 @@ public class Tela_Consulta_Produto_Saida_DL extends javax.swing.JDialog {
                 {
                 Object resultado = (JTB_Consulta_Prod.getValueAt(JTB_Consulta_Prod.getSelectedRow(), 0));
                 ObjControlSaida.Controla_Lote(resultado);
-                if(ObjControlSaida.Controla_Lote==true){
+                if(ObjControlSaida.Controla_Lote==true){//com lote
                     Carregar_Dados_Produtos(resultado);
                     dispose();
                     ObjSaida.Mostrar_Escolha_Lote(resultado);
                     ObjControlSaida.Controla_Lote=false;
-                }else{
+                }else{//sem lote
                     Carregar_Dados_Produtos(resultado);
                     ObjSaida.id_produto = Integer.valueOf(String.valueOf(resultado));
                     ObjSaida.Verifica_Se_Existe(resultado);

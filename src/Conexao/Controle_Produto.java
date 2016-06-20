@@ -67,9 +67,7 @@ public class Controle_Produto {
     public Modelo_Produto Consulta_Produto(Modelo_Produto ObjModeloProd){
         try {
             ObjConecta.Conectar();
-
             String sql = "select * from produto where id_produto=" + ObjModeloProd.getPesquisa() + "";
-
             try (PreparedStatement stm = ObjConecta.conn.prepareStatement(sql);
                     ResultSet rs = stm.executeQuery()) {
 

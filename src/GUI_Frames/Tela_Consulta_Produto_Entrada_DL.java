@@ -376,11 +376,12 @@ public class Tela_Consulta_Produto_Entrada_DL extends javax.swing.JDialog {
             if (linha_selecionada >= 0)
                 {
                 Object resultado = (JTB_Consulta_Prod.getValueAt(JTB_Consulta_Prod.getSelectedRow(), 0));
-                Carregar_Dados_Produtos(resultado);}
+                Carregar_Dados_Produtos(resultado);
+                dispose();
+                }
             }catch (SQLException ex) {
                 
-            }
-        dispose();
+            }        
     }//GEN-LAST:event_BT_AdicionarActionPerformed
 
     private void JTB_Consulta_ProdKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_JTB_Consulta_ProdKeyPressed
@@ -468,8 +469,7 @@ public class Tela_Consulta_Produto_Entrada_DL extends javax.swing.JDialog {
        ObjControlProd.Consulta_Produto(ObjModeloProd);//consulta os dados do produto atraves do modelo
        ObjEntrada.Setar_Campo_Cod_Desc(ObjModeloProd.getDescricao(),ObjModeloProd.getId_produto(),ObjModeloProd.getUnidade());//seta os campos com as informações     
 } 
-    
-        
+            
     public final void Preencher_Tabela(String SQL) {
         ArrayList dados = new ArrayList();
 

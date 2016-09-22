@@ -7,6 +7,7 @@ import Conexao.Conecta_Banco;
 import Conexao.Controle_Categoria;
 import Conexao.Controle_Entrada_Produto;
 import Conexao.Controle_Log;
+import Conexao.Controle_Lote_Estoque;
 import Conexao.Controle_Produto;
 import GUI_Dialogs_Produto.Conf_Sair_Sem_Salvar_Prod;
 import GUI_Dialogs_Produto.Conf_Salvar_Prod;
@@ -62,20 +63,21 @@ public class Tela_Cadastro_Prod extends javax.swing.JInternalFrame {
     private static Conf_Salvar_Prod ObjConfSalvar;
     private static Conf_Sair_Sem_Salvar_Prod ObjSairSemSalvar;
     private static Inf_Cadastro_Existente_Prod ObjCadExistente;
+    private static Tela_Consulta_Produto_Copiar_DL ObjConsultaProduto;
+    public String Pesquisa;
     
     Controle_Categoria ObjControlCat = new Controle_Categoria();
     Modelo_Produto ObjModeloProd = new Modelo_Produto();
+    Modelo_Produto ObjModeloProduto = new Modelo_Produto();
     Controle_Produto ObjControlProd = new Controle_Produto();
     Formatacao ObjFormat = new Formatacao();
     Conecta_Banco ObjConecta = new Conecta_Banco();
     Controle_Entrada_Produto ObjControlEntrada = new Controle_Entrada_Produto();
+    Controle_Lote_Estoque ObjControlLote = new Controle_Lote_Estoque();
     
 
     public Tela_Cadastro_Prod() {
-        initComponents();  
-        
-        JTF_Data_Cad.setDate(new Date(System.currentTimeMillis()));
-        JTF_Data_Cad.setEnabled(false);
+        initComponents(); 
         
         JTF_Descricao.setDocument(ObjFormat.new Format_Geral(100));
         JTF_Quant_Min.setDocument(ObjFormat.new Format_Apenas_Numero(10));
@@ -102,8 +104,6 @@ public class Tela_Cadastro_Prod extends javax.swing.JInternalFrame {
         JCB_Unidade = new javax.swing.JComboBox();
         jLabel7 = new javax.swing.JLabel();
         JTF_Quant_Min = new javax.swing.JTextField();
-        jLabel8 = new javax.swing.JLabel();
-        JTF_Data_Cad = new com.toedter.calendar.JDateChooser();
         jLabel9 = new javax.swing.JLabel();
         JTF_Quant_Macro = new javax.swing.JTextField();
         JCB_Macro = new javax.swing.JComboBox();
@@ -113,6 +113,7 @@ public class Tela_Cadastro_Prod extends javax.swing.JInternalFrame {
         JTF_Preco = new javax.swing.JFormattedTextField();
         jLabel13 = new javax.swing.JLabel();
         JTF_Id = new javax.swing.JTextField();
+        BT_Remove_Item = new javax.swing.JButton();
         JP_Controle = new javax.swing.JPanel();
         jLabel3 = new javax.swing.JLabel();
         JCB_Solicita_Lote = new javax.swing.JComboBox();
@@ -155,6 +156,11 @@ public class Tela_Cadastro_Prod extends javax.swing.JInternalFrame {
         jLabel1.setText("Descrição*:");
 
         JTF_Descricao.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        JTF_Descricao.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                JTF_DescricaoActionPerformed(evt);
+            }
+        });
 
         jLabel2.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         jLabel2.setText("Categoria*:");
@@ -172,12 +178,6 @@ public class Tela_Cadastro_Prod extends javax.swing.JInternalFrame {
         jLabel7.setText("Mínimo*:");
 
         JTF_Quant_Min.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-
-        jLabel8.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        jLabel8.setText("Data Cadastro:");
-
-        JTF_Data_Cad.setDateFormatString("dd-MM-yyyy");
-        JTF_Data_Cad.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
 
         jLabel9.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         jLabel9.setText("Macro:");
@@ -213,6 +213,16 @@ public class Tela_Cadastro_Prod extends javax.swing.JInternalFrame {
 
         JTF_Id.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
 
+        BT_Remove_Item.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        BT_Remove_Item.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icones_Gerais/window_new.png"))); // NOI18N
+        BT_Remove_Item.setText("Copiar Cadastro");
+        BT_Remove_Item.setToolTipText("Copiar Cadastro");
+        BT_Remove_Item.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                BT_Remove_ItemActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout JP_DescricaoLayout = new javax.swing.GroupLayout(JP_Descricao);
         JP_Descricao.setLayout(JP_DescricaoLayout);
         JP_DescricaoLayout.setHorizontalGroup(
@@ -221,10 +231,6 @@ public class Tela_Cadastro_Prod extends javax.swing.JInternalFrame {
                 .addContainerGap()
                 .addGroup(JP_DescricaoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(JP_DescricaoLayout.createSequentialGroup()
-                        .addComponent(jLabel1)
-                        .addGap(18, 18, 18)
-                        .addComponent(JTF_Descricao, javax.swing.GroupLayout.PREFERRED_SIZE, 395, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, JP_DescricaoLayout.createSequentialGroup()
                         .addGroup(JP_DescricaoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                             .addComponent(jLabel7)
                             .addComponent(jLabel2))
@@ -248,40 +254,41 @@ public class Tela_Cadastro_Prod extends javax.swing.JInternalFrame {
                                 .addGap(18, 18, 18)
                                 .addComponent(jLabel11)
                                 .addGap(18, 18, 18)
-                                .addComponent(JCB_Unidade, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))))
-                .addGap(18, 18, 18)
-                .addGroup(JP_DescricaoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jLabel13)
-                    .addComponent(jLabel8)
-                    .addComponent(jLabel12))
-                .addGap(18, 18, 18)
-                .addGroup(JP_DescricaoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(JTF_Data_Cad, javax.swing.GroupLayout.DEFAULT_SIZE, 127, Short.MAX_VALUE)
-                    .addComponent(JTF_Preco)
-                    .addComponent(JTF_Id))
+                                .addComponent(JCB_Unidade, 0, 61, Short.MAX_VALUE)))
+                        .addGap(31, 31, 31)
+                        .addGroup(JP_DescricaoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(jLabel13)
+                            .addComponent(jLabel12))
+                        .addGap(18, 18, 18)
+                        .addGroup(JP_DescricaoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(JTF_Preco, javax.swing.GroupLayout.DEFAULT_SIZE, 127, Short.MAX_VALUE)
+                            .addComponent(JTF_Id)))
+                    .addGroup(JP_DescricaoLayout.createSequentialGroup()
+                        .addComponent(jLabel1)
+                        .addGap(18, 18, 18)
+                        .addComponent(JTF_Descricao)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(BT_Remove_Item)))
                 .addContainerGap())
         );
         JP_DescricaoLayout.setVerticalGroup(
             JP_DescricaoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(JP_DescricaoLayout.createSequentialGroup()
-                .addGroup(JP_DescricaoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel1)
-                    .addComponent(JTF_Descricao, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel13)
-                    .addComponent(JTF_Id, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGroup(JP_DescricaoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                .addGroup(JP_DescricaoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(JP_DescricaoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(jLabel1)
+                        .addComponent(JTF_Descricao, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(JP_DescricaoLayout.createSequentialGroup()
-                        .addGap(18, 18, 18)
+                        .addComponent(BT_Remove_Item)
+                        .addGap(10, 10, 10)
                         .addGroup(JP_DescricaoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel2)
                             .addComponent(JCB_Categoria, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel8)
                             .addComponent(jLabel11)
-                            .addComponent(JCB_Unidade, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, JP_DescricaoLayout.createSequentialGroup()
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(JTF_Data_Cad, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addGap(18, 18, 18)
+                            .addComponent(JCB_Unidade, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel13)
+                            .addComponent(JTF_Id, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                .addGap(18, 18, Short.MAX_VALUE)
                 .addGroup(JP_DescricaoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(JP_DescricaoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                         .addComponent(JTF_Quant_Min, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -381,7 +388,6 @@ public class Tela_Cadastro_Prod extends javax.swing.JInternalFrame {
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(JP_Descricao, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(JP_Controle, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                         .addComponent(JL_Campos)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -392,7 +398,8 @@ public class Tela_Cadastro_Prod extends javax.swing.JInternalFrame {
                         .addComponent(BT_Sair, javax.swing.GroupLayout.PREFERRED_SIZE, 160, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(JL_Quant_Itens1)
-                        .addGap(0, 0, Short.MAX_VALUE)))
+                        .addGap(0, 0, Short.MAX_VALUE))
+                    .addComponent(JP_Controle, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -454,6 +461,16 @@ public class Tela_Cadastro_Prod extends javax.swing.JInternalFrame {
     private void formInternalFrameClosed(javax.swing.event.InternalFrameEvent evt) {//GEN-FIRST:event_formInternalFrameClosed
         Obj=null;
     }//GEN-LAST:event_formInternalFrameClosed
+
+    private void BT_Remove_ItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BT_Remove_ItemActionPerformed
+        Pesquisa = JTF_Descricao.getText().trim();
+        Mostrar_Consulta_Produto();
+    }//GEN-LAST:event_BT_Remove_ItemActionPerformed
+
+    private void JTF_DescricaoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_JTF_DescricaoActionPerformed
+        Pesquisa = JTF_Descricao.getText().trim();
+        Mostrar_Consulta_Produto();
+    }//GEN-LAST:event_JTF_DescricaoActionPerformed
         
     public void Limpar_Campos(){
         JTF_Descricao.setText("");
@@ -466,8 +483,6 @@ public class Tela_Cadastro_Prod extends javax.swing.JInternalFrame {
         JCB_Solicita_Dev.setSelectedIndex(0);
         JCB_Solicita_Lote.setSelectedIndex(0);
         JCB_Unidade.setSelectedIndex(0);
-        JTF_Data_Cad.setDate(null);
-        JTF_Data_Cad.setDate(new Date(System.currentTimeMillis()));
     }
     
     public void Testar_Campos(){
@@ -509,8 +524,7 @@ public class Tela_Cadastro_Prod extends javax.swing.JInternalFrame {
     }
     
     public void Preencher_Objetos_Produtos(){
-        SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
-        ObjModeloProd.setData_cad(String.valueOf(df.format(JTF_Data_Cad.getDate())));
+        ObjModeloProd.setData_cad(new SimpleDateFormat("yyyy/MM/dd").format(new Date(System.currentTimeMillis())));      
         ObjModeloProd.setDescricao(JTF_Descricao.getText().trim());
         ObjModeloProd.setIdentificacao(JTF_Id.getText().trim());
         //teste para setar sem valores no banco;
@@ -608,6 +622,10 @@ public class Tela_Cadastro_Prod extends javax.swing.JInternalFrame {
         ObjCadExistente = new Inf_Cadastro_Existente_Prod(this, true);
         ObjCadExistente.setVisible(true);
     }
+    void Mostrar_Consulta_Produto(){
+        ObjConsultaProduto = new Tela_Consulta_Produto_Copiar_DL(this, true);
+        ObjConsultaProduto.setVisible(true);
+    }
     
     public final void Setar_Atalho_BT(){
         //metodo para pegar a tecla pressionada
@@ -647,8 +665,33 @@ public class Tela_Cadastro_Prod extends javax.swing.JInternalFrame {
         }); 
     }
     
+    
+    public void Carregar_Dados_Produtos(Object LinhaSelecionada){ 
+        try { 
+            
+            ObjModeloProduto.setPesquisa(String.valueOf(LinhaSelecionada));//seta na avariavel o id que foi selecionado na tabela
+                         
+            ObjControlProd.Consulta_Produto_Alterar(ObjModeloProduto);            
+                        
+            ObjControlProd.Procura_Nome_Categoria(ObjModeloProduto,ObjModeloProduto.getCategoria_id_produto());
+            
+            JTF_Descricao.setText(String.valueOf(ObjModeloProduto.getDescricao()));
+            JCB_Categoria.setSelectedItem(String.valueOf(ObjModeloProduto.getNome_categoria()));
+            JCB_Unidade.setSelectedItem(String.valueOf(ObjModeloProduto.getUnidade()));
+            JCB_Macro.setSelectedItem(String.valueOf(ObjModeloProduto.getMacro()));
+            JTF_Quant_Min.setText(String.valueOf(ObjModeloProduto.getQuant_minima()));
+            JTF_Quant_Macro.setText(String.valueOf(ObjModeloProduto.getQuant_macro()));
+            JCB_Solicita_Lote.setSelectedItem(String.valueOf(ObjModeloProduto.getSolicita_lote()));
+            JCB_Solicita_Dev.setSelectedItem(String.valueOf(ObjModeloProduto.getSolicita_devolucao()));
+            JTF_Id.setText(String.valueOf(ObjModeloProduto.getIdentificacao()));
+            JTF_Preco.setText(String.valueOf(ObjModeloProduto.getPreco()).replace(".", ","));
+    }catch(SQLException ex){}
+        
+    }
+    
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton BT_Consulta;
+    private javax.swing.JButton BT_Remove_Item;
     private javax.swing.JButton BT_Sair;
     private javax.swing.JButton BT_Salvar;
     private javax.swing.JComboBox JCB_Categoria;
@@ -660,7 +703,6 @@ public class Tela_Cadastro_Prod extends javax.swing.JInternalFrame {
     private javax.swing.JLabel JL_Quant_Itens1;
     private javax.swing.JPanel JP_Controle;
     private javax.swing.JPanel JP_Descricao;
-    private com.toedter.calendar.JDateChooser JTF_Data_Cad;
     private javax.swing.JTextField JTF_Descricao;
     private javax.swing.JTextField JTF_Id;
     private javax.swing.JFormattedTextField JTF_Preco;
@@ -675,7 +717,6 @@ public class Tela_Cadastro_Prod extends javax.swing.JInternalFrame {
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel7;
-    private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel jLabel9;
     // End of variables declaration//GEN-END:variables
 }
